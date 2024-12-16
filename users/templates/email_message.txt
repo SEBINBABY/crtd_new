@@ -1,0 +1,6 @@
+Hello {{name|safe}},
+Here is your verification code. Please enter this OTP in your OTP verification Page to login to CRTD Technologies' Portal. 
+OTP : {{otp_code|safe}}
+If you haven't requested the OTP, no further action required. It will expire in 10 minutes.
+Have a wonderful day,
+CRTD Technologies team.

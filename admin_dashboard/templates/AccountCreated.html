@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'static/css/AccountCreated.css' %}" />
+  </head>
+  <body>
+    <header class="bg-white p-3">
+      <div class="d-flex justify-content-between align-items-center container">
+        <div class="d-flex align-items-center">
+          <img
+            src="/static/images/logo.png"
+            alt="CRTD Technologies Logo"
+            style="height: 90px"
+            class="me-3"
+          />
+
+          <div class="d-flex flex-column align-items-center">
+            <h3 class="text-center" style="margin-left: 170px">
+              CRTD Technologies Test Submission
+            </h3>
+            <h5 class="text-center mt-2" style="margin-left: 60px">
+              Dashboard
+            </h5>
+          </div>
+        </div>
+        <div class="d-flex align-items-center">
+          <img
+            src="/static/images/profile.png"
+            alt="User Avatar"
+            class="rounded-circle me-2"
+            style="width: 40px; height: 40px"
+          />
+          <div class="d-flex flex-column">
+            <h6>SuperAdmin</h6>
+            <button class="btn btn-sm logout mt-1">Log Out</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="container my-2">
+      <div class="row">
+        <aside class="col-md-1 side">
+          <div
+            class="d-flex flex-column align-items-center justify-content-start"
+          >
+            <div class="mb-2 my-div">
+              <img
+                src="/static/images/sidebar1.png"
+                alt="Icon 1"
+                class="img-fluid sidebar-img"
+                style="scale: 0.5"
+              />
+            </div>
+
+            <div style="margin-top: 210px">
+              <div class="mb-2 mt-4">
+                <img
+                  src="/static/images/image copy.png"
+                  alt="Icon 2"
+                  class="img-fluid"
+                  style="width: 25px; height: auto"
+                />
+              </div>
+              <div class="mb-2 mt-4">
+                <img
+                  src="/static/images/3.png"
+                  alt="Icon 3"
+                  class="img-fluid"
+                  style="width: 25px; height: auto"
+                />
+              </div>
+              <div class="mb-1 mt-4">
+                <img
+                  src="/static/images/4.png"
+                  alt="Icon 4"
+                  class="img-fluid"
+                  style="width: 25px; height: auto"
+                />
+              </div>
+              <div class="mb-1 mt-4">
+                <img
+                  src="/static/images/5.png"
+                  alt="Icon 4"
+                  class="img-fluid"
+                  style="width: 25px; height: auto"
+                />
+              </div>
+              <div class="mb-1 mt-4">
+                <img
+                  src="/static/images/6.png"
+                  alt="Icon 4"
+                  class="img-fluid"
+                  style="width: 25px; height: auto"
+                />
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <div class="col">
+          <section class="mb-5">
+            <div class="row g-4">
+              <div class="col-md-custom">
+                <div class="stat-card">
+                  <h6>Total Account Created</h6>
+                  <h2>150</h2>
+                </div>
+              </div>
+
+              <div class="col-md-custom">
+                <div class="stat-card">
+                  <h6>Total Submitted</h6>
+                  <h2>120/150</h2>
+                </div>
+              </div>
+
+              <div class="col-md-custom">
+                <div class="stat-card">
+                  <h6>Not Submitted</h6>
+                  <h2>30/150</h2>
+                </div>
+              </div>
+            </div>
+            <div class="container my-2">
+              <div class="line-with-text">Today</div>
+            </div>
+
+            <div class="row g-4">
+              <div class="col-md-custom">
+                <div class="stat-card">
+                  <h6>Total Account Created (Today)</h6>
+                  <h2>10</h2>
+                </div>
+              </div>
+
+              <div class="col-md-custom">
+                <div class="stat-card">
+                  <h6>Total Submitted</h6>
+                  <h2>8/10</h2>
+                </div>
+              </div>
+
+              <div class="col-md-custom">
+                <div class="stat-card">
+                  <h6>Not Submitted</h6>
+                  <h2>2/10</h2>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="text-center shadow custom-width">
+            <img
+              src="/static/images/image.png"
+              alt="Illustration"
+              style="height: 250px"
+            />
+            <h3 class="mt-1 mb-1">Select the section above to view details.</h3>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
