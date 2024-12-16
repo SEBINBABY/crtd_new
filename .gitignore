@@ -1,0 +1,11 @@
+quiz/__pycache__
+payment_integration/__pycache__
+users/__pycache__
+quiz/migrations/__pycache__
+payment_integration/migrations/__pycache__
+users/migrations/__pycache__
+*.pyc
+CRTD/__pycache__
+db.sqlite3
+*/migrations/
+__pycache__/
