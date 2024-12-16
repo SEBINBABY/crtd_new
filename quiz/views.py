@@ -1,18 +1,16 @@
-import random
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from .models import Quiz, Question, Answer, Result
-from django.contrib.auth.decorators import login_required
 from django.utils.timezone import now 
 from django.contrib import messages
 from admin_dashboard.models import User
-from django.contrib.auth.decorators import login_required
-
+from .utils import user_only
 
 TIME_LIMIT = 20 # MINUTES
 GRACE_TIME = 2 # SECONDS
 PAYMENT_KEYWORD = "Payment"
 
+@user_only
 def list_quizzes(request):
     """
     Display all quizzes for logged-in users.
@@ -32,6 +30,7 @@ def list_quizzes(request):
     else:
         return render(request, "no_quizzes.html")
 
+@user_only
 def start_test(request):
     """
     Starts or resumes a quiz for the user.
@@ -70,6 +69,7 @@ def start_test(request):
 
     return redirect('quiz:start_question', quiz_id=quiz.id, question_id=quiz.quiz_questions.first().id)
 
+@user_only
 def start_question(request, quiz_id, question_id):
     """
     Renders a question based on the given IDs.
@@ -107,6 +107,7 @@ def start_question(request, quiz_id, question_id):
         "visited_questions": request.session["visited_questions"],
     })
 
+@user_only
 def save_answer(request, quiz_id, question_id):
     """
     Saves the user's answer for a question.
@@ -149,6 +150,7 @@ def save_answer(request, quiz_id, question_id):
 
     return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 
+@user_only
 def quiz_summary(request, quiz_id):
     """
     Displays the quiz summary and calculates the final score.
@@ -187,6 +189,7 @@ def quiz_summary(request, quiz_id):
         "incomplete_quizzes":incomplete_quizzes
     })
 
+@user_only
 def finish_test(request):
     """
     Renders the finish test template.
@@ -205,6 +208,7 @@ def finish_test(request):
     tcn = request.user.tcn_number
     return render(request, 'Complete-congrats.html', {'TCN': tcn})
 
+@user_only
 def get_remaining_time(request):
     user = request.user
     if user.is_user:
