@@ -25,14 +25,37 @@
       {% endif %}
       <form action="{% url 'users:verify_email_otp' %}" method="POST">
       <div class="otp-input">
-          <input type="text" id="otp1" maxlength="1" class="otp-box" name="otp1" oninput="moveFocus(this, 'otp2')" required />
-          <input type="text" id="otp2" maxlength="1" class="otp-box" name="otp2" oninput="moveFocus(this, 'otp3')" required />
-          <input type="text" id="otp3" maxlength="1" class="otp-box" name="otp3" oninput="moveFocus(this, 'otp4')" required />
-          <input type="text" id="otp4" maxlength="1" class="otp-box" name="otp4" oninput="submitOtp()" required />
-      </div>
+        <input type="text" id="otp1" maxlength="1" class="otp-box" name="otp1" oninput="moveFocus(this, 'otp2')" onkeydown="moveToPrev(event, null, 'otp1')" required />
+        <input type="text" id="otp2" maxlength="1" class="otp-box" name="otp2" oninput="moveFocus(this, 'otp3')" onkeydown="moveToPrev(event, 'otp1', 'otp2')" required />
+        <input type="text" id="otp3" maxlength="1" class="otp-box" name="otp3" oninput="moveFocus(this, 'otp4')" onkeydown="moveToPrev(event, 'otp2', 'otp3')" required />
+        <input type="text" id="otp4" maxlength="1" class="otp-box" name="otp4" oninput="submitOtp()" onkeydown="moveToPrev(event, 'otp3', 'otp4')" required />
+    </div>
       <button type="submit" class="container-btn">Verify otp</button>
       </form>
     </div>
   </div>
+
+
+  <script>
+
+    function moveFocus(current, nextId) {
+        if (current.value.length === 1 && nextId) {
+            document.getElementById(nextId).focus();
+        }
+    }
+
+
+    function moveToPrev(event, prevId, currentId) {
+        if (event.key === "Backspace") {
+            const current = document.getElementById(currentId);
+            if (current && current.value === "" && prevId) {
+                event.preventDefault();
+                document.getElementById(prevId).focus();
+            }
+        }
+    }
+
+</script>
+
 </body>
 </html>
