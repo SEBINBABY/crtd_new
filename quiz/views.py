@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 TIME_LIMIT = 20 # MINUTES
 GRACE_TIME = 2 # SECONDS
+PAYMENT_KEYWORD = "Payment"
 
 def list_quizzes(request):
     """
@@ -38,8 +39,6 @@ def start_test(request):
     user = request.user
     if user.is_user:
         user_id = user.id
-        full_name = user.username
-        email = user.email
 
     if request.method == "GET":
         return redirect("quiz:list_quizzes")
@@ -61,7 +60,11 @@ def start_test(request):
         return redirect('quiz:finish_test')
 
     quiz = available_quizzes.first()
+    if(requires_payment(quiz) and not request.user.has_paid):
+        return redirect('payment_integration:payment_start')
 
+    request.session["visited_questions"] = []
+    
     # Create a new Result object
     result = Result.objects.create(user_id=user_id, quiz=quiz, start_time=now(), user_answers={})
 
@@ -80,20 +83,28 @@ def start_question(request, quiz_id, question_id):
     if user.is_user:
         user_id = user.id
         full_name = user.username
-        email = email
+        email = user.email
     result = get_object_or_404(Result, user_id=user_id, quiz=quiz)
     remaining_time = TIME_LIMIT * 60 - (now() - result.start_time).seconds + GRACE_TIME
 
     if remaining_time <= 0:
         messages.error(request, "Time limit exceeded")
         return redirect('quiz:quiz_summary', quiz_id=quiz.id)
+    
+    if "visited_questions" not in request.session:
+        request.session["visited_questions"] = []
+
+    if question_id not in request.session["visited_questions"]:
+        request.session["visited_questions"].append(question_id)
+        request.session.modified = True  # Mark the session as updated
 
     return render(request, 'question-1.html', {
         'quiz': quiz,
         'question': question,
         'answers': answers,
         'remaining_time': remaining_time,
-        'all_question_ids': list(q.id for q in quiz.quiz_questions.all())
+        'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
+        "visited_questions": request.session["visited_questions"],
     })
 
 def save_answer(request, quiz_id, question_id):
@@ -110,7 +121,7 @@ def save_answer(request, quiz_id, question_id):
         if user.is_user:
             user_id = user.id
             full_name = user.username
-            email = email
+            email = user.email
         quiz = get_object_or_404(Quiz, id=quiz_id)
         question = get_object_or_404(Question, id=question_id)
 
@@ -146,7 +157,7 @@ def quiz_summary(request, quiz_id):
     if user.is_user:
         user_id = user.id
         full_name = user.username
-        email = email
+        email = user.email
     quiz = get_object_or_404(Quiz, id=quiz_id)
 
     # Fetch the Result object
@@ -170,7 +181,7 @@ def quiz_summary(request, quiz_id):
     user = request.user
 
     return render(request, 'start-test.html', {
-        "user_full_name" : user.full_name,
+        "user_full_name" : full_name,
         "email" : user.email,
         "completed_quizzes":completed_quizzes,
         "incomplete_quizzes":incomplete_quizzes
@@ -184,22 +195,22 @@ def finish_test(request):
     if user.is_user:
         user_id = user.id
         full_name = user.username
-        email = email
+        email = user.email
     user = get_object_or_404(User,id=user_id)
     for quiz in Quiz.objects.all():
         if not Result.objects.filter(quiz=quiz,user=user).first():
             return redirect('quiz:start_test')
             
 
-    tcn = f"TCN-{random.randint(1000, 9999)}"
-    return render(request, 'finish_test.html', {'TCN': tcn})
+    tcn = request.user.tcn_number
+    return render(request, 'Complete-congrats.html', {'TCN': tcn})
 
 def get_remaining_time(request):
     user = request.user
     if user.is_user:
         user_id = user.id
         full_name = user.username
-        email = email
+        email = user.email
     results = Result.objects.filter(end_time__isnull=True,user_id = user_id)
     if results.count() > 1:
         messages.error(request,"Something went wrong")
@@ -226,3 +237,6 @@ def calculate_score(quiz,result):
                 correct_answers += 1
 
     return(correct_answers / total_questions) * 100
+
+def requires_payment(quiz):
+    return PAYMENT_KEYWORD.lower() in quiz.name.lower()
