@@ -31,14 +31,19 @@
                 </div>
                 <!-- Search Bar -->
                 <div class="search-container">
+                    <form method="GET" action="{% url 'admin_dashboard:user_list' %}">
                     <div class="search-icon">
+                    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
                       <img src="/static/images/search-icon.png" alt="Search Icon">
+                    </button>
                     </div>
                     <input
                       type="text"
+                      name="query"
                       class="search-input"
                       placeholder="Search here"
                     >
+                    </form>
                   </div>
             
                 <!-- Filter by Date -->
@@ -78,20 +83,31 @@
                     <div class="dashboards">
                       <h4 class="section-title">Dashboards</h4>
                       <ul class="sidebar-list">
-                        <li>
-                            <img src="/static/images/2.png" alt="">Total Account Created
-                          </li>
                           <li>
+                            <a href="{% url 'admin_dashboard:filtered_users' 'all' %}">
+                                <img src="/static/images/2.png" alt="">Total Account Created
+                            </a>
+                          </li>
+                          
+                          <li>
+                            <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}">
                               <img src="/static/images/3.png" alt="">Total Submitted
+                            </a>
                           </li>
                           <li>
+                            <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
                               <img src="/static/images/4.png" alt="">Not Submitted
+                            </a>
                           </li>
                           <li>
-                              <img src="/static/images/5.png" alt="">Question Section
+                            <a href="{% url 'admin_dashboard:question_section' %}">
+                              <img src="/static/images/5.png" alt="">Question Section  
+                            </a>
                           </li>
                           <li>
+                            <a href="{% url 'admin_dashboard:question_section' %}">
                               <img src="/static/images/6.png" alt="">Passkey
+                            </a>
                           </li>
                       </ul>
                     </div>

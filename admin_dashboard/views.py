@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from admin_dashboard.models import User 
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.db.models import Q
 
 def dashboard(request):
     # Fetch all user objects
@@ -58,4 +59,23 @@ def admin_hr_login(request):
         else:
             messages.error(request, "Invalid email or password.")  
     return render(request, 'admin_login.html')
+
+def question_section(request):
+    return render(request, "QuestionSection3.html")
+
+def user_list(request):
+    query = request.GET.get('query', '')  # Get the search query
+    users = User.objects.all()
+
+    if query:
+        users = users.filter(
+            Q(username__icontains=query) |  # Full name search (using username)
+            Q(email__icontains=query) |    # Email search
+            Q(contact_number__icontains=query) |  # Contact number search
+            Q(tcn_number__icontains=query) |  # TCN number search
+            Q(created_at__icontains=query)  # Account creation date search
+        )
+
+    return render(request, 'dashboard.html', {'users': users, 'query': query})
+
 
