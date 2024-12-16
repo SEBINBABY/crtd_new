@@ -16,21 +16,24 @@ html,body{
     width: 100%;
     background-image: url("/static/images/background.png");
     background-size: cover;
-    opacity: 0.1;
     z-index: -1;
 }
 .logo{
+    height: 40vh;
+    width: 50vw;
+    background: url("/static/images/logo.png");
+    background-size: cover;
     position: absolute;
     top:0;
     left: 0;
-    margin-left: -70px;
-    margin-top: -40px;
-    scale: 0.5;
+    margin-left: -180px;
+    margin-top: -70px;
+    scale: 0.4;
 }
 .container .mainImg{
     height: 60%;
     width: 30%;
-    background: url("/static/images/image.png");
+    background: url("/static/images/mainImg.png");
     background-size: cover;
     position: absolute;
     top: 25%;
