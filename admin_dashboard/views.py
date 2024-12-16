@@ -3,7 +3,9 @@ from admin_dashboard.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.db.models import Q
+from .utils import role_required
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def dashboard(request):
     # Fetch all user objects
     users = User.objects.filter(role=User.USER)   
@@ -24,7 +26,7 @@ def dashboard(request):
         }
     return render(request, 'dashboard.html', context)
 
-
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def filtered_users(request, status):
     if status == "submitted":
         users = User.objects.filter(is_verified=True, role=User.USER)
@@ -60,13 +62,15 @@ def admin_hr_login(request):
             messages.error(request, "Invalid email or password.")  
     return render(request, 'admin_login.html')
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def question_section(request):
-    return render(request, "QuestionSection3.html")
+    return render(request, "UpdatedQuestionSection3.html")
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def user_list(request):
     query = request.GET.get('query', '')  # Get the search query
     users = User.objects.all()
-
+    filter_date = request.GET.get('filter_date') # Single date for filtering
     if query:
         users = users.filter(
             Q(username__icontains=query) |  # Full name search (using username)
@@ -75,7 +79,9 @@ def user_list(request):
             Q(tcn_number__icontains=query) |  # TCN number search
             Q(created_at__icontains=query)  # Account creation date search
         )
-
+    # Apply date filtering
+    if filter_date:
+        users = users.filter(created_at__date=filter_date, role=User.USER)  # Compare with the date part of created_at
     return render(request, 'dashboard.html', {'users': users, 'query': query})
 
 
