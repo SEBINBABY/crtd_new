@@ -29,12 +29,16 @@
                 </div>
                 <div class="small-box-cont2">
                     <div  class="cont2-part1">
-                    {% for question in all_question_ids %}
-                        <div class="part1-box box not-Visited" id="box-{{ forloop.counter }}" >{{ forloop.counter }}</div>
-                        {% if forloop.counter == 5 or forloop.counter == 10 or forloop.counter == 15 or forloop.counter == 20 or forloop.counter == 25 %}
+                    {% for question_id in all_question_ids %}
+                        <div class="part1-box box 
+                                {% if question_id in visited_questions %} Marked {% else %} not-Visited {% endif %}" 
+                                id="box-{{ forloop.counter }}">
+                            {{ forloop.counter }}
                         </div>
-                        <div class="cont2-part{{forloop.counter}}">
-                        {% endif %}
+                    {% if forloop.counter|divisibleby:5 and not forloop.last %}
+                        </div>
+                        <div class="cont2-part{{ forloop.counter }}">
+                    {% endif %}
                     {% endfor %}
                     </div>
                 </div>
@@ -74,6 +78,7 @@ document.addEventListener("DOMContentLoaded",() =>{
     const prevButton = document.getElementById("prev--btn");
     const question_ids = JSON.parse('{{all_question_ids}}');
     const curr_id = parseInt('{{question.id}}')
+    const visitedQuestions = JSON.parse('{{ visited_questions|safe }}'); 
 
     
     let current_index = 0;
@@ -83,19 +88,18 @@ document.addEventListener("DOMContentLoaded",() =>{
             break;
         }
     }
-    for(box of boxes){
-        let box_id = box.id.split('-')[1]
-        console.log(box_id)
-        console.log(current_index+1)
-        if(box_id == (current_index+1)){
-            box.classList.add('active')
-            box.classList.remove('not-Visited')
-            break;
-        }else if(box_id < current_index+1){
-            box.classList.add('Marked')
-            box.classList.remove('not-Visited')
+    boxes.forEach((box) => {
+        const boxId = parseInt(box.id.split('-')[1]);
+        if (visitedQuestions.includes(boxId)) {
+            box.classList.add('Marked');
+            box.classList.remove('not-Visited');
         }
-    }
+        if (boxId === curr_id) {
+            box.classList.add('active');
+            box.classList.remove('not-Visited');
+            box.classList.remove('Marked');
+        }
+    });
     
     prevButton.addEventListener("click", () =>{
         event.preventDefault();

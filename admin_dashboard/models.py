@@ -27,6 +27,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     tcn_number = models.CharField(max_length=10, null=True, blank=True)
+    has_paid = models.BooleanField(default=False,blank=True)
 
     objects = UserManager()
 

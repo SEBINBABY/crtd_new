@@ -102,6 +102,8 @@ def handle_request(request):
                     client.payment.capture(razorpay_payment_id, amount)
                     payment_obj.status = "successful"
                     payment_obj.save()
+                    request.user.has_paid = True
+                    request.user.save()
                     return render(request, "payment_success.html")
                 except razorpay.errors.RazorpayError as e:
                     # Log the error returned by Razorpay for Invalid signature
