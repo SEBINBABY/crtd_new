@@ -22,14 +22,24 @@
                 <h2>Admin Dashboard Login</h2>
                 <h6>Note - Only for HR Staff</h6>
             </div>
-            <form class="form">
+            {% if messages %}
+                <div class="messages mt-3">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <form action="{% url 'admin_dashboard:admin_hr_login' %}" method="POST">
+                {% csrf_token %}
                 <div class="">
                   <label for="User ID" class="form-label">User ID</label>
-                  <input type="email" class="input-1" id="email" placeholder="E-mail">
+                  <input type="email" class="input-1" id="email" placeholder="E-mail" name="email">
                 </div>
                 <div class="pass">
                   <label for="password" class="form-label">Password</label>
-                  <input type="password"id="password" placeholder="Password">
+                  <input type="password"id="password" placeholder="Password" name="password">
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
               </form>
