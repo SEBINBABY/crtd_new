@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passkey</title>
-    <link rel="stylesheet" href="passkey1.css">
+    <link rel="stylesheet" href="{% static 'css/verify-passkey.css' %}">
 </head>
 <body>
         <div class="nav">
@@ -15,7 +16,7 @@
             </div>
             <div class="profile">
                 <div class="profile-img">
-                    <img src="images/profile.png" alt="">
+                    <img src="/static/images/profile.png" alt="">
                 </div>
                <h3>Super Admin</h3> 
                <button class="button-1">Log Out</button>
@@ -41,19 +42,19 @@
                       <h4 class="section-title">Dashboards</h4>
                       <ul class="dashboards-list">
                         <li>
-                          <img src="images/2.png" alt="">Total Account Created
+                          <img src="/static/images/2.png" alt="">Total Account Created
                         </li>
                         <li>
-                            <img src="images/3.png" alt="">Total Submitted
+                            <img src="/static/images/3.png" alt="">Total Submitted
                         </li>
                         <li>
-                            <img src="images/4.png" alt="">Not Submitted
+                            <img src="/static/images/4.png" alt="">Not Submitted
                         </li>
                         <li>
-                            <img src="images/5.png" alt="">Question Section
+                            <img src="/static/images/5.png" alt="">Question Section
                         </li>
                         <li class="passkey">
-                            <img src="images/6.png" alt="">Passkey
+                            <img src="/static/images/6.png" alt="">Passkey
                         </li>
                       </ul>
                     </div>
@@ -61,7 +62,7 @@
             </div>
             <div class="right">
                 <div class="icon">
-                    <img src="images/1.png" alt="">
+                    <img src="/static/images/1.png" alt="">
                 </div>
                 <div class="table">
                     <div class="table-container">
@@ -79,8 +80,8 @@
                               <td class="passkey">6 6 5 5 4 4</td>
                               <td class="actions" style="text-align: center;">
                                 <div class="action-btns">
-                                    <img class="delete-btn" src="images/delete.png" alt="Delete">
-                                    <img class="eye-btn" src="images/eye.png" alt="See">
+                                    <img class="delete-btn" src="/static/images/delete.png" alt="Delete">
+                                    <img class="eye-btn" src="/static/images/eye.png" alt="See">
                                 </div>
                               </td>
                             </tr>
@@ -89,8 +90,8 @@
                               <td class="passkey">9 9 5 5 8 8</td>
                               <td class="actions" style="text-align: center;">
                                 <div class="action-btns">
-                                    <img class="delete-btn" src="images/delete.png" alt="Delete">
-                                    <img class="eye-btn" src="images/eye.png" alt="See">
+                                    <img class="delete-btn" src="/static/images/delete.png" alt="Delete">
+                                    <img class="eye-btn" src="/static/images/eye.png" alt="See">
                                 </div>
                               </td>
                             </tr>

@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.db.models import Q
 from .utils import role_required
 
-@role_required(allowed_roles=['admin', 'hr_staff'])
+# @role_required(allowed_roles=['admin', 'hr_staff'])
 def dashboard(request):
     # Fetch all user objects
     users = User.objects.filter(role=User.USER)   
@@ -26,7 +26,7 @@ def dashboard(request):
         }
     return render(request, 'dashboard.html', context)
 
-@role_required(allowed_roles=['admin', 'hr_staff'])
+# @role_required(allowed_roles=['admin', 'hr_staff'])
 def filtered_users(request, status):
     if status == "submitted":
         users = User.objects.filter(is_verified=True, role=User.USER)
@@ -62,11 +62,11 @@ def admin_hr_login(request):
             messages.error(request, "Invalid email or password.")  
     return render(request, 'admin_login.html')
 
-@role_required(allowed_roles=['admin', 'hr_staff'])
+# @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_section(request):
     return render(request, "UpdatedQuestionSection3.html")
 
-@role_required(allowed_roles=['admin', 'hr_staff'])
+# @role_required(allowed_roles=['admin', 'hr_staff'])
 def user_list(request):
     query = request.GET.get('query', '')  # Get the search query
     users = User.objects.all()
@@ -83,5 +83,8 @@ def user_list(request):
     if filter_date:
         users = users.filter(created_at__date=filter_date, role=User.USER)  # Compare with the date part of created_at
     return render(request, 'dashboard.html', {'users': users, 'query': query})
+
+def verify_passkey(request):
+    return render(request, "verify-passskey.html")
 
 

@@ -197,3 +197,5 @@ def verify_email_otp(request):
         return redirect("users:register")
     
 
+    
+
