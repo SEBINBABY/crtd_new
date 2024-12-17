@@ -54,7 +54,8 @@ def start_test(request):
     if(requires_payment(quiz) and not request.user.has_paid):
         return redirect('payment_integration:payment_start')
 
-    request.session["visited_questions"] = []
+    request.session["visited_questions"] =  []
+    request.session.save()
     
     # Create a new Result object
     result = Result.objects.create(user_id=user.id, quiz=quiz, start_time=now(), user_answers={})
@@ -84,8 +85,7 @@ def start_question(request, quiz_id, question_id):
 
     if question_id not in request.session["visited_questions"]:
         request.session["visited_questions"].append(question_id)
-        request.session.modified = True  # Mark the session as updated
-
+    request.session.save()
     return render(request, 'question-1.html', {
         'quiz': quiz,
         'question': question,
@@ -160,6 +160,8 @@ def quiz_summary(request, quiz_id):
         completed_quizzes.append(result.quiz)
 
     incomplete_quizzes = Quiz.objects.exclude(id__in=results.values_list('quiz_id', flat=True))
+    request.session["visited_questions"] = []
+    request.session.save()
 
     return render(request, 'start-test.html', {
         "user_full_name" : user.username,
