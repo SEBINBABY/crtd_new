@@ -120,8 +120,18 @@ span {
  
 .question-section {
   display: none;
-  
+  margin-left: 300px;
   padding: 20px;
   border-radius: 5px;
   margin-top: 20px;
+}
+.hidden {
+  display: none;
+}
+ 
+#sidebar {
+  transition: all 0.3s;
+}
+.main-content.shifted {
+  margin-left: 0;
 }

@@ -56,7 +56,7 @@
         <p>{{user_email}}</p>
     </div>
     </div>
-    <div class="selection">Selection Attempted 0/6</div>
+    <div class="selection">Selection Attempted 0/{{quizzes|length}}</div>
     <div class="automate-content-box">
         {% for quiz in quizzes %}
         <div class="content-box">
@@ -66,7 +66,7 @@
         </div>
         {% endfor %}
     </div>
-    <h5> <i class="fa-solid fa-clock"></i> &nbsp;Automatically starting in 30 sec</h5>
+    <h5> <i class="fa-solid fa-clock"></i> &nbsp;Automatically starting in <span id="timer">30</span> sec</h5>
     <button id="automateBtn">Start the Test</button>
     
 </div>
@@ -136,6 +136,28 @@
                 window.location.href = "http://127.0.0.1:8000/start-test/";
             }
         });
+
+        let timeRemaining = 30;
+        const timerElement = document.getElementById("timer");
+        function updateTimer() {
+            let seconds = timeRemaining;
+            // Format as MM:SS (e.g., 20:00, 19:59)
+            timerElement.textContent = `${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Update the timer every second
+        setInterval(() => {
+            timeRemaining--; // Decrement the timer
+            updateTimer();
+
+            if(timeRemaining <= 0) {
+                document.getElementById('start_test').submit()
+            }
+        }, 1000);
+
+        // Initial call to set up the timer
+        updateTimer();
+
 
     </script>
 </body>

@@ -20,9 +20,11 @@
             <h4>&nbsp;&nbsp;&nbsp;&nbsp;Congratulations! You have</h4> 
             <h4>successfully completed the test</h4>
             <span>Your Test/Case Number</span>
-            <h3>TCN-546843</h3>
-
-            <button class="return-btn">Return to Dashboard</button>
+            <h3>TCN-{{TCN}}</h3>
+            <form action="{% url 'quiz:quiz_summary' last %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="return-btn">Return to Dashboard</button>
+            </form>
         </div>
     </div>
 

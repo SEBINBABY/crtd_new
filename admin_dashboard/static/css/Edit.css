@@ -1,0 +1,215 @@
+.logout {
+    background: linear-gradient(to bottom right, #13b3ff, #005ad5);
+    color: white;
+  }
+  .side {
+    margin-left: -15vh;
+  }
+  .hidden {
+    display: none;
+  }
+  .visible {
+    display: block;
+  }
+      
+  .open-content-btn {
+    cursor: pointer;
+    transition: background 0.3s ease;  
+  }
+  
+  
+  .open-content-btn.active {
+    
+  }
+  .btn-add {
+    background-color: #007bff;
+    color: #fff;
+  }
+  .btn-add:hover {
+    background-color: #0056b3;
+  }
+  .action-icons {
+    font-size: 1.2rem;
+  }
+  .action-icons i {
+    cursor: pointer;
+    margin: 0 8px;
+    color: #000;
+  }
+  .action-icons i:hover {
+    color: #007bff;
+  }
+  tbody {
+    background-color: #f9fafc !important;
+  }
+  th {
+    background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80) !important;
+  }
+  th,
+  td {
+    height: 50px;  
+  }
+  tr {
+    margin-top: 30px;
+  }
+      
+  main.container {
+    margin-top: 0px; 
+  }
+  .up {
+    margin-top: -500px;
+  }
+  .contain {
+    display: hidden;
+    max-width: 600px;
+    margin-left: 525px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -100px;
+    z-index: 1;
+    position: fixed;
+  }
+  
+  .form-check-input {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #494949;
+    background-color: transparent;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+   
+  .form-check-input:checked {
+    background-color: #00d363;
+    border-color: #00d363;
+  }
+  .form-check-input:checked::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fff;
+  }
+  .form-check-label {
+    display: block;
+    position: relative;
+    width: 100%;
+    margin-left: 10px;
+  }
+  .selected {
+    background-color: #d9fde9;
+    border: none;
+  }
+  
+  .btn-cancel {
+    border: 1px solid #007bff;
+    color: #007bff;
+    margin-left: 70px;
+    width: 130px;
+  }
+  .btn-cancel:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  .btn-save {
+    background-image: linear-gradient(to right, #13b3ff, #005ad5);
+    color: #fff;
+    margin-left: 70px;
+    width: 130px;
+  }
+  .btn-save:hover {
+    background-color: #0056b3;
+  }
+  .question-title {
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #494949;
+  }
+   
+  .form-control {
+    border: 1px solid #ccc;
+    box-shadow: none;
+    background-color: #f8f9fa;
+    padding: 12px 16px;
+    font-size: 1.1rem;
+    height: 45px;
+    border-radius: 5px;
+  }
+  .form-control[disabled] {
+    color: #000;
+    background-color: transparent;
+  }
+   
+  .form-check-input:checked + .form-check-label .form-control {
+    background-color: #e9f7e5;
+    border-color: #00d363;
+    color: #000;
+  }
+  
+  .form-check-label:hover {
+    cursor: pointer;
+  }
+  .hidden {
+    display: none;
+  }
+  .visible {
+    display: block;
+  }
+  .modal-backdrop {
+    background-color: black !important;
+    opacity: 0.6 !important;  
+  }
+   
+  .modal-content {
+    border-radius: 10px;
+  }
+  .modal-header {
+    border-bottom: none;
+  }
+  .modal-title {
+    color: #083fd3;
+    font-weight: bold;
+  }
+  .form-check-input1 {
+    margin-top: 12px;
+  }
+  
+  .btn-save {
+    background: linear-gradient(to right, #00aaff, #0066ff);
+    color: white;
+    width: 100px;
+    border: none;
+  }
+  .btn-cancel {
+    border: 1px solid #0066ff;
+    color: #0066ff;
+    width: 100px;
+  }
+  .btn-cancel:hover {
+    background-color: #f4f4f4;
+  }
+  .modal-content {
+    text-align: center;
+  }
+  .modal-footer {
+    justify-content: space-around;
+  }
+  .modal-body img {
+    width: 100px;
+    margin-bottom: 15px;
+  }
+  .btn-cancel1 {
+    border: 1px solid #007bff;
+    color: #007bff;
+  }

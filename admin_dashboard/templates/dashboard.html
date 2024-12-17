@@ -31,34 +31,41 @@
                 </div>
                 <!-- Search Bar -->
                 <div class="search-container">
+                    <form method="GET" action="{% url 'admin_dashboard:user_list' %}">
                     <div class="search-icon">
+                    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
                       <img src="/static/images/search-icon.png" alt="Search Icon">
+                    </button>
                     </div>
                     <input
                       type="text"
+                      name="query"
                       class="search-input"
                       placeholder="Search here"
                     >
+                    </form>
                   </div>
             
                 <!-- Filter by Date -->
                 <div class="filter-by-date" onclick="openCalendarPopup()">
-                    <div class="calendar-icon"></div>
+                    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                        <div class="calendar-icon"></div>
+                    </button>
                     Filter By Date
-                  </div>
-                  
+                  </div>             
                   <div id="overlay" onclick="closeCalendarPopup()"></div>
-                  
+                  <form method="GET" action="{% url 'admin_dashboard:user_list' %}">
                   <div id="calendar-popup">
-                    <input type="date" id="date-input">
-                    <button class="close-btn" onclick="closeCalendarPopup()">Close</button>
+                    <input type="date" id="date-input" name="filter_date">
+                    <button class="close-btn" onclick="closeCalendarPopup()" type="submit">Close</button>
                   </div>
+                </form>
 
               <!-- Toggle Buttons -->
               <div class="filter-toggle">
                 <label>Filter by</label>
-                <button class="filter-button active" onclick="toggleActive(this)">Verified</button>
-                <button class="filter-button" onclick="toggleActive(this)">Non-Verified</button>
+                <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}"><button class="filter-button active" onclick="toggleActive(this)">Verified</button></a>
+                <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}"><button class="filter-button" onclick="toggleActive(this)">Non-Verified</button></a>
               </div>
         </div>
         <div class="content">
@@ -78,20 +85,36 @@
                     <div class="dashboards">
                       <h4 class="section-title">Dashboards</h4>
                       <ul class="sidebar-list">
-                        <li>
-                            <img src="/static/images/2.png" alt="">Total Account Created
-                          </li>
                           <li>
+                            <a href="{% url 'admin_dashboard:filtered_users' 'all' %}">
+                                <img src="/static/images/2.png" alt="">Total Account Created
+                            </a>
+                          </li>
+                          
+                          <li>
+                            <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}">
                               <img src="/static/images/3.png" alt="">Total Submitted
+                            </a>
                           </li>
                           <li>
+                            <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
                               <img src="/static/images/4.png" alt="">Not Submitted
+                            </a>
                           </li>
                           <li>
-                              <img src="/static/images/5.png" alt="">Question Section
+                            <a href="{% url 'admin_dashboard:question_section' %}">
+                              <img src="/static/images/5.png" alt="">Question Section  
+                            </a>
                           </li>
                           <li>
+                            <a href="{% url 'admin_dashboard:passkey' %}">
                               <img src="/static/images/6.png" alt="">Passkey
+                            </a>
+                          </li>
+                          <li>
+                            <a href="{% url 'admin_dashboard:verify_passkey' %}">
+                              <img src="/static/images/6.png" alt="">Amount
+                            </a>
                           </li>
                       </ul>
                     </div>
@@ -115,7 +138,7 @@
                         <tbody>
                             {% for user in users %}
                             <tr>
-                                <td>{{user.}}</td>
+                                <td>{{forloop.counter}}.</td>
                                 <td>
                                     <div class="user">
                                         <div class="avatar"></div>
@@ -124,7 +147,7 @@
                                 </td>
                                 <td>{{user.email}}</td>
                                 <td>{{user.contact_number}}</td>
-                                <td>{{user.created_at}}</td>
+                                <td>{{user.created_at|date:"d-m-Y"}}</td>
                                 <td>{{user.tcn_number}}</td>
                                 {% if user.is_verified %}
                                 <td><span class="status verified">Verified</span></td>
@@ -139,66 +162,6 @@
                                 </td>
                             </tr>
                             {% endfor %}
-                            <!-- <tr>
-                                <td>2.</td>
-                                <td>
-                                    <div class="user">
-                                        <img class="avatar-img" src="/static/images/avatar.png" alt="Wade Warren">
-                                        <span>Wade Warren</span>
-                                    </div>
-                                </td>
-                                <td>willie.jennings@example.com</td>
-                                <td>8855442266</td>
-                                <td>12-Dec-24</td>
-                                <td>8855-2266</td>
-                                <td><span class="status not-verified">Not Verified</span></td>
-                                <td>
-                                    <div class="action-btns">
-                                        <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
-                                        <img class="eye-btn" src="/static/images/eye.png" alt="See">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3.</td>
-                                <td>
-                                    <div class="user">
-                                        <div class="avatar">EH</div>
-                                        <span>Esther Howard</span>
-                                    </div>
-                                </td>
-                                <td>d.chambers@example.com</td>
-                                <td>8855442266</td>
-                                <td>12-Dec-24</td>
-                                <td>8855-2266</td>
-                                <td><span class="status verified">Verified</span></td>
-                                <td>
-                                    <div class="action-btns">
-                                        <img class="delete-btn" src="/static/images/delete.png" alt="Delete">
-                                        <img class="eye-btn" src="/static/images/eye.png" alt="See">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3.</td>
-                                <td>
-                                    <div class="user">
-                                        <div class="avatar">EH</div>
-                                        <span>Esther Howard</span>
-                                    </div>
-                                </td>
-                                <td>d.chambers@example.com</td>
-                                <td>8855442266</td>
-                                <td>12-Dec-24</td>
-                                <td>8855-2266</td>
-                                <td><span class="status verified">Verified</span></td>
-                                <td>
-                                    <div class="action-btns">
-                                        <img class="delete-btn" src="/static/images/delete.png" alt="Delete">
-                                        <img class="eye-btn" src="/static/images/eye.png" alt="See">
-                                    </div>
-                                </td>
-                            </tr> -->
                         </tbody>
                     </table>
                 </div>
