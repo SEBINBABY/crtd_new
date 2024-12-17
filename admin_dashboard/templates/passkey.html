@@ -5,99 +5,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passkey</title>
-    <link rel="stylesheet" href="{% static 'css/passkey.css' %}">
+    <link rel="stylesheet" href="{% static 'css/verify-passkey.css' %}">
 </head>
 <body>
-        <div class="nav">
-            <div class="logo"></div>
-            <div class="text">
-                <h1>CRTD Technologies Test Submission </h1>
-                <h2>Dashboard</h2>
-            </div>
-            <div class="profile">
-                <div class="profile-img">
-                    <img src="/static/images/profile.png" alt="">
-                </div>
-               <h3>Super Admin</h3> 
-               <button class="button-1">Log Out</button>
-            </div>
+  <div class="nav">
+    <div class="logo"></div>
+    <div class="text">
+      <h1>CRTD Technologies Test Submission</h1>
+      <h2>Dashboard</h2>
+    </div>
+    <div class="profile">
+      <div class="profile-img">
+        <img src="/static/images/profile.png" alt="" />
+      </div>
+      <h3>Super Admin</h3>
+      <button class="button-1">Log Out</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="left">
+      <div id="sidebar" class="sidebar">
+        <div class="user-section">
+          <h2 class="user-role">SuperAdmin</h2>
+          <button class="dashboard-button">Open dashboard</button>
         </div>
-        <div class="content">
-            <div class="left">
-                <div class="sidebar">
-                    <div class="user-section">
-                      <h2 class="user-role">SuperAdmin</h2>
-                      <button class="dashboard-button">Open dashboard</button>
-                    </div>
-                
-                    <div class="favorites-section">
-                      <h4 class="section-title">Favorites</h4>
-                      <ul class="favorites-list">
-                        <li>• Total Account Created</li>
-                        <li>• Not Submitted</li>
-                      </ul>
-                    </div>
-                
-                    <div class="dashboards-section">
-                      <h4 class="section-title">Dashboards</h4>
-                      <ul class="dashboards-list">
-                        <li>
-                          <a href="{% url 'admin_dashboard:filtered_users' 'all' %}">
-                          <img src="/static/images/2.png" alt="">Total Account Created
-                        </a>
-                        </li>
-                        <li>
-                          <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}">
-                            <img src="/static/images/3.png" alt="">Total Submitted
-                          </a>
-                        </li>
-                        <li>
-                          <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
-                            <img src="/static/images/4.png" alt="">Not Submitted
-                          </a>
-                        </li>
-                        <li>
-                          <a href="{% url 'admin_dashboard:question_section' %}">
-                            <img src="/static/images/5.png" alt="">Question Section
-                          </a>
-                        </li>
-                        <li class="passkey">
-                          <a href="{% url 'admin_dashboard:passkey' %}">
-                            <img src="/static/images/6.png" alt="">Passkey
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+
+        <div class="favorites-section">
+          <h4 class="section-title">Favorites</h4>
+          <ul class="favorites-list">
+            <li>• Total Account Created</li>
+            <li>• Not Submitted</li>
+          </ul>
+        </div>
+
+        <div class="dashboards-section">
+          <h4 class="section-title">Dashboards</h4>
+          <ul class="dashboards-list">
+            <li>
+              <a href="{% url 'admin_dashboard:filtered_users' 'all' %}">
+              <img src="/static/images/dashboard.png" alt="" />Total Account Created
+            </a>
+            </li>
+            <li>
+              <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}">
+              <img src="/static/images/3.png" alt="" />Total Submitted
+            </a>
+            </li>
+            <li>
+              <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
+              <img src="/static/images/4.png" alt="" />Not Submitted
+            </a>
+            </li>
+            <li>
+              <a href="{% url 'admin_dashboard:question_section' %}">
+              <img src="/static/images/5.png" alt="" />Question Section
+            </a>
+            </li>
+            <li class="passkey">
+              <a href="{% url 'admin_dashboard:passkey' %}">
+              <img src="/static/images/passkey.png" alt="" />Passkey
+            </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="side">
+      <div class="side-bar">
+        <div class="icon-con">
+          <img src="/static/images/dashboard.png" alt="Icon-1" />
+        </div>
+        <div class="icon-con">
+          <img src="/static/images/3.png" alt="Icon-2" />
+        </div>
+        <div class="icon-con">
+          <img src="/static/images/4.png" alt="Icon-3" />
+        </div>
+        <div class="icon-con">
+          <img src="/static/images/5.png" alt="Icon-4" />
+        </div>
+        <div class="icon-con">
+          <img src="/static/images/passkey.png" alt="Icon-5" />
+        </div>
+      </div>
+    </div>
+
+      
+    </div>
+    <div class="right">
+      <div class="icon">
+        <img src="/static/images/1.png" alt="" />
+      </div>
+      <div class="table">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 10%">S.No</th>
+                <th>Passkey</th>
+                <th style="width: 20%; text-align: center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for passkey in passkeys %}
+                <td>{{forloop.counter}}.</td>
+                <td class="passkey">{{passkey.key}}</td>
+                <td class="actions" style="text-align: center;">
+                  <div class="action-btns">
+                      <img class="delete-btn" src="/static/images/delete.png" alt="Delete">
+                      <img class="eye-btn" src="/static/images/eye.png" alt="See">
                   </div>
-            </div>
-            <div class="right">
-                <div class="icon">
-                    <img src="/static/images/1.png" alt="">
-                </div>
-                <div class="table">
-                    <div class="table-container">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th style="width: 10%;">S.No</th>
-                              <th>Passkey</th>
-                              <th style="width: 20%; text-align: center;">Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              {% for passkey in passkeys %}
-                              <td>{{forloop.counter}}.</td>
-                              <td class="passkey">{{passkey.key}}</td>
-                              <td class="actions" style="text-align: center;">
-                                <div class="action-btns">
-                                    <img class="delete-btn" src="/static/images/delete.png" alt="Delete">
-                                    <img class="eye-btn" src="/static/images/eye.png" alt="See">
-                                </div>
-                              </td>
-                            </tr>
-                            {% endfor %}
-                            <!-- <tr>
+                </td>
+              </tr>
+              {% endfor %}
+
+
+              <!-- <tr>
                               <td>2.</td>
                               <td class="passkey">9 9 5 5 8 8</td>
                               <td class="actions" style="text-align: center;">
@@ -107,11 +131,173 @@
                                 </div>
                               </td>
                             </tr> -->
-                          </tbody>
-                        </table>
-                      </div>
-                </div>
-            </div>
+            </tbody>
+          </table>
         </div>
+      </div>
+      <button class="add-btn">
+        <h3>Add New Passkey</h3>
+      </button>
+    </div>
+  </div>
+
+  <!-- Enter new passkey -->
+  <div class="modal">
+    <div class="modal-content">
+      <h3>Enter New Passkey</h3>
+      <input type="text" class="passkeyInput" placeholder="Passkey" />
+      <div class="modal-buttons">
+        <button class="cancel-btn">Cancel</button>
+        <button id="saveBtn" class="save-btn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit new passkey -->
+  <div class="edit-modal">
+    <div class="modal-content">
+      <h3>Edit Passkey</h3>
+      <input type="text" class="passkeyInput" placeholder="Passkey" />
+      <div class="modal-buttons">
+        <button class="cancel-btn-edit">Cancel</button>
+        <button id="saveBtnEdit" class="save-btn-edit">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="delete-modal">
+    <div class="modal-content">
+      <!-- Close Button -->
+      <span class="delete-close-btn">&times;</span>
+      <!-- Illustration -->
+      <div class="modal-image">
+        <img src="/static/images/Delete.png" alt="Illustration" />
+      </div>
+      <!-- Confirmation Text -->
+      <div class="modal-body">
+        <p class="modal-title">Are you sure you want to delete</p>
+        <p class="modal-item">Passkey ?</p>
+      </div>
+      <!-- Buttons -->
+      <div class="modal-footer">
+        <button class="btn delete-cancel-btn">Cancel</button>
+        <button class="btn delete-delete-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const toggleIcon = document.querySelector(".icon");
+    const left = document.querySelector(".left");
+    const content = document.querySelector(".content");
+    const table = document.querySelector(".table");
+    const sidebar = document.getElementById("sidebar");
+    const side = document.querySelector(".side");
+    const editBtn = document.querySelectorAll(".eye-btn");
+
+    toggleIcon.addEventListener("click", () => {
+      // window.location.href = "passkey2.html";
+  sidebar.classList.toggle('active');
+  if (sidebar.classList.contains('active')) {
+      // Open sidebar and apply styles
+      sidebar.style.border = "none";
+      sidebar.style.boxShadow = "none"
+      side.style.display = "block";
+      content.style.position = "relative";
+      content.style.right = "25%"; // Shift content by the same amount as sidebar
+      content.style.width = "125%"; // Reset to its original width
+      content.style.left = "";
+  } else {
+      sidebar.style.border = "";
+      sidebar.style.boxShadow = "";
+      left.style.position = "relative";
+      left.style.right = "";
+      left.style.left = "0";
+      side.style.display = "none";
+      content.style.width = ""; // Reset to original width
+  content.style.position = ""; // Reset to default position
+  content.style.right = ""; // Clear any right positioning
+  content.style.left = "";
+  }
+    });
+
+    const addPasskeyBtn = document.querySelector(".add-btn");
+    const passkeyModal = document.querySelector(".modal");
+    const saveBtn = document.querySelector(".save-btn");
+    const passkeyInput = document.querySelector(".passkeyInput");
+    const cancelBtn = document.querySelector(".cancel-btn");
+    const passkeyModalEdit = document.querySelector(".edit-modal");
+    const cancelBtnEdit = document.querySelector(".cancel-btn-edit");
+    const saveBtnEdit = document.querySelector(".save-btn-edit");
+    const deleteBtn = document.querySelectorAll(".delete-btn");
+    const passkeyModalDelete = document.querySelector(".delete-modal");
+    const deleteCancelBtn = document.querySelector(".delete-cancel-btn");
+    const deleteDeleteBtn = document.querySelector(".delete-delete-btn");
+    const deleteCloseBtn = document.querySelector(".delete-close-btn");
+
+    editBtn.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        passkeyModalEdit.style.display = "block";
+      });
+    });
+
+    // Show the modal when Add Passkey is clicked
+    addPasskeyBtn.addEventListener("click", () => {
+      passkeyModal.style.display = "block";
+    });
+
+    // Hide the modal when Cancel button is clicked
+    cancelBtn.addEventListener("click", () => {
+      passkeyModal.style.display = "none";
+      passkeyInput.value = ""; // Clear input field
+    });
+
+    cancelBtnEdit.addEventListener("click", () => {
+      passkeyModalEdit.style.display = "none";
+      passkeyInput.value = ""; // Clear input field
+    });
+    // Save button logic
+    saveBtn.addEventListener("click", () => {
+      const passkey = passkeyInput.value.trim();
+      if (passkey) {
+        alert("New passkey {" + passkey + "} has been saved!");
+        passkeyModal.style.display = "none";
+        passkeyInput.value = ""; // Clear input field
+      } else {
+        alert("Please enter a passkey.");
+      }
+    });
+
+    saveBtnEdit.addEventListener("click", () => {
+      passkeyModalEdit.style.display = "none";
+    });
+
+    deleteBtn.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        passkeyModalDelete.style.display = "block";
+      });
+    });
+
+    deleteCloseBtn.addEventListener("click", () => {
+      passkeyModalDelete.style.display = "none";
+    });
+
+    deleteCancelBtn.addEventListener("click", () => {
+      passkeyModalDelete.style.display = "none";
+    });
+
+    deleteDeleteBtn.addEventListener("click", () => {
+      alert("Passkey has been deleted!");
+      passkeyModalDelete.style.display = "none";
+    });
+
+    // Close modal when clicking outside the modal content
+    window.addEventListener("click", (event) => {
+      if (event.target === passkeyModal) {
+        passkeyModal.style.display = "none";
+        passkeyInput.value = "";
+      }
+    });
+  </script>
 </body>
 </html>
