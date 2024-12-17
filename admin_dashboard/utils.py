@@ -12,6 +12,6 @@ def role_required(allowed_roles=None):
             if request.user.is_authenticated and request.user.role in allowed_roles:
                 return view_func(request, *args, **kwargs)
             # Redirect to login page or show an error
-            return redirect('admin_dashboard:admin_hr_login')
+            return redirect('admin_dasboard:admin_hr_login')
         return _wrapped_view
     return decorator
