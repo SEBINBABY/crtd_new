@@ -12,7 +12,7 @@
         <div class="bg"></div>
         <div class="left">
             <div class="logo">
-                <img src="/static/images/logo.png" alt="">
+                <img src="static/images/logo.png" alt="">
             </div>
             <div class="mainImg"></div>
            
@@ -22,24 +22,14 @@
                 <h2>Admin Dashboard Login</h2>
                 <h6>Note - Only for HR Staff</h6>
             </div>
-            {% if messages %}
-                <div class="messages mt-3">
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            <form action="{% url 'admin_dashboard:admin_hr_login' %}" method="POST">
-                {% csrf_token %}
+            <form class="form">
                 <div class="">
                   <label for="User ID" class="form-label">User ID</label>
-                  <input type="email" class="input-1" id="email" placeholder="E-mail" name="email">
+                  <input type="email" class="input-1" id="email" placeholder="E-mail">
                 </div>
                 <div class="pass">
                   <label for="password" class="form-label">Password</label>
-                  <input type="password"id="password" placeholder="Password" name="password">
+                  <input type="password"id="password" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
               </form>
