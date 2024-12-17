@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from quiz.models import Quiz,Question,Answer
 from .utils import role_required
 from users.models import Passkey
+from .models import Amount
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
 def dashboard(request):
@@ -211,7 +212,6 @@ def delete_passkey(request, passkey_id):
     <a href="{% url 'passkey_list' %}">Cancel</a>
     </form>
     """
-
 
 
 

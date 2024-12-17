@@ -48,6 +48,40 @@ class User(AbstractBaseUser, PermissionsMixin):
     
 
 
+class Amount(models.Model):
+    """
+    Singleton model to store a single Amount value.
+    """
+    value = models.CharField(max_length=255, default="default_value")
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # Ensures only one instance of this model exists
+    def save(self, *args, **kwargs):
+        self.id = 1  # Force the id to always be 1
+        super(Amount, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Amount: {self.value}"
     
+    def save(self, *args, **kwargs):
+        self.id = 1  # Force id=1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get_value(cls):
+        """
+        Returns the single Amount instance's value, creating it if it doesn't exist.
+        """
+        obj, _ = cls.objects.get_or_create(id=1)
+        return obj.value    
+
+    @classmethod
+    def set_value(cls,amount):
+        """
+        Sets the single Amount instance's value.
+        """
+        obj, _ = cls.objects.get_or_create(id=1)
+        obj.value = amount
+        obj.save()
 
     
