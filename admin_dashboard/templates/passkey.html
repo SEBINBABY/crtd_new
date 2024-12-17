@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passkey</title>
-    <link rel="stylesheet" href="{% static 'css/verify-passkey.css' %}">
+    <link rel="stylesheet" href="{% static 'css/passkey.css' %}">
 </head>
 <body>
         <div class="nav">
@@ -42,19 +42,29 @@
                       <h4 class="section-title">Dashboards</h4>
                       <ul class="dashboards-list">
                         <li>
+                          <a href="{% url 'admin_dashboard:filtered_users' 'all' %}">
                           <img src="/static/images/2.png" alt="">Total Account Created
+                        </a>
                         </li>
                         <li>
+                          <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}">
                             <img src="/static/images/3.png" alt="">Total Submitted
+                          </a>
                         </li>
                         <li>
+                          <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
                             <img src="/static/images/4.png" alt="">Not Submitted
+                          </a>
                         </li>
                         <li>
+                          <a href="{% url 'admin_dashboard:question_section' %}">
                             <img src="/static/images/5.png" alt="">Question Section
+                          </a>
                         </li>
                         <li class="passkey">
+                          <a href="{% url 'admin_dashboard:passkey' %}">
                             <img src="/static/images/6.png" alt="">Passkey
+                          </a>
                         </li>
                       </ul>
                     </div>
@@ -76,8 +86,9 @@
                           </thead>
                           <tbody>
                             <tr>
-                              <td>1.</td>
-                              <td class="passkey">6 6 5 5 4 4</td>
+                              {% for passkey in passkeys %}
+                              <td>{{forloop.counter}}.</td>
+                              <td class="passkey">{{passkey.key}}</td>
                               <td class="actions" style="text-align: center;">
                                 <div class="action-btns">
                                     <img class="delete-btn" src="/static/images/delete.png" alt="Delete">
@@ -85,7 +96,8 @@
                                 </div>
                               </td>
                             </tr>
-                            <tr>
+                            {% endfor %}
+                            <!-- <tr>
                               <td>2.</td>
                               <td class="passkey">9 9 5 5 8 8</td>
                               <td class="actions" style="text-align: center;">
@@ -94,7 +106,7 @@
                                     <img class="eye-btn" src="/static/images/eye.png" alt="See">
                                 </div>
                               </td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
                       </div>
