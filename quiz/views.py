@@ -4,11 +4,11 @@ from .models import Quiz, Question, Answer, Result
 from django.utils.timezone import now 
 from django.contrib import messages
 from admin_dashboard.models import User
-from .utils import user_only
+from django.contrib.auth.decorators import login_required
+
 
 TIME_LIMIT = 20 # MINUTES
 GRACE_TIME = 2 # SECONDS
-PAYMENT_KEYWORD = "Payment"
 
 @user_only
 def list_quizzes(request):
@@ -18,14 +18,11 @@ def list_quizzes(request):
     quizzes = Quiz.objects.all()
     print(quizzes)
     user = request.user
-    if user.is_user:
-        full_name = user.username
-        email = user.email
     if quizzes.exists():
         return render(request, "instruction.html", {
             "quizzes": quizzes,
-            "user_full_name": full_name,
-            "user_email": email,
+            "user_full_name": user.username,
+            "user_email": user.email,
         })
     else:
         return render(request, "no_quizzes.html")
@@ -35,15 +32,12 @@ def start_test(request):
     """
     Starts or resumes a quiz for the user.
     """
-    user = request.user
-    if user.is_user:
-        user_id = user.id
-
     if request.method == "GET":
         return redirect("quiz:list_quizzes")
 
+    user = request.user
     # Fetch quizzes and results
-    results = Result.objects.filter(user_id=user_id)
+    results = Result.objects.filter(user_id=user.id)
 
     # Check for a running test
     for result in results:
@@ -53,19 +47,16 @@ def start_test(request):
             else:
                 result.end_time = now()
         
-    # Start a new quiz
-    available_quizzes = Quiz.objects.exclude(id__in=results.values_list('quiz_id', flat=True))
-    if not available_quizzes.exists():
+    quiz = get_next_quiz(results)
+    if not quiz:
         return redirect('quiz:finish_test')
-
-    quiz = available_quizzes.first()
     if(requires_payment(quiz) and not request.user.has_paid):
         return redirect('payment_integration:payment_start')
 
     request.session["visited_questions"] = []
     
     # Create a new Result object
-    result = Result.objects.create(user_id=user_id, quiz=quiz, start_time=now(), user_answers={})
+    result = Result.objects.create(user_id=user.id, quiz=quiz, start_time=now(), user_answers={})
 
     return redirect('quiz:start_question', quiz_id=quiz.id, question_id=quiz.quiz_questions.first().id)
 
@@ -80,11 +71,7 @@ def start_question(request, quiz_id, question_id):
 
     # Calculate remaining time
     user = request.user
-    if user.is_user:
-        user_id = user.id
-        full_name = user.username
-        email = user.email
-    result = get_object_or_404(Result, user_id=user_id, quiz=quiz)
+    result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
     remaining_time = TIME_LIMIT * 60 - (now() - result.start_time).seconds + GRACE_TIME
 
     if remaining_time <= 0:
@@ -119,15 +106,11 @@ def save_answer(request, quiz_id, question_id):
             return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 
         user = request.user
-        if user.is_user:
-            user_id = user.id
-            full_name = user.username
-            email = user.email
         quiz = get_object_or_404(Quiz, id=quiz_id)
         question = get_object_or_404(Question, id=question_id)
 
         # Retrieve the Result object
-        result = get_object_or_404(Result, user_id=user_id, quiz=quiz)
+        result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
         
         remaining_time = TIME_LIMIT * 60 - (now() - result.start_time).seconds + GRACE_TIME
         if remaining_time <= 0:
@@ -156,14 +139,10 @@ def quiz_summary(request, quiz_id):
     Displays the quiz summary and calculates the final score.
     """
     user = request.user
-    if user.is_user:
-        user_id = user.id
-        full_name = user.username
-        email = user.email
     quiz = get_object_or_404(Quiz, id=quiz_id)
 
     # Fetch the Result object
-    result = get_object_or_404(Result, user_id=user_id, quiz=quiz)
+    result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
     
     # Update the score and end time in the Result object
     result.score = calculate_score(quiz,result)
@@ -175,19 +154,19 @@ def quiz_summary(request, quiz_id):
     # Get list of quizzes
     completed_quizzes = []
     
-    results = Result.objects.filter(user = user_id)
+    results = Result.objects.filter(user = user.id)
     for result in results:
         completed_quizzes.append(result.quiz)
 
     incomplete_quizzes = Quiz.objects.exclude(id__in=results.values_list('quiz_id', flat=True))
-    user = request.user
 
     return render(request, 'start-test.html', {
-        "user_full_name" : full_name,
+        "user_full_name" : user.username,
         "email" : user.email,
         "completed_quizzes":completed_quizzes,
         "incomplete_quizzes":incomplete_quizzes
     })
+    
 
 @user_only
 def finish_test(request):
@@ -195,27 +174,17 @@ def finish_test(request):
     Renders the finish test template.
     """
     user = request.user
-    if user.is_user:
-        user_id = user.id
-        full_name = user.username
-        email = user.email
-    user = get_object_or_404(User,id=user_id)
     for quiz in Quiz.objects.all():
         if not Result.objects.filter(quiz=quiz,user=user).first():
             return redirect('quiz:start_test')
-            
 
     tcn = request.user.tcn_number
-    return render(request, 'Complete-congrats.html', {'TCN': tcn})
+    return render(request, 'Complete-congrats.html', {'TCN': tcn,'last': Quiz.objects.last().id})
 
 @user_only
 def get_remaining_time(request):
     user = request.user
-    if user.is_user:
-        user_id = user.id
-        full_name = user.username
-        email = user.email
-    results = Result.objects.filter(end_time__isnull=True,user_id = user_id)
+    results = Result.objects.filter(end_time__isnull=True,user_id = user.id)
     if results.count() > 1:
         messages.error(request,"Something went wrong")
         return JsonResponse({"error": "Something went wrong"})
@@ -226,21 +195,3 @@ def get_remaining_time(request):
     if(remaining_time < 0):
         return redirect('quiz:quiz_summary',result.quiz.id)
     return JsonResponse({"time_remaining": remaining_time})
-
-# HELPER FUNCTIONS
-def calculate_score(quiz,result):
-    # Calculate score
-    total_questions = quiz.quiz_questions.count()
-    correct_answers = 0
-
-    for question in quiz.quiz_questions.all():
-        selected_answer_id = result.user_answers.get(str(question.id))
-        if selected_answer_id:
-            selected_answer = Answer.objects.get(id=selected_answer_id)
-            if selected_answer.is_correct:
-                correct_answers += 1
-
-    return(correct_answers / total_questions) * 100
-
-def requires_payment(quiz):
-    return PAYMENT_KEYWORD.lower() in quiz.name.lower()
