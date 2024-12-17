@@ -31,15 +31,15 @@
                     {% csrf_token %}
                 <div class="content-input">
                     <label for="" class="form-label">Full name*</label>
-                    <input type="text" id="inputPassword5" class="form-control" value="{{full_name}}" name="full_name" required>
+                    <input type="text" id="inputPassword5" class="form-control" value="{{full_name|default:''}}" name="full_name" required>
                     <label for="" class="form-label">Email ID*</label>
                     <div class="check-perform">
-                    <input type="email" id="inputPassword5" class="form-control" value="{{email}}"
+                    <input type="email" id="inputPassword5" class="form-control" value="{{ email|default:'' }}"
                     name="email" required>
                     <button class="verified" type="submit">Verified <i class="fa-solid fa-check"></i></button>
                     </div>
                     <label for="" class="form-label">Contact Number*</label>
-                    <input type="text" id="inputPassword5" class="form-control" placeholder="Enter Contact Number"
+                    <input type="text" id="inputPassword5" class="form-control" value="{{ contact_number|default:'' }}" 
                     name="contact_number" required>
                     <label for="" class="form-label">Create Password*</label>
                     <input type="password" id="inputPassword5" class="form-control" placeholder="Enter Password"

@@ -123,17 +123,7 @@ def delete_passkey(request, passkey_id):
     <a href="{% url 'passkey_list' %}">Cancel</a>
     </form>
     """
-# For Eye Icon to see the user in detail
-def update_user(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    if user:
-        
-        return render(request, "dashboard.html", {"user": user})
 
-def delete_passkey(request, passkey_id):
-    key_value = Passkey.objects.filter(id=passkey_id)
-    key_value.delete()
-    return redirect("admin_dashboard:passkey")
 
 
 
