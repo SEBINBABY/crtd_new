@@ -29,7 +29,7 @@ def initiate_payment(request):
             email = user.email
             contact_number =user.contact_number
         print(f"Fullname:{full_name}, email:{email}, contact:{contact_number}")
-        callback_url = "http://127.0.0.1:8000/handle_request/"
+        callback_url = "http://3.109.183.125:8000/handle_request/"
         if not settings.DEBUG:  # If live mode
             callback_url = "https://live.example.com/handle_request/"
         notes = {"order-type":"basic order from the website"}
@@ -102,7 +102,7 @@ def handle_request(request):
                     client.payment.capture(razorpay_payment_id, amount)
                     payment_obj.status = "successful"
                     payment_obj.save()
-                    return render(request, "payment_success.html")
+                    return render(request, "payment-success.html")
                 except razorpay.errors.RazorpayError as e:
                     # Log the error returned by Razorpay for Invalid signature
                     print(f"Payment capture failed: {e}")
