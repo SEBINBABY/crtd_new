@@ -3,6 +3,8 @@ from admin_dashboard.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.db.models import Q
+
+from quiz.models import Quiz,Question,Answer
 from .utils import role_required
 from users.models import Passkey
 
@@ -65,7 +67,9 @@ def admin_hr_login(request):
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_section(request):
-    return render(request, "UpdatedQuestionSection3.html")
+    return render(request, "UpdatedQuestionSection3.html",
+                  {"user":request.user,
+                   "quizzes":Quiz.objects.all()})
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
 def user_list(request):

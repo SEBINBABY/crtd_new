@@ -1,11 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
-from .models import Quiz, Question, Answer, Result
+from .models import *
 from django.utils.timezone import now 
 from django.contrib import messages
-from admin_dashboard.models import User
-from django.contrib.auth.decorators import login_required
-
+from .utils import *
 
 TIME_LIMIT = 20 # MINUTES
 GRACE_TIME = 2 # SECONDS

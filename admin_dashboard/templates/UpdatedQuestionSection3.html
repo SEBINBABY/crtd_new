@@ -53,7 +53,7 @@
             style="width: 40px; height: 40px"
           />
           <div class="d-flex flex-column">
-            <h6>SuperAdmin</h6>
+            <h6>{{user.username}}</h6>
             <button class="btn btn-sm logout mt-1">Log Out</button>
           </div>
         </div>
@@ -63,7 +63,7 @@
     <main class="container-fluid my-2 main-content">
       <div class="row">
         <aside id="sidebar" class="col-md-3 col-lg-2 sidebar">
-          <h5 class="mb-4">SuperAdmin</h5>
+          <h5 class="mb-4">{{user.username}}</h5>
           <a href="#" class="nav-link mb-3"> Open dashboard </a>
           <h6 style="color: black; opacity: 40%; font-weight: 500">Favorites</h6>
           <a href="#" class="nav-link active">• Total Account Created</a>
@@ -148,30 +148,12 @@
           <div class="container">
             <div class="question-section" id="questionSectionContent" style="display: block;">
               <div class="card">
+                {% for quiz in quizzes %}
                 <div class="item">
-                  <p id="1">1. Basic programming</p>
-                  <span>10/15</span>
+                  <p id="1">{{forloop.counter}}. {{quiz.name}}</p>
+                  <span>{{quiz.quiz_questions.all|length}}/{{quiz.number_of_questions}}</span>
                 </div>
-                <div class="item">
-                  <p>2. Front-End Logic</p>
-                  <span>10/15</span>
-                </div>
-                <div class="item">
-                  <p>3. Back-End Logic</p>
-                  <span>10/15</span>
-                </div>
-                <div class="item">
-                  <p>4. Database Concepts</p>
-                  <span>10/15</span>
-                </div>
-                <div class="item">
-                  <p>5. QA Testing</p>
-                  <span>10/15</span>
-                </div>
-                <div class="item">
-                  <p>6. Payment Gateway Analysis</p>
-                  <span>10/15</span>
-                </div>
+                {% endfor %}
               </div>
             </div>
           </div>
