@@ -149,8 +149,8 @@
             <div class="question-section" id="questionSectionContent" style="display: block;">
               <div class="card">
                 {% for quiz in quizzes %}
-                <div class="item">
-                  <p id="1">{{forloop.counter}}. {{quiz.name}}</p>
+                <div class="item" href="{% url 'admin_dashboard:question_list' quiz.id %}">
+                  <p id="{{quiz.id}}">{{forloop.counter}}. {{quiz.name}}</p>
                   <span>{{quiz.quiz_questions.all|length}}/{{quiz.number_of_questions}}</span>
                 </div>
                 {% endfor %}
