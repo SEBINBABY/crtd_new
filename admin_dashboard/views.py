@@ -3,6 +3,9 @@ from admin_dashboard.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.db.models import Q
+from django.http import JsonResponse
+
+from quiz.models import Quiz,Question,Answer
 from .utils import role_required
 from users.models import Passkey
 
@@ -65,7 +68,92 @@ def admin_hr_login(request):
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_section(request):
-    return render(request, "UpdatedQuestionSection3.html")
+    return render(request, "UpdatedQuestionSection3.html",
+                  {"user":request.user,
+                   "quizzes":Quiz.objects.all()})
+
+def question_list(request,quiz_id):
+    return render(request,'question_list.html',
+                  {"user":request.user,
+                   "quiz":get_object_or_404(Quiz,id=quiz_id)})
+
+def add_question(request):
+    if not request.POST:
+        return redirect("admin_dashboard:question_section")
+    
+    data = request.POST.get('data',None)
+    if not data: return JsonResponse({"error":"No form data"})
+
+    quiz_id = data.get('quiz_id')
+    question_text = data.get('question_text',None)
+    if not question_text: JsonResponse({"error":"No question"})
+
+    correct_answer_id  = data.get('correct_answer_id',None)
+    if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
+        
+    answers_data = []
+    answer_id = data.get('answer-1',None)
+    while(answer_id is not None):
+        answer_text = data.get(f'answer_text-${answer_id}')
+        answers_data.append([answer_text,answer_id==correct_answer_id])
+
+    if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
+    
+    question = Question(question_text=question_text, quiz_id=quiz_id)
+    question.save()
+    for data in answers_data:
+        answer = Answer(answer_text = data[0],is_correct=data[1],question_id=question.id)
+        answer.save()
+    
+    return redirect('admin_dashboard:question_list',quiz_id)
+
+def edit_question(request):
+    if not request.POST:
+        return redirect("admin_dashboard:question_section")
+    
+    data = request.POST.get('data',None)
+    if not data: return JsonResponse({"error":"No form data"})
+
+    quiz_id = data.get('quiz_id')
+    question_id = data.get('question_id')
+    question_text = data.get('question_text',None)
+    if not question_text: JsonResponse({"error":"No question"})
+
+    correct_answer_id  = data.get('correct_answer_id',None)
+    if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
+        
+    answers_data = []
+    answer_id = data.get('answer-1',None)
+    while(answer_id is not None):
+        answer_text = data.get(f'answer_text-${answer_id}')
+        answers_data.append([answer_text,answer_id==correct_answer_id])
+
+    if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
+    
+    question = get_object_or_404(Question,id = question_id)
+    question.save()
+    new_answer_ids = []
+    for data in answers_data:
+        answer, created = Answer.objects.get_or_create(answer_text = data[0],is_correct=data[1],question_id=question.id)
+        new_answer_ids.append(answer.id)
+        answer.save()
+    
+    for answer in Answer.objects.filter(question_id=question.id):
+        if answer.id not in new_answer_ids:
+            answer.delete()
+    
+    return redirect('admin_dashboard:question_list',quiz_id)
+        
+def delete_question(request,question_id):
+    question = get_object_or_404(Question,id=question_id)
+    quiz_id = question.quiz.id
+    answers = Answer.objects.filter(question_id = question_id)
+    for answer in answers:
+        answer.delete()
+    question.delete()
+
+    return redirect('admin_dashboard:question_list',quiz_id)
+
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
 def user_list(request):
