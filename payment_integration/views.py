@@ -29,7 +29,7 @@ def initiate_payment(request):
             email = user.email
             contact_number =user.contact_number
         print(f"Fullname:{full_name}, email:{email}, contact:{contact_number}")
-        callback_url = "http://127.0.0.1:8000/handle_request/"
+        callback_url = "http://3.109.183.125:8000/handle_request/"
         if not settings.DEBUG:  # If live mode
             callback_url = "https://live.example.com/handle_request/"
         notes = {"order-type":"basic order from the website"}
@@ -100,6 +100,7 @@ def handle_request(request):
                 amount = payment_obj.amount * 100  # We have to pass in paisa
                 try:
                     client.payment.capture(razorpay_payment_id, amount)
+                    print("Payment captured successfully.")
                     payment_obj.status = "successful"
                     payment_obj.save()
                     request.user.has_paid = True
@@ -118,15 +119,76 @@ def handle_request(request):
     return JsonResponse({"status": "error", "message": "Method Not Allowed"}, status=405)
 
 
+from razorpay.errors import BadRequestError, SignatureVerificationError
 
+# @csrf_exempt
+# def handle_request(request):
+#     print(f"Request Method: {request.method}")  # Log the request method
+#     if request.method == "POST":
+#         try:
+#             client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+#             razorpay_payment_id = request.POST.get("razorpay_payment_id")
+#             razorpay_order_id = request.POST.get("razorpay_order_id")
+#             razorpay_signature = request.POST.get("razorpay_signature")
+            
+#             print("Payment ID:", razorpay_payment_id)
+#             print("Order ID:", razorpay_order_id)
+#             print("Signature:", razorpay_signature)
 
+#             # Verify the payment signature
+#             params_dict = {
+#                 'razorpay_order_id': razorpay_order_id,
+#                 'razorpay_payment_id': razorpay_payment_id,
+#                 'razorpay_signature': razorpay_signature
+#             }
+#             print("Params for Signature Verification:", params_dict)
+#             try:
+#                 # Fetch the payment object
+#                 payment_obj = Payment.objects.get(razorpay_order_id=razorpay_order_id)
+#                 print(f"Payment Object: {payment_obj}")
+#             except Payment.DoesNotExist:
+#                 print("Error: Payment object not found")
+#                 return JsonResponse({"status": "error", "message": "Invalid Order ID"})
 
+#             # Save payment details
+#             payment_obj.razorpay_payment_id = razorpay_payment_id
+#             payment_obj.razorpay_signature = razorpay_signature
+#             payment_obj.save()
 
+#             try:
+#                 # Signature verification
+#                 client.utility.verify_payment_signature(params_dict)
+#                 print("Signature verification successful.")
 
+#                 # Capture the payment
+#                 amount = int(payment_obj.amount * 100)  # Convert to paise
+#                 print(f"Capturing payment of amount: {amount}")
+#                 client.payment.capture(razorpay_payment_id, amount)
+#                 print("Payment captured successfully.")
 
+#                 # Update payment status
+#                 payment_obj.status = "successful"
+#                 payment_obj.save()
 
+#                 # Update user payment flag
+#                 request.user.has_paid = True
+#                 request.user.save()
 
+#                 return render(request, "payment_success.html")
+#             except SignatureVerificationError as e:
+#                 print(f"Signature verification failed: {e}")
+#                 payment_obj.status = "failed"
+#                 payment_obj.save()
+#                 return render(request, "payment_fail.html", {"error": "Signature verification failed"})
+#             except BadRequestError as e:
+#                 print(f"Payment capture failed: {e}")
+#                 payment_obj.status = "failed"
+#                 payment_obj.save()
+#                 return render(request, "payment_fail.html", {"error": "Payment capture failed"})
 
-        
+#         except Exception as e:
+#             print(f"Error: {e}")
+#             return JsonResponse({"status": "error", "message": str(e)})
 
-
+#     # Return a 405 for non-POST requests
+#     return JsonResponse({"status": "error", "message": "Method Not Allowed"}, status=405)
