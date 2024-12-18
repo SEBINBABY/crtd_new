@@ -31,25 +31,49 @@
                     <form action="{% url 'users:send_email_verification_otp' %}" method="POST">
                         {% csrf_token %}
                     <label for="" class="form-label">Full name*</label>
-                    <input type="text" id="inputPassword5" class="form-control" placeholder="Enter Full name" name="full_name" required>
+                    <input type="text" id="inputName" class="form-control" placeholder="Enter Full name" name="full_name" required>
                     <label for="" class="form-label">Email ID*</label>
                     <div class="check-perform">
-                    <input type="email" id="inputPassword5" class="form-control" placeholder="Enter Email id"
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Enter Email id"
                     name="email" required>
-                    <button class="">Verify <i class="fa-solid fa-check not-visible" style="display: none;"></i></button>
+                    <button class="" id="verifyButton">Verify <i class="fa-solid fa-check not-visible" style="display: none;"></i></button>
                     </div>
                     </form>
                     <label for="" class="form-label">Contact Number*</label>
-                    <input type="text" id="inputPassword5" class="form-control" placeholder="Enter Contact Number">
+                    <input type="text" id="inputContact" class="form-control" placeholder="Enter Contact Number">
                     <label for="" class="form-label">Create Password*</label>
-                    <input type="password" id="inputPassword5" class="form-control" placeholder="Create Password">
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Create Password">
                     <label for="" class="form-label">Confirm Password*</label>
-                    <input type="password" id="inputPassword5" class="form-control" placeholder="Confirm Password">
+                    <input type="password" id="inputPassword2" class="form-control" placeholder="Confirm Password">
+                    <div id="verificationMessage" class="alert alert-warning mt-3" style="display: none;">
+                        Please verify your email first.
+                    </div>
                 </div>
                 <button class="submit-btn" type="submit">Submit</button>
             </div>
         </div>
     </div> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        // JavaScript to handle the Verify button click
+        document.getElementById("verifyButton").addEventListener("click", function() {
+            var email = document.getElementById("inputEmail").value;
+            var verificationMessage = document.getElementById("verificationMessage");
+
+            if (email === "") {
+                // Show the "Please verify your email first" message
+                verificationMessage.style.display = "block";
+                verificationMessage.textContent = "Please verify your email first.";
+            } else {
+                // Hide the message if email is provided
+                verificationMessage.style.display = "none";
+                
+                // You can also proceed with AJAX call to send OTP here if needed
+                alert("Proceed with the OTP Submission.");
+            }
+        });
+    </script>
 </body>
 </html>
+
