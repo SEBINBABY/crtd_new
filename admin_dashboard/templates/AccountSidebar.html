@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -38,7 +39,7 @@
             style="width: 40px; height: 40px"
           />
           <div class="d-flex flex-column">
-            <h6>SuperAdmin</h6>
+            <h6>{{user.username}}</h6>
             <button class="btn btn-sm logout mt-1">Log Out</button>
           </div>
         </div>
@@ -140,19 +141,19 @@
               <div class="col-md-custom">
                 <div class="stat-card">
                   <h6>Total Account Created</h6>
-                  <h2>150</h2>
+                  <h2>{{total_users}}</h2>
                 </div>
               </div>
               <div class="col-md-custom">
                 <div class="stat-card">
                   <h6>Total Submitted</h6>
-                  <h2>120/150</h2>
+                  <h2>{{total_submitted_users}}/{{total_users}}</h2>
                 </div>
               </div>
               <div class="col-md-custom">
                 <div class="stat-card">
                   <h6>Not Submitted</h6>
-                  <h2>30/150</h2>
+                  <h2>{{total_not_submitted_users}}/{{total_users}}</h2>
                 </div>
               </div>
             </div>
@@ -165,19 +166,19 @@
               <div class="col-md-custom">
                 <div class="stat-card">
                   <h6>Total Account Created</h6>
-                  <h2>10</h2>
+                  <h2>{{today_users}}</h2>
                 </div>
               </div>
               <div class="col-md-custom">
                 <div class="stat-card">
                   <h6>Total Submitted</h6>
-                  <h2>8/10</h2>
+                  <h2>{{today_submitted_users}}/{{today_users}}</h2>
                 </div>
               </div>
               <div class="col-md-custom">
                 <div class="stat-card">
                   <h6>Not Submitted</h6>
-                  <h2>2/10</h2>
+                  <h2>{{today_not_submitted_users}}/{{today_users}}</h2>
                 </div>
               </div>
             </div>
