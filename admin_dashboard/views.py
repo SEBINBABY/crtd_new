@@ -40,7 +40,7 @@ def dashboard_home(request):
     today_submitted_users = User.objects.filter(is_verified = True,created_at__date = datetime.date.today()).count()
     total_not_submitted_users = total_users - total_submitted_users
     today_not_submitted_users = today_users - today_submitted_users
-    return render(request, 'AccountCreated.html', 
+    return render(request, 'AccountSidebar.html', 
                   {'user':request.user,
                    'total_users': total_users,
                    'today_users': today_users,
