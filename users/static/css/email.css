@@ -1,0 +1,95 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    padding: 0;
+}
+.box{
+    height: 100vh;
+    width: 100%;
+    /* background-color: pink; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+.email{
+    width: 90%;
+    height: 15%;
+    /* background-color: red; */
+}
+.email-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.email-logo .logo{
+    height: 100%;
+    width: 20%;
+    /* background-color: black; */
+    background: url("images/image_1.png");
+    background-size: cover;
+    scale: 0.8;
+}
+.email-head{
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
+    height: 17% !important;
+    background: url("images/email.png");
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.email-head span{
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: white;
+}
+.email-span{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 16px;
+}
+.email-otp{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.otp-box{
+    height: 50%;
+    width: 5%;
+    margin-right: 10px;
+    margin-left: 10px;
+    background-color: #D7F2FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 22px;
+    font-weight: 700;
+}
+.email-para{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    font-size: 16px;
+}
+.email-para p{
+    width: 90%;
+}
+.email-links{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 18px;
+}
+.email-links i{
+    margin-left: 20px;
+}
