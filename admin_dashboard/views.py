@@ -63,7 +63,7 @@ def get_user_results(request,user_id):
             if answer.is_correct:            
                 correct_answer_count += 1
         correct_answer_counts[str(quiz_id)] = correct_answer_count
-    
+
     return JsonResponse({'requested_user_name':requested_user.username,
                          'correct_answer_counts':correct_answer_counts,
                          'quizzes': list(map(Quiz.serialize,Quiz.objects.all())),
@@ -83,7 +83,7 @@ def filtered_users(request, status):
     else:
         users = User.objects.filter(role=User.USER)
         title = "All Users"
-   
+
     context = {
         "users": users,
         "title": title,
@@ -101,7 +101,7 @@ def admin_hr_login(request):
             if user.role in [User.ADMIN, User.HR_STAFF]:
                 # Log the user in
                 login(request, user)
-                return redirect('admin_dashboard:dashboard')  # Shared dashboard for both roles
+                return redirect('admin_dashboard:dashboard_home')  # Shared dashboard for both roles
             else:
                 messages.error(request, "Access restricted to Admin and HR Staff only.")
         else:
@@ -122,7 +122,7 @@ def question_list(request,quiz_id):
 def add_question(request):
     if not request.POST:
         return redirect("admin_dashboard:question_section")
-    
+
     data = request.POST.get('data',None)
     if not data: return JsonResponse({"error":"No form data"})
 
@@ -132,7 +132,7 @@ def add_question(request):
 
     correct_answer_id  = data.get('correct_answer_id',None)
     if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
-        
+
     answers_data = []
     answer_id = data.get('answer-1',None)
     while(answer_id is not None):
@@ -140,19 +140,19 @@ def add_question(request):
         answers_data.append([answer_text,answer_id==correct_answer_id])
 
     if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
-    
+
     question = Question(question_text=question_text, quiz_id=quiz_id)
     question.save()
     for data in answers_data:
         answer = Answer(answer_text = data[0],is_correct=data[1],question_id=question.id)
         answer.save()
-    
+
     return redirect('admin_dashboard:question_list',quiz_id)
 
 def edit_question(request):
     if not request.POST:
         return redirect("admin_dashboard:question_section")
-    
+
     data = request.POST.get('data',None)
     if not data: return JsonResponse({"error":"No form data"})
 
@@ -163,7 +163,7 @@ def edit_question(request):
 
     correct_answer_id  = data.get('correct_answer_id',None)
     if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
-        
+
     answers_data = []
     answer_id = data.get('answer-1',None)
     while(answer_id is not None):
@@ -171,7 +171,7 @@ def edit_question(request):
         answers_data.append([answer_text,answer_id==correct_answer_id])
 
     if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
-    
+
     question = get_object_or_404(Question,id = question_id)
     question.save()
     new_answer_ids = []
@@ -179,13 +179,13 @@ def edit_question(request):
         answer, created = Answer.objects.get_or_create(answer_text = data[0],is_correct=data[1],question_id=question.id)
         new_answer_ids.append(answer.id)
         answer.save()
-    
+
     for answer in Answer.objects.filter(question_id=question.id):
         if answer.id not in new_answer_ids:
             answer.delete()
-    
+
     return redirect('admin_dashboard:question_list',quiz_id)
-        
+
 def delete_question(request,question_id):
     question = get_object_or_404(Question,id=question_id)
     quiz_id = question.quiz.id
@@ -253,12 +253,3 @@ def delete_passkey(request, passkey_id):
     <a href="{% url 'passkey_list' %}">Cancel</a>
     </form>
     """
-
-
-
-
-        
-
-
-
-
