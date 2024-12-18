@@ -162,24 +162,13 @@
               style="display: block"
             >
               <div class="card">
-                <div class="item" id="item">
-                  <p id="1">1. Basic programming</p>
-                </div>
-                <div class="item" id="item">
-                  <p>2. Front-End Logic</p>
-                </div>
-                <div class="item" id="item">
-                  <p>3. Back-End Logic</p>
-                </div>
-                <div class="item" id="item">
-                  <p>4. Database Concepts</p>
-                </div>
-                <div class="item" id="item">
-                  <p>5. QA Testing</p>
-                </div>
-                <div class="item" id="item">
-                  <p>6. Payment Gateway Analysis</p>
-                </div>
+                {% for quiz in quizzes %}
+                <a href="{% url 'admin_dashboard:question_list' quiz.id%}" style="text-decoration: none; color:black">
+                  <div class="item" id="item">
+                    <p id="1">{{forloop.counter}}. {{quiz.name}}</p>
+                  </div>
+                </a>
+                {% endfor %}
               </div>
             </div>
 
@@ -199,11 +188,11 @@
 
       const items = document.querySelectorAll("#item");
 
-      items.forEach((item) => {
+      /* items.forEach((item) => {
         item.addEventListener("click", () => {
           window.location.href = "Question-List.html";
         });
-      });
+      }); */
 
       document
         .getElementById("sidebarToggleBtn")
