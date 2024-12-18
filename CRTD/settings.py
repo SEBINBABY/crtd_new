@@ -143,12 +143,12 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 # Razorpay settings
-# RAZORPAY_KEY_ID = 'rzp_test_yjenWj7BiKObYR'
-# RAZORPAY_KEY_SECRET = 'slNkxN7oui0PxepIfCe4AfBk'
+RAZORPAY_KEY_ID = 'rzp_test_yjenWj7BiKObYR'
+RAZORPAY_KEY_SECRET = 'slNkxN7oui0PxepIfCe4AfBk'
 
 # Razorpay settings - CRTD
-RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID')
-RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET')
+# RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID')
+# RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET')
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
