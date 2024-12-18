@@ -93,6 +93,8 @@ def start_question(request, quiz_id, question_id):
         'remaining_time': remaining_time,
         'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
         "visited_questions": request.session["visited_questions"],
+        "user_full_name":user.username,
+        "user_email":user.email,
     })
 
 @user_only
