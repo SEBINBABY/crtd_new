@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passkey</title>
-    <link rel="stylesheet" href="{% static 'css/verify-passkey.css' %}">
+    <link rel="stylesheet" href="{% static 'css/passkey.css' %}">
 </head>
 <body>
   <div class="nav">
@@ -148,19 +148,26 @@
       <input type="text" class="passkeyInput" placeholder="Passkey" />
       <div class="modal-buttons">
         <button class="cancel-btn">Cancel</button>
-        <button id="saveBtn" class="save-btn">Save</button>
+        <form action="{% url 'admin_dashboard:add_passkey' %}" method="POST">
+          {% csrf_token %}
+        <button id="saveBtn" class="save-btn" type="submit">Save</button>
+        </form>
       </div>
     </div>
   </div>
 
   <!-- Edit new passkey -->
+  {% for passkey in passkeys %}
   <div class="edit-modal">
     <div class="modal-content">
       <h3>Edit Passkey</h3>
-      <input type="text" class="passkeyInput" placeholder="Passkey" />
+      <input type="text" class="passkeyInput" placeholder="Passkey" value="{{ passkey.key }}"/>
       <div class="modal-buttons">
         <button class="cancel-btn-edit">Cancel</button>
-        <button id="saveBtnEdit" class="save-btn-edit">Save</button>
+        <form action="{% url 'admin_dashboard:update_passkey' passkey.id %}" method="POST">
+          {% csrf_token %}
+        <button id="saveBtnEdit" class="save-btn-edit" type="submit">Save</button>
+        </form>
       </div>
     </div>
   </div>
@@ -176,15 +183,19 @@
       <!-- Confirmation Text -->
       <div class="modal-body">
         <p class="modal-title">Are you sure you want to delete</p>
-        <p class="modal-item">Passkey ?</p>
+        <p class="modal-item">Passkey {{ passkey.value }}?</p>
       </div>
       <!-- Buttons -->
       <div class="modal-footer">
         <button class="btn delete-cancel-btn">Cancel</button>
-        <button class="btn delete-delete-btn">Delete</button>
+        <form action="{% url 'admin_dashboard:delete_passkey' passkey.id %}" method="POST">
+          {% csrf_token %}
+        <button class="btn delete-delete-btn" type="submit">Delete</button>
+        </form>
       </div>
     </div>
   </div>
+  {% endfor %}
 
   <script>
     const toggleIcon = document.querySelector(".icon");
