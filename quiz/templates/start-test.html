@@ -40,21 +40,23 @@
             {% endif %}
         {% endfor %}
     </div>
+    {% if incomplete_quizzes|length != 0 %}
     <h5>Automatically starting in <span id="timer">10</span> sec</h5>
     <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
         {% csrf_token %}
-        <button>
-            {% if incomplete_quizzes|length == 0 %}
-                Complete
-            {% else %}
-                Start the Test
-            {% endif %}
-        </button>
+        <button>Start Now</button>
     </form>
+    {% else %}
+    <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
+        {% csrf_token %}
+        <button>Test Completed!</button>
+    </form>
+    {% endif %}
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded",() =>{
+
     let timeRemaining = 30;
     const timerElement = document.getElementById("timer");
     function updateTimer() {
@@ -74,7 +76,7 @@ document.addEventListener("DOMContentLoaded",() =>{
     }, 1000);
 
     // Initial call to set up the timer
-    updateTimer();
+updateTimer();
 });
 </script>   
     

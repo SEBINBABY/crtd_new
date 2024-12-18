@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import filtered_users, admin_hr_login,dashboard, filtered_users, question_section, user_list, verify_passkey
+from .views import filtered_users, admin_hr_login,dashboard, filtered_users, question_section, user_list, passkey, add_passkey, update_passkey
+from .views import *
 
 app_name = "admin_dashboard"
 
@@ -8,8 +9,12 @@ urlpatterns = [
     path('admin_hr_login/', admin_hr_login, name='admin_hr_login'),
     path('dashboard/', dashboard, name='dashboard'),
     path('question_section/', question_section, name='question_section'),
+    path('question_list/<int:quiz_id>', question_list, name='question_list'),
     path('user_list/', user_list, name="user_list"),
-    path('verify_passkey/', verify_passkey, name="verify_passkey"),
+    path('passkey/', passkey, name="passkey"),
+    path('add_passkey/', add_passkey, name="add_passkey"),
+    path('update_passkey/<int:passkey_id>/', update_passkey, name="update_passkey"),
+    path('delete_passkey/<int:passkey_id>/', delete_passkey, name="delete_passkey"),
 ]
 
 

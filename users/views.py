@@ -51,15 +51,27 @@ def register_verified(request):
         confirm_password = request.POST.get("confirm_password")
         if password != confirm_password:
             messages.error(request, "Passwords do not match!")
-            return redirect("users:register_verified")
+            return render(request, "register_verified.html", {
+                'full_name': username,
+                'email': email,
+                'contact_number': contact_number
+            })
         # Validate password strength
         password_error = is_valid_password(password)
         if password_error:
             messages.error(request, password_error)
-            return redirect("users:register_verified")
+            return render(request, "register_verified.html", {
+                'full_name': username,
+                'email': email,
+                'contact_number': contact_number
+            })
         if User.objects.filter(email=email).exists():
             messages.error(request, "This Email is already registered!")
-            return redirect("users:register_verified")
+            return render(request, "register_verified.html", {
+                'full_name': username,
+                'email': email,
+                'contact_number': contact_number
+            })
         # Ensure the email has been verified before creating the user
         try:
             otp_instance = OTP.objects.get(email=email)
@@ -76,10 +88,18 @@ def register_verified(request):
                 return render(request, "create_account_success.html")
             else:
                 messages.error(request, "OTP has expired! Please verify email again.")
-                return redirect("users:register_verified")
+                return render(request, "register_verified.html", {
+                'full_name': username,
+                'email': email,
+                'contact_number': contact_number
+            })
         except OTP.DoesNotExist:
             messages.error(request, "Email verification is required!")
-            return redirect("users:register_verified")
+            return render(request, "register_verified.html", {
+                'full_name': username,
+                'email': email,
+                'contact_number': contact_number
+            })
     return render(request, "register_verified.html")
 
 # Login functionality for authentication

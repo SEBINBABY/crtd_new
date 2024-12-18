@@ -10,47 +10,69 @@ html,body{
 .container{
     height: 100vh;
     width: 100%;
+<<<<<<< HEAD
     /* background-color: black; */
+=======
+    background: url("static/images/background.png");
+    display: flex;
+>>>>>>> f352a3d2fffd315bf563b6ad6f80f99fba2377af
 }
-.container .bg{
+.left{
     height: 100%;
-    width: 100%;
-    background-image: url("/static/images/background.png");
-    background-size: cover;
-    z-index: -1;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
 }
 .logo{
-    height: 40vh;
-    width: 50vw;
-    background: url("/static/images/logo.png");
+    height: 40%;
+    width: 90%;
+    background: url("static/images/logo.png");
     background-size: cover;
-    position: absolute;
-    top:0;
-    left: 0;
-    margin-left: -180px;
-    margin-top: -70px;
-    scale: 0.4;
+    scale: 0.5;
+    position: relative;
+    right: 6vw;
+    bottom: 5vh;
 }
-.container .mainImg{
-    height: 60%;
-    width: 30%;
-    background: url("/static/images/mainImg.png");
-    background-size: cover;
-    position: absolute;
-    top: 25%;
-    left: 5%;
+.mainImg{
+    width: 100%; /* Set container width */
+    height: 100%; /* Set container height */
+    overflow: hidden; /* Ensures no overflow */
+    margin-left: 3vw;
+}   
+
+.mainImg img{
+    width: 100%; /* Image takes full container width */
+    height: 100%; /* Image takes full container height */
+    object-fit: cover; /* Ensures image covers the container */
+    object-position: center;
+    scale: 0.8;
+    position: relative;
+    bottom: 4vh;
 }
 .right{
-    height: 85%;
-    width: 50%;
-    background-color: #fff;
-    position: absolute;
-    top: 15%;
-    right: 10%;
+    height: 100%;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    right: 4vw;
+}
+.content{
+    height: 90%;
+    width: 80%;
+    border-radius: 20px;
+    background-color: #ffffffcc;
+    position: relative;
+    top: 5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .text{
     height: 15%;
-    width: 55%;
+    width: 70%;
     position: absolute;
     top : 20%;
     left: 50%;
@@ -64,13 +86,11 @@ html,body{
     color: #fff;
     border-radius: 10px;
 }
-.form{
-    height: 224px;
-    width: 536px;
-    position: absolute;
-    top : 50%;
-    left: 50%;
-    transform:translate(-50%,-50%);
+form{
+    height: 50%;
+    width: 80%;
+    position: relative;
+    top : 7vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -79,15 +99,15 @@ html,body{
     border-radius: 8px;
     padding: 20px;
 }
-.form label{
+form label{
     font-size: 1.2rem;
     margin-bottom: 10px;
     position: relative;
-    left: -50%;
+    left: -40%;
     color: #003B8B;
 }
-.form input{
-    width: 200%;
+form input{
+    width: 180%;
     padding: 10px;
     margin-bottom: 20px;
     border: none;
@@ -95,14 +115,14 @@ html,body{
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     left: -50%;
-    margin-left: 5px;
+    margin-left: 5%;
 }
-.form .input-1{
-    width: 210%;
+form .input-1{
+    width: 190%;
 }
-.form button{
+form button{
     width: 50%;
-    padding: 20px;
+    padding: 15px;
     background-color: #13B3FF;
     color: white;
     border: none;
@@ -111,7 +131,7 @@ html,body{
     margin-top: 60px;
     background: linear-gradient(to right, #13B3FF, #003B8B , #005AD5);
 }
-.form .pass{
+form .pass{
     position: relative;
     left: 2.5%;
 }

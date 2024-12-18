@@ -32,7 +32,7 @@
                     {% for question_id in all_question_ids %}
                         <div class="part1-box box 
                                 {% if question_id in visited_questions %} Marked {% else %} not-Visited {% endif %}" 
-                                id="box-{{ forloop.counter }}">
+                                id="box-{{ question_id }}">
                             {{ forloop.counter }}
                         </div>
                     {% if forloop.counter|divisibleby:5 and not forloop.last %}
@@ -65,7 +65,7 @@
                 <span>demouser@email.com</span>
             </div>
             <div class="timer-3">
-                Time Remaining: <span class="mx-2" id="time_remaining">20:00</span>
+                Time Remaining: <span class="mx-2" id="time_remaining"></span>
             </div>
         </div>
     </div>
@@ -74,7 +74,6 @@
 document.addEventListener("DOMContentLoaded",() =>{
     
     const boxes = document.querySelectorAll('.box');
-    const nextButton = document.getElementById("next--btn");
     const prevButton = document.getElementById("prev--btn");
     const question_ids = JSON.parse('{{all_question_ids}}');
     const curr_id = parseInt('{{question.id}}')
@@ -88,13 +87,20 @@ document.addEventListener("DOMContentLoaded",() =>{
             break;
         }
     }
+    console.log(visitedQuestions)
+    console.log(curr_id)
     boxes.forEach((box) => {
         const boxId = parseInt(box.id.split('-')[1]);
         if (visitedQuestions.includes(boxId)) {
             box.classList.add('Marked');
             box.classList.remove('not-Visited');
+            box.classList.remove('active');
         }
-        if (boxId === curr_id) {
+        console.log("?")
+        console.log(boxId)
+        console.log(curr_id)
+        if (boxId == curr_id) {
+            console.log("?")
             box.classList.add('active');
             box.classList.remove('not-Visited');
             box.classList.remove('Marked');
@@ -104,7 +110,6 @@ document.addEventListener("DOMContentLoaded",() =>{
     prevButton.addEventListener("click", () =>{
         event.preventDefault();
         if(current_index == 0) return
-        console.log(current_index)
         window.location.href = `/quiz/{{quiz.id}}/question/${question_ids[current_index-1]}`;
 
     });
@@ -133,23 +138,25 @@ document.addEventListener("DOMContentLoaded",() =>{
         }
     }
 
+    if(timerElement != null){
     // Update the timer every second
-    setInterval(() => {
-        timeRemaining--; // Decrement the timer
+        setInterval(() => {
+            timeRemaining--; // Decrement the timer
+            updateTimer();
+
+            // Every 5 seconds, sync the timer with the API
+            if (timeRemaining % 5 === 0) {
+                syncTimer();
+            }
+            if(timeRemaining <= 0) {
+                document.getElementById('question_form').submit()
+            }
+        }, 1000);
+
+        // Initial call to set up the timer
+        syncTimer()
         updateTimer();
-
-        // Every 5 seconds, sync the timer with the API
-        if (timeRemaining % 5 === 0) {
-            syncTimer();
-        }
-        if(timeRemaining <= 0) {
-            document.getElementById('question_form').submit()
-        }
-    }, 1000);
-
-    // Initial call to set up the timer
-    syncTimer()
-    updateTimer();
+    }
 });
 </script>   
 

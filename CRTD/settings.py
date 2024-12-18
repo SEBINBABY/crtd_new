@@ -25,9 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)k2xs_9whan7h8u40yuc_n2hua3sh0_sccyrgxbost&#%j3r#l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -121,8 +120,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'staticfiles'),  # Add your static folder path here
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -140,13 +142,19 @@ DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
-# Razorpay settings
+# # Razorpay settings - sebin - test mode
 # RAZORPAY_KEY_ID = 'rzp_test_yjenWj7BiKObYR'
 # RAZORPAY_KEY_SECRET = 'slNkxN7oui0PxepIfCe4AfBk'
 
+# # Razorpay settings - CRTD -  Live mode
+RAZORPAY_KEY_ID = 'rzp_live_ZdmZOfgvq29DVa'
+RAZORPAY_KEY_SECRET = 'Dj2zE18caOfUeMaWtrThuYpf'
+
+
+
 # Razorpay settings - CRTD
-RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID')
-RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET')
+# RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID')
+# RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET')
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
