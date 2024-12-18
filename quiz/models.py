@@ -38,7 +38,7 @@ class Answer(models.Model):
 
 class Result(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="user_results")
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
     score = models.FloatField(null = True, blank = True)

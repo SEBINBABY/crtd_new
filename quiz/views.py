@@ -177,6 +177,8 @@ def finish_test(request):
     Renders the finish test template.
     """
     user = request.user
+    user.is_verified = True
+    user.save()
     for quiz in Quiz.objects.all():
         if not Result.objects.filter(quiz=quiz,user=user).first():
             return redirect('quiz:start_test')
