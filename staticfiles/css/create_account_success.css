@@ -1,0 +1,88 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    
+}
+.box{
+    background: url("/static/images/image.png");
+    /* background-position: center; */
+    background-size: cover;
+    /* background-position: center; */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    width: 100vw;
+}
+.container{
+    height: 507px;
+    width: 700px !important;
+    background-color: #FFFFFF;
+    border-radius: 13px;
+    position: relative;
+    top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 30px 10px 30px;
+}
+.container .opt-img{
+    height: 180px;
+    width: 180px;
+   background: url("/static/images/otp.png");
+   background-size: cover;
+}
+.container h1{
+    font-weight: 600;
+    font-size: 24px;
+    font-family:Arial, Helvetica, sans-serif;
+    /* line-height: 16px; */
+}
+.container p{
+    font-weight: 400;
+    font-size: 14px;
+    color: #808080;
+    /* line-height: 14px; */
+}
+.otp-box{
+    height: 40px;
+    width: 40px;
+    border: 1px solid black;
+    margin-right: 9px;
+    margin-left: 9px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 5px;
+}
+.container-btn{
+    margin-top: 20px;
+    padding: 5px 40px 5px 40px;
+    color: #fff;
+    background: linear-gradient(to right, #13B3FF, #005AD5);
+    border: none;
+    width: 300px;
+    border-radius: 10px;
+}
+.container .congrats-img{
+    height: 251px;
+    width: 251px;
+    background: url("/static/images/congratulations.png");
+    background-size: cover;
+} 
+.congrats-h1{
+    color: #2A2960;
+}
+
+.congrats-p{
+    width: 200px;
+    font-size: 16px;
+}
+.congrats-btn{
+    height: 50px;
+}

@@ -1,0 +1,137 @@
+.containe {
+  
+  align-items: center;
+  padding-left: 100px;
+  
+  text-align: center;
+  justify-content: center;
+  border: none;  
+  box-shadow: none;  
+}
+
+.card {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 900px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;  
+  border-radius: 10px;
+  font-size: 16px;
+  color: #333;
+  border: 1.5px solid #13b3ff;  
+  background-color: #ffffff; 
+  transition: 0.3s ease;  
+}
+
+.item:hover {
+  background: linear-gradient(
+    to right,
+    #13b3ff,
+    #005ad5
+  ); 
+  color: #fff;  
+}
+
+span {
+  margin-right: 40px;
+}
+
+.item p {
+  margin: 0;  
+  font-weight: 600;
+}
+
+.item span {
+  font-weight: 500;
+  color: #333;
+}
+.details-section img {
+  width: 150px;
+}
+.logout {
+  background: linear-gradient(to bottom right, #13b3ff, #005ad5);
+  color: white;
+}
+.col-md-custom {
+  width: calc(3.4 / 12 * 100%);
+}
+.side {
+  margin-left: -13vh;
+}
+.my-div {
+  background: #e1e1e1;
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+  transition: margin-left 0.3s ease-in-out;
+}
+.sidebar {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  height: 85vh;
+  padding: 20px;
+  border-right: 1px solid #dee2e6;
+  position: fixed;
+  left: -250px;
+  top: 100px;
+  bottom: 0;
+  transition: left 0.3s ease-in-out;
+}
+.sidebar.open {
+  left: 0;
+}
+.sidebar h6 {
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.nav-link {
+  color: #212529;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.nav-link img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+.nav-link:hover {
+  background: linear-gradient(to bottom right, #13b3ff, #005ad5);
+}
+.my-div.shifted {
+  margin-left: 250px;
+}
+ 
+.main-content {
+  margin-top: 40px;
+  transition: margin-left 0.3s ease-in-out;
+}
+.main-content.shifted {
+  margin-left: 250px;
+}
+ 
+.question-section {
+  display: none;
+  margin-left: 300px;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.hidden {
+  display: none;
+}
+ 
+#sidebar {
+  transition: all 0.3s;
+}
+.main-content.shifted {
+  margin-left: 0;
+}

@@ -1,0 +1,108 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    padding: 0;
+}
+.box{
+    height: 100vh;
+    width: 100%;
+    /* background-color: black; */
+    display: flex;
+    flex-direction: column;
+    /* opacity: 0.5; */
+    background-color: rgba(0, 0, 0, 0.473);
+}
+.upper-section{
+    height: 17%;
+    width: 100%;
+    /* background-color: beige; */
+    display: flex;
+    justify-content: space-between;
+}
+.payment-logo{
+    height: 100%;
+    width: 20%;
+    /* background-color: aqua; */
+    background: url("/static/images/image_1.png");
+    background-size: cover;
+    position: relative;
+    left: 2%;
+    top: 10%;
+}
+.payment-head{
+    height: 100%;
+    /* width: 25%; */
+    /* background-color: pink; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #003B8B;
+    font-size: 22px;
+}
+.payment-account{
+    height: 100%;
+    width: 15%;
+    /* background-color: pink; */
+    line-height: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+}
+.payment-account h6{
+    font-size: 16px;
+    font-weight: 600;
+    color:#003B8B;
+}
+.payment-account span{
+    font-size: 14px;
+    opacity: 0.8;
+}
+.payment-content{
+    height: 74%;
+    width: 47%;
+    background-color: white;
+    position: relative;
+    top: -2%;
+    left: 28%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 20px 20px;
+}
+.payment-content strong {
+    color: #003B8B;
+}
+.payment-content p{
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.567);
+}
+.content-check{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 24%;
+}
+.content-check input{
+    height: 60px;
+    width: 15%;
+    border-image-slice: 1;
+    /* border: none; */
+    border-color: linear-gradient(to right, #13B3FF, #005AD5);
+}
+.continue-btn{
+    border: none;
+    height: 120%;
+    width: 25%;
+    padding: 5px 10px 5px 10px;
+    color: white;
+    border-radius: 10px;
+    background:  linear-gradient(to right, #13B3FF, #005AD5);
+    position: relative;
+    left: 38%;
+    opacity: 0.5;
+}
