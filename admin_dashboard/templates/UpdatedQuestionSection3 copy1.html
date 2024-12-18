@@ -558,19 +558,28 @@
           questionSection.style.display =
             questionSection.style.display === "none" ? "block" : "none";
         });
-      const editButton = document.getElementById("edit-button");
-      const editContent = document.getElementById("edit-content");
-      const full = document.querySelector(".full");
-      editButton.addEventListener("click", function () {
-        if (editContent.classList.contains("hidden")) {
-          editContent.classList.remove("hidden");
-          editContent.classList.add("visible");
-          
-        } else {
-          editContent.classList.remove("visible");
-          editContent.classList.add("hidden");
-        }
-      });
+    
+    
+         
+     
+        document.querySelectorAll("#edit-button").forEach(button => {
+  button.addEventListener("click", function () {
+    // Add your desired functionality here.
+    
+    // You can also manipulate or show a modal or overlay:
+    document.getElementById("edit-content").style.display = "block";
+  });
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
       function closePopup() {
         document.getElementById("edit-content").style.display = "none";
       }
