@@ -15,7 +15,12 @@
             <div class="instruct-logo"></div>
             <div class="instruct-img"></div>
         </div>
+        
         <div class="instruct-right">
+            <div class="imp-account automate-account instruct-account">
+                <h6>{{user_full_name}}</h6>
+                <p>{{user_email}}</p>
+            </div>
             <div class="instruction">
                 <h1>Read the instructions carefully before proceeding further.</h1>
                 <ul>
@@ -61,8 +66,8 @@
         {% for quiz in quizzes %}
         <div class="content-box">
             <h6>{{quiz.id}}. {{quiz.name}}</h6>
-            <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
-            <h6>{{quiz.number_of_questions}} questions</h6>
+            <p class="mid-minutes"><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
+            <h6 class="end-question">{{quiz.number_of_questions}} questions</h6>
         </div>
         {% endfor %}
     </div>
@@ -106,9 +111,9 @@
                 </ul>
             </div>
             <div class="imp-check"><input type="checkbox" id="is_checked"/> <span>Please check this box if you have read Instructions</span></div>
-            <form action="{% url 'quiz:start_test' %}" method="POST">
+            <form id="submit-form" action="{% url 'quiz:start_test' %}" method="POST">
                 {% csrf_token %}    
-                <button class=" imp-instruct-btn" type="submit">Start the Test</button>
+                <button class="imp-instruct-btn" id="submit-btn" type="button">Start the Test</button>
             </form>
         </div>
     </div>
@@ -116,8 +121,6 @@
     <script>
         let instructBtn = document.getElementById("instructBtn");
         let automateBtn = document.getElementById("automateBtn");
-        let impBtn = document.getElementById("impBtn");
-        let is_Checked = document.getElementById("is_checked");
 
         let section1 = document.getElementById("section-1");
         let section3 = document.getElementById("section-3");
@@ -130,10 +133,14 @@
             section3.scrollIntoView({ behavior: 'smooth' });        
         });
 
-        impBtn.addEventListener('click', () => {   
-            event.preventDefault();
+        let is_Checked = document.getElementById("is_checked");
+        let impInstructBtn = document.getElementById("submit-btn");
+        let submitForm = document.getElementById("submit-form");
+
+        impInstructBtn.addEventListener('click', () => {   
             if(is_Checked.checked){
                 window.location.href = "http://127.0.0.1:8000/start-test/";
+                document.getElementById("submit-form").submit();
             }
         });
 

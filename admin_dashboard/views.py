@@ -9,6 +9,7 @@ from quiz.models import Quiz,Question,Answer
 from .utils import role_required
 from users.models import Passkey
 from .models import Amount
+import datetime
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
 def dashboard(request):
@@ -30,6 +31,25 @@ def dashboard(request):
             "title": title,
         }
     return render(request, 'dashboard.html', context)
+
+
+def dashboard_home(request):
+    total_users = User.objects.count()
+    today_users = User.objects.filter(created_at__date = datetime.date.today()).count()
+    total_submitted_users = User.objects.filter(is_verified = True).count()
+    today_submitted_users = User.objects.filter(is_verified = True,created_at__date = datetime.date.today()).count()
+    total_not_submitted_users = total_users - total_submitted_users
+    today_not_submitted_users = today_users - today_submitted_users
+    return render(request, 'AccountCreated.html', 
+                  {'user':request.user,
+                   'total_users': total_users,
+                   'today_users': today_users,
+                   'total_submitted_users': total_submitted_users,
+                   'today_submitted_users': today_submitted_users,
+                   'total_not_submitted_users': total_not_submitted_users,
+                   'today_not_submitted_users': today_not_submitted_users})
+                   
+
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
 def filtered_users(request, status):
@@ -69,7 +89,7 @@ def admin_hr_login(request):
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_section(request):
-    return render(request, "UpdatedQuestionSection3.html",
+    return render(request, "UpdatedQuestionSection.html",
                   {"user":request.user,
                    "quizzes":Quiz.objects.all()})
 

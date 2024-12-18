@@ -10,8 +10,12 @@ html,body{
 .container{
     height: 100vh;
     width: 100%;
+<<<<<<< HEAD
+    /* background-color: black; */
+=======
     background: url("static/images/background.png");
     display: flex;
+>>>>>>> f352a3d2fffd315bf563b6ad6f80f99fba2377af
 }
 .left{
     height: 100%;

@@ -144,6 +144,9 @@ def send_email_verification_otp(request):
         # Save or update the OTP
         OTP.objects.create(email=email, full_name=username, otp_code=otp_code)
         # Send OTP email
+        # Split OTP into individual characters
+        # otp_digits = list(str(otp_code))  # ['2', '4', '6', '8']
+        # context = {"otp_digits": otp_digits, "name":username}
         context = {"otp_code": otp_code, "name":username}
         email_subject = "Email Verification Code"
         email_body = render_to_string("email_message.txt", context)

@@ -36,12 +36,13 @@ body{
 }
 .box-1-logo{
     height: 15%;
-    width: 70%;
+    width: 72%;
     /* background-color: beige; */
     background: url("/static/images/image_1.png");
     background-size: cover;
     position: relative;
     left: -10%;
+    scale: 0.9;
 }
 .box-1-content{
     width: 75%;

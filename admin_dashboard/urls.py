@@ -8,6 +8,7 @@ urlpatterns = [
     path('users/<str:status>/', filtered_users, name='filtered_users'),
     path('admin_hr_login/', admin_hr_login, name='admin_hr_login'),
     path('dashboard/', dashboard, name='dashboard'),
+    path('dashboard_home/', dashboard_home, name='dashboard_home'),
     path('question_section/', question_section, name='question_section'),
     path('question_list/<int:quiz_id>', question_list, name='question_list'),
     path('user_list/', user_list, name="user_list"),
