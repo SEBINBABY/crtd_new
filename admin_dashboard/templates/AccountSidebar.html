@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -48,7 +47,6 @@
 
     <main class="container-fluid my-2 main-content">
       <div class="row">
-        
         <aside id="sidebar" class="col-md-3 col-lg-2 sidebar open">
           <h5 class="mb-4">SuperAdmin</h5>
           <a href="#" class="nav-link mb-3"> Open dashboard </a>
@@ -77,8 +75,7 @@
           </a>
         </aside>
 
-         
-        <div class="col-md-9 col-lg-9">
+        <div class="col-md-9 col-lg-11">
           <div
             class="d-flex flex-column align-items-center justify-content-start"
             style="position: absolute; top: 140px; left: 100px"
@@ -91,10 +88,54 @@
                 style="scale: 0.5"
               />
             </div>
+            <div
+              style="margin-top: 210px; margin-left: -95px"
+              class="select hidden"
+            >
+              <div class="mb-2 mt-4">
+                <img
+                  src="/static/images/image copy.png"
+                  alt="Icon 2"
+                  class="img-fluid"
+                  style="width: 25px; height: auto"
+                />
+              </div>
+              <div class="mb-2 mt-4">
+                <img
+                  src="/static/images/3.png"
+                  alt="Icon 3"
+                  class="img-fluid"
+                  style="width: 25px; height: auto"
+                />
+              </div>
+              <div class="mb-1 mt-4">
+                <img
+                  src="/static/images/4.png"
+                  alt="Icon 4"
+                  class="img-fluid"
+                  style="width: 25px; height: auto"
+                />
+              </div>
+              <div class="mb-1 mt-4">
+                <img
+                  src="/static/images/5.png"
+                  alt="Icon 5"
+                  class="img-fluid"
+                  style="width: 25px; height: auto; cursor: pointer"
+                />
+              </div>
+              <div class="mb-1 mt-4">
+                <img
+                  src="/static/images/6.png"
+                  alt="Icon 6"
+                  class="img-fluid"
+                  style="width: 25px; height: auto"
+                />
+              </div>
+            </div>
           </div>
 
-         
-          <section class="mb-5" style="margin-left: 350px">
+          <section class="mb-5" style="margin-left: 370px">
             <div class="row g-4">
               <div class="col-md-custom">
                 <div class="stat-card">
@@ -144,10 +185,10 @@
 
           <section
             class="text-center shadow custom-width"
-            style="margin-left: 350px"
+            style="margin-left: 370px"
           >
             <img
-              src="images/image.png"
+              src="/static/images/image.png"
               alt="Illustration"
               style="height: 250px"
             />
@@ -164,11 +205,17 @@
           const sidebar = document.getElementById("sidebar");
           const mainContent = document.querySelector(".main-content");
           const myDiv = document.querySelector(".my-div");
+          const select = document.querySelector(".select");
 
-          
           sidebar.classList.toggle("open");
           mainContent.classList.toggle("shifted");
           myDiv.classList.toggle("shifted");
+
+          if (sidebar.classList.contains("open")) {
+            select.classList.add("hidden");
+          } else {
+            select.classList.remove("hidden");
+          }
         });
     </script>
 
