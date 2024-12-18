@@ -46,4 +46,4 @@ class Result(models.Model):
     is_passed = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.pk)
+        return f"${self.user}'s result for ${self.quiz}"
