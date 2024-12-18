@@ -8,7 +8,7 @@ body{
     padding: 0;
     display: flex;
     flex-direction: column;
-    
+    overflow: hidden;
 }
 .instruction-box{
     height: 100%;
@@ -25,17 +25,17 @@ body{
     width: 65%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: space-around; */
     align-items: center;
 }
-.instruct-logo{
-    height: 15%;
+.instruct-left .instruct-logo{
+    height: 19%;
     width: 70%;
     background: url("/static/images/image_1.png");
     background-size: cover ;
     position: relative;
-    top: 40px;
-    left: 39px;
+    top: 10px;
+    scale: 0.78;
 }
 .instruct-img{
     height: 60%;
@@ -46,12 +46,18 @@ body{
     top: 90px;
     left: 40px;
 }
+.instruct-account{
+    position: relative;
+    left: 36%;
+    top: 15px !important;
+}
 .instruction{
     height: 75%;
     width: 75%;
     background-color: #D0EDFF;
     position: relative;
     left: -30px;
+    top: -30px;
     border-radius: 14px;
     padding: 15px;
 }
@@ -76,7 +82,9 @@ body{
     border-radius: 10px;
     color: white;
     position: relative;
-    top: 40px;
+    /* top: 40px; */
+    top: -10px;
+    left: -5%;
     padding: 5px 15px 5px 15px;
     
 }
@@ -135,9 +143,19 @@ justify-content: space-between;
     border: 0.45px solid #13B3FF;
     /* text-align: center; */
 }
+.automate-content-box .content-box .mid-minutes{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.content-box .end-question{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
 .content-box p{
     position: relative;
-    top: 5%;
+    top: 12%;
 }
 .content-box h6{
     width: 25%;
@@ -244,11 +262,15 @@ justify-content: space-between;
     font-weight: 600;
     font-size: 18px;
     color: #000000;
+    position: relative;
+    top: -20px;
 }
 .imp-check input{
     height: 25px;
     width: 25px;
     margin-right: 10px;
+    position: relative;
+    top: -20px;
 }
 .imp-instruct-btn{
     position: relative;
@@ -260,6 +282,6 @@ justify-content: space-between;
     border-radius: 10px;
     color: white;
     position: relative;
-    top: 40px;
+    /* top: 10px; */
     padding: 5px 15px 5px 15px;
 }
