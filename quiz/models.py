@@ -10,6 +10,15 @@ class Quiz(models.Model):
     def __str__(self):
         return f"{self.name}"
     
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "number_of_questions": self.number_of_questions,
+            "time": self.time,
+            "score_to_pass": self.score_to_pass
+        }
+    
     class Meta:
         verbose_name_plural = 'Quizes'
 
@@ -34,6 +43,14 @@ class Answer(models.Model):
 
     def __str__(self):
         return f"question: {self.question.question_text}, answer: {self.answer_text}, correct: {self.is_correct}"
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'answer_text': self.answer_text,
+            'is_correct': self.is_correct,
+            'question': self.question.id,
+        }
     
 
 class Result(models.Model):

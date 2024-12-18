@@ -32,7 +32,6 @@ def dashboard(request):
         }
     return render(request, 'dashboard.html', context)
 
-
 def dashboard_home(request):
     total_users = User.objects.count()
     today_users = User.objects.filter(created_at__date = datetime.date.today()).count()
@@ -40,7 +39,7 @@ def dashboard_home(request):
     today_submitted_users = User.objects.filter(is_verified = True,created_at__date = datetime.date.today()).count()
     total_not_submitted_users = total_users - total_submitted_users
     today_not_submitted_users = today_users - today_submitted_users
-    return render(request, 'AccountCreated.html', 
+    return render(request, 'AccountSidebar.html', 
                   {'user':request.user,
                    'total_users': total_users,
                    'today_users': today_users,
@@ -48,7 +47,29 @@ def dashboard_home(request):
                    'today_submitted_users': today_submitted_users,
                    'total_not_submitted_users': total_not_submitted_users,
                    'today_not_submitted_users': today_not_submitted_users})
-                   
+
+def get_user_results(request,user_id):
+    requested_user = get_object_or_404(User,id=user_id)
+
+    correct_answer_counts = {}
+    user_results = requested_user.user_results.all()
+    for result in user_results:
+        correct_answer_count = 0
+        quiz_id = result.quiz.id
+        for answer_id in result.user_answers.values():
+            answer = get_object_or_404(Answer,id=answer_id)
+            if correct_answer_counts.get(str(quiz_id),None) is None:
+                correct_answer_counts[str(quiz_id)] = 0
+            if answer.is_correct:            
+                correct_answer_count += 1
+        correct_answer_counts[str(quiz_id)] = correct_answer_count
+    
+    return JsonResponse({'requested_user_name':requested_user.username,
+                         'correct_answer_counts':correct_answer_counts,
+                         'quizzes': list(map(Quiz.serialize,Quiz.objects.all())),
+                         'total_quizzes': Quiz.objects.count(),
+                         })
+
 
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
@@ -89,7 +110,7 @@ def admin_hr_login(request):
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_section(request):
-    return render(request, "UpdatedQuestionSection.html",
+    return render(request, "UpdatedQuestionSection3 copy1.html",
                   {"user":request.user,
                    "quizzes":Quiz.objects.all()})
 
