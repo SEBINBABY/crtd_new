@@ -9,21 +9,14 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{% static 'css/UpdatedQuestionSection3.css' %}" />
-    <style>
-      .hidden {
-        display: none;
-      }
-
-      
-      #sidebar {
-        transition: all 0.3s;
-      }
-
-      .main-content.shifted {
-        margin-left: 0;
-      }
-    </style>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href=" {% static 'css/UpdatedQuestionSection3.css %}" />
+   
+    
+    
   </head>
 
   <body>
@@ -53,7 +46,7 @@
             style="width: 40px; height: 40px"
           />
           <div class="d-flex flex-column">
-            <h6>{{user.username}}</h6>
+            <h6>SuperAdmin</h6>
             <button class="btn btn-sm logout mt-1">Log Out</button>
           </div>
         </div>
@@ -63,27 +56,46 @@
     <main class="container-fluid my-2 main-content">
       <div class="row">
         <aside id="sidebar" class="col-md-3 col-lg-2 sidebar">
-          <h5 class="mb-4">{{user.username}}</h5>
+          <h5 class="mb-4">SuperAdmin</h5>
           <a href="#" class="nav-link mb-3"> Open dashboard </a>
-          <h6 style="color: black; opacity: 40%; font-weight: 500">Favorites</h6>
+          <h6 style="color: black; opacity: 40%; font-weight: 500">
+            Favorites
+          </h6>
           <a href="#" class="nav-link active">• Total Account Created</a>
           <a href="#" class="nav-link active">• Not Submitted</a>
           <h6 style="color: black; opacity: 40%; font-weight: 500">
             Dashboards
           </h6>
-          <a href="{% url 'admin_dashboard:filtered_users' 'all' %}" class="nav-link">
-            <img src="/static/images/image copy.png" alt="" /> Total Account Created
+          <a
+            href="{% url 'admin_dashboard:filtered_users' 'all' %}"
+            class="nav-link"
+          >
+            <img src="/static/images/image copy.png" alt="" /> Total Account
+            Created
           </a>
-          <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}" class="nav-link">
+          <a
+            href="{% url 'admin_dashboard:filtered_users' 'submitted' %}"
+            class="nav-link"
+          >
             <img src="/static/images/3.png" /> Total Submitted
           </a>
-          <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}" class="nav-link">
+          <a
+            href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}"
+            class="nav-link"
+          >
             <img src="/static/images/4.png" alt="" /> Not Submitted
           </a>
-          <a href="{% url 'admin_dashboard:question_section' %}" class="nav-link">
+          <a
+            href="{% url 'admin_dashboard:question_section' %}"
+            class="nav-link"
+          >
             <img src="/static/images/5.png" alt="" />Passkey
           </a>
-          <a href="{% url 'admin_dashboard:question_section' %}" class="nav-link" id="questionSectionLink">
+          <a
+            href="{% url 'admin_dashboard:question_section' %}"
+            class="nav-link"
+            id="questionSectionLink"
+          >
             <img src="/static/images/6.png" alt="" /> Question Section
           </a>
         </aside>
@@ -146,32 +158,394 @@
           </div>
 
           <div class="container">
-            <div class="question-section" id="questionSectionContent" style="display: block;">
+            <div
+              class="question-section"
+              id="questionSectionContent"
+              style="display: block"
+            >
               <div class="card">
-                {% for quiz in quizzes %}
-                <a href="{% url 'admin_dashboard:question_list' quiz.id %}">
-                  <div class="item">
-                    <p id="{{quiz.id}}">{{forloop.counter}}. {{quiz.name}}</p>
-                    <span>{{quiz.quiz_questions.all|length}}/{{quiz.number_of_questions}}</span>
+                <div class="item" id="item">
+                  <p id="1">1. Basic programming</p>
+                </div>
+                <div class="item" id="item">
+                  <p>2. Front-End Logic</p>
+                </div>
+                <div class="item" id="item">
+                  <p>3. Back-End Logic</p>
+                </div>
+                <div class="item" id="item">
+                  <p>4. Database Concepts</p>
+                </div>
+                <div class="item" id="item">
+                  <p>5. QA Testing</p>
+                </div>
+                <div class="item" id="item">
+                  <p>6. Payment Gateway Analysis</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="containe up" id="default-content">
+              <div class="d-flex justify-content-end mb-3">
+                <button
+                  class="btn btn-add"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addQuestionModal"
+                >
+                  <i
+                    class="fas fa-plus"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addQuestionModal"
+                  ></i>
+                  Add New Question
+                </button>
+              </div>
+              <table class="table" style="background-color: #f9fafc">
+                <thead
+                  style="
+                    background: linear-gradient(
+                      to bottom,
+                      #99a0ff80,
+                      #9cf5ff80
+                    );
+                  "
+                >
+                  <tr class="grey">
+                    <th scope="col">S.No</th>
+                    <th scope="col">
+                      Question List <span class="badge text-secondary">15</span>
+                    </th>
+                    <th scope="col" class=" ">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1.</td>
+                    <td>
+                      Which of the following is a valid variable name in Python?
+                    </td>
+                    <td class="text-left action-icons">
+                      <i
+                        class="fas fa-trash"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteModal"
+                      ></i>
+                      <i class="fas fa-edit" id="edit-button"></i>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2.</td>
+                    <td>
+                      Which of the following is a valid variable name in Python?
+                    </td>
+                    <td class="text-left action-icons">
+                      <i
+                        class="fas fa-trash"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteModal"
+                      ></i>
+                      <i class="fas fa-edit" id="edit-button"></i>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2.</td>
+                    <td>
+                      Which of the following is a valid variable name in Python?
+                    </td>
+                    <td class="text-left action-icons">
+                      <i
+                        class="fas fa-trash"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteModal"
+                      ></i>
+                      <i class="fas fa-edit" id="edit-button"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="overlay" id="edit-content">
+              <div
+                class="modal-content1"
+                style="
+                  text-align: center;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <h3 class="text-center mb-4" style="color: #003b8b">
+                  Edit Question
+                </h3>
+                <p class="question-title">
+                  Q1
+                  <a href="#" class="fw-bold" style="color: #494949"
+                    >Which of the following is a valid variable name in
+                    Python?</a
+                  >
+                </p>
+
+                <form>
+                  <div class="form-check mb-3">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="variable"
+                      id="option1"
+                    />
+                    <label class="form-check-label" for="option1">
+                      <input
+                        type="text"
+                        class="form-control"
+                        value="123var"
+                        disabled
+                        style="background-color: white"
+                      />
+                    </label>
                   </div>
-                </a>
-                {% endfor %}
+
+                  <div class="form-check mb-3">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="variable"
+                      id="option2"
+                      checked
+                    />
+                    <label class="form-check-label selected" for="option2">
+                      <input
+                        type="text"
+                        class="form-control fw-bold"
+                        value="_myVariable"
+                        disabled
+                        style="background-color: white"
+                      />
+                    </label>
+                  </div>
+
+                  <div class="form-check mb-3">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="variable"
+                      id="option3"
+                    />
+                    <label class="form-check-label" for="option3">
+                      <input
+                        type="text"
+                        class="form-control"
+                        value="my-variable"
+                        disabled
+                        style="background-color: white"
+                      />
+                    </label>
+                  </div>
+
+                  <div class="form-check mb-4">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="variable"
+                      id="option4"
+                    />
+                    <label class="form-check-label" for="option4">
+                      <input
+                        type="text"
+                        class="form-control"
+                        value="if"
+                        disabled
+                        style="background-color: white"
+                      />
+                    </label>
+                  </div>
+
+                  <div class="d-flex justify-content-between w-100">
+                    <button
+                      type="button"
+                      class="btn btn-cancel me-3 px-4"
+                      onclick="closePopup()"
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" class="btn btn-save px-5 ml-5">
+                      Save
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div
+              class="modal fade"
+              id="addQuestionModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content px-4 py-3">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Add New Question
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <p class="mb-4">Add Your Question Here</p>
+                    <form>
+                      <div class="mb-3 row">
+                        <div class="col-1 d-flex justify-content-center">
+                          <input
+                            type="radio"
+                            name="option"
+                            class="form-check-input1"
+                          />
+                        </div>
+                        <div class="col-11">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Option1"
+                          />
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <div class="col-1 d-flex justify-content-center">
+                          <input
+                            type="radio"
+                            name="option"
+                            class="form-check-input1"
+                          />
+                        </div>
+                        <div class="col-11">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Option2"
+                          />
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <div class="col-1 d-flex justify-content-center">
+                          <input
+                            type="radio"
+                            name="option"
+                            class="form-check-input1"
+                          />
+                        </div>
+                        <div class="col-11">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Option3"
+                          />
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <div class="col-1 d-flex justify-content-center">
+                          <input
+                            type="radio"
+                            name="option"
+                            class="form-check-input1"
+                          />
+                        </div>
+                        <div class="col-11">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Option4"
+                          />
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer border-0 justify-content-center">
+                    <button
+                      type="button"
+                      class="btn btn-cancel me-3"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <button type="button" class="btn btn-save">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="modal fade"
+              id="deleteModal"
+              tabindex="-1"
+              aria-labelledby="deleteModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header border-0">
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <img src="images/Delete.png" alt="Delete Image" />
+                    <h5
+                      class="modal-title2 mb-3"
+                      id="deleteModalLabel"
+                      style="color: #003b8b"
+                    >
+                      Are you sure you want to delete profile?
+                    </h5>
+                  </div>
+                  <div class="modal-footer border-0">
+                    <button
+                      type="button"
+                      class="btn btn-cancel1"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                      Delete
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </main>
-
     <script>
+      const container = document.querySelector(".question-section");
+
+      const containe = document.querySelector(".containe");
+      const defaultContent = document.getElementById("default-content");
+
+      const items = document.querySelectorAll("#item");
+
+      items.forEach((item) => {
+        item.addEventListener("click", () => {
+          containe.style.display = "block";
+          container.style.display = "none";
+        });
+      });
+
       document
         .getElementById("sidebarToggleBtn")
         .addEventListener("click", function () {
           document.getElementById("sidebar").classList.toggle("open");
           document.querySelector(".main-content").classList.toggle("shifted");
           document.querySelector(".my-div").classList.toggle("shifted");
+          document.querySelector(".containe").classList.toggle("shifted");
 
-          
           document.querySelector(".select").classList.toggle("hidden");
         });
 
@@ -184,10 +558,22 @@
           questionSection.style.display =
             questionSection.style.display === "none" ? "block" : "none";
         });
-
-      document.getElementById("1").addEventListener("click", function () {
-        window.location.href = "Add.Html";
+      const editButton = document.getElementById("edit-button");
+      const editContent = document.getElementById("edit-content");
+      const full = document.querySelector(".full");
+      editButton.addEventListener("click", function () {
+        if (editContent.classList.contains("hidden")) {
+          editContent.classList.remove("hidden");
+          editContent.classList.add("visible");
+          
+        } else {
+          editContent.classList.remove("visible");
+          editContent.classList.add("hidden");
+        }
       });
+      function closePopup() {
+        document.getElementById("edit-content").style.display = "none";
+      }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
