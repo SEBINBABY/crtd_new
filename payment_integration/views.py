@@ -102,7 +102,7 @@ def handle_request(request):
             try:
                 client.payment.capture(razorpay_payment_id, amount)
                 print("Payment captured successfully.")
-                payment_obj.status = "Successful"
+                payment_obj.status = "successful"
                 payment_obj.save()
                 email = request.user.email
                 print(email)
