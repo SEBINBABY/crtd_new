@@ -17,7 +17,6 @@ def list_quizzes(request):
     Display all quizzes for logged-in users.
     """
     quizzes = Quiz.objects.all()
-    print(quizzes)
     user = request.user
     if quizzes.exists():
         return render(request, "instruction.html", {

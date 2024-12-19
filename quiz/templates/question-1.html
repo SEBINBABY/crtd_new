@@ -141,7 +141,9 @@ document.addEventListener("DOMContentLoaded",() =>{
     if(timerElement != null){
     // Update the timer every second
         setInterval(() => {
-            timeRemaining--; // Decrement the timer
+            if(timeRemaining>0){
+                timeRemaining--; // Decrement the timer
+            }
             updateTimer();
 
             // Every 5 seconds, sync the timer with the API

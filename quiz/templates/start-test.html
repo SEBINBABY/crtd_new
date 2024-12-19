@@ -67,7 +67,9 @@ document.addEventListener("DOMContentLoaded",() =>{
 
     // Update the timer every second
     setInterval(() => {
-        timeRemaining--; // Decrement the timer
+        if(timeRemaining>0){
+            timeRemaining--; // Decrement the timer
+        }
         updateTimer();
 
         if(timeRemaining <= 0) {
