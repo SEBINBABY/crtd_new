@@ -27,14 +27,15 @@ body {
     align-items: center;
 }
 .left-logo{
-    height: 17%;
-    width: 60%;
+    height: 18%;
+    width: 62%;
     /* background-color: blue; */
     background: url("../images/image_1.png");
     background-size: cover;
     position: relative;
     left: 5%;
     top: 3%;
+    scale: 0.85;
 }
 .left-img{
     height: 60%;
