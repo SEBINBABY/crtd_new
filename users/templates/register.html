@@ -18,16 +18,18 @@
         <div class="box-right">
             <div class="content-box">
                 <h2>Create Account</h2>
-                <div class="content-input">
+                 <div class="msg-container">
                     {% if messages %}
-                        <div class="messages mt-3">
+                    <div class="messages mt-3">
                         {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                        </div>
-                        {% endfor %}
-                        </div>
+                    <div class="alertt alertt-{{ message.tags }}">
+                    {{ message }}
+                    </div>
+                    {% endfor %}
+                    </div>
                     {% endif %}
+                 </div>
+                <div class="content-input">
                     <form action="{% url 'users:send_email_verification_otp' %}" method="POST">
                         {% csrf_token %}
                     <label for="" class="form-label">Full name*</label>
