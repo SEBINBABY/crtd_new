@@ -25,7 +25,7 @@
             </div>
         {% endfor %}
         {% for quiz in incomplete_quizzes %}
-            {% if loop.first %}
+            {% if forloop.first %}
             <div class="content-box">
                 <h6> NEXT : {{quiz.name}}</h6>
                 <p>20 minutes</p>
