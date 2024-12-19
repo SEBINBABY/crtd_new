@@ -65,7 +65,7 @@
     <div class="automate-content-box">
         {% for quiz in quizzes %}
         <div class="content-box">
-            <h6>{{quiz.id}}. {{quiz.name}}</h6>
+            <h6>{{forloop.counter}}. {{quiz.name}}</h6>
             <p class="mid-minutes"><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
             <h6 class="end-question">{{quiz.number_of_questions}} questions</h6>
         </div>
