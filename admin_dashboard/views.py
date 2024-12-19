@@ -226,25 +226,36 @@ def passkey(request):   # Once user click Passkey Section
 
 def add_passkey(request):  # For Save button in Add Passkey Modal
     if request.method == "POST":
-        key_value = request.POST.get("key", "CRTD@2025")  # Default if not provided    
+        key_value = request.POST.get("key")      
         passkey = Passkey.objects.create(key=key_value, is_active=True)
         messages.success(request, f"Passkey '{passkey.key}' added successfully!") 
-    return render(request, "passkey.html")  # Render a form template  
+        return redirect("admin_dashboard:passkey") 
+    passkeys = Passkey.objects.all()
+    return render(request, "passkey.html", {"passkeys": passkeys})
+  
 
 # For Edit button in Passkey Modal
 def update_passkey(request, passkey_id):
-    if request.method == "POST":
-        key_value = request.POST.get("key", "CRTD@2025")  # Get key from request or use default
-        # Update the passkey instance with new key and set is_active=True
-        Passkey.objects.filter(id=passkey_id).update(key=key_value, is_active=True)
-        messages.success(request, f"Passkey '{passkey.key}' added successfully!") 
     passkey = get_object_or_404(Passkey, id=passkey_id)
-    return render(request, "passkey.html", {"passkey": passkey})
+    if request.method == "POST":
+        key_value = request.POST.get("key")
+        if key_value:
+            passkey.key = key_value
+            passkey.is_active = True  # Optional: Update other fields if needed
+            passkey.save()
+            messages.success(request, "Passkey updated successfully!")
+        else:
+            messages.error(request, "Passkey cannot be empty.")
+        return redirect("admin_dashboard:passkey")
+    passkeys = Passkey.objects.all()
+    return render(request, "passkey.html", {"passkeys": passkeys})
+
 
 def delete_passkey(request, passkey_id):
-    key_value = Passkey.objects.filter(id=passkey_id)
-    key_value.delete()
-    return redirect("admin_dashboard:passkey")
+    if request.method == "POST":
+        passkey = get_object_or_404(Passkey, id=passkey_id)
+        passkey.delete()
+        return redirect('admin_dashboard:passkey')  
 
     """
     <form method="post" action="{% url 'delete_passkey' passkey.id %}">
