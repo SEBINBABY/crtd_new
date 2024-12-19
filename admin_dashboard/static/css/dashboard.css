@@ -220,10 +220,7 @@ html,body{
 }
 
 .sidebar {
-  display: flex;
-  flex-direction: column;
   background-color: white;
-  align-items: center;
   padding-top: 20px;
 }
 
@@ -470,7 +467,7 @@ border-radius: 5px;
 .sidebar {
 position: absolute;
 top: 20%;
-left: -100vw; /* Initially hidden */
+left: -100vw; 
 width: 20vw;
 height: 80vh;
 background-color: #ffffff;
@@ -487,17 +484,18 @@ left: 0; /* Show sidebar */
 /* Sidebar Title */
 .sidebar-title {
 font-size: 18px;
-font-weight: bold;
+font-weight: 200;
 margin-bottom: 20px;
 color: #333333;
 }
 
 /* Open Dashboard Button */
 .open-dashboard {
-display: block;
+display: flex;
+justify-content: flex-start;
 width: 100%;
 padding: 10px 15px;
-font-size: 14px;
+font-size: 18px;
 color: white;
 background-color: #007bff;
 border: none;
@@ -527,6 +525,7 @@ padding-left: 0;
 }
 
 .sidebar-list li{
+  padding-left: 10px;
 margin-bottom: 20px;
 }
 
