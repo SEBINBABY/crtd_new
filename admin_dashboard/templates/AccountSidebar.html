@@ -148,41 +148,51 @@
                 </a>
               </div>
               <div class="col-md-custom">
-                <div class="stat-card">
-                  <h6>Total Submitted</h6>
-                  <h2>{{total_submitted_users}}/{{total_users}}</h2>
-                </div>
+                <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}" style="text-decoration: none; color:black" >
+                  <div class="stat-card">
+                    <h6>Total Submitted</h6>
+                    <h2>{{total_submitted_users}}/{{total_users}}</h2>
+                  </div>
+                </a>
               </div>
               <div class="col-md-custom">
-                <div class="stat-card">
-                  <h6>Not Submitted</h6>
-                  <h2>{{total_not_submitted_users}}/{{total_users}}</h2>
-                </div>
+                <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}" style="text-decoration: none; color:black" >
+                  <div class="stat-card">
+                    <h6>Not Submitted</h6>
+                    <h2>{{total_not_submitted_users}}/{{total_users}}</h2>
+                  </div>
+                </a>
               </div>
             </div>
-
+            
             <div class="container my-2">
               <div class="line-with-text">Today</div>
             </div>
-
+            
             <div class="row g-4">
               <div class="col-md-custom">
-                <div class="stat-card">
-                  <h6>Total Account Created</h6>
-                  <h2>{{today_users}}</h2>
-                </div>
+                <a href="{% url 'admin_dashboard:user_list' %}?filter_date={{today}}" style="text-decoration: none; color:black" >
+                  <div class="stat-card">
+                    <h6>Total Account Created</h6>
+                    <h2>{{today_users}}</h2>
+                  </div>
+                </a>
               </div>
               <div class="col-md-custom">
-                <div class="stat-card">
-                  <h6>Total Submitted</h6>
-                  <h2>{{today_submitted_users}}/{{today_users}}</h2>
-                </div>
+                <a href="{% url 'admin_dashboard:user_list' %}?filter_date={{today}}&submitted=True" style="text-decoration: none; color:black" >
+                  <div class="stat-card">
+                    <h6>Total Submitted</h6>
+                    <h2>{{today_submitted_users}}/{{today_users}}</h2>
+                  </div>
+                </a>
               </div>
               <div class="col-md-custom">
-                <div class="stat-card">
-                  <h6>Not Submitted</h6>
-                  <h2>{{today_not_submitted_users}}/{{today_users}}</h2>
-                </div>
+                <a href="{% url 'admin_dashboard:user_list' %}?filter_date={{today}}&submitted=False" style="text-decoration: none; color:black" >
+                  <div class="stat-card">
+                    <h6>Not Submitted</h6>
+                    <h2>{{today_not_submitted_users}}/{{today_users}}</h2>
+                  </div>
+                </a>
               </div>
             </div>
           </section>

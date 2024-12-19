@@ -164,11 +164,13 @@
 
         // Update the timer every second
         setInterval(() => {
-            timeRemaining--; // Decrement the timer
+            if(timeRemaining>0){
+                timeRemaining--; // Decrement the timer
+            }
             updateTimer();
 
             if(timeRemaining <= 0) {
-                document.getElementById('start_test').submit()
+                document.getElementById('automateBtn').click()
             }
         }, 1000);
 
