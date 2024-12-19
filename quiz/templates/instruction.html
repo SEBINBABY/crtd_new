@@ -47,7 +47,7 @@
                     <li>Questions must be attempted within the given time limit for each section.</li>
                 </ul>
             </div>
-            <button class="instruct-btn" id="instructBtn">Start the Test</button>
+            <button class="instruct-btn" id="instructBtn">Continue</button>
         </div>
     </div>
 
@@ -65,7 +65,7 @@
     <div class="automate-content-box">
         {% for quiz in quizzes %}
         <div class="content-box">
-            <h6>{{quiz.id}}. {{quiz.name}}</h6>
+            <h6>{{forloop.counter}}. {{quiz.name}}</h6>
             <p class="mid-minutes"><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
             <h6 class="end-question">{{quiz.number_of_questions}} questions</h6>
         </div>
@@ -83,7 +83,11 @@
             <div class="instruct-img imp-instruct-img"></div>
         </div>
         <div class="imp-instruct-right">
-            <h3>Important Instruction</h3>
+            <div class="impp-account">
+                <h6>{{user_full_name}}</h6>
+                <p>{{user_email}}</p>
+            </div>
+            <h3>Important Instruction :</h3>
             <div class="instruction imp-instruction">
                 <ul>
                     <li>Each section has 15 questions and a 20-minute time limit.</li>
@@ -111,11 +115,13 @@
                 </ul>
             </div>
             <div class="imp-check"><input type="checkbox" id="is_checked"/> <span>Please check this box if you have read Instructions</span></div>
+            <span class="popup">Please check the box to agree terms before starting the test.</span>
             <form id="submit-form" action="{% url 'quiz:start_test' %}" method="POST">
                 {% csrf_token %}    
                 <button class="imp-instruct-btn" id="submit-btn" type="button">Start the Test</button>
             </form>
         </div>
+
     </div>
 
     <script>
@@ -136,11 +142,15 @@
         let is_Checked = document.getElementById("is_checked");
         let impInstructBtn = document.getElementById("submit-btn");
         let submitForm = document.getElementById("submit-form");
+        let popup = document.querySelector(".popup");
 
         impInstructBtn.addEventListener('click', () => {   
             if(is_Checked.checked){
                 window.location.href = "http://127.0.0.1:8000/start-test/";
                 document.getElementById("submit-form").submit();
+            }
+            else{
+                popup.style.opacity = "1";
             }
         });
 
