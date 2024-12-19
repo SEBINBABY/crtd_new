@@ -178,7 +178,7 @@
                                 <td>
                                     <div class="action-btns">
                                         <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
-                                        <img class="eye-btn" src="/static/images/eye.png" alt="See">
+                                        <img class="eye-btn" id="eye-{{user.id}}" src="/static/images/eye.png" alt="See">
                                     </div>
                                 </td>
                             </tr>
@@ -216,33 +216,15 @@
 
     <div class="overlay">
     <div class="see-modal">
-      <h1>Jane Cooper</h1>
+      <h1 id="modal_username">Jane Cooper</h1>
       <button class="see-close-btn">&times</button>
-      <div class="card">
-          <div class="item">
-              <p>1. Basic programming</p>
-              <span>10/15</span>
-          </div>
-          <div class="item">
-              <p>2. Front-End Logic</p>
-              <span>10/15</span>
-          </div>
-          <div class="item">
-              <p>3. Back-End Logic</p>
-              <span>10/15</span>
-          </div>
-          <div class="item">
-              <p>4. Database Concepts</p>
-              <span>10/15</span>
-          </div>
-          <div class="item">
-              <p>5. QA Testing</p>
-              <span>10/15</span>
-          </div>
-          <div class="item">
-              <p>6. Payment Gateway Analysis</p>
-              <span>10/15</span>
-          </div>
+      <div class="card" id="quiz_list">
+        
+         <!--  <div class="item">
+              <p>{{forloop.counter}}. {{quiz.name}}</p>
+              <span id="ans_count-{{quiz.id}}">10/15</span>
+          </div> -->
+
       </div>
   </div>
 </div>
@@ -329,12 +311,49 @@ toggleIcon.addEventListener('click', () => {
       const overlay = document.querySelector(".overlay");
       const seeBtn = document.querySelectorAll(".eye-btn");
       const seeModal = document.querySelector(".see-modal");
-      const seeCloseBtn = document.querySelector(".see-close-btn");
+      const seeCloseBtn = document.querySelector(".see-close-btn")
+      const modalUsername = document.getElementById('modal_username')
+      const modalQuizList = document.getElementById('quiz_list')
+
 
       seeBtn.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          seeModal.style.display = "block";
-          overlay.style.display = "block";
+        btn.addEventListener("click", (e) => {
+          
+          modalQuizList.innerHTML = '';
+          let user_id = e.target.getAttribute("id").split('-')[1];
+
+          let url = window.location.origin + `/get_user_results/${user_id}/`
+          fetch(url).then((response)=>{
+            return response.json();
+          }).then((data)=>{
+            quizzes = data['quizzes']
+            let correct_answer_counts = data['correct_answer_counts']
+            document.getElementById('modal_username').innerHTML = data['requested_user_name']
+            let counter = 1
+            quizzes.forEach((quiz) =>{
+              let correct_answer_count = correct_answer_counts[quiz.id]
+              
+              let list_item = document.createElement('div')
+              list_item.classList.add("item")
+              let quiz_name = document.createElement('p')
+              quiz_name.innerHTML = `${counter}. ${quiz.name}`
+              counter += 1
+              let answer_count = document.createElement('span')
+              answer_count.innerHTML = `${correct_answer_count?correct_answer_count:0}/${quiz.number_of_questions}`
+
+              list_item.appendChild(quiz_name)
+              list_item.appendChild(answer_count)
+              modalQuizList.appendChild(list_item)
+
+            });
+
+
+          }).then(() => {
+            seeModal.style.display = "block";
+            overlay.style.display = "block";
+          })
+
+
         })
       })
 

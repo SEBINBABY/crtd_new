@@ -49,31 +49,14 @@
                         Please verify your email first.
                     </div>
                 </div>
+                <form action="{% url 'users:verify_email_first' %}" method="POST">
+                    {% csrf_token %}
                 <button class="submit-btn" type="submit">Submit</button>
+                </form>
             </div>
         </div>
     </div> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-    <script>
-        // JavaScript to handle the Verify button click
-        document.getElementById("verifyButton").addEventListener("click", function() {
-            var email = document.getElementById("inputEmail").value;
-            var verificationMessage = document.getElementById("verificationMessage");
-
-            if (email === "") {
-                // Show the "Please verify your email first" message
-                verificationMessage.style.display = "block";
-                verificationMessage.textContent = "Please verify your email first.";
-            } else {
-                // Hide the message if email is provided
-                verificationMessage.style.display = "none";
-                
-                // You can also proceed with AJAX call to send OTP here if needed
-                alert("Proceed with the OTP Submission.");
-            }
-        });
-    </script>
 </body>
 </html>
 

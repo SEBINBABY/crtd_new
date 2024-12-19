@@ -12,6 +12,8 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 import re
 from django.contrib.auth import authenticate, login 
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
 
 # Password validation function
 def is_valid_password(password):
@@ -123,6 +125,13 @@ def user_login(request):
             messages.error(request, "Invalid email or password!")
     return render(request, "login.html")
 
+def verify_email_first(request):
+    if request.method == "POST":
+        messages.error(request, "Verify your Email first!")
+        return redirect("users:register")
+    messages.error(request, "Invalid request method!")
+    return render(request, "register.html")
+
 # View to send OTP
 @csrf_exempt
 def send_email_verification_otp(request):
@@ -146,8 +155,9 @@ def send_email_verification_otp(request):
         # Send OTP email
         # Split OTP into individual characters
         # otp_digits = list(str(otp_code))  # ['2', '4', '6', '8']
-        # context = {"otp_digits": otp_digits, "name":username}
+        # context = {"otp_digits": otp_digits, "name":username}   OR
         context = {"otp_code": otp_code, "name":username}
+
         email_subject = "Email Verification Code"
         email_body = render_to_string("email_message.txt", context)
         send_mail(
@@ -157,6 +167,22 @@ def send_email_verification_otp(request):
             [email],
             fail_silently=False,
         )
+
+
+        # html_content = render_to_string("email.html", context)
+        # text_content = strip_tags(html_content)
+        # Send email using EmailMultiAlternatives
+        # email_message = EmailMultiAlternatives(
+        #     email_subject,
+        #     text_content,  # Fallback plain-text body
+        #     settings.DEFAULT_FROM_EMAIL,
+        #     [email]
+        # )
+        # email_message.attach_alternative(html_content, "text/html")  # Add HTML version
+        # email_message.send(fail_silently=False)
+
+
+
         messages.success(request, "OTP sent successfully! Please check your registered mail.")
         return render(request,"otp.html")
     messages.error(request, "Invalid request method!")

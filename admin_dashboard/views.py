@@ -32,7 +32,6 @@ def dashboard(request):
         }
     return render(request, 'dashboard.html', context)
 
-
 def dashboard_home(request):
     total_users = User.objects.count()
     today_users = User.objects.filter(created_at__date = datetime.date.today()).count()
@@ -40,7 +39,7 @@ def dashboard_home(request):
     today_submitted_users = User.objects.filter(is_verified = True,created_at__date = datetime.date.today()).count()
     total_not_submitted_users = total_users - total_submitted_users
     today_not_submitted_users = today_users - today_submitted_users
-    return render(request, 'AccountCreated.html', 
+    return render(request, 'AccountSidebar.html', 
                   {'user':request.user,
                    'total_users': total_users,
                    'today_users': today_users,
@@ -48,7 +47,29 @@ def dashboard_home(request):
                    'today_submitted_users': today_submitted_users,
                    'total_not_submitted_users': total_not_submitted_users,
                    'today_not_submitted_users': today_not_submitted_users})
-                   
+
+def get_user_results(request,user_id):
+    requested_user = get_object_or_404(User,id=user_id)
+
+    correct_answer_counts = {}
+    user_results = requested_user.user_results.all()
+    for result in user_results:
+        correct_answer_count = 0
+        quiz_id = result.quiz.id
+        for answer_id in result.user_answers.values():
+            answer = get_object_or_404(Answer,id=answer_id)
+            if correct_answer_counts.get(str(quiz_id),None) is None:
+                correct_answer_counts[str(quiz_id)] = 0
+            if answer.is_correct:            
+                correct_answer_count += 1
+        correct_answer_counts[str(quiz_id)] = correct_answer_count
+
+    return JsonResponse({'requested_user_name':requested_user.username,
+                         'correct_answer_counts':correct_answer_counts,
+                         'quizzes': list(map(Quiz.serialize,Quiz.objects.all())),
+                         'total_quizzes': Quiz.objects.count(),
+                         })
+
 
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
@@ -62,7 +83,7 @@ def filtered_users(request, status):
     else:
         users = User.objects.filter(role=User.USER)
         title = "All Users"
-   
+
     context = {
         "users": users,
         "title": title,
@@ -80,7 +101,7 @@ def admin_hr_login(request):
             if user.role in [User.ADMIN, User.HR_STAFF]:
                 # Log the user in
                 login(request, user)
-                return redirect('admin_dashboard:dashboard')  # Shared dashboard for both roles
+                return redirect('admin_dashboard:dashboard_home')  # Shared dashboard for both roles
             else:
                 messages.error(request, "Access restricted to Admin and HR Staff only.")
         else:
@@ -89,7 +110,7 @@ def admin_hr_login(request):
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_section(request):
-    return render(request, "UpdatedQuestionSection.html",
+    return render(request, "quiz_list.html",
                   {"user":request.user,
                    "quizzes":Quiz.objects.all()})
 
@@ -101,7 +122,7 @@ def question_list(request,quiz_id):
 def add_question(request):
     if not request.POST:
         return redirect("admin_dashboard:question_section")
-    
+
     data = request.POST.get('data',None)
     if not data: return JsonResponse({"error":"No form data"})
 
@@ -111,7 +132,7 @@ def add_question(request):
 
     correct_answer_id  = data.get('correct_answer_id',None)
     if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
-        
+
     answers_data = []
     answer_id = data.get('answer-1',None)
     while(answer_id is not None):
@@ -119,19 +140,19 @@ def add_question(request):
         answers_data.append([answer_text,answer_id==correct_answer_id])
 
     if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
-    
+
     question = Question(question_text=question_text, quiz_id=quiz_id)
     question.save()
     for data in answers_data:
         answer = Answer(answer_text = data[0],is_correct=data[1],question_id=question.id)
         answer.save()
-    
+
     return redirect('admin_dashboard:question_list',quiz_id)
 
 def edit_question(request):
     if not request.POST:
         return redirect("admin_dashboard:question_section")
-    
+
     data = request.POST.get('data',None)
     if not data: return JsonResponse({"error":"No form data"})
 
@@ -142,7 +163,7 @@ def edit_question(request):
 
     correct_answer_id  = data.get('correct_answer_id',None)
     if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
-        
+
     answers_data = []
     answer_id = data.get('answer-1',None)
     while(answer_id is not None):
@@ -150,7 +171,7 @@ def edit_question(request):
         answers_data.append([answer_text,answer_id==correct_answer_id])
 
     if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
-    
+
     question = get_object_or_404(Question,id = question_id)
     question.save()
     new_answer_ids = []
@@ -158,13 +179,13 @@ def edit_question(request):
         answer, created = Answer.objects.get_or_create(answer_text = data[0],is_correct=data[1],question_id=question.id)
         new_answer_ids.append(answer.id)
         answer.save()
-    
+
     for answer in Answer.objects.filter(question_id=question.id):
         if answer.id not in new_answer_ids:
             answer.delete()
-    
+
     return redirect('admin_dashboard:question_list',quiz_id)
-        
+
 def delete_question(request,question_id):
     question = get_object_or_404(Question,id=question_id)
     quiz_id = question.quiz.id
@@ -205,25 +226,36 @@ def passkey(request):   # Once user click Passkey Section
 
 def add_passkey(request):  # For Save button in Add Passkey Modal
     if request.method == "POST":
-        key_value = request.POST.get("key", "CRTD@2025")  # Default if not provided    
+        key_value = request.POST.get("key")      
         passkey = Passkey.objects.create(key=key_value, is_active=True)
         messages.success(request, f"Passkey '{passkey.key}' added successfully!") 
-    return render(request, "passkey.html")  # Render a form template  
+        return redirect("admin_dashboard:passkey") 
+    passkeys = Passkey.objects.all()
+    return render(request, "passkey.html", {"passkeys": passkeys})
+  
 
 # For Edit button in Passkey Modal
 def update_passkey(request, passkey_id):
-    if request.method == "POST":
-        key_value = request.POST.get("key", "CRTD@2025")  # Get key from request or use default
-        # Update the passkey instance with new key and set is_active=True
-        Passkey.objects.filter(id=passkey_id).update(key=key_value, is_active=True)
-        messages.success(request, f"Passkey '{passkey.key}' added successfully!") 
     passkey = get_object_or_404(Passkey, id=passkey_id)
-    return render(request, "passkey.html", {"passkey": passkey})
+    if request.method == "POST":
+        key_value = request.POST.get("key")
+        if key_value:
+            passkey.key = key_value
+            passkey.is_active = True  # Optional: Update other fields if needed
+            passkey.save()
+            messages.success(request, "Passkey updated successfully!")
+        else:
+            messages.error(request, "Passkey cannot be empty.")
+        return redirect("admin_dashboard:passkey")
+    passkeys = Passkey.objects.all()
+    return render(request, "passkey.html", {"passkeys": passkeys})
+
 
 def delete_passkey(request, passkey_id):
-    key_value = Passkey.objects.filter(id=passkey_id)
-    key_value.delete()
-    return redirect("admin_dashboard:passkey")
+    if request.method == "POST":
+        passkey = get_object_or_404(Passkey, id=passkey_id)
+        passkey.delete()
+        return redirect('admin_dashboard:passkey')  
 
     """
     <form method="post" action="{% url 'delete_passkey' passkey.id %}">
@@ -232,12 +264,3 @@ def delete_passkey(request, passkey_id):
     <a href="{% url 'passkey_list' %}">Cancel</a>
     </form>
     """
-
-
-
-
-        
-
-
-
-

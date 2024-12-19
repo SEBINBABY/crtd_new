@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.timezone import now, timedelta
 
 class Passkey(models.Model):
-    key = models.CharField(max_length=255, default="CRTD@2025")  # Company passkey
+    key = models.CharField(max_length=255)  # Company passkey
     is_active = models.BooleanField(default=True)
 
 
