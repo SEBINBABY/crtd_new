@@ -337,6 +337,7 @@ toggleIcon.addEventListener('click', () => {
               list_item.classList.add("item")
               let quiz_name = document.createElement('p')
               quiz_name.innerHTML = `${counter}. ${quiz.name}`
+              counter += 1
               let answer_count = document.createElement('span')
               answer_count.innerHTML = `${correct_answer_count?correct_answer_count:0}/${quiz.number_of_questions}`
 
