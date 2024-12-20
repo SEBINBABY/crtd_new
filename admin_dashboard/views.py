@@ -133,8 +133,9 @@ def add_question(request):
     question_text = data.get('question_text',None)
     if not question_text: JsonResponse({"error":"No question"})
 
-    correct_answer_id  = int(data.get('correct_answer_id',None))
+    correct_answer_id  = data.get('correct_answer_id',None)
     if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
+    correct_answer_id = int(correct_answer_id)
 
     answers_data = []
     # answer id refers to the id from the front end NOT the object id.
