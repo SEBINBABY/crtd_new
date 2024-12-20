@@ -52,13 +52,8 @@ class Amount(models.Model):
     """
     Singleton model to store a single Amount value.
     """
-    value = models.CharField(max_length=255, default="default_value")
+    value = models.IntegerField(default=1)
     updated_at = models.DateTimeField(auto_now=True)
-
-    # Ensures only one instance of this model exists
-    def save(self, *args, **kwargs):
-        self.id = 1  # Force the id to always be 1
-        super(Amount, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"Amount: {self.value}"
