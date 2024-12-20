@@ -61,7 +61,7 @@
               <img src="/static/images/5.png" alt="" />Question Section
             </a>
             </li>
-            <li class="passkey">
+            <li class="passkey-i">
               <a href="{% url 'admin_dashboard:passkey' %}">
               <img src="/static/images/passkey.png" alt="" />Passkey
             </a>
@@ -113,8 +113,8 @@
                 <td class="passkey">{{passkey.key}}</td>
                 <td class="actions" style="text-align: center;">
                   <div class="action-btns">
-                      <img class="delete-btn" src="/static/images/delete.png" alt="Delete">
-                      <img class="eye-btn" src="/static/images/eye.png" alt="See">
+                      <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
+                      <img class="eye-btn" src="/static/images/edit.png" alt="See">
                   </div>
                 </td>
               </tr>
@@ -224,8 +224,8 @@
       sidebar.style.boxShadow = "none"
       side.style.display = "block";
       content.style.position = "relative";
-      content.style.right = "25%"; // Shift content by the same amount as sidebar
-      content.style.width = "125%"; // Reset to its original width
+      content.style.right = "20%"; // Shift content by the same amount as sidebar
+      content.style.width = "120%"; // Reset to its original width
       content.style.left = "";
   } else {
       sidebar.style.border = "";
@@ -247,7 +247,7 @@
     const passkeyInput = document.querySelector(".passkeyInput");
     const cancelBtn = document.querySelector(".cancel-btn");
     const passkeyModalEdit = document.querySelector(".edit-modal");
-    const cancelBtnEdit = document.querySelector(".cancel-btn-edit");
+    const cancelBtnEdit = document.querySelectorAll(".cancel-btn-edit");
     const saveBtnEdit = document.querySelector(".save-btn-edit");
     // const passkeyModalDelete = document.querySelector(".delete-modal");
 

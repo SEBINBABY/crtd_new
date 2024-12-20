@@ -42,7 +42,7 @@
   <main class="container-fluid my-2 main-content">
     <div class="row">
       <aside id="sidebar" class="col-md-3 col-lg-2 sidebar">
-        <h5 class="mb-4" id="previousPageButton">SuperAdmin</h5>
+        <h5 class="mb-4"  >SuperAdmin</h5>
         <a href="#" class="nav-link mb-3"> Open dashboard </a>
         <h6 style="color: black; opacity: 40%; font-weight: 500">
           Favorites
@@ -327,10 +327,8 @@ document
         document.getElementById("edit-content").style.display = "block";
       });
     });
-    const previousPageButton = document.getElementById('previousPageButton');
-    previousPageButton.addEventListener('click', () => {
- window.history.back();
-    });
+ 
+  
 function closePopup() {
       document.getElementById("edit-content").style.display = "none";
     }

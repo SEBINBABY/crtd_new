@@ -142,19 +142,9 @@ DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
-# # Razorpay settings - sebin - test mode
-# RAZORPAY_KEY_ID = 'rzp_test_yjenWj7BiKObYR'
-# RAZORPAY_KEY_SECRET = 'slNkxN7oui0PxepIfCe4AfBk'
-
-# # Razorpay settings - CRTD -  Live mode
-RAZORPAY_KEY_ID = 'rzp_live_ZdmZOfgvq29DVa'
-RAZORPAY_KEY_SECRET = 'Dj2zE18caOfUeMaWtrThuYpf'
-
-
-
-# Razorpay settings - CRTD
-# RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID')
-# RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET')
+# Razorpay settings - CRTD - Live mode
+RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID')
+RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET')
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

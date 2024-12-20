@@ -33,12 +33,13 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 def dashboard_home(request):
-    total_users = User.objects.count()
-    today_users = User.objects.filter(created_at__date = datetime.date.today()).count()
-    total_submitted_users = User.objects.filter(is_verified = True).count()
-    today_submitted_users = User.objects.filter(is_verified = True,created_at__date = datetime.date.today()).count()
+    total_users = User.objects.filter(role=User.USER).count()
+    today_users = User.objects.filter(created_at__date = datetime.date.today(),role=User.USER).count()
+    total_submitted_users = User.objects.filter(role=User.USER, is_verified = True).count()
+    today_submitted_users = User.objects.filter(role=User.USER, is_verified = True,created_at__date = datetime.date.today()).count()
     total_not_submitted_users = total_users - total_submitted_users
     today_not_submitted_users = today_users - today_submitted_users
+    today = datetime.date.today().__format__('%Y-%m-%d')
     return render(request, 'AccountSidebar.html', 
                   {'user':request.user,
                    'total_users': total_users,
@@ -46,7 +47,8 @@ def dashboard_home(request):
                    'total_submitted_users': total_submitted_users,
                    'today_submitted_users': today_submitted_users,
                    'total_not_submitted_users': total_not_submitted_users,
-                   'today_not_submitted_users': today_not_submitted_users})
+                   'today_not_submitted_users': today_not_submitted_users,
+                   'today': today,})
 
 def get_user_results(request,user_id):
     requested_user = get_object_or_404(User,id=user_id)
@@ -202,6 +204,7 @@ def user_list(request):
     query = request.GET.get('query', '')  # Get the search query
     users = User.objects.all()
     filter_date = request.GET.get('filter_date') # Single date for filtering
+    submitted = request.GET.get('submitted')
     if query:
         users = users.filter(
             Q(username__icontains=query) |  # Full name search (using username)
@@ -213,6 +216,11 @@ def user_list(request):
     # Apply date filtering
     if filter_date:
         users = users.filter(created_at__date=filter_date, role=User.USER)  # Compare with the date part of created_at
+    if submitted == 'True':
+        users = users.filter(is_verified=True)
+    elif submitted == 'False':
+        users = users.filter(is_verified=False)
+
     return render(request, 'dashboard.html', {'users': users, 'query': query})
 
 def passkey(request):   # Once user click Passkey Section
