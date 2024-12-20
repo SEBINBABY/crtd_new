@@ -6,11 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test submission dashboard</title>
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
     <div class="main">
         <div class="nav">
-            <div class="logo"></div>
+            <div class="logo">
+              <img src="/static/images/logo.png" alt="">
+            </div>
             <div class="text">
                 <h1>CRTD Technologies Test Submission </h1>
                 <h2>Dashboard</h2>
@@ -57,7 +60,7 @@
                   <form method="GET" action="{% url 'admin_dashboard:user_list' %}">
                   <div id="calendar-popup">
                     <input type="date" id="date-input" name="filter_date">
-                    <button class="close-btn" onclick="closeCalendarPopup()" type="submit">Close</button>
+                    <button class="close-btn" onclick="closeCalendarPopup()" type="submit">Done</button>
                   </div>
                 </form>
 
@@ -113,7 +116,7 @@
                           </li>
                           <li>
                             <a href="">
-                              <img src="/static/images/6.png" alt="">Amount
+                              <i class="fa-solid fa-money-check-dollar"></i>Amount
                             </a>
                           </li>
                       </ul>
@@ -136,6 +139,9 @@
                       </div>
                       <div class="icon-con">
                         <img src="/static/images/6.png" alt="Icon-5" />
+                      </div>
+                      <div class="icon-con">
+                        <i class="fa-solid fa-money-check-dollar"></i>
                       </div>
                     </div>
                   </div>

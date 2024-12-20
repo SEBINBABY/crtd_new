@@ -24,13 +24,12 @@ html,body{
 }
 .logo{
   position: relative;
-  top: -10px;
-  left: -20px;
+  bottom: 2vh;
+  right: 4vw;
   height: 100%;
   width: 25%;
-  background: url(/static/images/logo.png);
   background-size: cover;
-  scale: 0.7;
+  scale: 0.5;
 }
 .text{
   height: 100%;
