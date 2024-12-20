@@ -106,7 +106,7 @@ body {
     opacity: 60%;
     position: relative;
     left: -130%;
-    top: 30%;
+    top: -20%;
 }
 .content-input input{
     background: transparent;
@@ -141,3 +141,17 @@ display: none;
 }
 
 /* General alert message styling */
+.content-input i{
+    cursor: pointer;
+    position: relative;
+    top: -10%;
+    left: 95%;
+    font-size: 14px;
+}
+.icon-2{
+    top: -8% !important;
+}
+.confirm{
+    position: relative;
+    left: -4%
+}
