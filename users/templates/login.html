@@ -9,6 +9,34 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+
+<!-- Modal for Password Reset Success -->
+<div class="modal fade" id="passwordResetModal" tabindex="-1" aria-labelledby="passwordResetModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="passwordResetModalLabel">Password Reset</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if forloop.first %}
+                            {{ message }}
+                        {% endif %}          <!-- Stops after the first message -->
+                    {% endfor %}
+                {% else %}
+                    No messages to display.
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- login form -->
     <div class="login-box">
         <div class="login-left">
             <div class="login-logo"></div>
@@ -44,7 +72,23 @@
                 </form>
             </div>
         </div>
-    </div>    
+    </div>   
+    
+    <!-- JavaScript for Modal -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+HiapVuH/0vF0LhZU13fAHuKcYj2G" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if there are any messages
+            const messages = document.querySelectorAll('.messages .alert');
+            if (messages.length > 0) {
+                // Show the modal if a message exists
+                const modal = new bootstrap.Modal(document.getElementById('passwordResetModal'));
+                modal.show();
+            }
+        });
+    </script>
+
+
 </body>
 </html>    
 

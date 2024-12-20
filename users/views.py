@@ -237,31 +237,39 @@ def verify_email_otp(request):
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'password_reset.html'
     email_template_name = 'password_reset_email.html'
-    success_message = "We have emailed you instructions for setting your password," \
-                      "if an account exists with the email you entered. You should receive them shortly." \
-                      " If you donot receive an email, " \
-                      "please make sure you have entered the address you registered with, and check your spam folder."
+    # success_message = "We have emailed you instructions for setting your password," \
+    #                   "if an account exists with the email you entered. You should receive them shortly." \
+    #                   " If you donot receive an email, " \
+    #                   "please make sure you have entered the address you registered with, and check your spam folder."
     success_url = reverse_lazy('users:user_login')
+
+    def form_valid(self, form):
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            "We have emailed you instructions for setting your password. If an account exists with the email you entered, you should receive them shortly."
+        )
+        return super().form_valid(form)
 
 
 # After receiving the mail, user will be landed to this page to confirm his New Passsword
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'password_reset_confirm.html'  # Set your custom template name
     # Override success_url attribute
-    success_url = reverse_lazy('password_reset_complete')
+    success_url = reverse_lazy('users:password_reset_complete')
 
 
-# Once the New Password is set, user will be taken back to this user_login page
-class CustomPasswordResetCompleteView(PasswordResetCompleteView):
-    # Override the get method to redirect directly
-    def get(self, request, *args, **kwargs):
-        return redirect(reverse_lazy('users:user_login'))
-
-
+# # Once the New Password is set, user will be taken back to this user_login page
 # class CustomPasswordResetCompleteView(PasswordResetCompleteView):
-#     template_name = 'password_reset_complete.html'  # Set your custom template name
-#     # Override success_url attribute
-#     success_url = reverse_lazy('AdminLoginPage')
+#     # Override the get method to redirect directly
+#     def get(self, request, *args, **kwargs):
+#         return redirect(reverse_lazy('users:user_login'))
+
+
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'password_reset_complete.html'  # Set your custom template name
+    # Override success_url attribute
+    success_url = reverse_lazy('users:user_login')
 
     
 
