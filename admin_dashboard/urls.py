@@ -17,6 +17,9 @@ urlpatterns = [
     path('update_passkey/<int:passkey_id>/', update_passkey, name="update_passkey"),
     path('delete_passkey/<int:passkey_id>/', delete_passkey, name="delete_passkey"),
     path('get_user_results/<int:user_id>/', get_user_results, name="get_user_results"),
+    path('edit_question/', edit_question, name="edit_question"),
+    path('add_question/', add_question, name="add_question"),
+    path('delete_question/', delete_question, name="delete_question"),
 ]
 
 

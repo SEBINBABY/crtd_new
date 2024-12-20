@@ -117,28 +117,32 @@ def question_section(request):
                    "quizzes":Quiz.objects.all()})
 
 def question_list(request,quiz_id):
+    quiz = get_object_or_404(Quiz,id=quiz_id)
     return render(request,'question_list.html',
                   {"user":request.user,
-                   "quiz":get_object_or_404(Quiz,id=quiz_id)})
+                   "quiz": quiz,
+                   })
 
 def add_question(request):
     if not request.POST:
         return redirect("admin_dashboard:question_section")
 
-    data = request.POST.get('data',None)
-    if not data: return JsonResponse({"error":"No form data"})
-
+    data = request.POST
+    
     quiz_id = data.get('quiz_id')
     question_text = data.get('question_text',None)
     if not question_text: JsonResponse({"error":"No question"})
 
-    correct_answer_id  = data.get('correct_answer_id',None)
+    correct_answer_id  = int(data.get('correct_answer_id',None))
     if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
 
     answers_data = []
-    answer_id = data.get('answer-1',None)
-    while(answer_id is not None):
-        answer_text = data.get(f'answer_text-${answer_id}')
+    # answer id refers to the id from the front end NOT the object id.
+    for answer_id in range(1,5):
+        answer_text = data.get(f'answer_text-{answer_id}')
+        if answer_text == '':
+            break;
+        print(answer_id,correct_answer_id)
         answers_data.append([answer_text,answer_id==correct_answer_id])
 
     if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
@@ -152,51 +156,63 @@ def add_question(request):
     return redirect('admin_dashboard:question_list',quiz_id)
 
 def edit_question(request):
-    if not request.POST:
-        return redirect("admin_dashboard:question_section")
+    if request.GET:
+        question_id= request.GET.get('question_id')
+        question = get_object_or_404(Question,id=question_id)
+        index = 1
+        for q in question.quiz.quiz_questions.all():
+            if q.id == question.id:
+                break
+            index += 1
+        return JsonResponse({
+            "question": question.serialize(),
+            "answers": list(map(Answer.serialize,question.answers_for_question.all())),
+            "index": index,
+        })
+    
+    elif request.POST:
+        data = request.POST
 
-    data = request.POST.get('data',None)
-    if not data: return JsonResponse({"error":"No form data"})
+        question_id = data.get('question_id')
+        question_text = data.get('question_text',None)
+        if not question_text: JsonResponse({"error":"No question"})
 
-    quiz_id = data.get('quiz_id')
-    question_id = data.get('question_id')
-    question_text = data.get('question_text',None)
-    if not question_text: JsonResponse({"error":"No question"})
+        correct_answer_id  = data.get('correct_answer_id',None)
+        if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
+        answer_ids = data.get('answer_ids',None)
+        answer_ids = list(answer_ids.split(','))[:-1]
+        
+        answers_data = []
+        for answer_id in answer_ids:
+            answer_text = data.get(f'answer_text-{answer_id}')
+            answers_data.append([answer_text,answer_id==correct_answer_id])
 
-    correct_answer_id  = data.get('correct_answer_id',None)
-    if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
+        if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
 
-    answers_data = []
-    answer_id = data.get('answer-1',None)
-    while(answer_id is not None):
-        answer_text = data.get(f'answer_text-${answer_id}')
-        answers_data.append([answer_text,answer_id==correct_answer_id])
+        question = get_object_or_404(Question,id = question_id)
+        question.question_text = question_text
+        new_answer_ids = []
+        for data in answers_data:
+            answer, created = Answer.objects.get_or_create(answer_text = data[0],is_correct=data[1],question_id=question.id)
+            new_answer_ids.append(answer.id)
+            answer.save()
 
-    if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
+        question.save()
+        for answer in Answer.objects.filter(question_id=question.id):
+            if answer.id not in new_answer_ids:
+                answer.delete()
 
-    question = get_object_or_404(Question,id = question_id)
-    question.save()
-    new_answer_ids = []
-    for data in answers_data:
-        answer, created = Answer.objects.get_or_create(answer_text = data[0],is_correct=data[1],question_id=question.id)
-        new_answer_ids.append(answer.id)
-        answer.save()
+        return redirect('admin_dashboard:question_list',question.quiz.id)
 
-    for answer in Answer.objects.filter(question_id=question.id):
-        if answer.id not in new_answer_ids:
-            answer.delete()
+def delete_question(request):
+    if request.POST:
+        question_id = request.POST.get('question_id')
+        if question_id is None: return JsonResponse({"error":"No question ID provided"})
+        question = get_object_or_404(Question,id = question_id)
+        quiz_id = question.quiz.id
+        question.delete()
 
-    return redirect('admin_dashboard:question_list',quiz_id)
-
-def delete_question(request,question_id):
-    question = get_object_or_404(Question,id=question_id)
-    quiz_id = question.quiz.id
-    answers = Answer.objects.filter(question_id = question_id)
-    for answer in answers:
-        answer.delete()
-    question.delete()
-
-    return redirect('admin_dashboard:question_list',quiz_id)
+        return redirect('admin_dashboard:question_list',quiz_id)
 
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
