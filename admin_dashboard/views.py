@@ -281,10 +281,5 @@ def delete_passkey(request, passkey_id):
         passkey.delete()
         return redirect('admin_dashboard:passkey')  
 
-    """
-    <form method="post" action="{% url 'delete_passkey' passkey.id %}">
-    {% csrf_token %}
-    <button type="submit">Yes, Delete</button>
-    <a href="{% url 'passkey_list' %}">Cancel</a>
-    </form>
-    """
+def amount_section(request):
+    return render(request, "Amount-Edit.html")

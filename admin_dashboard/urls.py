@@ -20,6 +20,7 @@ urlpatterns = [
     path('edit_question/', edit_question, name="edit_question"),
     path('add_question/', add_question, name="add_question"),
     path('delete_question/', delete_question, name="delete_question"),
+    path('amount_section/', amount_section, name="amount_section"),
 ]
 
 
