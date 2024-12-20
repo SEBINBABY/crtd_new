@@ -142,7 +142,6 @@ def add_question(request):
         answer_text = data.get(f'answer_text-{answer_id}')
         if answer_text == '':
             break;
-        print(answer_id,correct_answer_id)
         answers_data.append([answer_text,answer_id==correct_answer_id])
 
     if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
@@ -185,6 +184,7 @@ def edit_question(request):
         answers_data = []
         for answer_id in answer_ids:
             answer_text = data.get(f'answer_text-{answer_id}')
+            if(answer_text == ''): break
             answers_data.append([answer_text,answer_id==correct_answer_id])
 
         if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})

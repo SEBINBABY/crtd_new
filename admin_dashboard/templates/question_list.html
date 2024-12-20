@@ -298,10 +298,29 @@ document.getElementById("sidebarToggleBtn")
           document.getElementById("question_id").value = data["question"].id
           document.getElementById("question_number").innerHTML = "Q" + data["index"]
           let answers_div = document.getElementById("answers")
-          let answer_ids = document.getElementById("answer_ids")
           answers_div.innerHTML = ""
+          let counter = 1
           data['answers'].forEach(answer => {
-            let div = document.createElement("div")
+            createAnswerElement(answer.id,answer.is_correct,answer.answer_text,counter)
+            counter += 1
+          });
+          while(counter <= 4){
+            createAnswerElement(counter,false,"",counter)
+            counter += 1
+          }
+          
+
+        })
+        .then(()=>{
+          document.getElementById("edit-content").style.display = "block";
+        })
+      });
+    });
+
+    function createAnswerElement(answer_id,is_correct, answer_text,counter){
+      let answers_div = document.getElementById("answers")
+      let answer_ids = document.getElementById("answer_ids")
+      let div = document.createElement("div")
             div.classList.add("form-check")
             div.classList.add("mb-3")
 
@@ -310,35 +329,30 @@ document.getElementById("sidebarToggleBtn")
             radio.name = "correct_answer_id"
             radio.classList.add("form-check-input")
             radio.required = true
-            radio.id = `radio-${answer.id}`
-            radio.value=answer.id
-            if(answer.is_correct){
+            radio.id = `radio-${answer_id}`
+            radio.value=answer_id
+            if(is_correct){
               radio.checked = true
             }
 
             let label = document.createElement("label")
             label.classList.add("form-check-label")
-            label.for = `radio-${answer.id}`
+            label.for = `radio-${answer_id}`
 
             let input = document.createElement("input")
             input.type="text"
             input.classList.add("form-control")
-            input.value=answer.answer_text
+            input.value=answer_text
             input.style.backgroundColor = 'white'
-            input.name=`answer_text-${answer.id}`
+            input.name=`answer_text-${answer_id}`
+            input.placeholder = `Answer ${counter}`
 
             label.appendChild(input)
             div.appendChild(radio)
             div.appendChild(label)
             answers_div.appendChild(div)
-            answer_ids.value += answer.id+","
-          });
-        })
-        .then(()=>{
-          document.getElementById("edit-content").style.display = "block";
-        })
-      });
-    });
+            answer_ids.value += answer_id+","
+    }
 
     document.querySelectorAll(".delete-btns").forEach(button => {
       button.addEventListener("click", function () {
