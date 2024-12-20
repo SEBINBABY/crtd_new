@@ -7,15 +7,10 @@ import random
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.timezone import now
-from datetime import timedelta
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 import re
-from django.contrib.auth import authenticate, login 
-from django.core.mail import EmailMultiAlternatives
-import os
-from django.utils.html import strip_tags
-from email.mime.image import MIMEImage
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import PasswordResetView, PasswordResetCompleteView, PasswordResetConfirmView
 from django.urls import reverse_lazy
@@ -130,6 +125,10 @@ def user_login(request):
             # Invalid credentials, show an error message
             messages.error(request, "Invalid email or password!")
     return render(request, "login.html")
+
+def user_logout(request):
+    logout(request)
+    return redirect('users:verify_passkey')
 
 def verify_email_first(request):
     if request.method == "POST":
