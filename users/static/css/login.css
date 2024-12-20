@@ -143,5 +143,15 @@ body{
     top: -13%;
     left: 15%;
 }
-
-
+.content-input i{
+    cursor: pointer;
+    position: relative;
+    left: 10%;
+    font-size: 14px;
+}
+.content-input a{
+    position: relative;
+    text-decoration: none;
+    top: 35px;
+    left: -10%;
+}
