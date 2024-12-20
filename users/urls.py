@@ -12,11 +12,12 @@ urlpatterns = [
     path("verify_email_first/", views.verify_email_first, name="verify_email_first"),
     path("send_email_verification_otp/", views.send_email_verification_otp, name="send_email_verification_otp"),
     path("verify_email_otp/", views.verify_email_otp, name="verify_email_otp"),
-    # path("question/", views.question, name="question"),
+   #***********************
+    # Password reset using email
+    path('reset_password/', views.ResetPasswordView.as_view(), name='reset_password'),
+    # path('password_rest_sent/', auth_views.PasswordResetDoneView.as_view(), name='repassword_reset_sent'),
+    path('reset/<uidb64>/<token>/', views.CustomPasswordResetConfirmView.as_view(
+        template_name='password_reset_confirm.html'), name='password_reset_confirm'),
+    path('password_rest_complete/', views.CustomPasswordResetCompleteView.as_view(
+        template_name='password_reset_complete.html'), name='password_reset_complete'),
 ]
-    # path("exam-instructions/", views.exam_instructions, name="exam_instructions"),
-    # path("start-exam/", views.start_exam, name="start_exam"),
-    # path("exam-section/<int:section_id>/", views.exam_section, name="exam_section"),
-    # path("exam-complete/", views.exam_complete, name="exam_complete"),
-
-    # path('response/', views.response, name='response')

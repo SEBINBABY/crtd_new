@@ -16,6 +16,9 @@ from django.core.mail import EmailMultiAlternatives
 import os
 from django.utils.html import strip_tags
 from email.mime.image import MIMEImage
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.views import PasswordResetView, PasswordResetCompleteView, PasswordResetConfirmView
+from django.urls import reverse_lazy
 
 # Password validation function
 def is_valid_password(password):
@@ -118,6 +121,7 @@ def user_login(request):
             if user.role == User.USER:
             # Successfully authenticated, log the user in
                 login(request, user)
+                request.session['email'] = email
                 # Redirect to the desired page after login
                 return redirect("quiz:list_quizzes")
             else:
@@ -172,10 +176,11 @@ def send_email_verification_otp(request):
         return render(request,"otp.html")
     messages.error(request, "Invalid request method!")
 
+# Redirection to OTP Page for the submission of OTP
 def otp_page(request):
     return render(request, "otp.html")
   
-
+# View to handle OTP Verification
 @csrf_exempt
 def verify_email_otp(request):
     if request.method == "POST":
@@ -186,12 +191,10 @@ def verify_email_otp(request):
             request.POST.get("otp3", "") +
             request.POST.get("otp4", "")
         )
-
         if not otp_code:
             # If OTP is not entered, display an error and stay on the OTP page
             messages.error(request, "OTP is required!")
             return redirect("users:otp_page")
-
         try:
             # Retrieve OTP instance based on the entered OTP
             otp_instance = OTP.objects.get(otp_code=otp_code)
@@ -219,16 +222,47 @@ def verify_email_otp(request):
             }
             messages.success(request, "Email verified successfully! Proceed with registration.")
             return render(request, "register_verified.html", context)
-
         except OTP.DoesNotExist:
             # If OTP is not found in the database, stay on the OTP page
             messages.error(request, "Invalid OTP")
             return redirect("users:otp_page")
-
     else:
         # Handle invalid request methods
         messages.error(request, "Invalid request method!")
         return redirect("users:register")
+    
+
+ # Class based views for handling the forgot password
+ #  Will take the user to a page to enter his mail id and submit the same  
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'password_reset.html'
+    email_template_name = 'password_reset_email.html'
+    success_message = "We have emailed you instructions for setting your password," \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you donot receive an email, " \
+                      "please make sure you have entered the address you registered with, and check your spam folder."
+    success_url = reverse_lazy('users:user_login')
+
+
+# After receiving the mail, user will be landed to this page to confirm his New Passsword
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'password_reset_confirm.html'  # Set your custom template name
+    # Override success_url attribute
+    success_url = reverse_lazy('password_reset_complete')
+
+
+# Once the New Password is set, user will be taken back to this user_login page
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    # Override the get method to redirect directly
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse_lazy('users:user_login'))
+
+
+# class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+#     template_name = 'password_reset_complete.html'  # Set your custom template name
+#     # Override success_url attribute
+#     success_url = reverse_lazy('AdminLoginPage')
+
     
 
     
