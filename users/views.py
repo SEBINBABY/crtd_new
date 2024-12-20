@@ -14,6 +14,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import PasswordResetView, PasswordResetCompleteView, PasswordResetConfirmView
 from django.urls import reverse_lazy
+from django import forms
+from django.contrib.auth.forms import PasswordResetForm
 
 # Password validation function
 def is_valid_password(password):
@@ -231,15 +233,20 @@ def verify_email_otp(request):
         return redirect("users:register")
     
 
- # Class based views for handling the forgot password
+# Class based views for handling the forgot password
+# Created a custom form to validate the email field.
+class CustomPasswordResetForm(PasswordResetForm):
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This account doesn't exist. Please create an account first.")
+        return email
+
  #  Will take the user to a page to enter his mail id and submit the same  
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'password_reset.html'
     email_template_name = 'password_reset_email.html'
-    # success_message = "We have emailed you instructions for setting your password," \
-    #                   "if an account exists with the email you entered. You should receive them shortly." \
-    #                   " If you donot receive an email, " \
-    #                   "please make sure you have entered the address you registered with, and check your spam folder."
+    form_class = CustomPasswordResetForm
     success_url = reverse_lazy('users:user_login')
 
     def form_valid(self, form):
