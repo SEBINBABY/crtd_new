@@ -186,21 +186,21 @@
               <div class="modal-body">
                 <form id="add_form" method="post" action="{% url 'admin_dashboard:add_question' %}">
                 {% csrf_token %}
-                <input name="question_text" class="mb-4 fw-bold form-control" placeholder="Add Your Question Here"></input>
+                <input name="question_text" class="mb-4 fw-bold form-control" placeholder="Add Your Question Here" required></input>
                   <div class="mb-3 row">
                     <div class="col-1 d-flex justify-content-center">
                       <input type="radio" name="correct_answer_id" value="1" class="form-check-input1" />
                     </div>
                     <div class="col-11">
-                      <input type="text" name="answer_text-1" class="form-control" placeholder="Option1" />
+                      <input type="text" name="answer_text-1" class="form-control" placeholder="Option1" required />
                     </div>
                   </div>
                   <div class="mb-3 row">
                     <div class="col-1 d-flex justify-content-center">
-                      <input type="radio" name="correct_answer_id" value="2" class="form-check-input1" />
+                      <input type="radio" name="correct_answer_id" value="2" class="form-check-input1"  />
                     </div>
                     <div class="col-11">
-                      <input type="text" name="answer_text-2" class="form-control" placeholder="Option2" />
+                      <input type="text" name="answer_text-2" class="form-control" placeholder="Option2" required />
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -208,7 +208,7 @@
                       <input type="radio" name="correct_answer_id" value="3" class="form-check-input1" />
                     </div>
                     <div class="col-11">
-                      <input type="text" name="answer_text-3" class="form-control" placeholder="Option3" />
+                      <input type="text" name="answer_text-3" class="form-control" placeholder="Option3" required />
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -216,7 +216,7 @@
                       <input type="radio" name="correct_answer_id" value="4" class="form-check-input1" />
                     </div>
                     <div class="col-11">
-                      <input type="text" name="answer_text-4" class="form-control" placeholder="Option4" />
+                      <input type="text" name="answer_text-4" class="form-control" placeholder="Option4" required />
                     </div>
                   </div>
               
