@@ -122,8 +122,10 @@ body{
     /* background-color: red; */
     padding: 5px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    /* background-color: red; */
+    position: relative;
+    top: 48%;
+    color: rgb(214, 32, 32);
 }
 /* General alert message styling */
