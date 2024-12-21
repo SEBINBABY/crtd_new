@@ -155,3 +155,6 @@ body{
     top: 35px;
     left: -10%;
 }
+.modal-body{
+    padding: 20px;
+}
