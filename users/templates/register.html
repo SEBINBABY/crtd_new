@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+
+    <!-- Create Account form -->
     <div class="box">
         <div class="box-left">
             <div class="left-logo"></div>
@@ -30,7 +32,7 @@
                     {% endif %}
                  </div>
                 <div class="content-input">
-                    <form action="{% url 'users:send_email_verification_otp' %}" method="POST">
+                    <form id="verifyEmailForm" action="{% url 'users:send_email_verification_otp' %}" method="POST">
                         {% csrf_token %}
                     <label for="" class="form-label">Full name*</label>
                     <input type="text" id="inputName" class="form-control" placeholder="Enter Full name" name="full_name" required>
@@ -44,21 +46,71 @@
                     <label for="" class="form-label">Contact Number*</label>
                     <input type="text" id="inputContact" class="form-control" placeholder="Enter Contact Number">
                     <label for="" class="form-label">Create Password*</label>
-                    <input type="password" id="inputPassword" class="form-control" placeholder="Create Password">
-                    <label for="" class="form-label">Confirm Password*</label>
-                    <input type="password" id="inputPassword2" class="form-control" placeholder="Confirm Password">
+                    <input type="password" id="inputPassword password" class="form-control" placeholder="Create Password">
+                    <i id="togglePassword" class="fa-solid fa-eye icon-1"></i>
+                    <label for="" class="form-label confirm">Confirm Password*</label>
+                    <input type="password" id="inputPassword2 password" class="form-control" placeholder="Confirm Password">
+                    <i id="togglePassword" class="fa-solid fa-eye icon-2"></i>
                     <div id="verificationMessage" class="alert alert-warning mt-3" style="display: none;">
                         Please verify your email first.
                     </div>
-                </div>
-                <form action="{% url 'users:verify_email_first' %}" method="POST">
-                    {% csrf_token %}
-                <button class="submit-btn" type="submit">Submit</button>
-                </form>
+                </div>     
+                <button class="submit-btn" type="submit"  id="submitButton">Submit</button>               
             </div>
         </div>
     </div> 
+
+
+<!-- Modal -->
+<div class="modal fade" id="emailVerificationModal" tabindex="-1" aria-labelledby="emailVerificationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emailVerificationLabel">Verify Your Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Please verify your email address: <strong id="userEmail"></strong> first.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="continueButton">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        const togglePassword = document.querySelectorAll('#togglePassword');
+        const password = document.querySelectorAll('#password');
+        const btn = document.getElementById("submit-btn");
+
+        togglePassword.addEventListener('click', function () {
+        btn.innerText = "done";
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        });
+    </script>
+
+<!-- JS for Modal -->
+<script>
+    document.getElementById("submitButton").addEventListener("click", function() {
+        const emailInput = document.getElementById("inputEmail").value;
+        const modalEmail = document.getElementById("userEmail");
+        modalEmail.textContent = emailInput;
+        const modal = new bootstrap.Modal(document.getElementById("emailVerificationModal"));
+        modal.show();
+    });
+
+    document.getElementById("continueButton").addEventListener("click", function() {
+        const form = document.getElementById("verifyEmailForm");
+        form.action = "{% url 'users:send_email_verification_otp' %}";
+        form.submit();
+    });
+</script>
+
 </body>
 </html>
 

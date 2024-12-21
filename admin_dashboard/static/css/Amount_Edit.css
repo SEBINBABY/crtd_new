@@ -1,13 +1,14 @@
 .containe {
-  margin-left: 170px;
-  width: 1240px;
+  margin-left: 270px;
+  width: 1140px;
   justify-content: center;
   border: none;
   box-shadow: none;
    
 }
 .containe.shifted {
-  padding-left: 100px;
+  margin-left: 150px;
+  width: 1240px;
 }
 
 .card {
@@ -68,6 +69,7 @@ span {
   border-radius: 5px;
   transition: margin-left 0.3s ease-in-out;
   margin-top: -30px;
+  margin-left: 250px;
 }
 .sidebar {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -105,7 +107,7 @@ span {
   background: linear-gradient(to bottom right, #13b3ff, #005ad5);
 }
 .my-div.shifted {
-  margin-left: 250px;
+  margin-left: 10px;
 }
 
 .main-content {
@@ -140,7 +142,8 @@ td {
 }
 tr {
   margin-top: 30px;
-  margin-left: -40px;
+  text-align: left;
+  
 }
 
 .overlay {
@@ -167,7 +170,6 @@ tr {
   align-items: center;
   max-width: 600px;
   width: 100%;
-  
 }
  
 .form-check-input {
@@ -180,9 +182,6 @@ tr {
   position: relative;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  justify-content: left;
-  
-  
 }
 .form-check-input:checked {
   background-color: #00d363;
@@ -201,9 +200,8 @@ tr {
 .form-check-label {
   display: block;
   position: relative;
-  width: 140%;
+  width: 105%;
   margin-left: 10px;
-   
 }
 .selected {
   border: none;
@@ -222,7 +220,7 @@ tr {
 .btn-save {
   background-image: linear-gradient(to right, #13b3ff, #005ad5);
   color: #fff;
-  margin-left: 50px;
+  margin-left: 70px;
   width: 130px;
 }
 .btn-save:hover {
@@ -232,7 +230,6 @@ tr {
   font-weight: bold;
   margin-bottom: 20px;
   color: #494949;
-   
 }
 .form-control {
   background-color: #ffffff;
@@ -281,114 +278,69 @@ tr {
 .visible {
   display: block;
 }
-.modal-backdrop {
-  background-color: black !important;
-  opacity: 0.6 !important;
-}
-
-.modal-content {
-  border-radius: 10px;
-}
-.modal-header {
-  border-bottom: none;
-}
-.modal-title {
-  color: #083fd3;
-  font-weight: bold;
-}
-.form-check-input1 {
  
-}
-
-.btn-save {
-  background: linear-gradient(to right, #00aaff, #0066ff);
-  color: white;
-  width: 100px;
-  border: none;
-}
-.btn-cancel {
-  border: 1px solid #0066ff;
-  color: #0066ff;
-  width: 100px;
-}
-.btn-cancel:hover {
-  background-color: #f4f4f4;
-}
-.modal-content {
-  text-align: center;
-  
-}
-.modal-footer {
-  justify-content: space-around;
-}
-.modal-body img {
-  width: 100px;
-  margin-bottom: 15px;
-}
-.btn-cancel1 {
-  border: 1px solid #007bff;
-  color: #007bff;
-}
-.btn-add {
-  background-color: #007bff;
-  color: #fff;
-}
-.btn-add:hover {
-  background-color: #0056b3;
-}
-.action-icons {
-  font-size: 1.2rem;
-}
-.action-icons i {
-  cursor: pointer;
-  margin: 0 8px;
-  color: #000;
-}
-.action-icons i:hover {
-  color: #007bff;
-}
-.form-check-input1 {
-  appearance: none;
-   
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid #494949;
-  background-color: #fff;
-  position: relative;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  margin-left: -350px;
-  margin-top: 20px;
-   
-}
-.form-check-input1:checked {
-  background-color: #00d363;
-  border-color: #00d363;
-}
-.form-check-input1:checked::before {
-  content: "";
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #fff;
-  
-  
-}
-.form-check-label1 {
-  display: block;
-  position: relative;
-  width: 75%;
-  margin-left: 10px;background-color: #fff;
-  margin-left: 80px;
-  margin-top: -38px;
-}
-.form-check-input1:checked + .form-check-label1 .form-control {
-  background-color: #e9f7e5;
-  border-color: #00d363;
-  border: 2px solid #00d363;
-  color: #000;
-}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

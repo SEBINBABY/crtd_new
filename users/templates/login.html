@@ -7,8 +7,25 @@
     <title>Desktop 5</title>
     <link rel="stylesheet" href="{% static 'css\login.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+
+<!-- Modal for Password Reset Success -->
+
+            <div class="modal-body">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if forloop.first %}
+                            {{ message }}
+                        {% endif %}          <!-- Stops after the first message -->
+                    {% endfor %}
+                {% else %}
+                    No messages to display.
+                {% endif %}
+            </div>
+
+<!-- login form -->
     <div class="login-box">
         <div class="login-left">
             <div class="login-logo"></div>
@@ -35,7 +52,9 @@
                     <h5>Email iD</h5>
                     <input type="email" name="email" placeholder="Enter Email ID" required />
                     <h5 class="input-pass">Password</h5>
-                    <input type="password" name="password" placeholder="Enter Password" required />
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required />
+                    <i id="togglePassword" class="fa-solid fa-eye"></i>
+                    <a href="{% url 'users:reset_password' %}">Forgot password</a>
                     </div>
                     <div class="content-submit">
                     <a href="{% url 'users:register' %}">Create account</a>
@@ -44,7 +63,31 @@
                 </form>
             </div>
         </div>
-    </div>    
+    </div>   
+    
+    <!-- JavaScript for Modal -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+HiapVuH/0vF0LhZU13fAHuKcYj2G" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if there are any messages
+            const messages = document.querySelectorAll('.messages .alert');
+            if (messages.length > 0) {
+                // Show the modal if a message exists
+                const modal = new bootstrap.Modal(document.getElementById('passwordResetModal'));
+                modal.show();
+            }
+        });
+
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function () {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        });
+    </script>
+
+
 </body>
 </html>    
 

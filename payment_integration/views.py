@@ -30,9 +30,9 @@ def initiate_payment(request):
             email = user.email
             contact_number =user.contact_number
         print(f"Fullname:{full_name}, email:{email}, contact:{contact_number}")
-        callback_url =  "http://3.109.183.125:8000/handle_request/"
+        callback_url =  "http://127.0.0.1:8000/handle_request/"
         if not settings.DEBUG:  # If live mode
-            callback_url = "http://3.109.183.125:8000/handle_request/"
+            callback_url = "http://127.0.0.1:8000/handle_request/"
         notes = {"order-type":"basic order from the website"}
         client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
         # payment_obj = Payment.objects.get(user=user)

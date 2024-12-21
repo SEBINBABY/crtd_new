@@ -27,14 +27,15 @@ body {
     align-items: center;
 }
 .left-logo{
-    height: 17%;
-    width: 60%;
+    height: 18%;
+    width: 62%;
     /* background-color: blue; */
     background: url("../images/image_1.png");
     background-size: cover;
     position: relative;
     left: 5%;
     top: 3%;
+    scale: 0.85;
 }
 .left-img{
     height: 60%;
@@ -105,7 +106,7 @@ body {
     opacity: 60%;
     position: relative;
     left: -130%;
-    top: 30%;
+    top: -20%;
 }
 .content-input input{
     background: transparent;
@@ -140,3 +141,17 @@ display: none;
 }
 
 /* General alert message styling */
+.content-input i{
+    cursor: pointer;
+    position: relative;
+    top: -10%;
+    left: 95%;
+    font-size: 14px;
+}
+.icon-2{
+    top: -8% !important;
+}
+.confirm{
+    position: relative;
+    left: -4%
+}
