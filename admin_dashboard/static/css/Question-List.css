@@ -167,7 +167,6 @@ tr {
   align-items: center;
   max-width: 600px;
   width: 100%;
-  
 }
  
 .form-check-input {
@@ -180,9 +179,6 @@ tr {
   position: relative;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  justify-content: left;
-  
-  
 }
 .form-check-input:checked {
   background-color: #00d363;
@@ -201,9 +197,8 @@ tr {
 .form-check-label {
   display: block;
   position: relative;
-  width: 140%;
+  width: 105%;
   margin-left: 10px;
-   
 }
 .selected {
   border: none;
@@ -222,7 +217,7 @@ tr {
 .btn-save {
   background-image: linear-gradient(to right, #13b3ff, #005ad5);
   color: #fff;
-  margin-left: 50px;
+  margin-left: 70px;
   width: 130px;
 }
 .btn-save:hover {
@@ -232,7 +227,6 @@ tr {
   font-weight: bold;
   margin-bottom: 20px;
   color: #494949;
-   
 }
 .form-control {
   background-color: #ffffff;
@@ -297,7 +291,7 @@ tr {
   font-weight: bold;
 }
 .form-check-input1 {
- 
+  margin-top: 12px;
 }
 
 .btn-save {
@@ -316,7 +310,6 @@ tr {
 }
 .modal-content {
   text-align: center;
-  
 }
 .modal-footer {
   justify-content: space-around;
@@ -346,49 +339,4 @@ tr {
 }
 .action-icons i:hover {
   color: #007bff;
-}
-.form-check-input1 {
-  appearance: none;
-   
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid #494949;
-  background-color: #fff;
-  position: relative;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  margin-left: -350px;
-  margin-top: 20px;
-   
-}
-.form-check-input1:checked {
-  background-color: #00d363;
-  border-color: #00d363;
-}
-.form-check-input1:checked::before {
-  content: "";
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #fff;
-  
-  
-}
-.form-check-label1 {
-  display: block;
-  position: relative;
-  width: 75%;
-  margin-left: 10px;background-color: #fff;
-  margin-left: 80px;
-  margin-top: -38px;
-}
-.form-check-input1:checked + .form-check-label1 .form-control {
-  background-color: #e9f7e5;
-  border-color: #00d363;
-  border: 2px solid #00d363;
-  color: #000;
 }
