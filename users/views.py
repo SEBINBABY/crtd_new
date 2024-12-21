@@ -132,13 +132,6 @@ def user_logout(request):
     logout(request)
     return redirect('users:verify_passkey')
 
-def verify_email_first(request):
-    if request.method == "POST":
-        messages.error(request, "Verify your Email first!")
-        return redirect("users:register")
-    messages.error(request, "Invalid request method!")
-    return render(request, "register.html")
-
 # View to send OTP
 @csrf_exempt
 def send_email_verification_otp(request):
