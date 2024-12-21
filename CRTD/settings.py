@@ -151,3 +151,4 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'admin_dashboard.User'
+LOGIN_URL = '/user_login/'
