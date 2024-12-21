@@ -251,12 +251,16 @@ def passkey(request):   # Once user click Passkey Section
 
 def add_passkey(request):  # For Save button in Add Passkey Modal
     if request.method == "POST":
-        key_value = request.POST.get("key")      
-        passkey = Passkey.objects.create(key=key_value, is_active=True)
-        messages.success(request, f"Passkey '{passkey.key}' added successfully!") 
-        return redirect("admin_dashboard:passkey") 
+        key_value = request.POST.get("key")   
+        is_active = request.POST.get("is_active") == "on"  # Get is_active as a boolean   
+        if key_value:
+            passkey = Passkey.objects.create(key=key_value, is_active=is_active)
+            messages.success(request, f"Passkey '{passkey.key}' added successfully!")
+        else:
+            messages.error(request, "Passkey cannot be empty.")
+        return redirect("admin_dashboard:passkey")
     passkeys = Passkey.objects.all()
-    return render(request, "passkey.html", {"passkeys": passkeys})
+    return render(request, "passkey.html", {"passkeys": passkeys, "is_active":is_active})
   
 
 # For Edit button in Passkey Modal
@@ -264,16 +268,17 @@ def update_passkey(request, passkey_id):
     passkey = get_object_or_404(Passkey, id=passkey_id)
     if request.method == "POST":
         key_value = request.POST.get("key")
+        is_active = request.POST.get("is_active") == "on"  # Get is_active as a boolean
         if key_value:
             passkey.key = key_value
-            passkey.is_active = True  # Optional: Update other fields if needed
+            passkey.is_active = is_active
             passkey.save()
             messages.success(request, "Passkey updated successfully!")
         else:
             messages.error(request, "Passkey cannot be empty.")
         return redirect("admin_dashboard:passkey")
     passkeys = Passkey.objects.all()
-    return render(request, "passkey.html", {"passkeys": passkeys})
+    return render(request, "passkey.html", {"passkeys": passkeys, "is_active":is_active})
 
 
 def delete_passkey(request, passkey_id):
