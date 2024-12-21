@@ -108,7 +108,7 @@
             <tbody>
               <tr>
                 
-                <td style="text-align: center;">445458</td>
+                <td style="text-align: center;">{{amount}}</td>
                 <td style="text-align: center;" class="action-icons">
                   <i class="fas fa-edit" id="edit-button"></i>
                 </td>
@@ -126,10 +126,11 @@
             <h3 class="text-center mb-4" style="color: #003b8b">
               Edit Amount
             </h3>
-            <form>
+            <form action="{% url 'admin_dashboard:amount_section' %}" method="post">
+              {% csrf_token %}
               <div class="form-check mb-3">
                 <label class="form-check-label" for="option1">
-                  <input type="text" class="form-control" style="background-color: white" />
+                  <input type="text" class="form-control" style="background-color: white" value="{{amount}}" name="amount"/>
                 </label>
               </div>
               <div class="d-flex justify-content-between w-100">

@@ -117,28 +117,32 @@ def question_section(request):
                    "quizzes":Quiz.objects.all()})
 
 def question_list(request,quiz_id):
+    quiz = get_object_or_404(Quiz,id=quiz_id)
     return render(request,'question_list.html',
                   {"user":request.user,
-                   "quiz":get_object_or_404(Quiz,id=quiz_id)})
+                   "quiz": quiz,
+                   })
 
 def add_question(request):
     if not request.POST:
         return redirect("admin_dashboard:question_section")
 
-    data = request.POST.get('data',None)
-    if not data: return JsonResponse({"error":"No form data"})
-
+    data = request.POST
+    
     quiz_id = data.get('quiz_id')
     question_text = data.get('question_text',None)
     if not question_text: JsonResponse({"error":"No question"})
 
     correct_answer_id  = data.get('correct_answer_id',None)
     if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
+    correct_answer_id = int(correct_answer_id)
 
     answers_data = []
-    answer_id = data.get('answer-1',None)
-    while(answer_id is not None):
-        answer_text = data.get(f'answer_text-${answer_id}')
+    # answer id refers to the id from the front end NOT the object id.
+    for answer_id in range(1,5):
+        answer_text = data.get(f'answer_text-{answer_id}')
+        if answer_text == '':
+            break;
         answers_data.append([answer_text,answer_id==correct_answer_id])
 
     if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
@@ -152,51 +156,64 @@ def add_question(request):
     return redirect('admin_dashboard:question_list',quiz_id)
 
 def edit_question(request):
-    if not request.POST:
-        return redirect("admin_dashboard:question_section")
+    if request.GET:
+        question_id= request.GET.get('question_id')
+        question = get_object_or_404(Question,id=question_id)
+        index = 1
+        for q in question.quiz.quiz_questions.all():
+            if q.id == question.id:
+                break
+            index += 1
+        return JsonResponse({
+            "question": question.serialize(),
+            "answers": list(map(Answer.serialize,question.answers_for_question.all())),
+            "index": index,
+        })
+    
+    elif request.POST:
+        data = request.POST
 
-    data = request.POST.get('data',None)
-    if not data: return JsonResponse({"error":"No form data"})
+        question_id = data.get('question_id')
+        question_text = data.get('question_text',None)
+        if not question_text: JsonResponse({"error":"No question"})
 
-    quiz_id = data.get('quiz_id')
-    question_id = data.get('question_id')
-    question_text = data.get('question_text',None)
-    if not question_text: JsonResponse({"error":"No question"})
+        correct_answer_id  = data.get('correct_answer_id',None)
+        if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
+        answer_ids = data.get('answer_ids',None)
+        answer_ids = list(answer_ids.split(','))[:-1]
+        
+        answers_data = []
+        for answer_id in answer_ids:
+            answer_text = data.get(f'answer_text-{answer_id}')
+            if(answer_text == ''): break
+            answers_data.append([answer_text,answer_id==correct_answer_id])
 
-    correct_answer_id  = data.get('correct_answer_id',None)
-    if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
+        if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
 
-    answers_data = []
-    answer_id = data.get('answer-1',None)
-    while(answer_id is not None):
-        answer_text = data.get(f'answer_text-${answer_id}')
-        answers_data.append([answer_text,answer_id==correct_answer_id])
+        question = get_object_or_404(Question,id = question_id)
+        question.question_text = question_text
+        new_answer_ids = []
+        for data in answers_data:
+            answer, created = Answer.objects.get_or_create(answer_text = data[0],is_correct=data[1],question_id=question.id)
+            new_answer_ids.append(answer.id)
+            answer.save()
 
-    if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
+        question.save()
+        for answer in Answer.objects.filter(question_id=question.id):
+            if answer.id not in new_answer_ids:
+                answer.delete()
 
-    question = get_object_or_404(Question,id = question_id)
-    question.save()
-    new_answer_ids = []
-    for data in answers_data:
-        answer, created = Answer.objects.get_or_create(answer_text = data[0],is_correct=data[1],question_id=question.id)
-        new_answer_ids.append(answer.id)
-        answer.save()
+        return redirect('admin_dashboard:question_list',question.quiz.id)
 
-    for answer in Answer.objects.filter(question_id=question.id):
-        if answer.id not in new_answer_ids:
-            answer.delete()
+def delete_question(request):
+    if request.POST:
+        question_id = request.POST.get('question_id')
+        if question_id is None: return JsonResponse({"error":"No question ID provided"})
+        question = get_object_or_404(Question,id = question_id)
+        quiz_id = question.quiz.id
+        question.delete()
 
-    return redirect('admin_dashboard:question_list',quiz_id)
-
-def delete_question(request,question_id):
-    question = get_object_or_404(Question,id=question_id)
-    quiz_id = question.quiz.id
-    answers = Answer.objects.filter(question_id = question_id)
-    for answer in answers:
-        answer.delete()
-    question.delete()
-
-    return redirect('admin_dashboard:question_list',quiz_id)
+        return redirect('admin_dashboard:question_list',quiz_id)
 
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
@@ -234,12 +251,16 @@ def passkey(request):   # Once user click Passkey Section
 
 def add_passkey(request):  # For Save button in Add Passkey Modal
     if request.method == "POST":
-        key_value = request.POST.get("key")      
-        passkey = Passkey.objects.create(key=key_value, is_active=True)
-        messages.success(request, f"Passkey '{passkey.key}' added successfully!") 
-        return redirect("admin_dashboard:passkey") 
+        key_value = request.POST.get("key")   
+        is_active = request.POST.get("is_active") == "on"  # Get is_active as a boolean   
+        if key_value:
+            passkey = Passkey.objects.create(key=key_value, is_active=is_active)
+            messages.success(request, f"Passkey '{passkey.key}' added successfully!")
+        else:
+            messages.error(request, "Passkey cannot be empty.")
+        return redirect("admin_dashboard:passkey")
     passkeys = Passkey.objects.all()
-    return render(request, "passkey.html", {"passkeys": passkeys})
+    return render(request, "passkey.html", {"passkeys": passkeys, "is_active":is_active})
   
 
 # For Edit button in Passkey Modal
@@ -247,16 +268,17 @@ def update_passkey(request, passkey_id):
     passkey = get_object_or_404(Passkey, id=passkey_id)
     if request.method == "POST":
         key_value = request.POST.get("key")
+        is_active = request.POST.get("is_active") == "on"  # Get is_active as a boolean
         if key_value:
             passkey.key = key_value
-            passkey.is_active = True  # Optional: Update other fields if needed
+            passkey.is_active = is_active
             passkey.save()
             messages.success(request, "Passkey updated successfully!")
         else:
             messages.error(request, "Passkey cannot be empty.")
         return redirect("admin_dashboard:passkey")
     passkeys = Passkey.objects.all()
-    return render(request, "passkey.html", {"passkeys": passkeys})
+    return render(request, "passkey.html", {"passkeys": passkeys, "is_active":is_active})
 
 
 def delete_passkey(request, passkey_id):
@@ -265,10 +287,13 @@ def delete_passkey(request, passkey_id):
         passkey.delete()
         return redirect('admin_dashboard:passkey')  
 
-    """
-    <form method="post" action="{% url 'delete_passkey' passkey.id %}">
-    {% csrf_token %}
-    <button type="submit">Yes, Delete</button>
-    <a href="{% url 'passkey_list' %}">Cancel</a>
-    </form>
-    """
+def amount_section(request):
+    if request.POST:
+        amount = request.POST.get('amount',None)
+        if amount is None: return JsonResponse({"error":"Enter an amount"})
+        Amount.set_value(int(amount))
+        return redirect("admin_dashboard:amount_section")
+
+    return render(request, "Amount-Edit.html",{
+        'amount': Amount.get_value()
+    })

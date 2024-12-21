@@ -34,11 +34,18 @@ class Question(models.Model):
     def get_answers(self):
         return self.answer_set.all()
     
+    def serialize(self):
+        return {
+            'id': self.id,
+            'question_text': self.question_text,
+            'quiz': self.quiz.id,
+        }
+    
 
 class Answer(models.Model):
     answer_text = models.CharField(max_length=500)
     is_correct = models.BooleanField(default=False) 
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE,related_name='answers_for_question')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
