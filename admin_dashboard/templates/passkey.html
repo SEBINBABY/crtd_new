@@ -1,101 +1,14 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+    {% block title %}
     <title>Passkey</title>
+    {% endblock %}
+{% load static %}
+    {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/passkey.css' %}">
-</head>
-<body>
-  <div class="nav">
-    <div class="logo"></div>
-    <div class="text">
-      <h1>CRTD Technologies Test Submission</h1>
-      <h2>Dashboard</h2>
-    </div>
-    <div class="profile">
-      <div class="profile-img">
-        <img src="/static/images/profile.png" alt="" />
-      </div>
-      <h3>Super Admin</h3>
-      <button class="button-1">Log Out</button>
-    </div>
-  </div>
-  <div class="content">
-    <div class="left">
-      <div id="sidebar" class="sidebar">
-        <div class="user-section">
-          <h2 class="user-role">SuperAdmin</h2>
-          <button class="dashboard-button">Open dashboard</button>
-        </div>
+    {% endblock %}
 
-        <div class="favorites-section">
-          <h4 class="section-title">Favorites</h4>
-          <ul class="favorites-list">
-            <li>• Total Account Created</li>
-            <li>• Not Submitted</li>
-          </ul>
-        </div>
+  {% block content %}
 
-        <div class="dashboards-section">
-          <h4 class="section-title">Dashboards</h4>
-          <ul class="dashboards-list">
-            <li>
-              <a href="{% url 'admin_dashboard:filtered_users' 'all' %}">
-              <img src="/static/images/dashboard.png" alt="" />Total Account Created
-            </a>
-            </li>
-            <li>
-              <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}">
-              <img src="/static/images/3.png" alt="" />Total Submitted
-            </a>
-            </li>
-            <li>
-              <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
-              <img src="/static/images/4.png" alt="" />Not Submitted
-            </a>
-            </li>
-            <li>
-              <a href="{% url 'admin_dashboard:question_section' %}">
-              <img src="/static/images/5.png" alt="" />Question Section
-            </a>
-            </li>
-            <li class="passkey-i">
-              <a href="{% url 'admin_dashboard:passkey' %}">
-              <img src="/static/images/passkey.png" alt="" />Passkey
-            </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="side">
-      <div class="side-bar">
-        <div class="icon-con">
-          <img src="/static/images/dashboard.png" alt="Icon-1" />
-        </div>
-        <div class="icon-con">
-          <img src="/static/images/3.png" alt="Icon-2" />
-        </div>
-        <div class="icon-con">
-          <img src="/static/images/4.png" alt="Icon-3" />
-        </div>
-        <div class="icon-con">
-          <img src="/static/images/5.png" alt="Icon-4" />
-        </div>
-        <div class="icon-con">
-          <img src="/static/images/passkey.png" alt="Icon-5" />
-        </div>
-      </div>
-    </div>
-
-      
-    </div>
-    <div class="right">
-      <div class="icon">
-        <img src="/static/images/1.png" alt="" />
-      </div>
       <div class="table">
         <div class="table-container">
           <table>
@@ -107,14 +20,14 @@
               </tr>
             </thead>
             <tbody>
-              {% for passkey in passkeys %}
-              <tr data-passkey-id="{{ passkey.id }}">          
+              <tr>
+                {% for passkey in passkeys %}
                 <td>{{forloop.counter}}.</td>
                 <td class="passkey">{{passkey.key}}</td>
                 <td class="actions" style="text-align: center;">
                   <div class="action-btns">
-                      <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
-                      <img class="eye-btn" src="/static/images/edit.png" alt="See">
+                      <img class="delete-btn" src="delete.png" alt="Delete">
+                      <img class="eye-btn" src="edit.png" alt="See">
                   </div>
                 </td>
               </tr>
@@ -145,15 +58,11 @@
   <div class="modal">
     <div class="modal-content">
       <h3>Enter New Passkey</h3>
-      <form action="{% url 'admin_dashboard:add_passkey' %}" method="POST">
-        {% csrf_token %}
-      <input type="text" class="passkeyInput" placeholder="Passkey"  name="key" required/>
-      <div class="activebutton" style="display: flex;"> 
-      <label for="is_active" style="margin-top: 20px; margin-left: 80px; ">Active:</label>
-      <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -80px; background-color: aqua;">
-    </div>
+      <input type="text" class="passkeyInput" placeholder="Passkey" />
       <div class="modal-buttons">
-        <button class="cancel-btn">Cancel</button>   
+        <button class="cancel-btn">Cancel</button>
+        <form action="{% url 'admin_dashboard:add_passkey' %}" method="POST">
+          {% csrf_token %}
         <button id="saveBtn" class="save-btn" type="submit">Save</button>
         </form>
       </div>
@@ -162,26 +71,21 @@
 
   <!-- Edit new passkey -->
   {% for passkey in passkeys %}
-  <div class="edit-modal" id="edit-modal-{{ passkey.id }}">
+  <div class="edit-modal">
     <div class="modal-content">
       <h3>Edit Passkey</h3>
-      <form action="{% url 'admin_dashboard:update_passkey' passkey.id %}" method="POST">
-        {% csrf_token %}
-       
-      <input type="text" class="passkeyInput" placeholder="Passkey" name="key"  value="{{ passkey.key }}" required/>
-      <div class="activebutton"> 
-      <label for="is_active" style="margin-top: 30px;">Active:</label>
-      <input type="checkbox" id="is_active"  class="passkeyInput" name="is_active" {% if passkey.is_active %}checked{% endif %}>
-    </div>
+      <input type="text" class="passkeyInput" placeholder="Passkey" value="{{ passkey.key }}"/>
       <div class="modal-buttons">
         <button class="cancel-btn-edit">Cancel</button>
+        <form action="{% url 'admin_dashboard:update_passkey' passkey.id %}" method="POST">
+          {% csrf_token %}
         <button id="saveBtnEdit" class="save-btn-edit" type="submit">Save</button>
         </form>
       </div>
     </div>
   </div>
 
-  <div class="delete-modal" id="delete-modal" style="display: none;">
+  <div class="delete-modal">
     <div class="modal-content">
       <!-- Close Button -->
       <span class="delete-close-btn">&times;</span>
@@ -192,63 +96,28 @@
       <!-- Confirmation Text -->
       <div class="modal-body">
         <p class="modal-title">Are you sure you want to delete</p>
-        <p class="modal-item" id="modal-item">Passkey: <span id="delete-passkey-id"></span></p>
+        <p class="modal-item">Passkey {{ passkey.value }}?</p>
       </div>
       <!-- Buttons -->
       <div class="modal-footer">
         <button class="btn delete-cancel-btn">Cancel</button>
-        <form id="delete-form" method="POST" action="" onsubmit="return confirmDelete(event)">
+        <form action="{% url 'admin_dashboard:delete_passkey' passkey.id %}" method="POST">
           {% csrf_token %}
         <button class="btn delete-delete-btn" type="submit">Delete</button>
-        
         </form>
       </div>
     </div>
   </div>
   {% endfor %}
+{% endblock %}
 
+
+
+{% block extra_js %}
   <script>
-    const toggleIcon = document.querySelector(".icon");
     const left = document.querySelector(".left");
-    const content = document.querySelector(".content");
     const table = document.querySelector(".table");
-    const sidebar = document.getElementById("sidebar");
-    const side = document.querySelector(".side");
     const editBtn = document.querySelectorAll(".eye-btn");
-
-    // Select elements
-    const deleteBtns = document.querySelectorAll(".delete-btn");
-    const deleteModal = document.querySelector(".delete-modal");
-    const deleteCancelBtn = document.querySelector(".delete-cancel-btn");
-    const deleteCloseBtn = deleteModal.querySelector(".delete-close-btn");
-    const deletePasskeyId = document.getElementById("delete-passkey-id");
-    const deleteForm = document.getElementById("delete-form");
-
-    toggleIcon.addEventListener("click", () => {
-      // window.location.href = "passkey2.html";
-  sidebar.classList.toggle('active');
-  if (sidebar.classList.contains('active')) {
-      // Open sidebar and apply styles
-      sidebar.style.border = "none";
-      sidebar.style.boxShadow = "none"
-      side.style.display = "block";
-      content.style.position = "relative";
-      content.style.right = "20%"; // Shift content by the same amount as sidebar
-      content.style.width = "120%"; // Reset to its original width
-      content.style.left = "";
-  } else {
-      sidebar.style.border = "";
-      sidebar.style.boxShadow = "";
-      left.style.position = "relative";
-      left.style.right = "";
-      left.style.left = "0";
-      side.style.display = "none";
-      content.style.width = ""; // Reset to original width
-  content.style.position = ""; // Reset to default position
-  content.style.right = ""; // Clear any right positioning
-  content.style.left = "";
-  }
-    });
 
     const addPasskeyBtn = document.querySelector(".add-btn");
     const passkeyModal = document.querySelector(".modal");
@@ -256,10 +125,19 @@
     const passkeyInput = document.querySelector(".passkeyInput");
     const cancelBtn = document.querySelector(".cancel-btn");
     const passkeyModalEdit = document.querySelector(".edit-modal");
-    const cancelBtnEdit = document.querySelectorAll(".cancel-btn-edit");
+    const cancelBtnEdit = document.querySelector(".cancel-btn-edit");
     const saveBtnEdit = document.querySelector(".save-btn-edit");
-    // const passkeyModalDelete = document.querySelector(".delete-modal");
+    const deleteBtn = document.querySelectorAll(".delete-btn");
+    const passkeyModalDelete = document.querySelector(".delete-modal");
+    const deleteCancelBtn = document.querySelector(".delete-cancel-btn");
+    const deleteDeleteBtn = document.querySelector(".delete-delete-btn");
+    const deleteCloseBtn = document.querySelector(".delete-close-btn");
 
+    editBtn.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        passkeyModalEdit.style.display = "block";
+      });
+    });
 
     // Show the modal when Add Passkey is clicked
     addPasskeyBtn.addEventListener("click", () => {
@@ -272,74 +150,44 @@
       passkeyInput.value = ""; // Clear input field
     });
 
-    editBtn.forEach((btn) => {
-    btn.addEventListener("click", (event) => {
-        // Get the passkey ID from a data attribute on the row
-        const passkeyRow = btn.closest("tr");
-        const passkeyId = passkeyRow.dataset.passkeyId; // Extract ID
-
-        // Show the correct modal based on the ID
-        const editModal = document.getElementById(`edit-modal-${passkeyId}`);
-        if (editModal) {
-            editModal.style.display = "block";
-        }
+    cancelBtnEdit.addEventListener("click", () => {
+      passkeyModalEdit.style.display = "none";
+      passkeyInput.value = ""; // Clear input field
     });
-});
-
-// Close the modal on cancel
-cancelBtnEdit.forEach((btn) => {
-    btn.addEventListener("click", (event) => {
-        const modal = btn.closest(".edit-modal");
-        if (modal) {
-            modal.style.display = "none";
-        }
+    // Save button logic
+    saveBtn.addEventListener("click", () => {
+      const passkey = passkeyInput.value.trim();
+      if (passkey) {
+        alert("New passkey {" + passkey + "} has been saved!");
+        passkeyModal.style.display = "none";
+        passkeyInput.value = ""; // Clear input field
+      } else {
+        alert("Please enter a passkey.");
+      }
     });
-});
 
-// Add event listeners for delete buttons
-deleteBtns.forEach((btn) => {
-  btn.addEventListener("click", (event) => {
-    const passkeyRow = btn.closest("tr");
-    const passkeyId = passkeyRow.dataset.passkeyId;
+    saveBtnEdit.addEventListener("click", () => {
+      passkeyModalEdit.style.display = "none";
+    });
 
-    if (passkeyId) {
-      deletePasskeyId.textContent = passkeyId; // Update modal text
-      deleteForm.action = `{% url 'admin_dashboard:delete_passkey' 0 %}`.replace("0", passkeyId);
-      deleteModal.style.display = "block"; // Show the modal
-    } else {
-      console.error("Passkey ID is missing or invalid.");
-    }
-  });
-});
+    deleteBtn.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        passkeyModalDelete.style.display = "block";
+      });
+    });
 
+    deleteCloseBtn.addEventListener("click", () => {
+      passkeyModalDelete.style.display = "none";
+    });
 
+    deleteCancelBtn.addEventListener("click", () => {
+      passkeyModalDelete.style.display = "none";
+    });
 
-function confirmDelete(event) {
-  if (!confirm("Are you sure you want to delete this passkey?")) {
-    event.preventDefault();
-    return false;
-  }
-  return true; // Proceed with form submission
-}
-
-
-
-
-// Close the modal on cancel or close button
-deleteCancelBtn.addEventListener("click", () => {
-  deleteModal.style.display = "none";
-});
-
-deleteCloseBtn.addEventListener("click", () => {
-  deleteModal.style.display = "none";
-});
-
-// Close modal when clicking outside the modal content
-window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && deleteModal.style.display === "block") {
-    deleteModal.style.display = "none";
-  }
-});
+    deleteDeleteBtn.addEventListener("click", () => {
+      alert("Passkey has been deleted!");
+      passkeyModalDelete.style.display = "none";
+    });
 
     // Close modal when clicking outside the modal content
     window.addEventListener("click", (event) => {
@@ -348,15 +196,5 @@ window.addEventListener("keydown", (event) => {
         passkeyInput.value = "";
       }
     });
-    const checkbox = document.getElementById("is_active");
-
-checkbox.addEventListener("change", function() {
-  if (checkbox.checked) {
-    checkbox.style.accentColor = "#00d363";
-  } else {
-    checkbox.style.accentColor = "#00d363"; // Reset to default
-  }
-});
   </script>
-</body>
-</html>
+  {% endblock %}
