@@ -112,7 +112,7 @@ def admin_hr_login(request):
 
 # @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_section(request):
-    return render(request, "quiz_list.html",
+    return render(request, "Quiz_list.html",
                   {"user":request.user,
                    "quizzes":Quiz.objects.all()})
 
