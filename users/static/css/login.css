@@ -132,16 +132,17 @@ body{
     font-size: 16px;
 }
 .msg-container{
-    height: 7%;
+    height: 6%;
     width: 70%;
-    /* background-color: red !important; */
+    /* background-color: red; */
     padding: 5px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     position: relative;
-    top: -13%;
-    left: 15%;
+    top: 23%;
+    left: 12%;
+    color: rgb(214, 32, 32);
 }
 .content-input i{
     cursor: pointer;

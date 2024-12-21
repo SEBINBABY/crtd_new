@@ -13,17 +13,46 @@
 
 <!-- Modal for Password Reset Success -->
 
-            <div class="modal-body">
+            <!-- <div class="modal-body">
                 {% if messages %}
                     {% for message in messages %}
                         {% if forloop.first %}
                             {{ message }}
-                        {% endif %}          <!-- Stops after the first message -->
+                        {% endif %}      
                     {% endfor %}
                 {% else %}
                     No messages to display.
                 {% endif %}
+            </div> -->
+
+            <div class="modal fade" id="emailVerificationModal" tabindex="-1" aria-labelledby="emailVerificationLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="emailVerificationLabel">Verify Your Email</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% if messages %}
+                            {% for message in messages %}
+                                {% if forloop.first %}
+                                    {{ message }}
+                                {% endif %}          <!-- Stops after the first message -->
+                            {% endfor %}
+                            {% else %}
+                            No messages to display.
+                            {% endif %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="continueButton">Continue</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
+
 
 <!-- login form -->
     <div class="login-box">
@@ -86,6 +115,22 @@
         password.setAttribute('type', type);
         });
     </script>
+
+<script>
+    document.getElementById("submitButton").addEventListener("click", function() {
+        const emailInput = document.getElementById("inputEmail").value;
+        const modalEmail = document.getElementById("userEmail");
+        modalEmail.textContent = emailInput;
+        const modal = new bootstrap.Modal(document.getElementById("emailVerificationModal"));
+        modal.show();
+    });
+
+    document.getElementById("continueButton").addEventListener("click", function() {
+        const form = document.getElementById("verifyEmailForm");
+        form.action = "{% url 'users:send_email_verification_otp' %}";
+        form.submit();
+    });
+</script>
 
 
 </body>
