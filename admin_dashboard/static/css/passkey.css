@@ -542,3 +542,11 @@ input {
   text-decoration: none;
   color: inherit;
 }
+.activebutton{
+  position: relative;
+  display: flex;
+  margin-top: 30px;
+}
+.passkeyInput:checked {
+accent-color: green;
+}

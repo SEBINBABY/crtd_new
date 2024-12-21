@@ -8,7 +8,7 @@
   <title>Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
-   
+
   <link rel="stylesheet" href="{% static 'css/Question-List.css' %}">
 
 
@@ -42,7 +42,7 @@
   <main class="container-fluid my-2 main-content">
     <div class="row">
       <aside id="sidebar" class="col-md-3 col-lg-2 sidebar">
-        <h5 class="mb-4"  >SuperAdmin</h5>
+        <h5 class="mb-4">SuperAdmin</h5>
         <a href="#" class="nav-link mb-3"> Open dashboard </a>
         <h6 style="color: black; opacity: 40%; font-weight: 500">
           Favorites
@@ -127,7 +127,8 @@
                   {{question.question_text}}
                 </td>
                 <td class="text-left action-icons">
-                  <i id="delete-{{question.id}}" class="delete-btns fas fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
+                  <i id="delete-{{question.id}}" class="delete-btns fas fa-trash" data-bs-toggle="modal"
+                    data-bs-target="#deleteModal"></i>
                   <i id="edit-{{question.id}}" class="edit-btns fas fa-edit"></i>
                 </td>
               </tr>
@@ -147,80 +148,84 @@
               <h3 class="text-center mb-4" style="color: #003b8b">
                 Edit Question
               </h3>
-                <div class="container-fluid question-title">
-                  <label for="question_text" id="question_number" class="p-0 m-0">Q1</label>
-                  <input id="question_text" required name="question_text" class="fw-bold form-control" style="color: #494949;text-decoration: underline;" value="">
-                </div>
-                
-                
-                <div id="answers" class="p-0 m-0">
-                </div>
-                <input type="hidden" name="answer_ids" id="answer_ids" value="">
-                <input type="hidden" name="question_id" id="question_id" value="">
-                <input type="hidden" name="quiz_id" id="quiz_id" value="">
-                
-              
-              
-                <div class="d-flex justify-content-between w-100">
-                  <button type="button" class="btn btn-cancel me-3 px-4" onclick="closePopup()">
-                    Cancel
-                  </button>
-                  <button id="edit_save" class="btn btn-save px-5 ml-5">
-                    Save
-                  </button>
-                </div>
+              <div class="container-fluid question-title" >
+                <label for="question_text" id="question_number" class="p-0 m-0" style="display: flex;" >Q1.</label>
+                <input id="question_text" required name="question_text" class="fw-bold form-control"
+                  style="color: #494949;text-decoration: underline;background-color:white ; border: none;  margin-left: 13px; margin-top: -33px; " value="">
               </div>
+
+
+              <div id="answers" class="p-0 m-0" style="position: relative; left:-10%">
+              </div>
+              <input type="hidden" name="answer_ids" id="answer_ids" value="">
+              <input type="hidden" name="question_id" id="question_id" value="">
+              <input type="hidden" name="quiz_id" id="quiz_id" value="">
+
+
+
+              <div class="d-flex    ">
+                <button type="button" class="btn btn-cancel me-3 px-4" onclick="closePopup()">
+                  Cancel
+                </button>
+                <button id="edit_save" class="btn btn-save  " style="text-align: center;">
+                  Save
+                </button>
+              </div>
+            </div>
           </form>
         </div>
 
         <div class="modal fade" id="addQuestionModal" tabindex="-1" aria-labelledby="exampleModalLabel"
           aria-hidden="true">
           <div class="modal-dialog">
-            <div class="modal-content px-4 py-3">
+            <div class="modal-content px-4 py-3 " style="width: 550px; border-radius: none;">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
+                <h5 class="modal-title" id="exampleModalLabel"
+                  style="color: #003B8B; text-align: center; justify-content: center; margin-left: 170px; ">
                   Add New Question
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
               </div>
               <div class="modal-body">
                 <form id="add_form" method="post" action="{% url 'admin_dashboard:add_question' %}">
-                {% csrf_token %}
-                <input name="question_text" class="mb-4 fw-bold form-control" placeholder="Add Your Question Here" required></input>
-                  <div class="mb-3 row">
-                    <div class="col-1 d-flex justify-content-center">
-                      <input type="radio" name="correct_answer_id" value="1" class="form-check-input1" />
+                  {% csrf_token %}
+                  <input name="question_text" class="mb-4 fw-bold form-control" placeholder="Add Your Question Here"
+                    style="background-color: white ; border: none;" required>
+                  <hr style="margin-top: -25px;">
+                  <div class="mb-2 ro ">
+
+                    <div class="form-check mb-1">
+
+                      <input class="form-check-input1" type="radio" name="correct_answer_id" id="option1" value="1" />
+                      <label class="form-check-label1" for="option1">
+                        <input type="text" class="form-control" placeholder="Option1" name="answer_text-1"
+                          style="background-color: white" />
+                      </label>
                     </div>
-                    <div class="col-11">
-                      <input type="text" name="answer_text-1" class="form-control" placeholder="Option1"/>
+                    <div class="form-check mb-1">
+                      <input class="form-check-input1" type="radio" name="correct_answer_id" id="option2" value="2" />
+                      <label class="form-check-label1 " for="option2">
+                        <input type="text" class="form-control " placeholder="Option2" name="answer_text-2"
+                          style="background-color: white" />
+                      </label>
+                    </div>
+                    <div class="form-check mb-1">
+                      <input class="form-check-input1" type="radio" name="correct_answer_id" value="3" id="option3" />
+                      <label class="form-check-label1" for="option3">
+                        <input type="text" class="form-control" placeholder="Option3" name="answer_text-3"
+                          style="background-color: white" />
+                      </label>
+                    </div>
+                    <div class="form-check mb-1">
+                      <input class="form-check-input1" type="radio" name="correct_answer_id" value="4" id="option4" />
+                      <label class="form-check-label1" for="option4">
+                        <input type="text" class="form-control" placeholder="Option4" name="answer_text-4"
+                          style="background-color: white" />
+                      </label>
                     </div>
                   </div>
-                  <div class="mb-3 row">
-                    <div class="col-1 d-flex justify-content-center">
-                      <input type="radio" name="correct_answer_id" value="2" class="form-check-input1"  />
-                    </div>
-                    <div class="col-11">
-                      <input type="text" name="answer_text-2" class="form-control" placeholder="Option2"/>
-                    </div>
-                  </div>
-                  <div class="mb-3 row">
-                    <div class="col-1 d-flex justify-content-center">
-                      <input type="radio" name="correct_answer_id" value="3" class="form-check-input1"/>
-                    </div>
-                    <div class="col-11">
-                      <input type="text" name="answer_text-3" class="form-control" placeholder="Option3"/>
-                    </div>
-                  </div>
-                  <div class="mb-3 row">
-                    <div class="col-1 d-flex justify-content-center">
-                      <input type="radio" name="correct_answer_id" value="4" class="form-check-input1"/>
-                    </div>
-                    <div class="col-11">
-                      <input type="text" name="answer_text-4" class="form-control" placeholder="Option4"/>
-                    </div>
-                  </div>
-              
-                <input type="hidden" name="quiz_id" value="{{quiz.id}}">
+
+                  <input type="hidden" name="quiz_id" value="{{quiz.id}}">
               </div>
               <div class="modal-footer border-0 justify-content-center">
                 <button type="button" class="btn btn-cancel me-3" data-bs-dismiss="modal">
@@ -228,7 +233,7 @@
                 </button>
                 <button type="submit" class="btn btn-save">Save</button>
               </div>
-            </form>
+              </form>
             </div>
           </div>
         </div>
@@ -239,7 +244,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <img src="images/Delete.png" alt="Delete Image" />
+                <img src="/static/images/Delete.png" alt="Delete Image" />
                 <h5 class="modal-title2 mb-3" id="deleteModalLabel" style="color: #003b8b">
                   Are you sure you want to delete this question?
                 </h5>
@@ -264,111 +269,111 @@
     </div>
   </main>
   <script>
-document.addEventListener("DOMContentLoaded", ()=>{
-document.getElementById("sidebarToggleBtn")
-      .addEventListener("click", function () {
-        document.getElementById("sidebar").classList.toggle("open");
-        document.querySelector(".main-content").classList.toggle("shifted");
-        document.querySelector(".my-div").classList.toggle("shifted");
-        document.querySelector(".containe").classList.toggle("shifted");
-        document.querySelector(".select").classList.toggle("hidden");
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("sidebarToggleBtn")
+        .addEventListener("click", function () {
+          document.getElementById("sidebar").classList.toggle("open");
+          document.querySelector(".main-content").classList.toggle("shifted");
+          document.querySelector(".my-div").classList.toggle("shifted");
+          document.querySelector(".containe").classList.toggle("shifted");
+          document.querySelector(".select").classList.toggle("hidden");
+        });
+
+
+      document
+        .getElementById("questionSectionLink")
+        .addEventListener("click", function () {
+          const questionSection = document.getElementById(
+            "questionSectionContent"
+          );
+          questionSection.style.display =
+            questionSection.style.display === "none" ? "block" : "none";
+        });
+
+
+      document.querySelectorAll(".edit-btns").forEach(button => {
+        button.addEventListener("click", function () {
+
+          let question_id = parseInt(button.id.split('-')[1])
+          let url = `{% url 'admin_dashboard:edit_question' %}?question_id=${question_id}`
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              document.getElementById("question_text").value = data["question"].question_text
+              document.getElementById("question_id").value = data["question"].id
+              document.getElementById("question_number").innerHTML = "Q" + data["index"]
+              let answers_div = document.getElementById("answers")
+              answers_div.innerHTML = ""
+              let counter = 1
+              data['answers'].forEach(answer => {
+                createAnswerElement(answer.id, answer.is_correct, answer.answer_text, counter)
+                counter += 1
+              });
+              while (counter <= 4) {
+                createAnswerElement(counter, false, "", counter)
+                counter += 1
+              }
+
+
+            })
+            .then(() => {
+              document.getElementById("edit-content").style.display = "block";
+            })
+        });
       });
 
+      function createAnswerElement(answer_id, is_correct, answer_text, counter) {
+        let answers_div = document.getElementById("answers")
+        let answer_ids = document.getElementById("answer_ids")
+        let div = document.createElement("div")
+        div.classList.add("form-check")
+        div.classList.add("mb-3")
 
-    document
-      .getElementById("questionSectionLink")
-      .addEventListener("click", function () {
-        const questionSection = document.getElementById(
-          "questionSectionContent"
-        );
-        questionSection.style.display =
-          questionSection.style.display === "none" ? "block" : "none";
-    });
-    
+        let radio = document.createElement("input")
+        radio.type = "radio"
+        radio.name = "correct_answer_id"
+        radio.classList.add("form-check-input")
+        radio.required = true
+        radio.id = `radio-${answer_id}`
+        radio.value = answer_id
+        if (is_correct) {
+          radio.checked = true
+        }
 
-    document.querySelectorAll(".edit-btns").forEach(button => {
-      button.addEventListener("click", function () {
+        let label = document.createElement("label")
+        label.classList.add("form-check-label")
+        label.for = `radio-${answer_id}`
 
-        let question_id = parseInt(button.id.split('-')[1])
-        let url = `{% url 'admin_dashboard:edit_question' %}?question_id=${question_id}`
-        fetch(url)
-        .then(response => response.json())
-        .then(data =>{
-          document.getElementById("question_text").value = data["question"].question_text
-          document.getElementById("question_id").value = data["question"].id
-          document.getElementById("question_number").innerHTML = "Q" + data["index"]
-          let answers_div = document.getElementById("answers")
-          answers_div.innerHTML = ""
-          let counter = 1
-          data['answers'].forEach(answer => {
-            createAnswerElement(answer.id,answer.is_correct,answer.answer_text,counter)
-            counter += 1
-          });
-          while(counter <= 4){
-            createAnswerElement(counter,false,"",counter)
-            counter += 1
-          }
-          
+        let input = document.createElement("input")
+        input.type = "text"
+        input.classList.add("form-control")
+        input.value = answer_text
+        input.style.backgroundColor = 'white'
+        input.name = `answer_text-${answer_id}`
+        input.placeholder = `Answer ${counter}`
 
+        label.appendChild(input)
+        div.appendChild(radio)
+        div.appendChild(label)
+        answers_div.appendChild(div)
+        answer_ids.value += answer_id + ","
+      }
+
+      document.querySelectorAll(".delete-btns").forEach(button => {
+        button.addEventListener("click", function () {
+          let question_id = parseInt(button.id.split('-')[1])
+          document.getElementById("delete_question_id").value = question_id
         })
-        .then(()=>{
-          document.getElementById("edit-content").style.display = "block";
-        })
-      });
-    });
-
-    function createAnswerElement(answer_id,is_correct, answer_text,counter){
-      let answers_div = document.getElementById("answers")
-      let answer_ids = document.getElementById("answer_ids")
-      let div = document.createElement("div")
-            div.classList.add("form-check")
-            div.classList.add("mb-3")
-
-            let radio = document.createElement("input")
-            radio.type = "radio"
-            radio.name = "correct_answer_id"
-            radio.classList.add("form-check-input")
-            radio.required = true
-            radio.id = `radio-${answer_id}`
-            radio.value=answer_id
-            if(is_correct){
-              radio.checked = true
-            }
-
-            let label = document.createElement("label")
-            label.classList.add("form-check-label")
-            label.for = `radio-${answer_id}`
-
-            let input = document.createElement("input")
-            input.type="text"
-            input.classList.add("form-control")
-            input.value=answer_text
-            input.style.backgroundColor = 'white'
-            input.name=`answer_text-${answer_id}`
-            input.placeholder = `Answer ${counter}`
-
-            label.appendChild(input)
-            div.appendChild(radio)
-            div.appendChild(label)
-            answers_div.appendChild(div)
-            answer_ids.value += answer_id+","
-    }
-
-    document.querySelectorAll(".delete-btns").forEach(button => {
-      button.addEventListener("click", function () {
-        let question_id = parseInt(button.id.split('-')[1])
-        document.getElementById("delete_question_id").value = question_id
       })
-    })
-    
- 
-  
-  });
 
 
-  function closePopup() {
-    document.getElementById("edit-content").style.display = "none";
-  }
+
+    });
+
+
+    function closePopup() {
+      document.getElementById("edit-content").style.display = "none";
+    }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
