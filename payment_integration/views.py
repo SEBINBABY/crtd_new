@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Payment
 from django.contrib.auth.decorators import login_required
 from admin_dashboard.models import User
+from admin_dashboard.models import Amount
+from django.db import transaction
 
 # Payment integration starts from here 
 @login_required
@@ -32,12 +34,17 @@ def initiate_payment(request):
         print(f"Fullname:{full_name}, email:{email}, contact:{contact_number}")
         callback_url =  "http://127.0.0.1:8000/handle_request/"
         if not settings.DEBUG:  # If live mode
-            callback_url = "http://127.0.0.1:8000/handle_request/"
+            callback_url = "http://3.109.183.125:8000/handle_request/"
         notes = {"order-type":"basic order from the website"}
         client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
         # payment_obj = Payment.objects.get(user=user)
         # amount = payment_obj.amount
-        amount = 1.0
+        try:
+            amount_obj = Amount.objects.first()  # Get the first record (assuming one record exists)
+            amount = amount_obj.value  # Assuming 'amount' is the field in the Amount model
+        except Amount.DoesNotExist:
+            # Handle the case where the amount doesn't exist (e.g., set a default amount or throw an error)
+            amount = 1.0  # default amount, can be adjusted based on our needs
         razorpay_order = client.order.create({
             "amount": amount*100,  # Amount in paise (1.00 INR)
             "currency": "INR",
@@ -97,19 +104,21 @@ def handle_request(request):
             payment_obj.save()
             result = client.utility.verify_payment_signature(params_dict)
             print("Signature verification result:", result)  # Log the verification result
-            # if result is None:
             amount = int(payment_obj.amount * 100) # We have to pass in paisa
             try:
-                client.payment.capture(razorpay_payment_id, amount)
-                print("Payment captured successfully.")
-                payment_obj.status = "successful"
-                payment_obj.save()
-                email = request.user.email
-                print(email)
-                user = User.objects.get(email=email)
-                user.has_paid = True
-                user.save()
-                return render(request, "payment_success.html")
+                with transaction.atomic():
+                    client.payment.capture(razorpay_payment_id, amount)
+                    print("Payment captured successfully.")
+                    payment_obj.status = "successful"
+                    payment_obj.save()
+                    user = request.user
+                    email = user.email
+                    print('users email:',email)
+                    user = User.objects.get(email=email)
+                    user.has_paid = True
+                    user.save()
+                    print("paid?:", user.has_paid)
+                    return render(request, "payment_success.html")
             except razorpay.errors.SignatureVerificationError as e:
                 # Log the error returned by Razorpay for Invalid signature
                 print(f"Payment capture failed: {e}")
