@@ -290,10 +290,13 @@ def delete_passkey(request, passkey_id):
 def amount_section(request):
     if request.POST:
         amount = request.POST.get('amount',None)
-        if amount is None: return JsonResponse({"error":"Enter an amount"})
-        Amount.set_value(int(amount))
+        if amount is None: 
+            return JsonResponse({"error":"Enter an amount"})
+        amount_obj = Amount.objects.first()
+        amount_obj.value = amount
+        amount_obj.save()
         return redirect("admin_dashboard:amount_section")
 
     return render(request, "Amount-Edit.html",{
-        'amount': Amount.get_value()
+        'amount': Amount.get_amount()
     })
