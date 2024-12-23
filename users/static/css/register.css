@@ -49,7 +49,7 @@ body {
     top: 18%;
 }
 .content-box{
-    height: 90%;
+    /* height: 90%; */
     width: 85%;
     /* background-color: blue; */
     background-color: #F5FCFF;
@@ -65,19 +65,20 @@ body {
     color: #032F84;
 }
 .content-input{
+    height: 90%;
     width: 70%;
     /* background-color: yellow; */
     /* margin-top: 5%; */
     position: relative;
-    top: 3%;
+    top: 2%;
     z-index: 1;
 }
 .content-input label{
     margin-top: 2%;
     color: #003B8B;
     font-weight: 500;
-    /* font-size: 18px; */
 }
+
 .check-perform{
     display: flex;
     justify-content: space-between;
@@ -96,17 +97,21 @@ body {
 }
 
 .content-box .submit-btn{
-    height: 1550%;
+    height: 45px;
     width: 25%;
     border: none;
     background: linear-gradient(to right, #13B3FF, #005AD5);
     color: white;
     border-radius: 10px;
-    /* margin-top: 20px; */
     opacity: 60%;
     position: relative;
-    /* left: -10%; */
-    /* top: -5%; */
+    /* height: 200px !important;
+    width: 25%;
+    border: none;
+    background: linear-gradient(to right, #13B3FF, #005AD5);
+    color: white;
+    border-radius: 10px;
+    opacity: 60%; */
 }
 .content-input input{
     background: transparent;
@@ -132,7 +137,7 @@ display: none;
     color: rgb(214, 32, 32);
 }
 .msg-container{
-    height: 195%;
+    height: 60px;
     width: 70%;
     /* background-color: red; */
     padding: 5px;
@@ -146,12 +151,12 @@ display: none;
 .content-input i{
     cursor: pointer;
     position: relative;
-    top: -10%;
+    top: -40px;
     left: 95%;
     font-size: 14px;
 }
 .icon-2{
-    top: -8% !important;
+    top: -35px !important;
 }
 .confirm{
     position: relative;
@@ -182,21 +187,18 @@ display: none;
 .icon-1{
     position: relative;
     left: 95% !important;
-    top: -9% !important;
     font-size: 30px;
-    height: 50px;
-    width: 50px;
 }
 .label-last{
     position: relative;
-    top:1%;
-    left: -12%;
+    /* top: -2%; */
+    left: -4%;
 }
 .input-last{
     position: relative;
-    top: -4%;
+    top: -2px;
 }
-.icon-2{
+/* .fa-eye{
     position: relative;
-    top: -11% !important;
-}
+    top: -10px;
+} */
