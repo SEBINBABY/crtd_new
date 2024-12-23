@@ -46,11 +46,11 @@
         </div>
         <div class="box-2">
             <h2 id="quiz-title">{{ quiz.name }}</h2>
-            <p>Q1 {{question}}</p>
+            <p>Q<span id="question_number"></span> {{question}}</p>
             <form id="question_form" method="POST" action="{% url 'quiz:save_answer' quiz.id question.id %}">
                 {% csrf_token %}
                 {% for answer in answers %}
-                <div class="question"> <input type="radio" name="selected_answer" value="{{ answer.id }}" required /> <p>{{ answer.answer_text }}</p> </div>
+                <div class="question"> <input type="radio" {% if selected_answer|add:0 == answer.id %} checked {% endif %}name="selected_answer" value="{{ answer.id }}" required /> <p>{{ answer.answer_text }}</p> </div>
                 {% endfor %}
                 <input type="hidden" name="current_question" value="{{ question.id }}" />
                 <div class="question-btns">
@@ -77,7 +77,8 @@ document.addEventListener("DOMContentLoaded",() =>{
     const prevButton = document.getElementById("prev--btn");
     const question_ids = JSON.parse('{{all_question_ids}}');
     const curr_id = parseInt('{{question.id}}')
-    const visitedQuestions = JSON.parse('{{ visited_questions|safe }}'); 
+    const visitedQuestions = JSON.parse('{{ visited_questions }}'); 
+    const question_number = document.getElementById("question_number");
 
     
     let current_index = 0;
@@ -87,6 +88,9 @@ document.addEventListener("DOMContentLoaded",() =>{
             break;
         }
     }
+
+    question_number.innerHTML = current_index+1
+    
     console.log(visitedQuestions)
     console.log(curr_id)
     boxes.forEach((box) => {

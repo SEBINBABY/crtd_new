@@ -36,6 +36,8 @@ def start_test(request):
         return redirect("quiz:list_quizzes")
 
     user = request.user
+    if not user.is_user:
+        return redirect("users:user_login")
     # Fetch quizzes and results
     results = Result.objects.filter(user_id=user.id)
 
@@ -72,6 +74,8 @@ def start_question(request, quiz_id, question_id):
 
     # Calculate remaining time
     user = request.user
+    if not user.is_user:
+        return redirect("users:user_login")
     result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
     remaining_time = TIME_LIMIT * 60 - (now() - result.start_time).seconds + GRACE_TIME
 
@@ -82,8 +86,11 @@ def start_question(request, quiz_id, question_id):
     if "visited_questions" not in request.session:
         request.session["visited_questions"] = []
 
+    selected_answer = None
     if question_id not in request.session["visited_questions"]:
         request.session["visited_questions"].append(question_id)
+    else:
+        selected_answer = result.user_answers.get(str(question_id))
     request.session.save()
     return render(request, 'question-1.html', {
         'quiz': quiz,
@@ -94,6 +101,7 @@ def start_question(request, quiz_id, question_id):
         "visited_questions": request.session["visited_questions"],
         "user_full_name":user.username,
         "user_email":user.email,
+        "selected_answer": selected_answer
     })
 
 @user_only
@@ -108,6 +116,8 @@ def save_answer(request, quiz_id, question_id):
             return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 
         user = request.user
+        if not user.is_user:
+            return redirect("users:user_login")
         quiz = get_object_or_404(Quiz, id=quiz_id)
         question = get_object_or_404(Question, id=question_id)
 
@@ -141,6 +151,8 @@ def quiz_summary(request, quiz_id):
     Displays the quiz summary and calculates the final score.
     """
     user = request.user
+    if not user.is_user:
+        return redirect("users:user_login")
     quiz = get_object_or_404(Quiz, id=quiz_id)
 
     # Fetch the Result object
@@ -178,6 +190,8 @@ def finish_test(request):
     Renders the finish test template.
     """
     user = request.user
+    if not user.is_user:
+        return redirect("users:user_login")
     user.is_verified = True
     user.save()
     for quiz in Quiz.objects.all():

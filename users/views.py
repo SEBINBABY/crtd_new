@@ -123,9 +123,9 @@ def user_login(request):
                 return redirect("quiz:list_quizzes")
             else:
                 messages.error(request, "Access restricted to Users Only.")
+                return render(request, "login.html")
         else:
-            # Invalid credentials, show an error message
-            messages.error(request, "Invalid email or password!")
+            return render(request, "login.html")
     return render(request, "login.html")
 
 def user_logout(request):
