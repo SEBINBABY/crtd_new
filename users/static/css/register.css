@@ -97,7 +97,7 @@ body {
 }
 
 .content-box .submit-btn{
-    height: 50px;
+    height: 45px;
     width: 25%;
     border: none;
     background: linear-gradient(to right, #13B3FF, #005AD5);
@@ -137,7 +137,7 @@ display: none;
     color: rgb(214, 32, 32);
 }
 .msg-container{
-    height: 195%;
+    height: 60px;
     width: 70%;
     /* background-color: red; */
     padding: 5px;
@@ -151,12 +151,12 @@ display: none;
 .content-input i{
     cursor: pointer;
     position: relative;
-    top: -10%;
+    top: -40px;
     left: 95%;
     font-size: 14px;
 }
 .icon-2{
-    top: -8% !important;
+    top: -35px !important;
 }
 .confirm{
     position: relative;
@@ -187,21 +187,18 @@ display: none;
 .icon-1{
     position: relative;
     left: 95% !important;
-    top: -9% !important;
     font-size: 30px;
-    height: 50px;
-    width: 50px;
 }
 .label-last{
     position: relative;
     /* top: -2%; */
-    left: -12%;
+    left: -4%;
 }
 .input-last{
     position: relative;
-    /* top: -15%; */
+    top: -2px;
 }
-.icon-2{
+/* .fa-eye{
     position: relative;
-    top: -11% !important;
-}
+    top: -10px;
+} */
