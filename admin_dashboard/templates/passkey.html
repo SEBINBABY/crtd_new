@@ -20,8 +20,8 @@
               </tr>
             </thead>
             <tbody>
+              {% for passkey in passkeys %}
               <tr>
-                {% for passkey in passkeys %}
                 <td>{{forloop.counter}}.</td>
                 <td class="passkey">{{passkey.key}}</td>
                 <td class="actions" style="text-align: center;">
