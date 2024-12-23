@@ -35,16 +35,16 @@
                     {% csrf_token %}
                 <div class="content-input">
                     <label for="" class="form-label">Full name*</label>
-                    <input type="text" id="inputPassword5" class="form-control" value="{{full_name|default:''}}" name="full_name" required>
+                    <input type="text" id="displayName" class="form-control" value="{{full_name|default:''}}" name="full_name" required>
                     <label for="" class="form-label">Email ID*</label>
                     <div class="check-perform">
-                    <input type="email" id="inputPassword5" class="form-control" value="{{ email|default:'' }}"
+                    <input type="email" id="displayEmail" class="form-control" value="{{ email|default:'' }}"
                     name="email" required>
                     <button class="verified" type="submit">Verified <i class="fa-solid fa-check"></i></button>
                     </div>
                     <label for="" class="form-label">Contact Number*</label>
-                    <input type="text" id="inputPassword5" class="form-control" value="{{ contact_number|default:'' }}" 
-                    name="contact_number" required>
+                    <input type="text" id="displayContact" class="form-control"
+                    name="contact_number" id="displayContact" required>
                     <label for="" class="form-label">Create Password*</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Enter Password"
                     name="password" required>
@@ -61,6 +61,18 @@
             </div>
         </div>
     </div>
+    <script>
+        // Retrieve data from session storage
+        const fullName = sessionStorage.getItem("full_name");
+        const email = sessionStorage.getItem("email");
+        const contactNumber = sessionStorage.getItem("contact_number");
+
+        // Populate the fields or display data
+        document.getElementById("displayName").value = fullName || "";
+        document.getElementById("displayEmail").value = email || "";
+        document.getElementById("displayContact").value = contactNumber || "";
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         const togglePassword1 = document.querySelector('#togglePassword1');

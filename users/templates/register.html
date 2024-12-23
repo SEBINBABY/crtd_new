@@ -32,25 +32,24 @@
                     {% endif %}
                  </div>
                 <div class="content-input">
-                    <form id="verifyEmailForm" action="{% url 'users:send_email_verification_otp' %}" method="POST">
-                        {% csrf_token %}
+                <form id="verifyEmailForm" action="{% url 'users:send_email_verification_otp' %}" method="POST">
+                    {% csrf_token %}
                     <label for="" class="form-label">Full name*</label>
-                    <input type="text" id="inputName" class="form-control" placeholder="Enter Full name" name="full_name" required>
+                    <input type="text" id="inputName" class="form-control" value="{{full_name|default:''}}" placeholder="Enter Full name" name="full_name" required>
                     <label for="" class="form-label">Email ID*</label>
                     <div class="check-perform">
                     <input type="email" id="inputEmail" class="form-control" placeholder="Enter Email id"
-                    name="email" required>
+                    name="email" value="{{ email|default:'' }}" required>
                     <button class="" id="verifyButton">Verify <i class="fa-solid fa-check not-visible" style="display: none;"></i></button>
                     </div>
-                    </form>
+                </form> 
                     <label for="" class="form-label">Contact Number*</label>
-                    <input type="text" id="inputContact" class="form-control" placeholder="Enter Contact Number">
-
-                    <label for="" class="form-label">Create Password*</label>
+                    <input type="text" id="inputContact" class="form-control" placeholder="Enter Contact Number" name="contact_number" value="{{ contact_number|default:'' }}" >
+                    <label for="" class="form-label" >Create Password*</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Create Password">
                     <i id="togglePassword1" class="fa-solid fa-eye icon-1"></i>
                     
-                    <label for="" class="form-label label-last">Confirm Password*</label>
+                    <label for="" class="form-label label-last" >Confirm Password*</label>
                     <input type="password" id="inputPassword2" class="form-control input-last" placeholder="Confirm Password">
                     <i id="togglePassword2" class="fa-solid fa-eye icon-2"></i>
                     
@@ -58,7 +57,7 @@
                         Please verify your email first.
                     </div>
                 </div>     
-                <button class="submit-btn" type="submit"  id="submitButton">Submit</button>               
+                <button class="submit-btn" type="submit"  id="submitButton">Submit</button>              
             </div>
         </div>
     </div> 
@@ -106,12 +105,23 @@
 
 <!-- JS for Modal -->
 <script>
-    document.getElementById("submitButton").addEventListener("click", function() {
+   document.getElementById("submitButton").addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent default form submission
         const emailInput = document.getElementById("inputEmail").value;
         const modalEmail = document.getElementById("userEmail");
-        modalEmail.textContent = emailInput;
-        const modal = new bootstrap.Modal(document.getElementById("emailVerificationModal"));
-        modal.show();
+        const contact = document.getElementById("inputContact").value;
+        const fullName = document.getElementById("inputName").value; 
+
+
+    // Store them in session storage
+    sessionStorage.setItem("full_name", fullName);
+    sessionStorage.setItem("email", emailInput);
+    sessionStorage.setItem("contact_number", contact);
+
+
+    modalEmail.textContent = emailInput;
+    const modal = new bootstrap.Modal(document.getElementById("emailVerificationModal"));
+    modal.show();
     });
 
     document.getElementById("continueButton").addEventListener("click", function() {
