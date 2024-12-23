@@ -1,34 +1,15 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+    {% block title %}
     <title>Test submission dashboard</title>
+    {% endblock %}
+    {% load static %}
+    {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-</head>
-<body>
-    <div class="main">
-        <div class="nav">
-            <div class="logo"></div>
-            <div class="text">
-                <h1>CRTD Technologies Test Submission </h1>
-                <h2>Dashboard</h2>
-            </div>
-            <div class="profile">
-                <div class="profile-img">
-                    <img src="/static/images/profile.png" alt="">
-                </div>
-               <h3>Super Admin</h3> 
-               <button class="button-1">Log Out</button>
-            </div>
-        </div>
+    {% endblock %}
+
+  {% block content %}
         <div class="main-box">
             <div class="main-container">
-
-                <div class="icon-1">
-                    <img src="/static/images/1.png" alt="">
-                </div>
                 <!-- Search Bar -->
                 <div class="search-container">
                   <div class="search-icon">
@@ -57,7 +38,7 @@
                   <form method="GET" action="{% url 'admin_dashboard:user_list' %}">
                   <div id="calendar-popup">
                     <input type="date" id="date-input" name="filter_date">
-                    <button class="close-btn" onclick="closeCalendarPopup()" type="submit">Close</button>
+                    <button class="close-btn" onclick="closeCalendarPopup()" type="submit">Done</button>
                   </div>
                 </form>
 
@@ -68,80 +49,6 @@
                 <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}"><button class="filter-button" onclick="toggleActive(this)">Non-Verified</button></a>
               </div>
         </div>
-        <div class="content">
-            <div class="left">
-                <div id="sidebar" class="sidebar">
-                    <h3 class="sidebar-title">SuperAdmin</h3>
-                    <button class="open-dashboard">Open dashboard</button>
-                
-                    <div class="favorites">
-                      <h4 class="section-title">Favorites</h4>
-                      <ul class="sidebar-list">
-                        <li class="sidebar-item">• Total Account Created</li>
-                        <li class="sidebar-item">• Not Submitted</li>
-                      </ul>
-                    </div>
-                
-                    <div class="dashboards">
-                      <h4 class="section-title">Dashboards</h4>
-                      <ul class="sidebar-list">
-                          <li>
-                            <a href="{% url 'admin_dashboard:filtered_users' 'all' %}">
-                                <img src="/static/images/2.png" alt="">Total Account Created
-                            </a>
-                          </li>
-                          
-                          <li>
-                            <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}">
-                              <img src="/static/images/3.png" alt="">Total Submitted
-                            </a>
-                          </li>
-                          <li>
-                            <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
-                              <img src="/static/images/4.png" alt="">Not Submitted
-                            </a>
-                          </li>
-                          <li>
-                            <a href="{% url 'admin_dashboard:question_section' %}">
-                              <img src="/static/images/5.png" alt="">Question Section  
-                            </a>
-                          </li>
-                          <li>
-                            <a href="{% url 'admin_dashboard:passkey' %}">
-                              <img src="/static/images/6.png" alt="">Passkey
-                            </a>
-                          </li>
-                          <li>
-                            <a href="{% url 'admin_dashboard:amount_section' %}">
-                              <img src="/static/images/6.png" alt="">Amount
-                            </a>
-                          </li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="side">
-                    <div class="side-bar">
-                      <div class="icon-con">
-                        <img src="/static/images/2.png" alt="Icon-1" />
-                      </div>
-                      <div class="icon-con">
-                        <img src="/static/images/3.png" alt="Icon-2" />
-                      </div>
-                      <div class="icon-con">
-                        <img src="/static/images/4.png" alt="Icon-3" />
-                      </div>
-                      <div class="icon-con">
-                        <img src="/static/images/5.png" alt="Icon-4" />
-                      </div>
-                      <div class="icon-con">
-                        <img src="/static/images/6.png" alt="Icon-5" />
-                      </div>
-                    </div>
-                  </div>
-
-            </div>
-            <div class="right">
                 <div class="table-container">
                     <table>
                         <thead>
@@ -191,7 +98,6 @@
                     <div class="arrow-up"></div>
                   </button>
         </div>
-    </div>
 
     <div class="delete-modal">
       <div class="modal-content">
@@ -228,8 +134,11 @@
       </div>
   </div>
 </div>
+{% endblock %}
 
+{% block extra_js %}
     <script>
+
         function openCalendarPopup() {
           document.getElementById('calendar-popup').style.display = 'block';
           document.getElementById('overlay').style.display = 'block';
@@ -239,40 +148,6 @@
           document.getElementById('calendar-popup').style.display = 'none';
           document.getElementById('overlay').style.display = 'none';
         }
-
-        const toggleIcon = document.querySelector('.icon-1');
-        const sidebar = document.getElementById('sidebar');
-        const mainContainer = document.querySelector('.main-container');
-        const content = document.querySelector('.content');
-        const side = document.querySelector('.side');
-
-
-// Toggle sidebar visibility
-toggleIcon.addEventListener('click', () => {
-  sidebar.classList.toggle('active');
-  
-  if (sidebar.classList.contains('active')) {
-    // Open sidebar and apply styles
-    content.style.marginLeft = '15vw';
-    content.style.width = '85%';
-    mainContainer.style.marginLeft = '20vw';
-    mainContainer.style.width = '78%';
-    toggleIcon.style.height = '40px';
-    toggleIcon.style.marginRight = '5vw';
-    toggleIcon.style.width = '40px';
-    side.style.display = 'none';
-  } else {
-    // Close sidebar and reset to default styles
-    content.style.marginLeft = '0';
-    content.style.width = '100%';
-    mainContainer.style.marginLeft = '0';
-    mainContainer.style.width = '100vw';
-    toggleIcon.style.height = '40px';
-    toggleIcon.style.marginRight = '0';
-    toggleIcon.style.width = '40px';
-    side.style.display = '';
-  }
-});
 
         const deleteBtn = document.querySelectorAll('.delete-btn');
         const deleteModal = document.querySelector('.delete-modal');
@@ -374,8 +249,5 @@ toggleIcon.addEventListener('click', () => {
       behavior: "smooth" // Smooth scrolling effect
     });
   }
-
       </script>
-</body>
-</html>
-
+      {% endblock %}

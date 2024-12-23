@@ -32,7 +32,7 @@ class Question(models.Model):
         return str(self.question_text)
     
     def get_answers(self):
-        return self.answer_set.all()
+        return self.answers_for_question.all()
     
     def serialize(self):
         return {

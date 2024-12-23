@@ -11,7 +11,7 @@ from users.models import Passkey
 from .models import Amount
 import datetime
 
-# @role_required(allowed_roles=['admin', 'hr_staff'])
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def dashboard(request):
     # Fetch all user objects
     users = User.objects.filter(role=User.USER)   
@@ -74,7 +74,7 @@ def get_user_results(request,user_id):
 
 
 
-# @role_required(allowed_roles=['admin', 'hr_staff'])
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def filtered_users(request, status):
     if status == "submitted":
         users = User.objects.filter(is_verified=True, role=User.USER)
@@ -110,9 +110,9 @@ def admin_hr_login(request):
             messages.error(request, "Invalid email or password.")  
     return render(request, 'admin_login.html')
 
-# @role_required(allowed_roles=['admin', 'hr_staff'])
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def question_section(request):
-    return render(request, "quiz_list.html",
+    return render(request, "Quiz_list.html",
                   {"user":request.user,
                    "quizzes":Quiz.objects.all()})
 
@@ -216,7 +216,7 @@ def delete_question(request):
         return redirect('admin_dashboard:question_list',quiz_id)
 
 
-# @role_required(allowed_roles=['admin', 'hr_staff'])
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def user_list(request):
     query = request.GET.get('query', '')  # Get the search query
     users = User.objects.all()
