@@ -293,3 +293,58 @@ input {
 .delete-delete-btn:hover {
   background: linear-gradient(to right, #007bff, #0056b3);
 }
+.activebutton {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.activebutton input {
+  position: relative;
+  top: -13px;
+   
+   
+   
+   font-size: 10px;
+   
+  background-color: blue;
+  border-color: blue;
+  color: #0056b3;
+  cursor: pointer;
+}
+
+.activebutton input:checked {
+  background-color: blue;
+  border-color: blue;
+  color: #0056b3;
+}
+.activebutton input:checked::after {
+  content: '✔'; /* Checkmark */
+  font-size: 16px;
+  color: white; /* Checkmark color */
+  position: absolute;
+  top: 0;
+  left: 4px;
+  margin-top: -7px;
+}
+input[type="checkbox"]:checked {
+  accent-color: green; /* Applies green color for checked state */
+}
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -26,24 +26,24 @@
                 <td class="passkey">{{passkey.key}}</td>
                 <td class="actions" style="text-align: center;">
                   <div class="action-btns">
-                      <img class="delete-btn" src="delete.png" alt="Delete">
-                      <img class="eye-btn" src="edit.png" alt="See">
+                      <img class="delete-btn" src=" /static/images/delete-1.png" alt="Delete">
+                      <img class="eye-btn" src="/static/images/edit.png" alt="See">
                   </div>
                 </td>
               </tr>
               {% endfor %}
 
 
-              <!-- <tr>
+               <tr style="background-color:#D9FDE9">
                               <td>2.</td>
                               <td class="passkey">9 9 5 5 8 8</td>
                               <td class="actions" style="text-align: center;">
                                 <div class="action-btns">
-                                    <img class="delete-btn" src="/static/images/delete.png" alt="Delete">
-                                    <img class="eye-btn" src="/static/images/eye.png" alt="See">
+                                    <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
+                                    <img class="eye-btn" src="/static/images/edit.png" alt="See">
                                 </div>
                               </td>
-                            </tr> -->
+                            </tr> 
             </tbody>
           </table>
         </div>
@@ -54,22 +54,38 @@
     </div>
   </div>
 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   <!-- Enter new passkey -->
   <div class="modal">
     <div class="modal-content">
       <h3>Enter New Passkey</h3>
-      <input type="text" class="passkeyInput" placeholder="Passkey" />
+      <form action="{% url 'admin_dashboard:add_passkey' %}" method="POST">
+        {% csrf_token %}
+      <input type="text" class="passkeyInput" placeholder="Passkey"  name="key" required/>
+      <div class="activebutton" style="  margin-left: 70px"> <label for="is_active">Active:</label>
+        <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -70px;"
+          ></div>
+      
       <div class="modal-buttons">
-        <button class="cancel-btn">Cancel</button>
-        <form action="{% url 'admin_dashboard:add_passkey' %}" method="POST">
-          {% csrf_token %}
+        <button class="cancel-btn">Cancel</button>   
         <button id="saveBtn" class="save-btn" type="submit">Save</button>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- Edit new passkey -->
+   <!-- Edit new passkey -->
   {% for passkey in passkeys %}
   <div class="edit-modal">
     <div class="modal-content">
