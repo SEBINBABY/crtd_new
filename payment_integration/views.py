@@ -52,6 +52,16 @@ def initiate_payment(request):
             "notes":notes,
         })
         razorpay_order_id = razorpay_order['id']
+
+        # Check if the Razorpay order ID already exists in the database
+        existing_order = Payment.objects.filter(razorpay_order_id=razorpay_order_id).exists()
+        if existing_order:
+            print(f"Order ID {razorpay_order_id} already exists in the database.")
+            return JsonResponse({
+                "status": "error",
+                "message": "Duplicate order ID detected. Please try again."
+            })
+
         # Save the order details in the database
         Payment.objects.create(
             user=user,

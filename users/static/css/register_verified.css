@@ -68,7 +68,9 @@ body {
 .content-input{
     width: 70%;
     /* background-color: yellow; */
-    margin-top: 5%;
+    /* margin-top: 5%; */
+    position: relative;
+    top: -3%;
 }
 .content-input label{
     margin-top: 2%;
@@ -103,8 +105,9 @@ body {
     background: linear-gradient(to right, #13B3FF, #005AD5);
     color: white;
     border-radius: 10px;
-    margin-top: 20px;
     opacity: 60%;
+    position: relative;
+    top: -5%;
 }
 .content-input input{
     background: transparent;
@@ -138,9 +141,9 @@ display: none;
 
 /* error messages  */
 .messages {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    border: 1px solid #ccc;
+    /* margin-top: 1.5rem; */
+    padding: 5px;
+    /* border: 1px solid #ccc; */
     border-radius: 5px;
     background-color: #f9f9f9;
 }
@@ -176,4 +179,21 @@ display: none;
     background-color: #d1ecf1;
     color: #0c5460;
     border: 1px solid #bee5eb;
+}
+.msg-container{
+    height: 50px;
+    /* background-color: red; */
+}
+.content-input i{
+    font-size: 14px;
+    position: relative;
+    top: -40px;
+    left: 95%;
+}
+.icon-2{
+    top: -33px !important;
+}
+.last-label{
+    position: relative;
+    left: -18px !important;
 }

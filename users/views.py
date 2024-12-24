@@ -104,7 +104,10 @@ def register_verified(request):
                 'email': email,
                 'contact_number': contact_number
             })
-    return render(request, "register_verified.html")
+    return render(request, "register_verified.html", {
+                'full_name': username,
+                'email': email,
+                'contact_number': contact_number})
 
 # Login functionality for authentication
 def user_login(request):
@@ -123,10 +126,12 @@ def user_login(request):
                 return redirect("quiz:list_quizzes")
             else:
                 messages.error(request, "Access restricted to Users Only.")
+                return render(request, "login.html")  # Ensure response is returned
         else:
-            # Invalid credentials, show an error message
-            messages.error(request, "Invalid email or password!")
-    return render(request, "login.html")
+            messages.error(request,"Invalid Email id or Password!")
+            return render(request, "login.html")  # Ensure response is returned
+    else:
+        return render(request, "login.html")
 
 def user_logout(request):
     logout(request)
@@ -144,8 +149,6 @@ def send_email_verification_otp(request):
         if User.objects.filter(email=email).exists():
             messages.error(request, "This Email is already registered!")
             return redirect("users:register")
-        request.session["email_for_otp"] = email  # Save email to session -check
-        request.session["full_name"] = username  # Save username to session - check
         otp_code = random.randint(1000, 9999)
         # Delete old OTPs for the email
         otps = OTP.objects.filter(email=email)
