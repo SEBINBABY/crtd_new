@@ -89,9 +89,12 @@ html,body{
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  height: 6vh;
+  height: 4.5vh;
   width: 3.5%;
   background-color: #ffffff;
+  z-index: 1;
+  position: relative;
+  left: 1vw;
 }
 
 .icon-1 img{
