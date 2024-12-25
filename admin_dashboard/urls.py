@@ -7,6 +7,7 @@ app_name = "admin_dashboard"
 urlpatterns = [
     path('users/<str:status>/', filtered_users, name='filtered_users'),
     path('admin_hr_login/', admin_hr_login, name='admin_hr_login'),
+    path('admin_hr_logout/', admin_hr_logout, name='admin_hr_logout'), 
     path('dashboard/', dashboard, name='dashboard'),
     path('dashboard_home/', dashboard_home, name='dashboard_home'),
     path('question_section/', question_section, name='question_section'),
