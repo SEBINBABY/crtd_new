@@ -17,26 +17,33 @@
     </div>
     <div class="automate-content-box">
         {% for quiz in completed_quizzes %}
-            <div class="content-box">
-                <h6>{{quiz.name}}</h6>
-                <p>20 minutes</p>
-                <p>{{ quiz.quiz_questions.all|length }} Questions</p>
-                <p>✅ Attempted</p>
+        <div class="inner-box">
+            <div class="content-box completed">
+                <h6>1. Basic Programming</h6>
+                <p><i class="fa-solid fa-clock"></i> &nbsp;20 minutes</p>
+                <p>15 Questions</p>
+            </div>
+            <div class="is_complete"><img src="images/green-tick.png"/> <p>Attempted</p></div>
             </div>
         {% endfor %}
         {% for quiz in incomplete_quizzes %}
             {% if forloop.first %}
-            <div class="content-box">
-                <h6> NEXT : {{quiz.name}}</h6>
-                <p>20 minutes</p>
-                <p>{{ quiz.quiz_questions.all|length }} Questions</p>
-            </div>
+            <div class="inner-box">
+                <div class="is_start"> <p>Starting- </p>  </div>   
+                <div class="content-box completed">
+                    <h6>1. Basic Programming</h6>
+                    <p><i class="fa-solid fa-clock"></i> &nbsp;20 minutes</p>
+                    <p>15 Questions</p>
+                </div>
+                </div>
             {% else %}
-            <div class="content-box">
-                <h6>{{quiz.name}}</h6>
-                <p>20 minutes</p>
-                <p>{{ quiz.quiz_questions.all|length }} Questions</p>
-            </div>
+            <div class="inner-box">
+                <div class="content-box completed">
+                    <h6>1. Basic Programming</h6>
+                    <p><i class="fa-solid fa-clock"></i> &nbsp;20 minutes</p>
+                    <p>15 Questions</p>
+                </div>
+                </div>
             {% endif %}
         {% endfor %}
     </div>
@@ -61,14 +68,14 @@ document.addEventListener("DOMContentLoaded",() =>{
     const timerElement = document.getElementById("timer");
     function updateTimer() {
         let seconds = timeRemaining;
-        // Format as MM:SS (e.g., 20:00, 19:59)
+        
         timerElement.textContent = `${seconds.toString().padStart(2, '0')}`;
     }
 
-    // Update the timer every second
+    
     setInterval(() => {
         if(timeRemaining>0){
-            timeRemaining--; // Decrement the timer
+            timeRemaining--; 
         }
         updateTimer();
 
@@ -77,7 +84,7 @@ document.addEventListener("DOMContentLoaded",() =>{
         }
     }, 1000);
 
-    // Initial call to set up the timer
+   
 updateTimer();
 });
 </script>   
