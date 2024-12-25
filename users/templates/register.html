@@ -131,6 +131,28 @@
     });
 </script>
 
+
+<script>
+    document.getElementById("verifyButton").addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Retrieve values from the form fields
+    const fullName = document.getElementById("inputName").value;
+    const email = document.getElementById("inputEmail").value;
+    const contactNumber = document.getElementById("inputContact").value;
+
+    // Store the values in sessionStorage
+    sessionStorage.setItem("full_name", fullName);
+    sessionStorage.setItem("email", email);
+    sessionStorage.setItem("contact_number", contactNumber);
+
+    // Trigger the form submission to call send_email_verification_otp
+    const form = document.getElementById("verifyEmailForm");
+    form.action = "{% url 'users:send_email_verification_otp' %}";  // Ensure the action URL is correct
+    form.submit();  // Submit the form
+});
+</script>
+
 </body>
 </html>
 

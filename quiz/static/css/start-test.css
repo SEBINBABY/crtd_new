@@ -157,3 +157,13 @@ justify-content: space-between;
     font-weight: 600;
     color: #032F84;
 }
+.attempted{
+    background-color: #C2FCD2;
+    border: #C2FCD2;
+}
+.current{
+    background-color: #BCEAFF;
+}
+.remaining{
+    background-color: #F1FBFF;
+}

@@ -111,45 +111,38 @@
             <div class="icon-1">
               <img src="/static/images/1.png" alt="">
               {% block body %}
-            <!-- Content goes here -->
+
             {% endblock %}
             </div>
             {% block content %}
-            <!-- Content goes here -->
-            {% endblock %}
+
+            {% endblock %} 
           </div>
 
     <script>
-      const toggleIcon = document.querySelector('.icon-1');
-        const sidebar = document.getElementById('sidebar');
-        const mainContainer = document.querySelector('.main-container');
-        const content = document.querySelector('.content');
-        const side = document.querySelector('.side');
+      const toggleIcon = document.querySelector(".icon-1");
+      const sidebar = document.querySelector("#sidebar");
+      const side = document.querySelector(".side");
+      const content = document.querySelector(".right");
+      const left = document.querySelector(".left");
 
-// Toggle sidebar visibility
 toggleIcon.addEventListener('click', () => {
   sidebar.classList.toggle('active');
-  
+
   if (sidebar.classList.contains('active')) {
-    // Open sidebar and apply styles
-    content.style.marginLeft = '15vw';
-    content.style.width = '85%';
-    mainContainer.style.width = '100%';
-    toggleIcon.style.height = '40px';
-    toggleIcon.style.width = '40px';
-    side.style.display = 'none';
-    side.style.position = 'relative';
-    side.style.right = '100vw';
+    toggleIcon.style.position = "relative";
+    toggleIcon.style.right = "8vw";
+    left.style.width = "10%";
+    content.style.width = "90%";
+    sidebar.style.display = "none";
+    side.style.display = "block";
   } else {
-    // Close sidebar and reset to default styles
-    content.style.marginLeft = '0';
-    content.style.width = '100%';
-    mainContainer.style.marginLeft = '0';
-    mainContainer.style.width = '100vw';
-    toggleIcon.style.height = '40px';
-    toggleIcon.style.marginRight = '0';
-    toggleIcon.style.width = '40px';
-    side.style.display = '';
+    toggleIcon.style.position = "";
+    toggleIcon.style.right = "";
+    left.style.width = "";
+    content.style.width = "";
+    sidebar.style.display = "";
+    side.style.display = "";
   }
 });
 
