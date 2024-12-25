@@ -50,7 +50,14 @@
             <form id="question_form" method="POST" action="{% url 'quiz:save_answer' quiz.id question.id %}">
                 {% csrf_token %}
                 {% for answer in answers %}
-                <div class="question"> <input type="radio" {% if selected_answer|add:0 == answer.id %} checked {% endif %}name="selected_answer" value="{{ answer.id }}" required /> <p>{{ answer.answer_text }}</p> </div>
+                <div class="question">
+                    <input type="radio" id="option-{{answer.id}}" 
+                           {% if selected_answer|add:0 == answer.id %} checked {% endif %}
+                           name="selected_answer" value="{{ answer.id }}" required />
+                    <label  label for="option-{{answer.id}}">
+                        <p>{{ answer.answer_text }}</p>
+                    </label>
+                </div>
                 {% endfor %}
                 <input type="hidden" name="current_question" value="{{ question.id }}" />
                 <div class="question-btns">
