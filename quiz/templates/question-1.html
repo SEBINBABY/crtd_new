@@ -37,10 +37,10 @@
                         </div></a>
                         {% if forloop.counter|divisibleby:5 and not forloop.last %}
                             </div>
-                            <a href="{% url 'quiz:start_question' quiz.id question_id%}" ><div class="cont2-part{{ forloop.counter }}">
+                            <div class="cont2-part{{ forloop.counter }}">
                         {% endif %}
                     {% endfor %}
-                    </div></a>
+                    </div>
                 </div>
             </div>
         </div>
