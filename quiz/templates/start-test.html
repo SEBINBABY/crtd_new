@@ -9,87 +9,97 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
+<body>    
 <div class="automaticaly-box">
+    <div class="part-1">
+    <div class="automate-logo"></div>
+    <p>Technical Aptitude Evaluation</p>
     <div class="imp-account automate-account">
         <h6>{{user_full_name}}</h6>
         <p>{{user_email}}</p>
     </div>
+    </div>
+    <div class="selection">Selection Attempted {{completed_quizzes | length}}/6</div>
     <div class="automate-content-box">
         {% for quiz in completed_quizzes %}
         <div class="inner-box">
-            <div class="content-box attempted">
-                <h6>{{quiz.name}}</h6>
-                <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
-                <p>{{ quiz.quiz_questions.count }} Questions</p>
-            </div>
+        <div class="is_start"> <p> </p>  </div>   
+        <div class="content-box attempted">
+            <h6>{{quiz.name}}</h6>
+            <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
+            <p>{{quiz.quiz_questions.count}} Questions</p>
         </div>
-        <div class="is_complete"><img src="/static/images/green-tick.png"/> <p>Attempted</p></div>
+        <div class="is_complete visible"><img src="/static/images/green-tick.png"/> <p>Attempted</p></div>
+        </div>
         {% endfor %}
         {% for quiz in incomplete_quizzes %}
             {% if forloop.first %}
             <div class="inner-box">
                 <div class="is_start"> <p>Starting- </p>  </div>   
-                <div class="content-box current">
-                    <h6>{{quiz.name}}</h6>
-                    <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
-                    <p>{{ quiz.quiz_questions.count }} Questions</p>
-                </div>
-                </div>
+               <div class="content-box attempted">
+                   <h6>{{quiz.name}}</h6>
+                   <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
+                   <p>{{quiz.quiz_questions.count}} Questions</p>
+               </div>
+               <div class="is_complete"><img src="/static/images/green-tick.png"/> <p>Attempted</p></div>
+               </div>
             {% else %}
             <div class="inner-box">
-                <div class="content-box">
-                    <h6>{{quiz.name}}</h6>
-                    <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
-                    <p>{{ quiz.quiz_questions.count }} Questions</p>
-                </div>
-                </div>
+                <div class="is_start"> <p></p>  </div>   
+               <div class="content-box attempted">
+                   <h6>{{quiz.name}}</h6>
+                   <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
+                   <p>{{quiz.quiz_questions.count}} Questions</p>
+               </div>
+               <div class="is_complete"><img src="/static/images/green-tick.png"/> <p>Attempted</p></div>
+               </div>
             {% endif %}
         {% endfor %}
+
+        {% if incomplete_quizzes|length != 0 %}
+        <h5>Automatically starting in <span id="timer">10</span> sec</h5>
+        <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
+            {% csrf_token %}
+            <button>Start Now</button>
+        </form>
+        {% else %}
+        <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
+            {% csrf_token %}
+            <button>Complete Test!</button>
+        </form>
+        {% endif %}
     </div>
-    {% if incomplete_quizzes|length != 0 %}
-    <h5>Automatically starting in <span id="timer">10</span> sec</h5>
-    <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
-        {% csrf_token %}
-        <button>Start Now</button>
-    </form>
-    {% else %}
-    <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
-        {% csrf_token %}
-        <button>Complete Test!</button>
-    </form>
-    {% endif %}
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded",() =>{
-
-    let timeRemaining = 30;
-    const timerElement = document.getElementById("timer");
-    function updateTimer() {
-        let seconds = timeRemaining;
+    document.addEventListener("DOMContentLoaded",() =>{
+    
+        let timeRemaining = 30;
+        const timerElement = document.getElementById("timer");
+        function updateTimer() {
+            let seconds = timeRemaining;
+            
+            timerElement.textContent = `${seconds.toString().padStart(2, '0')}`;
+        }
+    
         
-        timerElement.textContent = `${seconds.toString().padStart(2, '0')}`;
-    }
-
+        setInterval(() => {
+            if(timeRemaining>0){
+                timeRemaining--; 
+            }
+            updateTimer();
     
-    setInterval(() => {
-        if(timeRemaining>0){
-            timeRemaining--; 
-        }
-        updateTimer();
-
-        if(timeRemaining <= 0) {
-            document.getElementById('start_test').submit()
-        }
-    }, 1000);
-
-   
-updateTimer();
-});
-</script>   
+            if(timeRemaining <= 0) {
+                document.getElementById('start_test').submit()
+            }
+        }, 1000);
     
-
-
-</body>
-</html>
+       
+    updateTimer();
+    });
+    </script>   
+        
+    
+    
+    </body>
+    </html>    

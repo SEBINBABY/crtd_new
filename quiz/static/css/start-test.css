@@ -95,9 +95,7 @@ justify-content: space-between;
     top: 10%;
     line-height: 0%;
 }
-.completed{
-    background-color: #BCEAFF;  
-}
+
 .selection{
     width: 20%;
     font-size: 15px;
