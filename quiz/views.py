@@ -87,10 +87,9 @@ def start_question(request, quiz_id, question_id):
         request.session["visited_questions"] = []
 
     selected_answer = None
-    if question_id not in request.session["visited_questions"]:
-        request.session["visited_questions"].append(question_id)
-    else:
+    if question_id in request.session["visited_questions"]:
         selected_answer = result.user_answers.get(str(question_id))
+    
     request.session.save()
     return render(request, 'question-1.html', {
         'quiz': quiz,
@@ -132,6 +131,9 @@ def save_answer(request, quiz_id, question_id):
         # Update the answer in the Result object
         result.user_answers[str(question.id)] = selected_answer_id
         result.save()
+        
+        request.session["visited_questions"].append(question_id)
+        request.session.save()
 
         # Determine the next question
         questions = list(quiz.quiz_questions.all())
