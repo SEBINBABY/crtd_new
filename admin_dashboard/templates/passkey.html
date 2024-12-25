@@ -165,10 +165,7 @@
 // Close the modal on cancel
 cancelBtnEdit.forEach((btn) => {
     btn.addEventListener("click", (event) => {
-        const modal = btn.closest(".edit-modal");
-        if (modal) {
-            modal.style.display = "none";
-        }
+      editModal.style.display = "none";
     });
 });
 
