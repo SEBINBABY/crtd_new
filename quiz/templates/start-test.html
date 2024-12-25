@@ -18,7 +18,7 @@
     <div class="automate-content-box">
         {% for quiz in completed_quizzes %}
         <div class="inner-box">
-            <div class="content-box completed">
+            <div class="content-box attempted">
                 <h6>1. Basic Programming</h6>
                 <p><i class="fa-solid fa-clock"></i> &nbsp;20 minutes</p>
                 <p>15 Questions</p>
@@ -30,7 +30,7 @@
             {% if forloop.first %}
             <div class="inner-box">
                 <div class="is_start"> <p>Starting- </p>  </div>   
-                <div class="content-box completed">
+                <div class="content-box current">
                     <h6>1. Basic Programming</h6>
                     <p><i class="fa-solid fa-clock"></i> &nbsp;20 minutes</p>
                     <p>15 Questions</p>
@@ -38,7 +38,7 @@
                 </div>
             {% else %}
             <div class="inner-box">
-                <div class="content-box completed">
+                <div class="content-box">
                     <h6>1. Basic Programming</h6>
                     <p><i class="fa-solid fa-clock"></i> &nbsp;20 minutes</p>
                     <p>15 Questions</p>

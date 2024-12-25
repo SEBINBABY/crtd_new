@@ -4,6 +4,20 @@
   padding: 20px;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 120% !important;
+  /* margin-right: 20px; */
+}
+
+/* .contain{
+  position: relative;
+  left: 5%;
+} */
+.row{
+ position: relative;
+ left: 2%;
+ width: 84%;
+ display: flex;
+ justify-content: space-evenly;
 }
 
 .stat-card h2 {
@@ -30,8 +44,10 @@
 }
 
 .custom-width {
-  max-width: 1050px;
+  max-width: 77.5%;
   padding: 20px;
+  position: relative;
+ left: 6%;
 }
 
 .logout {
@@ -40,7 +56,9 @@
 }
 
 .col-md-custom {
-  width: calc(4 / 12 * 100%);
+  /* width: calc(4 / 12 * 100%); */
+  width: 26%;
+/* height: 10% !important; */
 }
 
 .side {
@@ -58,13 +76,13 @@
 .sidebar {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   width: 250px;
-  height: 85vh;
+  height: 88vh;
   padding: 20px;
   border-right: 1px solid #dee2e6;
-  position: fixed;
+  position: sticky;
   left: 0;
-  top: 120px;
-  bottom: 0;
+  top: 120px !important;
+  /* bottom: 0; */
   transition: left 0.3s ease-in-out;
 }
 
