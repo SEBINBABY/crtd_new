@@ -19,29 +19,29 @@
         {% for quiz in completed_quizzes %}
         <div class="inner-box">
             <div class="content-box attempted">
-                <h6>1. Basic Programming</h6>
-                <p><i class="fa-solid fa-clock"></i> &nbsp;20 minutes</p>
-                <p>15 Questions</p>
+                <h6>{{quiz.name}}</h6>
+                <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
+                <p>{{ quiz.quiz_questions.count }} Questions</p>
             </div>
-            <div class="is_complete"><img src="images/green-tick.png"/> <p>Attempted</p></div>
-            </div>
+        </div>
+        <div class="is_complete"><img src="/static/images/green-tick.png"/> <p>Attempted</p></div>
         {% endfor %}
         {% for quiz in incomplete_quizzes %}
             {% if forloop.first %}
             <div class="inner-box">
                 <div class="is_start"> <p>Starting- </p>  </div>   
                 <div class="content-box current">
-                    <h6>1. Basic Programming</h6>
-                    <p><i class="fa-solid fa-clock"></i> &nbsp;20 minutes</p>
-                    <p>15 Questions</p>
+                    <h6>{{quiz.name}}</h6>
+                    <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
+                    <p>{{ quiz.quiz_questions.count }} Questions</p>
                 </div>
                 </div>
             {% else %}
             <div class="inner-box">
                 <div class="content-box">
-                    <h6>1. Basic Programming</h6>
-                    <p><i class="fa-solid fa-clock"></i> &nbsp;20 minutes</p>
-                    <p>15 Questions</p>
+                    <h6>{{quiz.name}}</h6>
+                    <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
+                    <p>{{ quiz.quiz_questions.count }} Questions</p>
                 </div>
                 </div>
             {% endif %}

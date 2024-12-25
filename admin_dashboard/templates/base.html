@@ -28,7 +28,9 @@
                     <img src="/static/images/profile.png" alt="">
                 </div>
                <h3>Super Admin</h3> 
-               <button class="button-1">Log Out</button>
+               <a href="{% url 'users:user_logout' %}">
+                 <button class="button-1">Log Out</button>
+               </a>
             </div>
         </div>
 
