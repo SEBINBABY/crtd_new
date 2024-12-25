@@ -57,12 +57,41 @@ body{
 }
 .question{
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     height: 7%;
     width: 80%;
     background-color: #F6F6F6;
     padding: 10px;
     border-radius: 8px;
+}
+/* input[type="radio"] { */
+     
+/* } */
+
+label {
+     display: block;     
+    width: 100%;
+    padding: 10px 15px;
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+label:hover {
+    background: linear-gradient(to right, #13b3ff, #005ad5);
+}
+
+input[type="radio"]:checked + label {
+    background-color: #d6f5d6; /* Green background when selected */
+    border-color: #5cb85c;
+    color: #333;
+    
+}
+
+label p {
+    margin: 0; /* Remove default paragraph margin */
 }
 .box-2 h2{
     color: #032F84;
