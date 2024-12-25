@@ -30,15 +30,15 @@
                 <div class="small-box-cont2">
                     <div  class="cont2-part1">
                     {% for question_id in all_question_ids %}
-                        <div class="part1-box box 
+                        <a href="{% url 'quiz:start_question' quiz.id question_id%}" ><div class="part1-box box 
                                 {% if question_id in visited_questions %} Marked {% else %} not-Visited {% endif %}" 
                                 id="box-{{ question_id }}">
                             {{ forloop.counter }}
-                        </div>
-                    {% if forloop.counter|divisibleby:5 and not forloop.last %}
-                        </div>
-                        <div class="cont2-part{{ forloop.counter }}">
-                    {% endif %}
+                        </div></a>
+                        {% if forloop.counter|divisibleby:5 and not forloop.last %}
+                            </div>
+                            <div class="cont2-part1">
+                        {% endif %}
                     {% endfor %}
                     </div>
                 </div>
