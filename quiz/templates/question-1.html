@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="small-box-cont2">
-                    <div  class="cont2-part1">
+                    <div  class="cont2-part1" >
                     {% for question_id in all_question_ids %}
                         <a href="{% url 'quiz:start_question' quiz.id question_id%}" ><div class="part1-box box 
                                 {% if question_id in visited_questions %} Marked {% else %} not-Visited {% endif %}" 
@@ -46,7 +46,7 @@
         </div>
         <div class="box-2">
             <h2 id="quiz-title">{{ quiz.name }}</h2>
-            <p>Q<span id="question_number"></span> {{question}}</p>
+            <p style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q<span id="question_number"></span> {{question}}</p>
             <form id="question_form" method="POST" action="{% url 'quiz:save_answer' quiz.id question.id %}">
                 {% csrf_token %}
                 {% for answer in answers %}
