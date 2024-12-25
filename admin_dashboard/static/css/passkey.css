@@ -332,19 +332,8 @@ input[type="checkbox"]:checked {
   accent-color: green; /* Applies green color for checked state */
 }
 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+.passkeyInput{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
