@@ -71,7 +71,6 @@
         </div>
         {% endfor %}
     </div>
-    <h5> <i class="fa-solid fa-clock"></i> &nbsp;Automatically starting in <span id="timer">30</span> sec</h5>
     <button id="automateBtn">Start the Test</button>
     
 </div>
@@ -153,30 +152,6 @@
                 popup.style.opacity = "1";
             }
         });
-
-        let timeRemaining = 30;
-        const timerElement = document.getElementById("timer");
-        function updateTimer() {
-            let seconds = timeRemaining;
-            // Format as MM:SS (e.g., 20:00, 19:59)
-            timerElement.textContent = `${seconds.toString().padStart(2, '0')}`;
-        }
-
-        // Update the timer every second
-        setInterval(() => {
-            if(timeRemaining>0){
-                timeRemaining--; // Decrement the timer
-            }
-            updateTimer();
-
-            if(timeRemaining <= 0) {
-                document.getElementById('automateBtn').click()
-            }
-        }, 1000);
-
-        // Initial call to set up the timer
-        updateTimer();
-
 
     </script>
 </body>
