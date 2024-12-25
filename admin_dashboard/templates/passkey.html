@@ -64,9 +64,9 @@
   <label for="is_active">Active:</label>
   <input type="checkbox" id="is_active" class="passkeyInput" name="is_active">
   <div class="modal-buttons">
-    <button class="cancel-btn">Cancel</button>   
     <button id="saveBtn" class="save-btn" type="submit">Save</button>
     </form>
+    <button class="cancel-btn">Cancel</button>   
   </div>
 </div>
 </div>
@@ -82,9 +82,9 @@
   <label for="is_active">Active:</label>
   <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" {% if passkey.is_active %}checked{% endif %}>
   <div class="modal-buttons">
-    <button class="cancel-btn-edit">Cancel</button>
     <button id="saveBtnEdit" class="save-btn-edit" type="submit">Save</button>
     </form>
+    <button class="cancel-btn-edit">Cancel</button>
   </div>
 </div>
 </div>
@@ -165,7 +165,10 @@
 // Close the modal on cancel
 cancelBtnEdit.forEach((btn) => {
     btn.addEventListener("click", (event) => {
-      editModal.style.display = "none";
+        const editModal = btn.closest(".edit-modal");
+        if (editModal) {
+            editModal.style.display = "none";
+        }
     });
 });
 
@@ -215,11 +218,25 @@ window.addEventListener("keydown", (event) => {
 });
 
     // Close modal when clicking outside the modal content
-    window.addEventListener("click", (event) => {
-      if (event.target === passkeyModal) {
-        passkeyModal.style.display = "none";
-        passkeyInput.value = "";
-      }
-    });
+    window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        // Close Add Modal
+        if (passkeyModal.style.display === "block") {
+            passkeyModal.style.display = "none";
+        }
+
+        // Close all open Edit Modals
+        document.querySelectorAll(".edit-modal").forEach((modal) => {
+            if (modal.style.display === "block") {
+                modal.style.display = "none";
+            }
+        });
+
+        // Close Delete Modal
+        if (deleteModal.style.display === "block") {
+            deleteModal.style.display = "none";
+        }
+    }
+});
   </script>
   {% endblock %}
