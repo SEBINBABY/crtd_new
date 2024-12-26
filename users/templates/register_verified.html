@@ -66,11 +66,15 @@
         const fullName = sessionStorage.getItem("full_name");
         const email = sessionStorage.getItem("email");
         const contactNumber = sessionStorage.getItem("contact_number");
+        const Password = sessionStorage.getItem("password");
+        
 
         // Populate the fields or display data
         document.getElementById("displayName").value = fullName || "";
         document.getElementById("displayEmail").value = email || "";
         document.getElementById("displayContact").value = contactNumber || "";
+        document.getElementById("inputPassword").value = Password || "";
+        document.getElementById("inputPassword2").value = Password || "";
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -109,18 +109,68 @@
 
 <!-- JS for Modal -->
 <script>
+
+    // Function to display a message in msg-container
+    function showMessage(message, type = "warning") {
+    const msgContainer = document.querySelector(".msg-container");
+    msgContainer.innerHTML = `
+        <div class="alertt alertt-${type}">
+            ${message}
+        </div>
+    `;
+    msgContainer.style.display = "block"; // Ensure it's visible
+    }
+
+    // Password validation function
+    function isValidPassword(password) {
+        if (password.length < 8) {
+            return "Password must be at least 8 characters long.";
+        }
+        if (!/[A-Z]/.test(password)) {
+            return "Password must contain at least one uppercase letter.";
+        }
+        if (!/[a-z]/.test(password)) {
+            return "Password must contain at least one lowercase letter.";
+        }
+        if (!/[0-9]/.test(password)) {
+            return "Password must contain at least one digit.";
+        }
+        if (!/[!@#$%^&*(),.?\":{}|<>]/.test(password)) {
+            return "Password must contain at least one special character.";
+        }
+        return null; // Password is valid
+    }
+
+
    document.getElementById("submitButton").addEventListener("click", function (event) {
     event.preventDefault(); // Prevent default form submission
         const emailInput = document.getElementById("inputEmail").value;
         const modalEmail = document.getElementById("userEmail");
         const contact = document.getElementById("inputContact").value;
         const fullName = document.getElementById("inputName").value;
+         // Retrieve password fields
+        const password = document.getElementById("inputPassword").value;
+        const confirmPassword = document.getElementById("inputPassword2").value;
+
+        // Validate password
+        const validationMessage = isValidPassword(password);
+        if (validationMessage) {
+        showMessage(validationMessage, "danger"); // Show validation message in msg-container
+        return;
+    }
+
+        // Check if passwords match
+        if (password !== confirmPassword) {
+            showMessage("Passwords do not match.", "danger");
+            return;
+        }
 
 
     // Store them in session storage
     sessionStorage.setItem("full_name", fullName);
     sessionStorage.setItem("email", emailInput);
     sessionStorage.setItem("contact_number", contact);
+    sessionStorage.setItem("password", password);
 
 
     modalEmail.textContent = emailInput;
