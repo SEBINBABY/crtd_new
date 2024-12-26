@@ -80,7 +80,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="continueButton">Continue</button>
+                <button type="button" class="btn btn-primary" id="continueButton">
+                    Continue 
+                    <i class="fa-solid fa-check not-visible" style="display: none;"></i>
+                    <span class="loader" id="continueLoader" style="display: none;"></span>
+                </button>
+                
             </div>
         </div>
     </div>
@@ -221,6 +226,27 @@
         }, 10000);
     }  
 });
+
+document.getElementById("continueButton").addEventListener("click", function () {
+    const loader = document.getElementById("continueLoader");
+    const continueButton = document.getElementById("continueButton");
+    const form = document.getElementById("verifyEmailForm");
+
+    // Show the loader and disable the button
+    loader.style.display = "inline-block";
+    continueButton.disabled = true;
+
+    // Submit the form to send_email_verification_otp
+    form.action = "{% url 'users:send_email_verification_otp' %}";
+    form.submit();
+
+    // Simulate loader visibility
+    setTimeout(() => {
+        loader.style.display = "none"; // Hide the loader
+        continueButton.disabled = false; // Enable the button
+    }, 10000);
+});
+
 </script>
 
 </body>
