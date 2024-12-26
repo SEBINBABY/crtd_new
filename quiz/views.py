@@ -180,7 +180,7 @@ def quiz_summary(request, quiz_id):
 
     return render(request, 'start-test.html', {
         "user_full_name" : user.username,
-        "email" : user.email,
+        "user_email" : user.email,
         "completed_quizzes":completed_quizzes,
         "incomplete_quizzes":incomplete_quizzes
     })

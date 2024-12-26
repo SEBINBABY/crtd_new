@@ -36,7 +36,7 @@ justify-content: space-between;
 .automate-logo{
     height: 110%;
     width: 20%;
-    background: url("images/image_1.png");
+    background: url("/static/images/image_1.png");
     background-size: cover;
     position: relative;
     top: 10%;

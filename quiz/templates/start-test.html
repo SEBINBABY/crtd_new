@@ -38,7 +38,7 @@
             {% if forloop.first %}
             <div class="inner-box">
                 <div class="is_start"> <p>Starting- </p>  </div>   
-               <div class="content-box attempted">
+               <div class="content-box current">
                    <h6>{{quiz.name}}</h6>
                    <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
                    <p>{{quiz.quiz_questions.count}} Questions</p>
@@ -48,7 +48,7 @@
             {% else %}
             <div class="inner-box">
                 <div class="is_start"> <p></p>  </div>   
-               <div class="content-box attempted">
+               <div class="content-box remaining">
                    <h6>{{quiz.name}}</h6>
                    <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
                    <p>{{quiz.quiz_questions.count}} Questions</p>
