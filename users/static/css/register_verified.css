@@ -95,8 +95,8 @@ body {
     background: linear-gradient(to right, #13B3FF, #005AD5);
     color: white;
 }
-.content-box .check-perform button i{
-    /* display: none; */
+.content-box .check-perform button i {
+    display: inline-block; /* Ensure the icon is always displayed */
 }
 .content-box .submit-btn{
     height: 10%;
@@ -118,6 +118,7 @@ body {
 }
 .verified{
     background: linear-gradient(to right, #13FF5E, #5CD500) !important;
+    cursor: not-allowed;
     display:block;
 }
 .not-visible{

@@ -40,7 +40,11 @@
                     <div class="check-perform">
                     <input type="email" id="inputEmail" class="form-control" placeholder="Enter Email id"
                     name="email" value="{{ email|default:'' }}" required>
-                    <button class="" id="verifyButton">Verify <i class="fa-solid fa-check not-visible" style="display: none;"></i></button>
+                    <button class="btn" id="verifyButton">
+                        Verify 
+                        <i class="fa-solid fa-check not-visible" style="display: none;"></i>
+                        <span class="loader" id="loader" style="display: none;"></span>
+                      </button>
                     </div>
                 </form> 
                     <label for="" class="form-label">Contact Number*</label>
@@ -110,7 +114,7 @@
         const emailInput = document.getElementById("inputEmail").value;
         const modalEmail = document.getElementById("userEmail");
         const contact = document.getElementById("inputContact").value;
-        const fullName = document.getElementById("inputName").value; 
+        const fullName = document.getElementById("inputName").value;
 
 
     // Store them in session storage
@@ -140,6 +144,9 @@
     const fullName = document.getElementById("inputName").value;
     const email = document.getElementById("inputEmail").value;
     const contactNumber = document.getElementById("inputContact").value;
+    const loader = document.getElementById("loader");
+    const verifyButton = document.getElementById("verifyButton"); 
+ 
 
     // Store the values in sessionStorage
     sessionStorage.setItem("full_name", fullName);
@@ -148,8 +155,21 @@
 
     // Trigger the form submission to call send_email_verification_otp
     const form = document.getElementById("verifyEmailForm");
-    form.action = "{% url 'users:send_email_verification_otp' %}";  // Ensure the action URL is correct
-    form.submit();  // Submit the form
+    form.action = "{% url 'users:send_email_verification_otp' %}";  
+    form.submit();  
+    if (email) {
+        loader.style.display = "inline-block"; 
+        verifyButton.disabled = true; 
+
+       
+        setTimeout(() => {
+            loader.style.display = "none";  
+            verifyButton.disabled = false;  
+            const form = document.getElementById("verifyEmailForm");
+            form.action = "{% url 'users:send_email_verification_otp' %}";
+            form.submit();
+        }, 10000);
+    }  
 });
 </script>
 
