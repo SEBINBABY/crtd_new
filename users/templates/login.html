@@ -25,7 +25,7 @@
                 {% endif %}
             </div> -->
 
-            <div class="modal fade" id="emailVerificationModal" tabindex="-1" aria-labelledby="emailVerificationLabel" aria-hidden="true">
+            <!-- <div class="modal fade" id="emailVerificationModal" tabindex="-1" aria-labelledby="emailVerificationLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -37,7 +37,7 @@
                             {% for message in messages %}
                                 {% if forloop.first %}
                                     {{ message }}
-                                {% endif %}          <!-- Stops after the first message -->
+                                {% endif %}       
                             {% endfor %}
                             {% else %}
                             No messages to display.
@@ -49,7 +49,23 @@
                         </div>
                     </div>
                 </div>
+            </div> -->
+
+            <div class="modal" id="passwordResetModal">
+            <div class="msg-container">
+                {% if messages %}
+                <div class="messages mt-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                </div>
+                {% endif %}
+                <!-- <button id="ok-btn">Ok</button> -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
+        </div>
 
 
 
@@ -64,18 +80,8 @@
             <div class="login-content">
                 <h2>Log in</h2>
                 <p>Please use your email and password to log in.</p>
-                <div class="msg-container">
-                    {% if messages %}
-                    <div class="messages mt-3">
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                    </div>
-                    {% endif %}
-                </div>
-                    <div class="content-input">
+                
+                <div class="content-input">
                 <form action="{% url 'users:user_login' %}" method="POST">
                     {% csrf_token %}
                     <h5>Email iD</h5>
@@ -97,15 +103,28 @@
     <!-- JavaScript for Modal -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+HiapVuH/0vF0LhZU13fAHuKcYj2G" crossorigin="anonymous"></script>
     <script>
+
+       
+
         document.addEventListener('DOMContentLoaded', function () {
             // Check if there are any messages
             const messages = document.querySelectorAll('.messages .alert');
             if (messages.length > 0) {
                 // Show the modal if a message exists
+
+                let modal1 = document.querySelector(".modal");
+                modal1.style.display = "block";
                 const modal = new bootstrap.Modal(document.getElementById('passwordResetModal'));
                 modal.show();
             }
         });
+
+            let modal1 = document.querySelector(".modal");
+
+            let btn = document.querySelector(".btn");
+            btn.addEventListener("click", () => {
+             modal1.style.display = "none";
+            })
 
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
@@ -130,6 +149,9 @@
         form.action = "{% url 'users:send_email_verification_otp' %}";
         form.submit();
     });
+
+    
+
 </script>
 
 
