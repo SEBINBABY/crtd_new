@@ -197,8 +197,11 @@ body{
 
 .modal-content h3 {
   color: #003b8b;
-  font-size: 20px;
+  font-size: 1.3rem;
   font-weight: 650;
+}
+.modal-content p{
+  font-size: 1rem;
 }
 .modal-logo{
   height: 18vh;
