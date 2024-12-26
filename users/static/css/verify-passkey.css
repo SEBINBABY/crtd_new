@@ -167,6 +167,12 @@ body{
       display: block;
     }
   }
+  @media (max-width: 380px) {
+    .modal-logo {
+      height: 23vh !important;
+      width: 98vw !important;
+    }
+  }
 
   .modal {
     display: none; /* Hidden by default */
@@ -198,4 +204,15 @@ body{
     color: #003b8b;
     font-size: 20px;
     font-weight: 650;
+  }
+  .modal-logo{
+    height: 18vh;
+    width: 96vw;
+    background-color: blue;
+    background: url("/static/images/image_1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    scale: 0.6;
+    position: relative;
+    left: -15%;
   }
