@@ -180,22 +180,36 @@ input {
   margin: 30px;
 }
 
-.cancel-btn,
+.cancel-btn, 
 .cancel-btn-edit {
-  border: 2px solid transparent; /* Transparent border acts as a placeholder */
-  border-image: linear-gradient(to right, #13b3ff, #005ad5) 1;
-  background: #e0e0e0;
-  background: linear-gradient(to right, #13b3ff, #005ad5); /* Gradient colors */
-  -webkit-background-clip: text; /* Apply gradient to text */
-  -webkit-text-fill-color: transparent;
+  /* border: 2px solid transparent; Transparent border acts as a placeholder */
+  /* border-image: linear-gradient(to right, #13b3ff, #005ad5) 1; */
+  /* background: #e0e0e0; */
+  /* background: linear-gradient(to right, #13b3ff, #005ad5); Gradient colors */
+  /* -webkit-background-clip: text;  */
+  /* -webkit-text-fill-color: transparent; */
+/* } */
 }
+.cancel-btn:hover,
+.cancel-btn-edit:hover{
+  background: linear-gradient(to right, #13b3ff, #005ad5); /* Gradient colors */
+  color: #000;
+}
+ 
+ 
+ 
 
 .save-btn,
 .save-btn-edit {
   background: linear-gradient(to right, #13b3ff, #005ad5); /* Gradient colors */
   color: #fff;
 }
-
+.save-btn:hover,
+.save-btn-edit:hover {
+   opacity: 0.8;
+   color: black;
+   
+}
 /* Delete Modal */
 .delete-modal {
   display: none;
@@ -293,7 +307,7 @@ input {
 .delete-delete-btn:hover {
   background: linear-gradient(to right, #007bff, #0056b3);
 }
-.activebutton {
+.activebutton{
   display: flex;
   position: relative;
   justify-content: center;
@@ -320,7 +334,7 @@ input {
   color: #0056b3;
 }
 .activebutton input:checked::after {
-  content: '✔'; /* Checkmark */
+  
   font-size: 16px;
   color: white; /* Checkmark color */
   position: absolute;
@@ -332,19 +346,8 @@ input[type="checkbox"]:checked {
   accent-color: green; /* Applies green color for checked state */
 }
 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+.passkeyInput{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

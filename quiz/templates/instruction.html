@@ -27,9 +27,11 @@
                     <li>The exam duration is fixed, and no extra time will be given.</li>
 
                     <li>Ensure a stable internet connection and use the recommended browser</li>
-                        
+                     
                     <li>Do not refresh or close the exam window during the test.</li>
-                        
+
+                    <li>Do not use the back arrow in your browser to go to the previous page, as it may result in losing your progress.</li>
+                    
                     <li>Use only authorized devices; multiple logins are prohibited.</li>
                         
                     <li>Avoid cheating or using unfair means; the exam may be monitored.</li>
@@ -71,7 +73,6 @@
         </div>
         {% endfor %}
     </div>
-    <h5> <i class="fa-solid fa-clock"></i> &nbsp;Automatically starting in <span id="timer">30</span> sec</h5>
     <button id="automateBtn">Start the Test</button>
     
 </div>
@@ -100,6 +101,8 @@
                     <li>Ensure you have a stable internet connection and use the recommended browser.</li>
                         
                     <li>Do not refresh or close the exam window during the test.</li>
+
+                    <li>Do not use the back arrow in your browser to go to the previous page, as it may result in losing your progress.</li>
                         
                     <li>Only use authorized devices; multiple logins are not allowed.</li>
                         
@@ -153,30 +156,6 @@
                 popup.style.opacity = "1";
             }
         });
-
-        let timeRemaining = 30;
-        const timerElement = document.getElementById("timer");
-        function updateTimer() {
-            let seconds = timeRemaining;
-            // Format as MM:SS (e.g., 20:00, 19:59)
-            timerElement.textContent = `${seconds.toString().padStart(2, '0')}`;
-        }
-
-        // Update the timer every second
-        setInterval(() => {
-            if(timeRemaining>0){
-                timeRemaining--; // Decrement the timer
-            }
-            updateTimer();
-
-            if(timeRemaining <= 0) {
-                document.getElementById('automateBtn').click()
-            }
-        }, 1000);
-
-        // Initial call to set up the timer
-        updateTimer();
-
 
     </script>
 </body>

@@ -133,9 +133,16 @@ def user_login(request):
     else:
         return render(request, "login.html")
 
+# Logout functionality for USER role
 def user_logout(request):
-    logout(request)
-    return redirect('users:verify_passkey')
+    if request.user.is_authenticated and request.user.role == User.USER:
+        # Clear the session and log out the user
+        logout(request)
+        messages.success(request, "You have been successfully logged out.")
+        return redirect('users:verify_passkey') # Redirect to the login page
+    else:
+        messages.error(request, "You are not authorized to perform this action.")
+        return redirect('users:verify_passkey')  # Redirect to the login page
 
 # View to send OTP
 @csrf_exempt

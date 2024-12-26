@@ -28,7 +28,9 @@
                     <img src="/static/images/profile.png" alt="">
                 </div>
                <h3>Super Admin</h3> 
-               <button class="button-1">Log Out</button>
+               <a href="{% url 'admin_dashboard:admin_hr_logout' %}">
+                 <button class="button-1">Log Out</button>
+               </a>
             </div>
         </div>
 
@@ -36,13 +38,22 @@
           <div class="left">
               <div id="sidebar" class="sidebar">
                   <h3 class="sidebar-title">SuperAdmin</h3>
-                  <button class="open-dashboard">Open dashboard</button>
-              
+                  <form action="{% url 'admin_dashboard:dashboard_home' %}" method="GET">
+                    {% csrf_token %}
+             <button class="open-dashboard">Open dashboard</button></form>
                   <div class="favorites">
                     <h4 class="section-title">Favorites</h4>
                     <ul class="sidebar-list">
-                      <li class="sidebar-item">• Total Account Created</li>
-                      <li class="sidebar-item">• Not Submitted</li>
+                      <li class="sidebar-item">
+                        <a href="{% url 'admin_dashboard:filtered_users' 'all' %}">
+                          • Total Account Created
+                        </a>
+                      </li>
+                      <li class="sidebar-item">
+                        <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
+                          • Not Submitted
+                        </a>
+                      </li>
                     </ul>
                   </div>
               
@@ -76,7 +87,7 @@
                           </a>
                         </li>
                         <li>
-                          <a href="">
+                          <a href="{% url 'admin_dashboard:amount_section' %}">
                             <i class="fa-solid fa-money-check-dollar"></i>Amount
                           </a>
                         </li>
@@ -131,14 +142,14 @@ toggleIcon.addEventListener('click', () => {
 
   if (sidebar.classList.contains('active')) {
     toggleIcon.style.position = "relative";
-    toggleIcon.style.right = "8vw";
+    toggleIcon.style.left = "-8.5vw";
     left.style.width = "10%";
     content.style.width = "90%";
     sidebar.style.display = "none";
     side.style.display = "block";
   } else {
     toggleIcon.style.position = "";
-    toggleIcon.style.right = "";
+    toggleIcon.style.left = "";
     left.style.width = "";
     content.style.width = "";
     sidebar.style.display = "";
