@@ -256,7 +256,7 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            "We have emailed you instructions for setting your password. If an account exists with the email you entered, you should receive them shortly."
+            "We have emailed you the steps to reset your password. Please check your inbox and follow the steps provided."
         )
         return super().form_valid(form)
 
