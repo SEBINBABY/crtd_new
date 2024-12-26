@@ -34,13 +34,13 @@
             {% endif %}
             <form action="{% url 'admin_dashboard:admin_hr_login' %}" method="POST">
                 {% csrf_token %}
-                <div class="">
-                  <label for="User ID" class="form-label">User ID</label>
-                  <input type="email" class="input-1" id="email" placeholder="E-mail" name="email">
+                <div class="" style="width: 250px;">
+                  <label for="User ID" class="form-label"> <h3>Email ID</h3> </label>
+                  <input type="email" class="input-1" id="email" placeholder="Enter User ID" name="email" style="border: 2px solid black;  ">
                 </div>
-                <div class="pass">
-                  <label for="password" class="form-label">Password</label>
-                  <input type="password"id="password" placeholder="Password" name="password">
+                <div class="pass" style="width: 260px;">
+                  <label for="password" class="form-label"> <h3>Password</h3> </label>
+                  <input type="password"id="password" placeholder="Enter Password" name="password" style="border: 2px solid black;">
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
               </form>
