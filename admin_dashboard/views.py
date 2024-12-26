@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.db.models import Q
 from django.http import JsonResponse
-
+from django.contrib.auth import logout
 from quiz.models import Quiz,Question,Answer
 from .utils import role_required
 from users.models import Passkey
@@ -109,6 +109,17 @@ def admin_hr_login(request):
         else:
             messages.error(request, "Invalid email or password.")  
     return render(request, 'admin_login.html')
+
+# Logout functionality for Admin and HR Staff roles
+def admin_hr_logout(request):
+    if request.user.is_authenticated and request.user.role in [User.ADMIN, User.HR_STAFF]:
+        # Log the user out
+        logout(request)
+        messages.success(request, "You have been successfully logged out.")
+        return redirect("admin_dashboard:admin_hr_login")  # Redirect to the admin login page
+    else:
+        messages.error(request, "You are not authorized to perform this action.")
+        return redirect("admin_dashboard:admin_hr_login")  # Redirect to the admin login page
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_section(request):

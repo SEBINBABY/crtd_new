@@ -1,14 +1,8 @@
 .containe {
-  margin-left: 270px;
-  width: 1140px;
+  width: 90%;
   justify-content: center;
-  border: none;
-  box-shadow: none;
-   
-}
-.containe.shifted {
-  margin-left: 150px;
-  width: 1240px;
+  position: relative;
+  left: 5vw;
 }
 
 .card {
@@ -60,9 +54,6 @@ span {
 .col-md-custom {
   width: calc(3.4 / 12 * 100%);
 }
-.side {
-  margin-left: -13vh;
-}
 .my-div {
   background: #e1e1e1;
   border: 1px solid #e1e1e1;
@@ -71,27 +62,7 @@ span {
   margin-top: -30px;
   margin-left: 250px;
 }
-.sidebar {
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  width: 250px;
-  height: 85vh;
-  padding: 20px;
-  border-right: 1px solid #dee2e6;
-  position: fixed;
-  left: -250px;
-  top: 100px;
-  bottom: 0;
-  transition: left 0.3s ease-in-out;
-}
-.sidebar.open {
-  left: 0;
-}
-.sidebar h6 {
-  font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  font-size: 14px;
-}
+
 .nav-link {
   color: #212529;
   display: flex;
@@ -126,10 +97,6 @@ span {
   display: none;
 }
 
-#sidebar {
-  transition: all 0.3s;
-}
-
 tbody {
   background-color: #f9fafc !important;
 }
@@ -146,6 +113,9 @@ tr {
   
 }
 
+.action-icons{
+  cursor: pointer;
+}
 .overlay {
   display: none;
   position: fixed;

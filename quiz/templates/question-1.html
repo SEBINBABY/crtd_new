@@ -28,17 +28,17 @@
                     </div>
                 </div>
                 <div class="small-box-cont2">
-                    <div  class="cont2-part1">
+                    <div  class="cont2-part1" >
                     {% for question_id in all_question_ids %}
-                        <div class="part1-box box 
+                        <a href="{% url 'quiz:start_question' quiz.id question_id%}" ><div class="part1-box box 
                                 {% if question_id in visited_questions %} Marked {% else %} not-Visited {% endif %}" 
                                 id="box-{{ question_id }}">
                             {{ forloop.counter }}
-                        </div>
-                    {% if forloop.counter|divisibleby:5 and not forloop.last %}
-                        </div>
-                        <div class="cont2-part{{ forloop.counter }}">
-                    {% endif %}
+                        </div></a>
+                        {% if forloop.counter|divisibleby:5 and not forloop.last %}
+                            </div>
+                            <div class="cont2-part1">
+                        {% endif %}
                     {% endfor %}
                     </div>
                 </div>
@@ -46,11 +46,18 @@
         </div>
         <div class="box-2">
             <h2 id="quiz-title">{{ quiz.name }}</h2>
-            <p>Q<span id="question_number"></span> {{question}}</p>
+            <p style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q<span id="question_number"></span> {{question}}</p>
             <form id="question_form" method="POST" action="{% url 'quiz:save_answer' quiz.id question.id %}">
                 {% csrf_token %}
                 {% for answer in answers %}
-                <div class="question"> <input type="radio" {% if selected_answer|add:0 == answer.id %} checked {% endif %}name="selected_answer" value="{{ answer.id }}" required /> <p>{{ answer.answer_text }}</p> </div>
+                <div class="question">
+                    <input type="radio" id="option-{{answer.id}}" 
+                           {% if selected_answer|add:0 == answer.id %} checked {% endif %}
+                           name="selected_answer" value="{{ answer.id }}" required />
+                    <label  label for="option-{{answer.id}}">
+                        <p>{{ answer.answer_text }}</p>
+                    </label>
+                </div>
                 {% endfor %}
                 <input type="hidden" name="current_question" value="{{ question.id }}" />
                 <div class="question-btns">
@@ -61,7 +68,10 @@
         </div>
         <div class="box-3">
             <div class="account-3">
-                <h6>{{user_full_name}}</h6>
+                <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
+                <h6 style="margin-top: -40px;" >{{user_full_name}}</h6>
+                 
+                
                 <span>{{user_email}}</span>
             </div>
             <div class="timer-3">
