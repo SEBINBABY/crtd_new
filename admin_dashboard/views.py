@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.cache import never_cache
 from admin_dashboard.models import User 
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -32,6 +33,7 @@ def dashboard(request):
         }
     return render(request, 'dashboard.html', context)
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def dashboard_home(request):
     total_users = User.objects.filter(role=User.USER).count()
     today_users = User.objects.filter(created_at__date = datetime.date.today(),role=User.USER).count()
@@ -50,6 +52,7 @@ def dashboard_home(request):
                    'today_not_submitted_users': today_not_submitted_users,
                    'today': today,})
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def get_user_results(request,user_id):
     requested_user = get_object_or_404(User,id=user_id)
 
@@ -92,6 +95,7 @@ def filtered_users(request, status):
     }
     return render(request, "dashboard.html", context)
 
+@never_cache
 def admin_hr_login(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -127,6 +131,60 @@ def question_section(request):
                   {"user":request.user,
                    "quizzes":Quiz.objects.all()})
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
+def add_quiz(request):
+    if not request.POST:
+        return redirect("admin_dashboard:question_section")
+    data = request.POST
+    name = data['name']
+    time = data['time']
+    score = data['score_to_pass']
+    order = data['order']
+
+    if None in (name,time,score,order):
+        return JsonResponse({"error":"Please fill all fields"})
+    
+    for quiz in Quiz.objects.filter(order__gte = order):
+        quiz.order = quiz.order + 1
+        quiz.save()
+
+    new_quiz = Quiz(name=name,time=time,score_to_pass=score,order=order)
+    new_quiz.save()
+    return redirect("admin_dashboard:question_section")
+
+@role_required(allowed_roles=['admin', 'hr_staff'])
+def edit_quiz(request,quiz_id):
+    if request.GET:
+        quiz = get_object_or_404(Quiz,id=quiz_id)
+        return JsonResponse({
+            "quiz":quiz.serialize(),
+            "quiz_count": Quiz.objects.count()
+        })
+    
+    if request.POST:
+        data = request.POST
+        name = data['name']
+        time = data['time']
+        score = data['score_to_pass']
+        order = data['order']
+        if None in (name,time,score,order):
+            return JsonResponse({"error":"Please fill all fields"})
+    
+        this_quiz = get_object_or_404(Quiz,quiz_id)
+        next_order = order+1
+        for quiz in Quiz.objects.filter(order__gte = order):
+            quiz.order = next_order
+            quiz.save()
+            next_order += 1
+        
+        this_quiz.name = name
+        this_quiz.time = time
+        this_quiz.score_to_password = score
+        this_quiz.order = order
+        this_quiz.save()
+        return redirect("admin_dashboard:question_section")
+
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def question_list(request,quiz_id):
     quiz = get_object_or_404(Quiz,id=quiz_id)
     return render(request,'question_list.html',
@@ -134,6 +192,7 @@ def question_list(request,quiz_id):
                    "quiz": quiz,
                    })
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def add_question(request):
     if not request.POST:
         return redirect("admin_dashboard:question_section")
@@ -166,6 +225,7 @@ def add_question(request):
 
     return redirect('admin_dashboard:question_list',quiz_id)
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def edit_question(request):
     if request.GET:
         question_id= request.GET.get('question_id')
@@ -216,6 +276,7 @@ def edit_question(request):
 
         return redirect('admin_dashboard:question_list',question.quiz.id)
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def delete_question(request):
     if request.POST:
         question_id = request.POST.get('question_id')
@@ -251,6 +312,7 @@ def user_list(request):
 
     return render(request, 'dashboard.html', {'users': users, 'query': query})
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def passkey(request):   # Once user click Passkey Section
     # Fetch all passkey objects
     passkeys = Passkey.objects.all() 
@@ -260,6 +322,7 @@ def passkey(request):   # Once user click Passkey Section
     # Pass the data to the template
     return render(request, "passkey.html", {"passkeys": passkeys})
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def add_passkey(request):  # For Save button in Add Passkey Modal
     if request.method == "POST":
         key_value = request.POST.get("key")   
@@ -275,6 +338,7 @@ def add_passkey(request):  # For Save button in Add Passkey Modal
   
 
 # For Edit button in Passkey Modal
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def update_passkey(request, passkey_id):
     passkey = get_object_or_404(Passkey, id=passkey_id)
     if request.method == "POST":
@@ -291,13 +355,14 @@ def update_passkey(request, passkey_id):
     passkeys = Passkey.objects.all()
     return render(request, "passkey.html", {"passkeys": passkeys, "is_active":is_active})
 
-
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def delete_passkey(request, passkey_id):
     if request.method == "POST":
         passkey = get_object_or_404(Passkey, id=passkey_id)
         passkey.delete()
         return redirect('admin_dashboard:passkey')  
 
+@role_required(allowed_roles=['admin', 'hr_staff'])
 def amount_section(request):
     if request.POST:
         amount = request.POST.get('amount',None)

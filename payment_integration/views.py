@@ -3,6 +3,7 @@ import razorpay
 from django.http import JsonResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache
 from .models import Payment
 from django.contrib.auth.decorators import login_required
 from admin_dashboard.models import User
@@ -10,6 +11,7 @@ from admin_dashboard.models import Amount
 from django.db import transaction
 
 # Payment integration starts from here 
+@never_cache
 @login_required
 def payment_start(request):
     user = request.user
