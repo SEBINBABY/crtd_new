@@ -13,6 +13,7 @@ TIME_LIMIT = 20 # MINUTES
 GRACE_TIME = 2 # SECONDS
 
 @user_only
+@never_cache
 def list_quizzes(request):
     """
     Display all quizzes for logged-in users.
@@ -29,6 +30,7 @@ def list_quizzes(request):
         return render(request, "no_quizzes.html")
 
 @user_only
+@never_cache
 def start_test(request):
     """
     Starts or resumes a quiz for the user.

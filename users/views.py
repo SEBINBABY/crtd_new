@@ -33,6 +33,7 @@ def is_valid_password(password):
     return None  # No issues
 
 # To verify passkey entered by user
+@never_cache
 def verify_passkey(request):
     if request.method == "POST":
         passkey = request.POST.get("passkey")
