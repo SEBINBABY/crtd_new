@@ -9,21 +9,6 @@
 
     {% block content %}
     <div class="container">
-        <!-- <div
-          class="question-section"
-          id="questionSectionContent"
-          style="display: block"
-        >
-          <div class="card">
-            {% for quiz in quizzes %}
-            <a href="{% url 'admin_dashboard:question_list' quiz.id%}" style="text-decoration: none; color:black">
-              <div class="item" id="item">
-                <p id="1">{{forloop.counter}}. {{quiz.name}}</p>
-              </div>
-            </a>
-            {% endfor %}
-          </div>
-        </div> -->
         <button class="add-btn" id="add-btn">
           <h3>Add New Quiz</h3>
         </button>
