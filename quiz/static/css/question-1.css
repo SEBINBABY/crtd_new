@@ -1,274 +1,289 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-body{
-    margin: 0;
-    padding: 0;
-    
+body {
+  margin: 0;
+  padding: 0;
 }
-.main-box{
-    height: 100vh;
-    width: 100%;
-    display: flex;
+.main-box {
+  height: 100vh;
+  width: 100%;
+  display: flex;
 }
-.box-1{
-    height: 100%;
-    width: 25%;
-    /* background-color: red; */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+.box-1 {
+  height: 100%;
+  width: 25%;
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
-.box-2{
-    height: 100%;
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.box-2 {
+  height: 100%;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.box-3{
-    height: 100%;
-    width: 15%;
-    /* background-color: blue; */
+.box-3 {
+  height: 100%;
+  width: 15%;
+  /* background-color: blue; */
 }
-.box-1-logo{
-    height: 15%;
-    width: 72%;
-    /* background-color: beige; */
-    background: url("/static/images/image_1.png");
-    background-size: cover;
-    position: relative;
-    left: -10%;
-    scale: 0.9;
+.box-1-logo {
+  height: 15%;
+  width: 72%;
+  /* background-color: beige; */
+  background: url("/static/images/image_1.png");
+  background-size: cover;
+  position: relative;
+  left: -10%;
+  scale: 0.9;
 }
-.box-1-content{
-    width: 75%;
-    height: 70%;
-    /* background-color: blueviolet; */
-    position: relative;
-    /* left: 10%; */
-    border: 0.5px solid #C2C2C2;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
+.box-1-content {
+  width: 75%;
+  height: 70%;
+  /* background-color: blueviolet; */
+  position: relative;
+  /* left: 10%; */
+  border: 0.5px solid #c2c2c2;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 }
-.question{
-    display: flex;
-    margin-bottom: 15px;
-    height: 7%;
-    width: 80%;
-    background-color: #F6F6F6;
-    padding: 10px;
-    border-radius: 8px;
+.question {
+  display: flex;
+  margin-bottom: 15px;
+  height: 7%;
+  width: 80%;
+  /* background-color: #F6F6F6; */
+  padding: 10px;
+  border-radius: 8px;
+  margin-left: 60px;
 }
 /* input[type="radio"] { */
-     
+
 /* } */
-.question:hover{
-    background: linear-gradient(to right, #13b3ff, #005ad5);
-}
+/* .question:hover{ */
+/* background: linear-gradient(to right, #13b3ff, #005ad5); */
+/* } */
 
 label {
-        
-    width: 100vw;
-    padding: 10px 15px;
-    /* border: 1px solid #ccc; */
-    border-radius: 5px;
-     height: 120%;
-    cursor: pointer;
-    margin-top: -5px;
-    transition: all 0.3s ease;
-   
+  display: block;
+  height: 140%; /* Ensures the label spans the full width */
+  width: 80%; /* Adjusts to the container's width */
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: -5px;
+  margin-left: 10px;
+  background-color: #f6f6f6;
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* Ensures padding is included in the width */
+}
+ /* Default hover effect for labels of unchecked radio buttons */
+input[type="radio"]:not(:checked) + label:hover {
+    background: linear-gradient(to right, #13b3ff, #005ad5);
+    color: #fff; /* Optional: change text color on hover */
 }
 
-/* label:hover { */
-    /* background: linear-gradient(to right, #13b3ff, #005ad5); */
-/* } */
-
+/* Checked state for the label */
 input[type="radio"]:checked + label {
     background-color: #d6f5d6; /* Green background when selected */
     border-color: #5cb85c;
     color: #333;
-     
-    
 }
 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 label p {
-    margin: 0; /* Remove default paragraph margin */
+  margin: 0; /* Remove default paragraph margin */
 }
-.box-2 h2{
-    color: #032F84;
-    font-size: 22px;
-    font-weight: 500;
-    position: relative;
-    top: 10%;
+.box-2 h2 {
+  color: #032f84;
+  font-size: 22px;
+  font-weight: 500;
+  position: relative;
+  top: 10%;
 }
-.box-2 p{
-    font-weight: 500;
-    color: #000000;
-    font-size: 18px;
-    position: relative;
-    top: 25%;
+.box-2 p {
+  font-weight: 500;
+  color: #000000;
+  font-size: 18px;
+  position: relative;
+  top: 25%;
 }
-.box-2 form{
-    width: 90%;
-    height: 90%;
-    display: flex;
-    flex-direction: column;
+.box-2 form {
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
 }
-.question{
-    position: relative;
-    top: 30%;
-    left: 12%;
+.question {
+  position: relative;
+  top: 30%;
+  left: 12%;
 }
-.question p{
-    font-size: 16px;
-    font-weight: 480;
-    padding-left: 10px;
-    position: relative;
-    top: -2px;
+.question p {
+  font-size: 16px;
+  font-weight: 480;
+  padding-left: 10px;
+  position: relative;
+  top: -2px;
 }
-.question-btns{
-    /* width: 80%; */
-    display: flex;
-    position: relative;
-    top: 40%;
-    justify-content: space-around;
+.question-btns {
+  /* width: 80%; */
+  display: flex;
+  position: relative;
+  top: 40%;
+  justify-content: space-around;
 }
-.question-btns button{
-    height: 130%;
-    width: 20%;
-    padding: 5px;
-    border: none;
-    background: linear-gradient(to right, #13B3FF, #005AD5);
-    color: white;
-    border-radius: 10px;
-}
-
-.account-3{
-    height: 15%;
-    width: 90%;
-    /* background-color: red; */
-    padding: 10px;
-    margin-top: 20px;
-}
-.account-3 h6{
-    font-size: 16px;
-    font-weight: 700;
-    color: #003B8B;
-}
-.account-3 span{
-    font-size: 14px;
-    position: relative;
-    top: -12px;
-}
-.timer-3{
-    height: 15%;
-    width: 90%;
-    /* background-color: pink; */
-    position: relative;
-    top: -5%;
-    padding: 10px;
-}
-.small-box-cont{
-    width: 100%;
-    /* background-color: black; */
-    height: 20%;
-    display: flex;
-    justify-content: space-around;
-    padding-top: 10%;
-}
-.small-box-cont div{
-    font-size: 15px;
+.question-btns button {
+  height: 130%;
+  width: 20%;
+  padding: 5px;
+  border: none;
+  background: linear-gradient(to right, #13b3ff, #005ad5);
+  color: white;
+  border-radius: 10px;
 }
 
-.small-box-cont div div{
-    display: flex;
-    /* background-color: pink; */
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #9A9A9A;
-    border-radius: 3px;
-    font-size: 12px;
-    font-weight: 500;
+.account-3 {
+  height: 15%;
+  width: 90%;
+  /* background-color: red; */
+  padding: 10px;
+  margin-top: 20px;
 }
-.small-box-cont2{
-    width: 100%;
-    /* background-color: blue; */
-    height: 60%;
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
+.account-3 h6 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #003b8b;
+}
+.account-3 span {
+  font-size: 14px;
+  position: relative;
+  top: -12px;
+}
+.timer-3 {
+  height: 15%;
+  width: 90%;
+  /* background-color: pink; */
+  position: relative;
+  top: -5%;
+  padding: 10px;
+}
+.small-box-cont {
+  width: 100%;
+  /* background-color: black; */
+  height: 20%;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 10%;
+}
+.small-box-cont div {
+  font-size: 15px;
 }
 
+.small-box-cont div div {
+  display: flex;
+  /* background-color: pink; */
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #9a9a9a;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.small-box-cont2 {
+  width: 100%;
+  /* background-color: blue; */
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
 
-.small-box-cont2 div{
-    display: flex;
-    height: 15%;
-    width: 100%;
-    /* background-color: #000000; */
-    margin-bottom: 3%;
+.small-box-cont2 div {
+  display: flex;
+  height: 15%;
+  width: 100%;
+  /* background-color: #000000; */
+  margin-bottom: 3%;
 }
-.cont2-part1, .cont2-part2, .cont2-part3{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin-top: 5px;
-    font-size: 12px;
+.cont2-part1,
+.cont2-part2,
+.cont2-part3 {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 5px;
+  font-size: 12px;
 }
-.cont2-part1 div, .cont2-part2 div, .cont2-part3 div{
-    display: flex;
-    height: 100%;
-    width: 200%;
-    /* background-color: blanchedalmond; */
-    border: 1px solid #9A9A9A;
-    border-radius: 4px;
-    text-transform: none;
+.cont2-part1 div,
+.cont2-part2 div,
+.cont2-part3 div {
+  display: flex;
+  height: 100%;
+  width: 200%;
+  /* background-color: blanchedalmond; */
+  border: 1px solid #9a9a9a;
+  border-radius: 4px;
+  text-transform: none;
 }
-.cont2-part1 a{
-    text-decoration: none;
-    color: black;
-    width: 8%;
-    height: 80%;
-    font-size: 50%;
+.cont2-part1 a {
+  text-decoration: none;
+  color: black;
+  width: 8%;
+  height: 80%;
+  font-size: 50%;
 }
-.part1-box, .part2-box, .part3-box{
-    padding: 2px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
+.part1-box,
+.part2-box,
+.part3-box {
+  padding: 2px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
 }
-.marked{
-    display: flex;
-    height: 45%;
-    width: 80%;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #9A9A9A;
-    border-radius: 3px;
-    font-size: 12px;
-    font-weight: 500;
-    margin-left: 10px
+.marked {
+  display: flex;
+  height: 45%;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #9a9a9a;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: 10px;
 }
-.not-visit{
-    height: 45%;
-    width: 60%;
-    margin-left: 10px;
+.not-visit {
+  height: 45%;
+  width: 60%;
+  margin-left: 10px;
 }
-.active{
-    height: 45%;
-    width: 100%;
-    margin-left: 3px;
+.active {
+  height: 45%;
+  width: 100%;
+  margin-left: 3px;
 }
-.not-Visited{
-    background-color: #D1D1D1;
+.not-Visited {
+  background-color: #d1d1d1;
 }
-.Marked{
-    background-color: #C2FCD2;
-    border: 1px solid #7EFFB6 !important;
+.Marked {
+  background-color: #c2fcd2;
+  border: 1px solid #7effb6 !important;
 }
