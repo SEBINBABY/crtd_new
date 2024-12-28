@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.cache import never_cache
 from admin_dashboard.models import User 
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -92,6 +93,7 @@ def filtered_users(request, status):
     }
     return render(request, "dashboard.html", context)
 
+@never_cache
 def admin_hr_login(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -126,6 +128,58 @@ def question_section(request):
     return render(request, "Quiz_list.html",
                   {"user":request.user,
                    "quizzes":Quiz.objects.all()})
+
+def add_quiz(request):
+    if not request.POST:
+        return redirect("admin_dashboard:question_section")
+    data = request.POST
+    name = data['name']
+    time = data['time']
+    score = data['score_to_pass']
+    order = data['order']
+
+    if None in (name,time,score,order):
+        return JsonResponse({"error":"Please fill all fields"})
+    
+    for quiz in Quiz.objects.filter(order__gte = order):
+        quiz.order = quiz.order + 1
+        quiz.save()
+
+    new_quiz = Quiz(name=name,time=time,score_to_pass=score,order=order)
+    new_quiz.save()
+    return redirect("admin_dashboard:question_section")
+
+def edit_quiz(request,quiz_id):
+    if request.GET:
+        quiz = get_object_or_404(Quiz,id=quiz_id)
+        return JsonResponse({
+            "quiz":quiz.serialize(),
+            "quiz_count": Quiz.objects.count()
+        })
+    
+    if request.POST:
+        data = request.POST
+        name = data['name']
+        time = data['time']
+        score = data['score_to_pass']
+        order = data['order']
+        if None in (name,time,score,order):
+            return JsonResponse({"error":"Please fill all fields"})
+    
+        this_quiz = get_object_or_404(Quiz,quiz_id)
+        next_order = order+1
+        for quiz in Quiz.objects.filter(order__gte = order):
+            quiz.order = next_order
+            quiz.save()
+            next_order += 1
+        
+        this_quiz.name = name
+        this_quiz.time = time
+        this_quiz.score_to_password = score
+        this_quiz.order = order
+        this_quiz.save()
+        return redirect("admin_dashboard:question_section")
+
 
 def question_list(request,quiz_id):
     quiz = get_object_or_404(Quiz,id=quiz_id)

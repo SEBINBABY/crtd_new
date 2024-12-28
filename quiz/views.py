@@ -5,6 +5,7 @@ from django.utils.timezone import now
 from django.contrib import messages
 from admin_dashboard.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 from .utils import *
 
 
@@ -64,6 +65,7 @@ def start_test(request):
     return redirect('quiz:start_question', quiz_id=quiz.id, question_id=quiz.quiz_questions.first().id)
 
 @user_only
+@never_cache
 def start_question(request, quiz_id, question_id):
     """
     Renders a question based on the given IDs.

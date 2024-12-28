@@ -16,6 +16,7 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetCompleteVi
 from django.urls import reverse_lazy
 from django import forms
 from django.contrib.auth.forms import PasswordResetForm
+from django.views.decorators.cache import never_cache
 
 # Password validation function
 def is_valid_password(password):
@@ -42,6 +43,7 @@ def verify_passkey(request):
     return render(request, "verify_passkey.html")
 
 # User can submit the username and email for email verification
+@never_cache
 def register(request):
     return render(request, 'register.html')
 
@@ -110,6 +112,7 @@ def register_verified(request):
                 'contact_number': contact_number})
 
 # Login functionality for authentication
+@never_cache
 def user_login(request):
     if request.method == "POST":
         email = request.POST.get("email")
