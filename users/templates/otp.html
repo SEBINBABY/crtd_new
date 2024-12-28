@@ -23,8 +23,8 @@
           {% endfor %}
       </div>
       {% endif %}
-      <form action="{% url 'users:verify_email_otp' %}" method="POST">
-      <div class="otp-input">
+      <form action="{% url 'users:verify_email_otp' %}" method="POST" class="otp-form">
+      <div class="otp-input" style="position: relative; left: 10%; top: 10%">
         <input type="text" id="otp1" maxlength="1" class="otp-box" name="otp1" oninput="moveFocus(this, 'otp2')" onkeydown="moveToPrev(event, null, 'otp1')" required />
         <input type="text" id="otp2" maxlength="1" class="otp-box" name="otp2" oninput="moveFocus(this, 'otp3')" onkeydown="moveToPrev(event, 'otp1', 'otp2')" required />
         <input type="text" id="otp3" maxlength="1" class="otp-box" name="otp3" oninput="moveFocus(this, 'otp4')" onkeydown="moveToPrev(event, 'otp2', 'otp3')" required />

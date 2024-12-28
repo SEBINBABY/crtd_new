@@ -49,11 +49,12 @@ body{
     color: #808080;
     /* line-height: 14px; */
 }
-.container .opt-input{
+.container .otp-form .opt-input{
     /* height: 63px;
     width: 300px; */
     display: flex;
     justify-content: space-evenly;
+    /* background-color: pink !important; */
 }
 .otp-box{
     height: 40px;
@@ -64,6 +65,7 @@ body{
     margin-bottom: 20px;
     border-radius: 10px;
     padding: 5px;
+    text-align: center;
 }
 .container-btn{
     margin-top: 20px;
@@ -78,9 +80,9 @@ body{
 .messages {
     margin-top: 1.5rem;
     padding: 1rem;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     border-radius: 5px;
-    background-color: #f9f9f9;
+    /* background-color: #f9f9f9; */
 }
 
 /* General alert message styling */
