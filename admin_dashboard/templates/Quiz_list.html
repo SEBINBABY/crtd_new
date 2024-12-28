@@ -9,7 +9,7 @@
 
     {% block content %}
     <div class="container">
-        <div
+        <!-- <div
           class="question-section"
           id="questionSectionContent"
           style="display: block"
@@ -23,22 +23,212 @@
             </a>
             {% endfor %}
           </div>
+        </div> -->
+        <button class="add-btn">
+          <h3>Add New Section</h3>
+        </button>
+        <div class="table">
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 10%">S.No</th>
+                  <th>Section Name</th>
+                  <th>No. of Questions</th>
+                  <th>Timer</th>
+                  <th style="width: 20%; text-align: center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>          
+                  <td>1</td>
+                  <td class="passkey section">Basic Programming</td>
+                  <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
+                  <td class="passkey">20 min</td>
+                  <td class="actions" style="text-align: center;">
+                    <div class="action-btns">
+                        <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
+                        <img class="eye-btn" src="/static/images/edit.png" alt="See">
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>          
+                  <td>2</td>
+                  <td class="passkey section">Frontend Logic</td>
+                  <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
+                  <td class="passkey">20 min</td>
+                  <td class="actions" style="text-align: center;">
+                    <div class="action-btns">
+                        <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
+                        <img class="eye-btn" src="/static/images/edit.png" alt="See">
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>          
+                  <td>3</td>
+                  <td class="passkey section">Backend Logic</td>
+                  <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
+                  <td class="passkey">20 min</td>
+                  <td class="actions" style="text-align: center;">
+                    <div class="action-btns">
+                        <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
+                        <img class="eye-btn" src="/static/images/edit.png" alt="See">
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>          
+                  <td>4</td>
+                  <td class="passkey section">Database Concepts</td>
+                  <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
+                  <td class="passkey">20 min</td>
+                  <td class="actions" style="text-align: center;">
+                    <div class="action-btns">
+                        <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
+                        <img class="eye-btn" src="/static/images/edit.png" alt="See">
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>          
+                  <td>5</td>
+                  <td class="passkey section">QA Testing</td>
+                  <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
+                  <td class="passkey">20 min</td>
+                  <td class="actions" style="text-align: center;">
+                    <div class="action-btns">
+                        <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
+                        <img class="eye-btn" src="/static/images/edit.png" alt="See">
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>          
+                  <td>6</td>
+                  <td class="passkey section">Basic Programming</td>
+                  <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
+                  <td class="passkey">20 min</td>
+                  <td class="actions" style="text-align: center;">
+                    <div class="action-btns">
+                        <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
+                        <img class="eye-btn" src="/static/images/edit.png" alt="See">
+                    </div>
+                  </td>
+                </tr>
+                
+      
+              </tbody>
+            </table>
+          </div>
+          <!-- <button class="click">click me</button> -->
         </div>
 
         <div class="containe up"  >
           
             <button
-            
               data-bs-toggle="modal"
               data-bs-target="#addQuestionModal"
             ></button>
           </div>
         </div>
+      </div>
+
+        <!-- edit modal -->
+        <div class="edit-modal" id="edit-modal">
+          <div class="modal-content">
+            <h3>Edit</h3>
+            <form action="" method="POST">
+              {% csrf_token %}
+            <label>Basic Programming</label>
+            <input type="text" class="passkeyInput" placeholder="Basic Programming" name="key"  value="" required/>
+            <label class="label-timer">Timer</label>
+            <input type="number" class="passkeyInput" placeholder="Timer" name="key"  value="" required/>
+            <!-- <div class="activebutton"  > 
+            <label for="is_active" style="margin-left: 80px;">Active:</label>
+            <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -80px;" {% if passkey.is_active %}checked{% endif %}>
+          </div> -->
+            <div class="modal-buttons">
+              <button class="cancel-btn-edit" type="button">Cancel</button>
+              <button id="saveBtnEdit" class="save-btn-edit" type="submit">Save</button>
+              </form>
+              
+          
+            </div>
+          </div>
+          </div>
+
+          <!-- delete modal -->
+          <div class="delete-modal" id="delete-modal" style="display: none;">
+            <div class="modal-content">
+              <!-- Close Button -->
+              <span class="delete-close-btn">&times;</span>
+              <!-- Illustration -->
+              <div class="modal-image">
+                <img src="/static/images/Delete.png" alt="Illustration" />
+              </div>
+              <!-- Confirmation Text -->
+              <div class="modal-body">
+                <p class="modal-title">Are you sure you want to delete</p>
+                <p class="modal-item" id="modal-item"><span id="delete-passkey-id"></span></p>
+              </div>
+              <!-- Buttons -->
+              <div class="modal-footer">
+                <button class="btn delete-cancel-btn">Cancel</button>
+                <form id="delete-form" method="POST" action="" onsubmit="return confirmDelete(event)">
+                  {% csrf_token %}
+                <button class="btn delete-delete-btn" type="submit">Delete</button>
+                
+                </form>
+              </div>
+            </div>
+          </div>
+            
 
     {% endblock %}
 
 {% block extra_js %}
     <script>
+
+    // let Click = document.querySelector(".click");
+    const passkeyModalEdit = document.querySelector(".edit-modal");
+    const editBtn = document.querySelectorAll(".eye-btn");
+
+      editBtn.forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+        passkeyModalEdit.style.display = "block";
+        });
+      });
+
+      const cancelBtnEdit = document.querySelectorAll(".cancel-btn-edit");
+      cancelBtnEdit.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+        event.preventDefault(); // Prevent form submission
+        const editModal = btn.closest(".edit-modal");
+        if (editModal) {
+            editModal.style.display = "none";
+        }
+    });
+});
+
+  // delete modal
+    const deleteBtns = document.querySelectorAll(".delete-btn");
+    const deleteModal = document.querySelector(".delete-modal");
+    // let  Click = document.querySelector(".click");
+    const deleteCancelBtn = document.querySelector(".delete-cancel-btn");
+
+
+    deleteBtns.forEach((btn) => {
+     btn.addEventListener("click", (event) => {
+      deleteModal.style.display = "block";
+  });
+});
+
+deleteCancelBtn.addEventListener("click", () => {
+  deleteModal.style.display = "none";
+});
+
 
         document
         .getElementById("questionSectionLink")
@@ -65,5 +255,25 @@
       function closePopup() {
         document.getElementById("edit-content").style.display = "none";
       }
+
+      // modal >>>>>>>>>>>>>>>
+      // const passkeyModalEdit = document.querySelector(".edit-modal");
+      // const editBtn = document.querySelectorAll(".eye-btn");
+
+      // editBtn.forEach((btn) => {
+      // btn.addEventListener("click", (event) => {
+      //   passkeyModalEdit.style.display = "block";
+      //   });
+      // });
+
+    //   const editModal = document.getElementById("edit-modal");
+    //   editBtn.forEach((btn) => {
+    //   btn.addEventListener("click", () => {
+    //     event.preventDefault();
+    //     editModal.style.display = "block";
+    //   });
+    // });
+
+
       </script>
       {% endblock %}

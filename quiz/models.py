@@ -4,9 +4,9 @@ from admin_dashboard.models import User
 
 class Quiz(models.Model):
     name = models.CharField(max_length=120)
-    number_of_questions = models.IntegerField()
     time = models.IntegerField(help_text="duration of the quiz in minutes")
     score_to_pass = models.IntegerField(help_text="Minimum score(%) to pass")
+    order = models.PositiveIntegerField(default = 0)
     def __str__(self):
         return f"{self.name}"
     
@@ -14,13 +14,15 @@ class Quiz(models.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "number_of_questions": self.number_of_questions,
+            "number_of_questions": self.quiz_questions.count(),
             "time": self.time,
-            "score_to_pass": self.score_to_pass
+            "score_to_pass": self.score_to_pass,
+            "order": self.order,
         }
     
     class Meta:
         verbose_name_plural = 'Quizes'
+        ordering = ['order']
 
 
 class Question(models.Model):

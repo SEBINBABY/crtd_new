@@ -44,7 +44,7 @@
                     </div>
                     <label for="" class="form-label">Contact Number*</label>
                     <input type="text" id="displayContact" class="form-control"
-                    name="contact_number" id="displayContact" required>
+                    name="contact_number"  min="10" max="10" id="displayContact" required>
                     <label for="" class="form-label">Create Password*</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Enter Password"
                     name="password" required>
@@ -66,11 +66,15 @@
         const fullName = sessionStorage.getItem("full_name");
         const email = sessionStorage.getItem("email");
         const contactNumber = sessionStorage.getItem("contact_number");
+        const Password = sessionStorage.getItem("password");
+        
 
         // Populate the fields or display data
         document.getElementById("displayName").value = fullName || "";
         document.getElementById("displayEmail").value = email || "";
         document.getElementById("displayContact").value = contactNumber || "";
+        document.getElementById("inputPassword").value = Password || "";
+        document.getElementById("inputPassword2").value = Password || "";
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -16,6 +16,7 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetCompleteVi
 from django.urls import reverse_lazy
 from django import forms
 from django.contrib.auth.forms import PasswordResetForm
+from django.views.decorators.cache import never_cache
 
 # Password validation function
 def is_valid_password(password):
@@ -32,6 +33,7 @@ def is_valid_password(password):
     return None  # No issues
 
 # To verify passkey entered by user
+@never_cache
 def verify_passkey(request):
     if request.method == "POST":
         passkey = request.POST.get("passkey")
@@ -42,6 +44,7 @@ def verify_passkey(request):
     return render(request, "verify_passkey.html")
 
 # User can submit the username and email for email verification
+@never_cache
 def register(request):
     return render(request, 'register.html')
 
@@ -110,6 +113,7 @@ def register_verified(request):
                 'contact_number': contact_number})
 
 # Login functionality for authentication
+@never_cache
 def user_login(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -164,17 +168,19 @@ def send_email_verification_otp(request):
         OTP.objects.create(email=email, full_name=username, otp_code=otp_code)
         # Send OTP email
         # Split OTP into individual characters
-        # otp_digits = list(str(otp_code))  # ['2', '4', '6', '8']
-        # context = {"otp_digits": otp_digits, "name":username} #  OR
-        context = {"otp_code": otp_code, "name":username}
+        otp_digits = list(str(otp_code))  # ['2', '4', '6', '8']
+        context = {"otp_digits": otp_digits, "name":username} #  OR
+        #context = {"otp_code": otp_code, "name":username}
         email_subject = "Email Verification Code"
         email_body = render_to_string("email_message.txt", context)
+        email_html = render_to_string("email.html", context)
         send_mail(
             email_subject,
             email_body,
             settings.DEFAULT_FROM_EMAIL,
             [email],
             fail_silently=False,
+            html_message=email_html
         )
         messages.success(request, "OTP sent successfully! Please check your registered mail.")
         return render(request,"otp.html")
@@ -256,7 +262,7 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            "We have emailed you instructions for setting your password. If an account exists with the email you entered, you should receive them shortly."
+            "We have emailed you the steps to reset your password. Please check your inbox and follow the steps provided."
         )
         return super().form_valid(form)
 

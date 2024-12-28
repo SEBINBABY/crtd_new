@@ -17,38 +17,39 @@
         </div>
         
         <div class="instruct-right">
-            <div class="imp-account automate-account instruct-account">
+            <div class="instruct-account">
                 <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
+                <div>
                 <h6 style="margin-top: -40px;" >{{user_full_name}}</h6>
                 <p>{{user_email}}</p>
-                
+                 </div>
             </div>
             <div class="instruction">
-                <h1>Read the instructions carefully before proceeding further.</h1>
+                <h1>Important Exam Instructions:</h1>
                 <ul>
-                    <li>The exam duration is fixed, and no extra time will be given.</li>
+                    <li>The exam duration is fixed with no possibility of extension.
+                    </li>
 
-                    <li>Ensure a stable internet connection and use the recommended browser</li>
+                    <li> Ensure a stable internet connection and use the recommended browser.
+                    </li>
                      
-                    <li>Do not refresh or close the exam window during the test.</li>
+                    <li> Do not refresh or close the exam window to avoid disruptions.
+                    </li>
 
-                    <li>Do not use the back arrow in your browser to go to the previous page, as it may result in losing your progress.</li>
+                    <li> Avoid using the browser’s back button to prevent loss of progress.
+                    </li>
                     
-                    <li>Use only authorized devices; multiple logins are prohibited.</li>
+                    <li>Access is restricted to authorized devices; multiple logins are prohibited.
+                    </li>
                         
-                    <li>Avoid cheating or using unfair means; the exam may be monitored.</li>
+                    <li>Any form of cheating or unfair practices may lead to disqualification, and the exam may be monitored.
+                    </li>
                         
-                    <li>Submit your answers before the timer runs out.</li>
+                    <li>Submit your responses before the timer runs out.
+                    </li>
                         
-                    <li>Follow all proctoring guidelines if the exam is being supervised.</li>
+                    <li>Follow all proctoring guidelines if the exam is supervised.</li>
                     
-                    <li>The test consists of sections: Aptitude, Logical Reasoning, English, Behavioral, and Coding.</li>
-
-                    <li>Each section contains 15 questions.</li>
-
-                    <li>Each section has a time limit of 20 minutes.</li>
-
-                    <li>Questions must be attempted within the given time limit for each section.</li>
                 </ul>
             </div>
             <button class="instruct-btn" id="instructBtn">Continue</button>
@@ -60,11 +61,12 @@
     <div class="part-1">
         <div class="automate-logo"></div>
     <p>Technical Aptitude Evaluation</p>
-    <div class="imp-account automate-account">
+    <div class="automate-account">
         <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
-        <h6 style="margin-top: -40px;" >{{user_full_name}}</h6>
+        <div>
+        <h6 style="margin-top: -40px; color: #003B8B;" >{{user_full_name}}</h6>
         <p>{{user_email}}</p>
-        
+        </div>
     </div>
     </div>
     <div class="selection">Selection Attempted 0/{{quizzes|length}}</div>
@@ -90,39 +92,41 @@
         <div class="imp-instruct-right">
             <div class="impp-account">
                 <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
+                <div>
                 <h6 style="margin-top: -40px;" >{{user_full_name}}</h6>
                 <p>{{user_email}}</p>
+                </div>
             </div>
-            <h3>Important Guidelines :</h3>
-            <div class="instruction imp-instruction">
+            <h3>Exam Guidelines:</h3>
+            <div class="instruction im-instructions">
                 <ul>
-                    <li>Each section has 15 questions and a 20-minute time limit.</li>
+                    <li> 15 questions per section, 20-minute limit each.
+                    </li>
 
-                    <li>Complete all questions within the time limit for each section.
+                    <li>No extra time; submit before the timer ends.
+
                     </li>
                         
-                    <li>The exam duration is fixed; no extra time will be provided.</li>
+                    <li> Use a stable internet connection and recommended browser.
+                    </li>
                         
-                    <li>Ensure you have a stable internet connection and use the recommended browser.</li>
+                    <li>Do not refresh, close, or use the back button.
+                    </li>
                         
-                    <li>Do not refresh or close the exam window during the test.</li>
+                    <li>Authorized devices only; no multiple logins.
+                    </li>
 
-                    <li>Do not use the back arrow in your browser to go to the previous page, as it may result in losing your progress.</li>
+                    <li>No screenshots, recordings, or tab switching.</li>
                         
-                    <li>Only use authorized devices; multiple logins are not allowed.</li>
+                    <li>Cheating is prohibited; monitoring may apply.
+                    </li>
                         
-                    <li>Cheating is prohibited, and the exam may be monitored.</li>
+                    <li> Follow proctoring instructions if supervised.</li>
                     
-                    <li>Submit your answers before the timer runs out.</li>
 
-                    <li>If the exam is being supervised, follow all proctoring guidelines.</li>
-
-                    <li>Do not take screenshots, screen record, or switch to another tab during the exam.</li>
-
-                    <li>The test duration is 2 hours and 10 minutes with no extra time allowed.</li>
                 </ul>
             </div>
-            <div class="imp-check"><input type="checkbox" id="is_checked"/> <span>Please check this box if you have read Instructions</span></div>
+            <div class="imp-check"><input type="checkbox" id="is_checked"/> <span>Please check the box to confirm that you have read the instructions</span></div>
             <span class="popup">Please check the box to agree terms before starting the test.</span>
             <form id="submit-form" action="{% url 'quiz:start_test' %}" method="POST">
                 {% csrf_token %}    
