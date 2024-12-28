@@ -47,31 +47,52 @@ body{
     left: 40px;
 }
 .instruct-account{
+    /* background-color: pink; */
+    height: 20%;
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
     position: relative;
-    left: 34%;
-    top: 15px !important;
+    left: 27%;
+}
+.instruct-account img{
+    position: relative;
+    top: -15%;
+    margin-right: 4px;
+}
+.instruct-account div{
+    position: relative;
+    left: 2%;
+    top: 10%;
+    line-height: 2px;
+}
+.instruct-account div h6{
+    color: #003B8B;
 }
 .instruction{
-    height: 72%;
+    height: 70% !important;
     width: 75%;
     background-color: #D0EDFF;
     position: relative;
     left: -50px;
-    top: -60px;
+    top: -25px;
     border-radius: 14px;
     padding: 15px;
 }
 .instruction h1{
     font-weight: 600;
-    font-size: 22px;
+    font-size: 24px;
+    margin-top: 10px;
+    color: #003B8B;
 }
 .instruction ul{
-    margin-top: 20px;
+    margin-top: 35px;
 }
 .instruction ul li{
     font-weight: 400;
-    font-size: 14px;
-    line-height: 35px;
+    font-size: 16px;
+    line-height: 40px;
     color: #000000;
 }
 .instruct-btn{
@@ -82,7 +103,7 @@ body{
     border-radius: 10px;
     color: white;
     position: relative;
-    top: -40px;
+    top: -20px;
     left: -8%;
     padding: 5px 15px 5px 15px;
     font-size: 18px;
@@ -186,9 +207,14 @@ justify-content: space-between;
     left: 45%;
 }
 .automate-account{
+    width: 18%;
     position: relative;
-    top: 10%;
+    /* top: 10%; */
     line-height: 0%;
+}
+.automate-account div p{
+    font-size: 18px;
+    font-weight: 400;
 }
 .completed{
     /* background: linear-gradient(to right, #13B3FF, #005AD5) !important; */
@@ -203,13 +229,7 @@ justify-content: space-between;
     top: 2%;
     left: 70%;
 }
-.imp-account{
-    height: 70%;
-    width: 15%;
-    padding: 10px;
-    /* background-color: pink !important; */
-    /* line-height: 15px; */
-}
+
 .imp-account h6{
     color: #003B8B;
     font-size: 16px;
@@ -245,8 +265,8 @@ justify-content: space-between;
     font-size: 24px;
     position: relative;
     /* top: 40px; */
-    top: -10%;
-    left: -220px;
+    top: -7%;
+    left: -300px;
     color: #005AD5;
 }
 
@@ -254,10 +274,24 @@ justify-content: space-between;
     /* margin-top: 5px; */
     padding-top: 0;
     padding-bottom: 5px;
-    height: 65%;
+    height: 70% !important;
     width: 68%;
     position: relative;
     /* top: 7%; */
+    /* line-height: 10px; */
+}
+.im-instructions{
+    height: 65% !important;
+    position: relative;
+    top: -7%;
+}
+.im-instructions ul li {
+    line-height: 50px;
+    font-size: 18px;
+}
+.im-instructions ul{
+    position: relative;
+    top: -5%;
 }
 
 .instruct-logo{
@@ -271,15 +305,30 @@ justify-content: space-between;
 }
 .impp-account{
     height: 20%;
-    width: 15%;
+    width: 20%;
     padding: 10px;
     position: relative;
-    left: 40%;
+    top: -2%;
+    left: 36%;
+    /* background-color: pink; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .impp-account h6{
     color: #003B8B;
     font-size: 16px;
     font-weight: 650;
+}
+.impp-account div{
+    position: relative;
+    top: 23%;
+    line-height: 2px;
+}
+.impp-account img{
+    margin-right: 8px;
+    position: relative;
+    top: -12%;
 }
 .impp-account p{
     font-weight: 400;
@@ -294,7 +343,7 @@ justify-content: space-between;
     display: flex;
     position: relative;
     left: -130px;
-    top: -5%;
+    top: -3%;
 }
 .imp-check span{
     font-weight: 600;

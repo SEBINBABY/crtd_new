@@ -24,7 +24,9 @@
             {% endfor %}
           </div>
         </div> -->
-
+        <button class="add-btn">
+          <h3>Add New Section</h3>
+        </button>
         <div class="table">
           <div class="table-container">
             <table>
@@ -53,7 +55,7 @@
 
                 <tr>          
                   <td>2</td>
-                  <td class="passkey section">Basic Programming</td>
+                  <td class="passkey section">Frontend Logic</td>
                   <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
                   <td class="passkey">20 min</td>
                   <td class="actions" style="text-align: center;">
@@ -66,7 +68,7 @@
 
                 <tr>          
                   <td>3</td>
-                  <td class="passkey section">Basic Programming</td>
+                  <td class="passkey section">Backend Logic</td>
                   <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
                   <td class="passkey">20 min</td>
                   <td class="actions" style="text-align: center;">
@@ -79,7 +81,7 @@
 
                 <tr>          
                   <td>4</td>
-                  <td class="passkey section">Basic Programming</td>
+                  <td class="passkey section">Database Concepts</td>
                   <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
                   <td class="passkey">20 min</td>
                   <td class="actions" style="text-align: center;">
@@ -92,7 +94,7 @@
 
                 <tr>          
                   <td>5</td>
-                  <td class="passkey section">Basic Programming</td>
+                  <td class="passkey section">QA Testing</td>
                   <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
                   <td class="passkey">20 min</td>
                   <td class="actions" style="text-align: center;">
@@ -139,7 +141,9 @@
             <h3>Edit</h3>
             <form action="" method="POST">
               {% csrf_token %}
+            <label>Basic Programming</label>
             <input type="text" class="passkeyInput" placeholder="Basic Programming" name="key"  value="" required/>
+            <label class="label-timer">Timer</label>
             <input type="number" class="passkeyInput" placeholder="Timer" name="key"  value="" required/>
             <!-- <div class="activebutton"  > 
             <label for="is_active" style="margin-left: 80px;">Active:</label>
