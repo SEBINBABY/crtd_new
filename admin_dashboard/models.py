@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import UserManager
+from django.core.validators import RegexValidator
 
 class User(AbstractBaseUser, PermissionsMixin):
     USER = 'user'
@@ -16,7 +17,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     email = models.EmailField(null=False, blank=False, unique=True)
     username = models.CharField(max_length=50, blank=False, null=False)
-    contact_number = models.CharField(max_length=15)
+    contact_number = models.CharField(max_length=15, validators=[RegexValidator(
+                                        regex=r'^\d{10}$',
+                                        message="Contact number must be exactly 10 digits and contain only numbers."
+                                        )])
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default=USER)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
