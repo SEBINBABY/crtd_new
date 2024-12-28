@@ -44,7 +44,7 @@
                     </div>
                 </form> 
                     <label for="" class="form-label">Contact Number*</label>
-                    <input type="text" id="inputContact" class="form-control" placeholder="Enter Contact Number" name="contact_number" value="{{ contact_number|default:'' }}" >
+                    <input type="text" id="inputContact" class="form-control" placeholder="Enter Contact Number" min="10" max="10" name="contact_number" value="{{ contact_number|default:'' }}" >
                     <label for="" class="form-label" >Create Password*</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Create Password">
                     <i id="togglePassword1" class="fa-solid fa-eye icon-1"></i>

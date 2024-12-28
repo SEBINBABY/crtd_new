@@ -458,12 +458,43 @@ tbody td {
 .modal-content h3 {
   color: #003b8b;
   position: relative;
-  top: 11%;
+  /* top: 6%; */
+}
+.modal-content label{
+  position: relative;
+  top: 10%;
+  left: -23%;
+  font-size: 18px;
+  font-weight: 600;
+}
+.modal-content .label-timer{
+  position: relative;
+  left: -38% !important;
+  margin-top: 10px;
+}
+
+.add-btn {
+  height: 6vh;
+  width: 180px;
+  cursor: pointer;
+  background: linear-gradient(to right, #13b3ff, #005ad5);
+  position: relative;
+  left: 80%;
+  /* top: 70px; */
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.add-btn h3{
+  font-size: 18px;
 }
 
 /* Input Styling */
 input {
-  margin-top: 20px;
+  /* margin-top: 20px; */
   width: 90%;
   padding: 8px;
   border: 1px solid #ccc;
