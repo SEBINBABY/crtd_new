@@ -141,10 +141,13 @@
             <h3>Edit</h3>
             <form action="" method="POST">
               {% csrf_token %}
-            <label>Basic Programming</label>
-            <input type="text" class="passkeyInput" placeholder="Basic Programming" name="key"  value="" required/>
-            <label class="label-timer">Timer</label>
-            <input type="number" class="passkeyInput" placeholder="Timer" name="key"  value="" required/>
+            <label>Name of the Quiz</label>
+            <input type="text" class="passkeyInput" placeholder="Name of the Quiz" name="key"  value="" required/>
+            <label class="label-timer">Time</label>
+            <input type="number" class="passkeyInput" placeholder="Time" name="key"  value="" required/>
+            <label>Score to pass</label>
+            <input type="number" class="passkeyInput" placeholder="Score to pass" name="key"  value="" required/>
+
             <!-- <div class="activebutton"  > 
             <label for="is_active" style="margin-left: 80px;">Active:</label>
             <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -80px;" {% if passkey.is_active %}checked{% endif %}>
@@ -192,8 +195,6 @@
               <input type="number" class="passkeyInput" placeholder="Time" name="key"  value="" required/>
               <label class="score">Score to pass</label>
               <input type="number" class="passkeyInput" placeholder="Score to pass" name="key"  value="" required/>
-              <label class="order">Order</label>
-              <input type="number" class="passkeyInput" placeholder="Order" name="key"  value="" required/>
               <!-- <div class="activebutton"  > 
               <label for="is_active" style="margin-left: 80px;">Active:</label>
               <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -80px;" {% if passkey.is_active %}checked{% endif %}>
