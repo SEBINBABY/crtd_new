@@ -24,7 +24,7 @@
                 {% if messages %}
                     <div class="messages">
                     {% for message in messages %}
-                    <div class="alertt alert-{{ message.tags }}">
+                    <div class="alertt alertt-{{ message.tags }}">
                     {{ message }}
                     </div>
                     {% endfor %}
@@ -44,7 +44,8 @@
                     </div>
                     <label for="" class="form-label">Contact Number*</label>
                     <input type="text" id="displayContact" class="form-control"
-                    name="contact_number"  min="10" max="10" id="displayContact" required>
+                    name="contact_number"  min="10" max="10" id="displayContact" pattern="^\d{10}$" 
+                    title="Contact number must be exactly 10 digits and contain only numbers." required>
                     <label for="" class="form-label">Create Password*</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Enter Password"
                     name="password" required>
@@ -75,6 +76,43 @@
         document.getElementById("displayContact").value = contactNumber || "";
         document.getElementById("inputPassword").value = Password || "";
         document.getElementById("inputPassword2").value = Password || "";
+
+    function showMessage(message) {
+    const messageContainer = document.querySelector('.msg-container');
+
+    // Create a new error message div
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message'; // Custom red styling
+    errorDiv.innerText = message;
+
+    // Clear any existing messages before adding a new one
+    messageContainer.innerHTML = '';
+    messageContainer.appendChild(errorDiv);
+    messageContainer.style.display = "block"; // Ensure it's visible
+}
+
+
+        // Function to validate contact number
+        function validateContactNumber(contact) {
+        const contactRegex = /^\d{10}$/; // Regex to check for exactly 10 digits
+        return contactRegex.test(contact);
+    }
+
+
+    // Attach validation to the submit button
+    document.querySelector(".submit-btn").addEventListener("click", function (event) {
+        const contactInput = document.getElementById("displayContact").value.trim();
+
+        // Check if contact number is entered and valid
+        if (contactInput && !validateContactNumber(contactInput)) {
+            showMessage("Contact number must be exactly 10 digits and contain only numbers.", "danger");
+            event.preventDefault(); // Prevent form submission
+            return;
+        }
+
+        // Additional validations can be added here
+    });
+
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
