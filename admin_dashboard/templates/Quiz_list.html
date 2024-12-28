@@ -24,8 +24,8 @@
             {% endfor %}
           </div>
         </div> -->
-        <button class="add-btn">
-          <h3>Add New Section</h3>
+        <button class="add-btn" id="add-btn">
+          <h3>Add New Quiz</h3>
         </button>
         <div class="table">
           <div class="table-container">
@@ -152,9 +152,7 @@
             <div class="modal-buttons">
               <button class="cancel-btn-edit" type="button">Cancel</button>
               <button id="saveBtnEdit" class="save-btn-edit" type="submit">Save</button>
-              </form>
-              
-          
+              </form>         
             </div>
           </div>
           </div>
@@ -184,12 +182,50 @@
               </div>
             </div>
           </div>
+
+          <div class="add-modal" id="add-modal">
+            <div class="modal-content" id="modal">
+              <h3>Add new Quiz</h3>
+              <label class="name">Name of the Quiz</label>
+              <input type="text" class="passkeyInput" placeholder="Name of the Quiz" name="key"  value="" required/>
+              <label class="time">Time</label>
+              <input type="number" class="passkeyInput" placeholder="Time" name="key"  value="" required/>
+              <label class="score">Score to pass</label>
+              <input type="number" class="passkeyInput" placeholder="Score to pass" name="key"  value="" required/>
+              <label class="order">Order</label>
+              <input type="number" class="passkeyInput" placeholder="Order" name="key"  value="" required/>
+              <!-- <div class="activebutton"  > 
+              <label for="is_active" style="margin-left: 80px;">Active:</label>
+              <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -80px;" {% if passkey.is_active %}checked{% endif %}>
+            </div> -->
+              <div class="modal-buttons">
+                <button class="cancel-btn-add" type="button">Cancel</button>
+                <button id="saveBtnAdd" class="save-btn-add" type="submit">Save</button>       
+              </div>
+            </div>
             
 
     {% endblock %}
 
 {% block extra_js %}
     <script>
+
+      const addNewButton = document.getElementById('add-btn');
+      const addNewModal = document.querySelector('.add-modal');
+      const addCancelBtn = document.querySelector('.cancel-btn-add');
+      const addSaveBtn = document.querySelector('.save-btn-add');
+
+      addNewButton.addEventListener('click', () => {
+        addNewModal.style.display = 'block';
+      });
+
+      addCancelBtn.addEventListener('click', () => {
+        addNewModal.style.display = 'none';
+      });
+
+      addSaveBtn.addEventListener('click', () => {
+        addNewModal.style.display = 'none';
+      }); 
 
     // let Click = document.querySelector(".click");
     const passkeyModalEdit = document.querySelector(".edit-modal");
@@ -273,7 +309,6 @@ deleteCancelBtn.addEventListener("click", () => {
     //     editModal.style.display = "block";
     //   });
     // });
-
 
       </script>
       {% endblock %}
