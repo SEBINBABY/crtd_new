@@ -61,13 +61,18 @@
             <h3>Edit</h3>
             <form action="{% url 'admin_dashboard:edit_quiz' %}" method="POST">
               {% csrf_token %}
-            <label>Title</label>
-            <input id="edit_name" type="text" class="passkeyInput"  name="name"  value="" required/>
-            <label class="label-timer">Timer</label>
-            <input id="edit_time" type="number" class="passkeyInput" name="time"  value="" required/>
-            <label class="label-timer">Score % to pass</label>
-            <input id="edit_score" type="number" class="passkeyInput" name="score"  value="" required/>
+            <label>Name of the Quiz</label>
+            <input type="text" class="passkeyInput" placeholder="Name of the Quiz" name="key" id="edit_name" value="" required/>
+            <label class="label-timer">Time</label>
+            <input type="number" class="passkeyInput" placeholder="Time" name="key" id="edit_time" value="" required/>
+            <label>Score to pass</label>
+            <input type="number" class="passkeyInput" placeholder="Score to pass" name="key"  id="edit_score"  value="" required/>
             <input type="hidden" id="edit_id" name="quiz_id" value="">
+
+            <!-- <div class="activebutton"  > 
+            <label for="is_active" style="margin-left: 80px;">Active:</label>
+            <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -80px;" {% if passkey.is_active %}checked{% endif %}>
+          </div> -->
             <div class="modal-buttons">
               <button class="cancel-btn-edit" type="button">Cancel</button>
               <button id="saveBtnEdit" class="save-btn-edit" type="submit">Save</button>
@@ -111,7 +116,7 @@
               <input type="text" class="passkeyInput" placeholder="Name of the Quiz" name="name"  value="" required/>
               <label class="time">Time</label>
               <input type="number" class="passkeyInput" placeholder="Time" name="time"  value="" required/>
-              <label class="score">Score % to pass</label>
+              <label class="score">Score to pass</label>
               <input type="number" class="passkeyInput" placeholder="Score to pass" name="score"  value="" required/>
               <!-- <div class="activebutton"  > 
               <label for="is_active" style="margin-left: 80px;">Active:</label>
