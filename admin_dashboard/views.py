@@ -184,7 +184,23 @@ def delete_quiz(request):
             quiz.save()
         return redirect("admin_dashboard:question_section")
 
-        
+def reorder_quizzes(request):
+    if request.POST:
+        data = request.POST
+        quiz_id = data['quiz_id']
+        new_order = data['index']
+
+        this_quiz = get_object_or_404(Quiz,id=quiz_id)
+        if quiz.order == new_order : return redirect("admin_dashboard:question_section")
+
+        if new_order > this_quiz.order:
+            for quiz in Quiz.objects.filter(order__lte=new_order):
+                quiz.order -= 1
+        else:
+            for quiz in Quiz.objects.filter(order__gt=new_order):
+                quiz.order += 1
+        return redirect("admin_dashboard:question_section")
+
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_list(request,quiz_id):
