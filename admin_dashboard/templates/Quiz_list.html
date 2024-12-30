@@ -62,11 +62,11 @@
             <form action="{% url 'admin_dashboard:edit_quiz' %}" method="POST">
               {% csrf_token %}
             <label>Name of the Quiz</label>
-            <input type="text" class="passkeyInput" placeholder="Name of the Quiz" name="key" id="edit_name" value="" required/>
+            <input type="text" class="passkeyInput" placeholder="Name of the Quiz" name="name" id="edit_name" value="" required/>
             <label class="label-timer">Time</label>
-            <input type="number" class="passkeyInput" placeholder="Time" name="key" id="edit_time" value="" required/>
+            <input type="number" class="passkeyInput" placeholder="Time" name="time" id="edit_time" value="" required/>
             <label>Score to pass</label>
-            <input type="number" class="passkeyInput" placeholder="Score to pass" name="key"  id="edit_score"  value="" required/>
+            <input type="number" class="passkeyInput" placeholder="Score to pass" name="score"  id="edit_score"  value="" required/>
             <input type="hidden" id="edit_id" name="quiz_id" value="">
 
             <!-- <div class="activebutton"  > 
