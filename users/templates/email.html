@@ -24,12 +24,12 @@
 
         <!-- Body Section -->
         <div style="padding: 20px;">
-            <p style="font-size: 16px; color: #333;">Dear {{name}},</p>
+            <p style="font-size: 16px; color: #333; font-weight: 700;">Dear {{name}},</p>
             <p style="font-size: 16px; color: #333;">Your One-Time Password (OTP):</p>
             <div>
                 <div style="display: flex; justify-content: center; align-items: center; gap: 10px; width:100%;">
                     {% for digit in otp_digits %}
-                    <div style="width: 50px; height: 50px; background-color: #D7F2FF; display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: bold; border-radius: 10px;">
+                    <div style="width: 50px; height: 50px; background-color: #D7F2FF; display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: bold; border-radius: 10px; text-align: center;">
                         {{ digit }}
                     </div>
                     {% endfor %}
@@ -44,7 +44,7 @@
             <p>Stay connected:</p>
             <a href="www.linkedin.com/company/crtd-technologies/" style="margin: 0 10px; text-decoration: none; color: #007bff;">LinkedIn</a>
             <a href="https://www.instagram.com/crtd_technologies/" style="margin: 0 10px; text-decoration: none; color: #007bff;">Instagram</a>
-            <p style="margin-top: 10px;">Thank you, <br> CRTD Technologies</p>
+            <p style="margin-top: 10px; font-weight: 700;">Thank you, <br> CRTD Technologies</p>
         </div>
         
     </div>

@@ -138,51 +138,53 @@ def add_quiz(request):
     data = request.POST
     name = data['name']
     time = data['time']
-    score = data['score_to_pass']
-    order = data['order']
+    score = data['score']
 
-    if None in (name,time,score,order):
+    if None in (name,time,score):
         return JsonResponse({"error":"Please fill all fields"})
     
-    for quiz in Quiz.objects.filter(order__gte = order):
-        quiz.order = quiz.order + 1
-        quiz.save()
+    order = Quiz.objects.last().order + 1
 
     new_quiz = Quiz(name=name,time=time,score_to_pass=score,order=order)
     new_quiz.save()
     return redirect("admin_dashboard:question_section")
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
-def edit_quiz(request,quiz_id):
+def edit_quiz(request):
     if request.GET:
+        quiz_id = request.GET['quiz_id']
         quiz = get_object_or_404(Quiz,id=quiz_id)
-        return JsonResponse({
-            "quiz":quiz.serialize(),
-            "quiz_count": Quiz.objects.count()
-        })
+        return JsonResponse(quiz.serialize())
     
     if request.POST:
         data = request.POST
+        quiz_id = data['quiz_id']
         name = data['name']
         time = data['time']
-        score = data['score_to_pass']
-        order = data['order']
-        if None in (name,time,score,order):
+        score = data['score']
+        if None in (name,time,score):
             return JsonResponse({"error":"Please fill all fields"})
     
-        this_quiz = get_object_or_404(Quiz,quiz_id)
-        next_order = order+1
-        for quiz in Quiz.objects.filter(order__gte = order):
-            quiz.order = next_order
-            quiz.save()
-            next_order += 1
-        
+        this_quiz = get_object_or_404(Quiz,id=quiz_id)
         this_quiz.name = name
         this_quiz.time = time
         this_quiz.score_to_password = score
-        this_quiz.order = order
         this_quiz.save()
         return redirect("admin_dashboard:question_section")
+
+@role_required(allowed_roles=['admin','hr_staff'])
+def delete_quiz(request):
+    if request.POST:
+        quiz_id = request.POST['quiz_id']
+        this_quiz = get_object_or_404(Quiz,id=quiz_id)
+        order = this_quiz.order
+        this_quiz.delete()
+        for quiz in Quiz.objects.filter(order__gte=order):
+            quiz.order -= 1
+            quiz.save()
+        return redirect("admin_dashboard:question_section")
+
+        
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_list(request,quiz_id):
