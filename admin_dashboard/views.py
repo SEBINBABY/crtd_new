@@ -136,9 +136,9 @@ def add_quiz(request):
     if not request.POST:
         return redirect("admin_dashboard:question_section")
     data = request.POST
-    name = data['name']
-    time = data['time']
-    score = data['score']
+    name = data.get('name')
+    time = data.get('time')
+    score = data.get('score')
 
     if None in (name,time,score):
         return JsonResponse({"error":"Please fill all fields"})
@@ -158,10 +158,10 @@ def edit_quiz(request):
     
     if request.POST:
         data = request.POST
-        quiz_id = data['quiz_id']
-        name = data['name']
-        time = data['time']
-        score = data['score']
+        quiz_id = data.get('quiz_id')
+        name = data.get('name')
+        time = data.get('time')
+        score = data.get('score')
         if None in (name,time,score):
             return JsonResponse({"error":"Please fill all fields"})
     
