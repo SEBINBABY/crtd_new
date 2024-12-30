@@ -48,7 +48,7 @@
                     </div>
                 </form> 
                     <label for="" class="form-label">Contact Number*</label>
-                    <input type="text" id="inputContact" class="form-control" placeholder="Enter Contact Number" min="10" max="10" name="contact_number" value="{{ contact_number|default:'' }}"  pattern="^\d{10}$" 
+                    <input type="text" id="inputContact" class="form-control" placeholder="Enter Contact Number"   maxlength="10"  name="contact_number" value="{{ contact_number|default:'' }}"  pattern="^\d{10}$" 
                     title="Contact number must be exactly 10 digits and contain only numbers." >
                     <label for="" class="form-label" >Create Password*</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Create Password">
