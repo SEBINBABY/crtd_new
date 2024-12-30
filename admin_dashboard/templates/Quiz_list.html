@@ -205,7 +205,7 @@
   });
 
 
-      document
+      /* document
       .getElementById("questionSectionLink")
       .addEventListener("click", function () {
         const questionSection = document.getElementById(
@@ -213,7 +213,7 @@
         );
         questionSection.style.display =
           questionSection.style.display === "none" ? "block" : "none";
-      });
+      }); */
 
       document.querySelectorAll("#edit-button").forEach((button) => {
         button.addEventListener("click", function () {
@@ -225,29 +225,42 @@
         document.getElementById("edit-content").style.display = "none";
       }
 
-      // modal >>>>>>>>>>>>>>>
-      // const passkeyModalEdit = document.querySelector(".edit-modal");
-      // const editBtn = document.querySelectorAll(".eye-btn");
+      /* // modal >>>>>>>>>>>>>>>
+      const passkeyModalEdit = document.querySelector(".edit-modal");
+      const editBtn = document.querySelectorAll(".eye-btn");
 
-      // editBtn.forEach((btn) => {
-      // btn.addEventListener("click", (event) => {
-      //   passkeyModalEdit.style.display = "block";
-      //   });
-      // });
+      editBtn.forEach((btn) => {
+      btn.addEventListener("click", (event) => {
+        passkeyModalEdit.style.display = "block";
+        });
+      });
 
-    //   const editModal = document.getElementById("edit-modal");
-    //   editBtn.forEach((btn) => {
-    //   btn.addEventListener("click", () => {
-    //     event.preventDefault();
-    //     editModal.style.display = "block";
-    //   });
-    // });
+      const editModal = document.getElementById("edit-modal");
+      editBtn.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        event.preventDefault();
+        editModal.style.display = "block";
+      });
+    }); */
 
 
       </script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
   <script>
     // Initialize Sortable on the table body
+
+    function getCSRFToken() {
+        const name = 'csrftoken';
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [key, value] = cookie.trim().split('=');
+            if (key === name) {
+                return value;
+            }
+        }
+      return null; // If no CSRF token is found
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       const tableBody = document.getElementById("sortable-table");
 
@@ -256,6 +269,23 @@
         ghostClass: "sortable-ghost", // Class for the dragged row
         onEnd: function (evt) {
           console.log(`Row moved from ${evt.oldIndex + 1} to ${evt.newIndex + 1}`);
+
+          let old_index = evt.oldIndex;
+          let new_index = evt.newIndex;
+          let url = "{% url 'admin_dashboard:reorder_quizzes' %}"
+          fetch(url , {
+            method: "POST",
+            headers:{
+              "X-CSRFToken": getCSRFToken(),
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              'old_index': old_index,
+              'new_index': new_index,
+            }),
+          })
+          .then((response) => response.json())
+          .then((data) => console.log(data))
 
           // Update the row numbering after drag-and-drop
           const rows = tableBody.querySelectorAll("tr");

@@ -8,9 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from .utils import *
 
-
-TIME_LIMIT = 20 # MINUTES
-GRACE_TIME = 2 # SECONDS
+GRACE_TIME = 3 # SECONDS
 
 @user_only
 @never_cache
@@ -47,7 +45,7 @@ def start_test(request):
     # Check for a running test
     for result in results:
         if result.end_time is None:
-            if(now() - result.start_time).total_seconds() <= TIME_LIMIT * 60 + GRACE_TIME: 
+            if(now() - result.start_time).total_seconds() <= result.quiz.time * 60 + GRACE_TIME: 
                 return redirect('quiz:start_question', quiz_id=result.quiz.id, question_id=result.quiz.quiz_questions.first().id)
             else:
                 result.end_time = now()
@@ -81,7 +79,7 @@ def start_question(request, quiz_id, question_id):
     if not user.is_user:
         return redirect("users:user_login")
     result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
-    remaining_time = TIME_LIMIT * 60 - (now() - result.start_time).seconds + GRACE_TIME
+    remaining_time = quiz.time * 60 - (now() - result.start_time).seconds + GRACE_TIME
 
     if remaining_time <= 0:
         messages.error(request, "Time limit exceeded")
@@ -127,7 +125,7 @@ def save_answer(request, quiz_id, question_id):
         # Retrieve the Result object
         result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
         
-        remaining_time = TIME_LIMIT * 60 - (now() - result.start_time).seconds + GRACE_TIME
+        remaining_time = quiz.time * 60 - (now() - result.start_time).seconds + GRACE_TIME
         if remaining_time <= 0:
             messages.error(request, "Time limit exceeded")
             return redirect('quiz:quiz_summary', quiz_id=quiz.id)
@@ -217,7 +215,7 @@ def get_remaining_time(request):
     result = results.first()
     if result is None:
         return redirect('quiz:start_test')
-    remaining_time = TIME_LIMIT * 60 - (now() - result.start_time).seconds
+    remaining_time = result.quiz.time * 60 - (now() - result.start_time).seconds
     if(remaining_time < 0):
         return redirect('quiz:quiz_summary',result.quiz.id)
     return JsonResponse({"time_remaining": remaining_time})
