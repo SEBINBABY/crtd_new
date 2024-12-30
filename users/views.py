@@ -127,7 +127,7 @@ def user_login(request):
                 login(request, user)
                 request.session['email'] = email
                 # Redirect to the desired page after login
-                return redirect("quiz:list_quizzes")
+                return redirect("quiz:exam_instruction")
             else:
                 messages.error(request, "Access restricted to Users Only.")
                 return render(request, "login.html")  # Ensure response is returned
