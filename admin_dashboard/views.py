@@ -1,9 +1,11 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.cache import never_cache
 from admin_dashboard.models import User 
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.db.models import Q
+from django.db import transaction
 from django.http import JsonResponse
 from django.contrib.auth import logout
 from quiz.models import Quiz,Question,Answer
@@ -185,22 +187,32 @@ def delete_quiz(request):
         return redirect("admin_dashboard:question_section")
 
 def reorder_quizzes(request):
-    if request.POST:
-        data = request.POST
-        quiz_id = data['quiz_id']
-        new_order = data['index']
+    if request.method == 'POST':
+        with transaction.atomic():
+            data = json.loads(request.body)
+            old_order = int(data['old_index']) + 1
+            new_order = int(data['new_index']) + 1
 
-        this_quiz = get_object_or_404(Quiz,id=quiz_id)
-        if quiz.order == new_order : return redirect("admin_dashboard:question_section")
+            this_quiz = get_object_or_404(Quiz,order=old_order)
+            if old_order == new_order : return JsonResponse({"message":"Same order"})
 
-        if new_order > this_quiz.order:
-            for quiz in Quiz.objects.filter(order__lte=new_order):
-                quiz.order -= 1
-        else:
-            for quiz in Quiz.objects.filter(order__gt=new_order):
-                quiz.order += 1
-        return redirect("admin_dashboard:question_section")
-
+            if new_order > old_order:
+                for quiz in Quiz.objects.filter(order__lte=new_order,order__gt=old_order):
+                    if(quiz.order == old_order):
+                        break
+                    quiz.order -= 1
+                    quiz.save()
+            else:
+                for quiz in Quiz.objects.filter(order__gte=new_order,order__lt=old_order):
+                    if(quiz.order == old_order):
+                        break
+                    quiz.order += 1
+                    quiz.save()
+            this_quiz.order = new_order
+            this_quiz.save()
+            return JsonResponse({"status":"200"})
+    else:
+        return JsonResponse({"error":"USE POST"})
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_list(request,quiz_id):
@@ -219,7 +231,7 @@ def add_question(request):
     
     quiz_id = data.get('quiz_id')
     question_text = data.get('question_text',None)
-    if not question_text: JsonResponse({"error":"No question"})
+    if not question_text: return JsonResponse({"error":"No question"})
 
     correct_answer_id  = data.get('correct_answer_id',None)
     if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
