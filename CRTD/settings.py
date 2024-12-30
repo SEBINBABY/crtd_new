@@ -48,7 +48,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -152,3 +152,7 @@ AUTHENTICATION_BACKENDS = [
 
 AUTH_USER_MODEL = 'admin_dashboard.User'
 LOGIN_URL = '/user_login/'
+
+CSRF_COOKIE_SECURE = False  # Set to True for HTTPS
+CSRF_COOKIE_HTTPONLY = False
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Default: Store sessions in the database
