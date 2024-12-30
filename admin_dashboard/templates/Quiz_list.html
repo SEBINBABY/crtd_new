@@ -39,8 +39,8 @@
                   <th style="width: 20%; text-align: center">Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>          
+              <tbody id="sortable-table">
+                <tr>
                   <td>1</td>
                   <td class="passkey section">Basic Programming</td>
                   <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
@@ -51,9 +51,7 @@
                         <img class="eye-btn" src="/static/images/edit.png" alt="See">
                     </div>
                   </td>
-                </tr>
-
-                <tr>          
+                <tr>
                   <td>2</td>
                   <td class="passkey section">Frontend Logic</td>
                   <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
@@ -66,7 +64,7 @@
                   </td>
                 </tr>
 
-                <tr>          
+                <tr>
                   <td>3</td>
                   <td class="passkey section">Backend Logic</td>
                   <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
@@ -77,9 +75,7 @@
                         <img class="eye-btn" src="/static/images/edit.png" alt="See">
                     </div>
                   </td>
-                </tr>
-
-                <tr>          
+                <tr>
                   <td>4</td>
                   <td class="passkey section">Database Concepts</td>
                   <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
@@ -91,8 +87,7 @@
                     </div>
                   </td>
                 </tr>
-
-                <tr>          
+                <tr>
                   <td>5</td>
                   <td class="passkey section">QA Testing</td>
                   <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
@@ -103,11 +98,9 @@
                         <img class="eye-btn" src="/static/images/edit.png" alt="See">
                     </div>
                   </td>
-                </tr>
-
-                <tr>          
+                <tr>
                   <td>6</td>
-                  <td class="passkey section">Basic Programming</td>
+                  <td class="passkey section">Payment Gateway Analysis</td>
                   <td class="passkey">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15</td>
                   <td class="passkey">20 min</td>
                   <td class="actions" style="text-align: center;">
@@ -276,4 +269,25 @@ deleteCancelBtn.addEventListener("click", () => {
 
 
       </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+  <script>
+    // Initialize Sortable on the table body
+    document.addEventListener("DOMContentLoaded", () => {
+      const tableBody = document.getElementById("sortable-table");
+
+      new Sortable(tableBody, {
+        animation: 150, // Smooth animation
+        ghostClass: "sortable-ghost", // Class for the dragged row
+        onEnd: function (evt) {
+          console.log(`Row moved from ${evt.oldIndex + 1} to ${evt.newIndex + 1}`);
+
+          // Update the row numbering after drag-and-drop
+          const rows = tableBody.querySelectorAll("tr");
+          rows.forEach((row, index) => {
+            row.querySelector("td:first-child").textContent = index + 1;
+          });
+        },
+      });
+    });
+  </script>
       {% endblock %}
