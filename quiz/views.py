@@ -56,7 +56,7 @@ def start_test(request):
     if(requires_payment(quiz) and not request.user.has_paid):
         return redirect('payment_integration:payment_start')
 
-    request.session["visited_questions"] =  []
+    request.session["marked_questions"] =  []
     request.session.save()
     
     # Create a new Result object
@@ -85,11 +85,11 @@ def start_question(request, quiz_id, question_id):
         messages.error(request, "Time limit exceeded")
         return redirect('quiz:quiz_summary', quiz_id=quiz.id)
     
-    if "visited_questions" not in request.session:
-        request.session["visited_questions"] = []
+    if "marked_questions" not in request.session:
+        request.session["marked_questions"] = []
 
     selected_answer = None
-    if question_id in request.session["visited_questions"]:
+    if question_id in request.session["marked_questions"]:
         selected_answer = result.user_answers.get(str(question_id))
     
     request.session.save()
@@ -99,7 +99,8 @@ def start_question(request, quiz_id, question_id):
         'answers': answers,
         'remaining_time': remaining_time,
         'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
-        "visited_questions": request.session["visited_questions"],
+        "marked_questions": request.session["marked_questions"],
+        "unmarked_questions": quiz.quiz_questions.count() - len(request.session["marked_questions"]),
         "user_full_name":user.username,
         "user_email":user.email,
         "selected_answer": selected_answer
@@ -134,7 +135,7 @@ def save_answer(request, quiz_id, question_id):
         result.user_answers[str(question.id)] = selected_answer_id
         result.save()
         
-        request.session["visited_questions"].append(question_id)
+        request.session["marked_questions"].append(question_id)
         request.session.save()
 
         # Determine the next question
@@ -177,7 +178,7 @@ def quiz_summary(request, quiz_id):
         completed_quizzes.append(result.quiz)
 
     incomplete_quizzes = Quiz.objects.exclude(id__in=results.values_list('quiz_id', flat=True))
-    request.session["visited_questions"] = []
+    request.session["marked_questions"] = []
     request.session.save()
 
     return render(request, 'start-test.html', {
