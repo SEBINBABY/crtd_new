@@ -79,7 +79,13 @@
             </div>
         </div>
     </div>
-
+    <div class="modal1" id="modal1">
+        <div class="modal-content1">
+            <h2>Exam In Progress</h2>
+            <p>You cannot go back until the exam is completed.</p>
+            <button id="closeModal">Close</button>
+        </div>
+    </div>
 <script>
 document.addEventListener("DOMContentLoaded",() =>{
     
@@ -173,8 +179,67 @@ document.addEventListener("DOMContentLoaded",() =>{
         syncTimer()
         updateTimer();
     }
+    
+      // Initialize state to prevent back button navigation
+ window.history.pushState(null,null,window.location.href);
+ 
+ const currentPage = window.location.href;
+//   Intercept the back navigation
+  window.onpopstate = function () {
+    //   Re-push the current state to block the back button
+  window.history.pushState(null, null, location.href);
+  showModal();
+    //  alert("You cannot go back to the previous page!");
+    
+  
+    //   Show the modal when trying to go back
+      
+  };
+//   Show the modal
+  function showModal() {
+      const modal = document.getElementById('modal1');
+      modal.style.display = 'flex';
+  }
+//   Close modal on button click
+  document.getElementById("closeModal").addEventListener("click", () => {
+      const modal = document.getElementById('modal1');
+      modal.style.display = 'none';
+      location.replace(currentPage);
+  });
+  
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 });
-</script>   
+window.onload = function () {
+            history.replaceState(null, null, window.location.href); // Replace current state
+            history.pushState(null, null, window.location.href);   // Push a new state
+        };
+  
+  
+  
+</script>       
 
 </body>
 </html>
