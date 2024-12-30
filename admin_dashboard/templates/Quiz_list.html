@@ -24,7 +24,7 @@
                   <th style="width: 20%; text-align: center">Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="sortable-table">
                 {% for quiz in quizzes %}
                 <tr>          
                   <td>{{quiz.order}}</td>                  
@@ -224,5 +224,46 @@
       function closePopup() {
         document.getElementById("edit-content").style.display = "none";
       }
-    </script>
-{% endblock %}
+
+      // modal >>>>>>>>>>>>>>>
+      // const passkeyModalEdit = document.querySelector(".edit-modal");
+      // const editBtn = document.querySelectorAll(".eye-btn");
+
+      // editBtn.forEach((btn) => {
+      // btn.addEventListener("click", (event) => {
+      //   passkeyModalEdit.style.display = "block";
+      //   });
+      // });
+
+    //   const editModal = document.getElementById("edit-modal");
+    //   editBtn.forEach((btn) => {
+    //   btn.addEventListener("click", () => {
+    //     event.preventDefault();
+    //     editModal.style.display = "block";
+    //   });
+    // });
+
+
+      </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+  <script>
+    // Initialize Sortable on the table body
+    document.addEventListener("DOMContentLoaded", () => {
+      const tableBody = document.getElementById("sortable-table");
+
+      new Sortable(tableBody, {
+        animation: 150, // Smooth animation
+        ghostClass: "sortable-ghost", // Class for the dragged row
+        onEnd: function (evt) {
+          console.log(`Row moved from ${evt.oldIndex + 1} to ${evt.newIndex + 1}`);
+
+          // Update the row numbering after drag-and-drop
+          const rows = tableBody.querySelectorAll("tr");
+          rows.forEach((row, index) => {
+            row.querySelector("td:first-child").textContent = index + 1;
+          });
+        },
+      });
+    });
+  </script>
+      {% endblock %}
