@@ -12,14 +12,27 @@ GRACE_TIME = 3 # SECONDS
 
 @user_only
 @never_cache
-def list_quizzes(request):
+def exam_instruction(request):
+    user = request.user
+    return render(request, "exam_instruction.html", { "user_full_name": user.username,"user_email": user.email,})
+
+@user_only
+@never_cache
+def exam_guidelines(request):
+    user = request.user
+    return render(request, "exam_guidelines.html", { "user_full_name": user.username,"user_email": user.email,})
+
+
+@user_only
+@never_cache
+def automatic_selection(request):
     """
     Display all quizzes for logged-in users.
     """
     quizzes = Quiz.objects.all()
     user = request.user
     if quizzes.exists():
-        return render(request, "instruction.html", {
+        return render(request, "automatic_selection.html", {
             "quizzes": quizzes,
             "user_full_name": user.username,
             "user_email": user.email,
@@ -34,7 +47,7 @@ def start_test(request):
     Starts or resumes a quiz for the user.
     """
     if request.method == "GET":
-        return redirect("quiz:list_quizzes")
+        return redirect("quiz:exam_instruction")
 
     user = request.user
     if not user.is_user:
