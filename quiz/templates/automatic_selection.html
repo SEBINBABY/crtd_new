@@ -12,16 +12,19 @@
     <div class="automaticaly-box" id="section-1">
         <div class="part-1">
             <div class="automate-logo"></div>
+          
             <p>Technical Programming Test </p>
+         
             <div class="automate-account">
-                <img src="/static/images/user.png" alt="" height="40px" width="40px">
+                <img src="/static/images/user.png" alt="" height="40px" width="40px" style="margin-left: -65px;margin-bottom: -60px;">
                 <div>
-                    <h6 style="color: #003B8B;">{{ user_full_name }}</h6>
-                    <p>{{ user_email }}</p>
+                    <h6 style="color: #003B8B; margin-left: -20px;" >{{ user_full_name }}</h6>
+                    <hp style=" margin-left: -20px; margin-right: 40px;" >{{ user_email }}</hp>
                 </div>
             </div>
         </div>
-        <div class="selection">Selection Attempted 0/{{ quizzes|length }}</div>
+        <div class="selection" style="margin-left: 72%;">
+             <h6> Selection Attempted 0/{{ quizzes|length }} </h6></div>
         <div class="automate-content-box">
             {% for quiz in quizzes %}
             <div class="content-box">
