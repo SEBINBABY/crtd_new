@@ -461,16 +461,21 @@ tbody td {
   /* top: 6%; */
 }
 .modal-content label{
-  position: relative;
+  /* position: relative;
   top: 10%;
   left: -23%;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 600; */
 }
 .modal-content .label-timer{
   position: relative;
   left: -38% !important;
   margin-top: 10px;
+}
+.add-inner-modal form input{
+  position: relative;
+  /* top: 25%; */
+  /* margin-bottom: 20px !important; */
 }
 
 .add-btn {
@@ -704,17 +709,33 @@ input[type="checkbox"]:checked {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#modal .name{
+#modal form .name{
   position: relative;
-  left: -16vw;
+  top: 2% !important;
+  left: -34%;
+  font-weight: 600;
+  font-size: 18px;
+}
+#modal form .input-name{
+  position: relative;
+  top: 3% !important;
+  left: 3% !important;
+  margin-bottom: 10px;
 }
 #modal .time{
   position: relative;
-  left: -19.5vw;
+  top: 15% !important;
+  left: -87%;
+  font-weight: 600;
+  font-size: 18px;
+  /* margin-top: 10px !important; */
 }
 #modal .score{
   position: relative;
-  left: -17vw;
+  left: -36.5%;
+  top: 8% !important;
+  font-weight: 600;
+  font-size: 18px;
 }
 #modal .order{
   position: relative;

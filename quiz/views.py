@@ -8,20 +8,31 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from .utils import *
 
-
-TIME_LIMIT = 20 # MINUTES
-GRACE_TIME = 2 # SECONDS
+GRACE_TIME = 3 # SECONDS
 
 @user_only
 @never_cache
-def list_quizzes(request):
+def exam_instruction(request):
+    user = request.user
+    return render(request, "exam_instruction.html", { "user_full_name": user.username,"user_email": user.email,})
+
+@user_only
+@never_cache
+def exam_guidelines(request):
+    user = request.user
+    return render(request, "exam_guidelines.html", { "user_full_name": user.username,"user_email": user.email,})
+
+
+@user_only
+@never_cache
+def automatic_selection(request):
     """
     Display all quizzes for logged-in users.
     """
     quizzes = Quiz.objects.all()
     user = request.user
     if quizzes.exists():
-        return render(request, "instruction.html", {
+        return render(request, "automatic_selection.html", {
             "quizzes": quizzes,
             "user_full_name": user.username,
             "user_email": user.email,
@@ -36,7 +47,7 @@ def start_test(request):
     Starts or resumes a quiz for the user.
     """
     if request.method == "GET":
-        return redirect("quiz:list_quizzes")
+        return redirect("quiz:exam_instruction")
 
     user = request.user
     if not user.is_user:
@@ -47,7 +58,7 @@ def start_test(request):
     # Check for a running test
     for result in results:
         if result.end_time is None:
-            if(now() - result.start_time).total_seconds() <= TIME_LIMIT * 60 + GRACE_TIME: 
+            if(now() - result.start_time).total_seconds() <= result.quiz.time * 60 + GRACE_TIME: 
                 return redirect('quiz:start_question', quiz_id=result.quiz.id, question_id=result.quiz.quiz_questions.first().id)
             else:
                 result.end_time = now()
@@ -58,7 +69,7 @@ def start_test(request):
     if(requires_payment(quiz) and not request.user.has_paid):
         return redirect('payment_integration:payment_start')
 
-    request.session["visited_questions"] =  []
+    request.session["marked_questions"] =  []
     request.session.save()
     
     # Create a new Result object
@@ -81,17 +92,17 @@ def start_question(request, quiz_id, question_id):
     if not user.is_user:
         return redirect("users:user_login")
     result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
-    remaining_time = TIME_LIMIT * 60 - (now() - result.start_time).seconds + GRACE_TIME
+    remaining_time = quiz.time * 60 - (now() - result.start_time).seconds + GRACE_TIME
 
     if remaining_time <= 0:
         messages.error(request, "Time limit exceeded")
         return redirect('quiz:quiz_summary', quiz_id=quiz.id)
     
-    if "visited_questions" not in request.session:
-        request.session["visited_questions"] = []
+    if "marked_questions" not in request.session:
+        request.session["marked_questions"] = []
 
     selected_answer = None
-    if question_id in request.session["visited_questions"]:
+    if question_id in request.session["marked_questions"]:
         selected_answer = result.user_answers.get(str(question_id))
     
     request.session.save()
@@ -101,7 +112,8 @@ def start_question(request, quiz_id, question_id):
         'answers': answers,
         'remaining_time': remaining_time,
         'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
-        "visited_questions": request.session["visited_questions"],
+        "marked_questions": request.session["marked_questions"],
+        "unmarked_questions": quiz.quiz_questions.count() - len(request.session["marked_questions"]),
         "user_full_name":user.username,
         "user_email":user.email,
         "selected_answer": selected_answer
@@ -127,7 +139,7 @@ def save_answer(request, quiz_id, question_id):
         # Retrieve the Result object
         result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
         
-        remaining_time = TIME_LIMIT * 60 - (now() - result.start_time).seconds + GRACE_TIME
+        remaining_time = quiz.time * 60 - (now() - result.start_time).seconds + GRACE_TIME
         if remaining_time <= 0:
             messages.error(request, "Time limit exceeded")
             return redirect('quiz:quiz_summary', quiz_id=quiz.id)
@@ -136,7 +148,7 @@ def save_answer(request, quiz_id, question_id):
         result.user_answers[str(question.id)] = selected_answer_id
         result.save()
         
-        request.session["visited_questions"].append(question_id)
+        request.session["marked_questions"].append(question_id)
         request.session.save()
 
         # Determine the next question
@@ -179,7 +191,7 @@ def quiz_summary(request, quiz_id):
         completed_quizzes.append(result.quiz)
 
     incomplete_quizzes = Quiz.objects.exclude(id__in=results.values_list('quiz_id', flat=True))
-    request.session["visited_questions"] = []
+    request.session["marked_questions"] = []
     request.session.save()
 
     return render(request, 'start-test.html', {
@@ -217,7 +229,7 @@ def get_remaining_time(request):
     result = results.first()
     if result is None:
         return redirect('quiz:start_test')
-    remaining_time = TIME_LIMIT * 60 - (now() - result.start_time).seconds
+    remaining_time = result.quiz.time * 60 - (now() - result.start_time).seconds
     if(remaining_time < 0):
         return redirect('quiz:quiz_summary',result.quiz.id)
     return JsonResponse({"time_remaining": remaining_time})

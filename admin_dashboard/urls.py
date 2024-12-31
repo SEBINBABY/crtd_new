@@ -22,6 +22,11 @@ urlpatterns = [
     path('add_question/', add_question, name="add_question"),
     path('delete_question/', delete_question, name="delete_question"),
     path('amount_section/', amount_section, name="amount_section"),
+    path('add_quiz/', add_quiz, name="add_quiz"),
+    path('edit_quiz/', edit_quiz, name="edit_quiz"),
+    path('delete_quiz/', delete_quiz, name="delete_quiz"),
+    path('reorder_quizzes/', reorder_quizzes, name="reorder_quizzes"),
+
 ]
 
 

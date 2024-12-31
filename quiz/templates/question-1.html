@@ -16,11 +16,11 @@
             <div class="box-1-content">
                 <div class="small-box-cont">
                     <div>Marked
-                    <div class="marked Marked">1</div>
+                    <div class="marked Marked">{{marked_questions|length}}</div>
                     </div>
                     <div>
                         Not visited
-                    <div class="not-visit not-Visited">1</div>
+                    <div class="not-visit not-Visited">{{unmarked_questions}}</div>
                     </div>
                     <div>
                         Active
@@ -31,7 +31,7 @@
                     <div  class="cont2-part1" >
                     {% for question_id in all_question_ids %}
                         <a href="{% url 'quiz:start_question' quiz.id question_id%}" ><div class="part1-box box 
-                                {% if question_id in visited_questions %} Marked {% else %} not-Visited {% endif %}" 
+                                {% if question_id in marked_questions %} Marked {% else %} not-Visited {% endif %}" 
                                 id="box-{{ question_id }}">
                             {{ forloop.counter }}
                         </div></a>
@@ -79,7 +79,13 @@
             </div>
         </div>
     </div>
-
+    <div class="modal1" id="modal1">
+        <div class="modal-content1">
+            <h2>Exam In Progress</h2>
+            <p>You cannot go back until the exam is completed.</p>
+            <button id="closeModal">Close</button>
+        </div>
+    </div>
 <script>
 document.addEventListener("DOMContentLoaded",() =>{
     
@@ -87,7 +93,7 @@ document.addEventListener("DOMContentLoaded",() =>{
     const prevButton = document.getElementById("prev--btn");
     const question_ids = JSON.parse('{{all_question_ids}}');
     const curr_id = parseInt('{{question.id}}')
-    const visitedQuestions = JSON.parse('{{ visited_questions }}'); 
+    const visitedQuestions = JSON.parse('{{ marked_questions }}'); 
     const question_number = document.getElementById("question_number");
 
     
@@ -173,8 +179,67 @@ document.addEventListener("DOMContentLoaded",() =>{
         syncTimer()
         updateTimer();
     }
+    
+ /*     // Initialize state to prevent back button navigation
+ window.history.pushState(null,null,window.location.href);
+ 
+ const currentPage = window.location.href;
+//   Intercept the back navigation
+  window.onpopstate = function () {
+    //   Re-push the current state to block the back button
+  window.history.pushState(null, null, location.href);
+  showModal();
+    //  alert("You cannot go back to the previous page!");
+    
+  
+    //   Show the modal when trying to go back
+      
+  };
+//   Show the modal
+  function showModal() {
+      const modal = document.getElementById('modal1');
+      modal.style.display = 'flex';
+  }
+//   Close modal on button click
+  document.getElementById("closeModal").addEventListener("click", () => {
+      const modal = document.getElementById('modal1');
+      modal.style.display = 'none';
+      location.replace(currentPage);
+  });*/
+  
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
 });
-</script>   
+window.onload = function () {
+            history.replaceState(null, null, window.location.href); // Replace current state
+            history.pushState(null, null, window.location.href);   // Push a new state
+        };
+  
+  
+  
+</script>       
 
 </body>
 </html>

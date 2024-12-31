@@ -1,9 +1,11 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.cache import never_cache
 from admin_dashboard.models import User 
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.db.models import Q
+from django.db import transaction
 from django.http import JsonResponse
 from django.contrib.auth import logout
 from quiz.models import Quiz,Question,Answer
@@ -136,53 +138,81 @@ def add_quiz(request):
     if not request.POST:
         return redirect("admin_dashboard:question_section")
     data = request.POST
-    name = data['name']
-    time = data['time']
-    score = data['score_to_pass']
-    order = data['order']
+    name = data.get('name')
+    time = data.get('time')
+    score = data.get('score')
 
-    if None in (name,time,score,order):
+    if None in (name,time,score):
         return JsonResponse({"error":"Please fill all fields"})
     
-    for quiz in Quiz.objects.filter(order__gte = order):
-        quiz.order = quiz.order + 1
-        quiz.save()
+    order = Quiz.objects.last().order + 1
 
     new_quiz = Quiz(name=name,time=time,score_to_pass=score,order=order)
     new_quiz.save()
     return redirect("admin_dashboard:question_section")
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
-def edit_quiz(request,quiz_id):
+def edit_quiz(request):
     if request.GET:
+        quiz_id = request.GET['quiz_id']
         quiz = get_object_or_404(Quiz,id=quiz_id)
-        return JsonResponse({
-            "quiz":quiz.serialize(),
-            "quiz_count": Quiz.objects.count()
-        })
+        return JsonResponse(quiz.serialize())
     
     if request.POST:
         data = request.POST
-        name = data['name']
-        time = data['time']
-        score = data['score_to_pass']
-        order = data['order']
-        if None in (name,time,score,order):
+        quiz_id = data.get('quiz_id')
+        name = data.get('name')
+        time = data.get('time')
+        score = data.get('score')
+        if None in (name,time,score):
             return JsonResponse({"error":"Please fill all fields"})
     
-        this_quiz = get_object_or_404(Quiz,quiz_id)
-        next_order = order+1
-        for quiz in Quiz.objects.filter(order__gte = order):
-            quiz.order = next_order
-            quiz.save()
-            next_order += 1
-        
+        this_quiz = get_object_or_404(Quiz,id=quiz_id)
         this_quiz.name = name
         this_quiz.time = time
         this_quiz.score_to_password = score
-        this_quiz.order = order
         this_quiz.save()
         return redirect("admin_dashboard:question_section")
+
+@role_required(allowed_roles=['admin','hr_staff'])
+def delete_quiz(request):
+    if request.POST:
+        quiz_id = request.POST['quiz_id']
+        this_quiz = get_object_or_404(Quiz,id=quiz_id)
+        order = this_quiz.order
+        this_quiz.delete()
+        for quiz in Quiz.objects.filter(order__gte=order):
+            quiz.order -= 1
+            quiz.save()
+        return redirect("admin_dashboard:question_section")
+
+def reorder_quizzes(request):
+    if request.method == 'POST':
+        with transaction.atomic():
+            data = json.loads(request.body)
+            old_order = int(data['old_index']) + 1
+            new_order = int(data['new_index']) + 1
+
+            this_quiz = get_object_or_404(Quiz,order=old_order)
+            if old_order == new_order : return JsonResponse({"message":"Same order"})
+
+            if new_order > old_order:
+                for quiz in Quiz.objects.filter(order__lte=new_order,order__gt=old_order):
+                    if(quiz.order == old_order):
+                        break
+                    quiz.order -= 1
+                    quiz.save()
+            else:
+                for quiz in Quiz.objects.filter(order__gte=new_order,order__lt=old_order):
+                    if(quiz.order == old_order):
+                        break
+                    quiz.order += 1
+                    quiz.save()
+            this_quiz.order = new_order
+            this_quiz.save()
+            return JsonResponse({"status":"200"})
+    else:
+        return JsonResponse({"error":"USE POST"})
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def question_list(request,quiz_id):
@@ -201,7 +231,7 @@ def add_question(request):
     
     quiz_id = data.get('quiz_id')
     question_text = data.get('question_text',None)
-    if not question_text: JsonResponse({"error":"No question"})
+    if not question_text: return JsonResponse({"error":"No question"})
 
     correct_answer_id  = data.get('correct_answer_id',None)
     if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
