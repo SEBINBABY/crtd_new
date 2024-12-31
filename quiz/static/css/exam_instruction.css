@@ -25,7 +25,7 @@ body {
  width: 65%;
  display: flex;
  flex-direction: column;
- align-items: center;
+justify-content: center;
 }
 .instruct-left .instruct-logo {
  height: 20.5%;
@@ -46,14 +46,17 @@ body {
  left: 40px;
 }
 .instruction {
- height: 70% !important;
+
+    
+ height: 60% !important;
  width: 75%;
  background-color: #D0EDFF;
  position: relative;
- left: -50px;
- top: -25px;
+ left:100px;
+ top: 30px;
  border-radius: 14px;
  padding: 15px;
+ margin-bottom: 50px;
 }
 .instruction h1 {
  font-weight: 600;
@@ -73,13 +76,14 @@ body {
 .instruct-btn {
  height: 50px !important;
  width: 22%;
+ justify-content: center;
  background: linear-gradient(to right, #13B3FF, #005AD5);
  border: none;
  border-radius: 10px;
  color: white;
  position: relative;
  top: -20px;
- left: -8%;
+ left: 38%;
  padding: 5px 15px 5px 15px;
  font-size: 18px;
 }
