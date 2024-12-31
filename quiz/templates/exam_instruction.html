@@ -14,12 +14,12 @@
             <div class="instruct-logo"></div>
             <div class="instruct-img"></div>
         </div>
-        <div class="instruct-right">
-            <div class="instruct-account">
-                <img src="/static/images/user.png" alt="" height="40px" width="40px">
+        <div class="instruct-right" >
+            <div class="instruct-account" style="margin-left: 80%;">
+                <img src="/static/images/user.png" alt="" height="40px" width="40px" style="margin-left: -45px;margin-bottom: -60px;">
                 <div>
                     <h6>{{ user_full_name }}</h6>
-                    <p>{{ user_email }}</p>
+                    <p style="margin-top: -10px;">{{ user_email }}</p>
                 </div>
             </div>
             <div class="instruction">
@@ -36,7 +36,7 @@
                 </ul>
             </div>
             <form action="{% url 'quiz:automatic_selection' %}" method="GET">
-                <button class="instruct-btn" id="instructBtn" type="submit">Continue</button>
+                <button class="instruct-btn" id="instructBtn" type="submit" style="margin-top: 50px;">Continue</button>
             </form>
         </div>
     </div>
