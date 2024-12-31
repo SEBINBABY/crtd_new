@@ -230,6 +230,6 @@ def get_remaining_time(request):
     if result is None:
         return redirect('quiz:start_test')
     remaining_time = result.quiz.time * 60 - (now() - result.start_time).seconds
-    if(remaining_time < 0):
+    if(remaining_time <= 0):
         return redirect('quiz:quiz_summary',result.quiz.id)
     return JsonResponse({"time_remaining": remaining_time})
