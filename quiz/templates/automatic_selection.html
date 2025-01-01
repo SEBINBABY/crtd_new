@@ -30,7 +30,7 @@
             <div class="content-box">
                 <h6>{{ forloop.counter }}. {{ quiz.name }}</h6>
                 <p class="mid-minutes"><i class="fa-solid fa-clock"></i> &nbsp;{{ quiz.time }} minutes</p>
-                <h6 class="end-question">{{ quiz.number_of_questions }} questions</h6>
+                <h6 class="end-question">{{ quiz.quiz_questions.count }} questions</h6>
             </div>
             {% endfor %}
         </div>
