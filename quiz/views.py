@@ -38,7 +38,7 @@ def automatic_selection(request):
             "user_email": user.email,
         })
     else:
-        return render(request, "no_quizzes.html")
+        return JsonResponse({"Message":"No quizzes present"})
 
 @user_only
 @never_cache
