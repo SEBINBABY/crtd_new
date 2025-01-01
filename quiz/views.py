@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from .utils import *
 
-GRACE_TIME = 3 # SECONDS
+GRACE_TIME = 5 # SECONDS
 
 @user_only
 @never_cache
@@ -83,15 +83,27 @@ def start_question(request, quiz_id, question_id):
     """
     Renders a question based on the given IDs.
     """
+    user = request.user
     quiz = get_object_or_404(Quiz, id=quiz_id)
     question = get_object_or_404(Question, id=question_id)
     answers = question.get_answers()
-
-    # Calculate remaining time
-    user = request.user
-    if not user.is_user:
-        return redirect("users:user_login")
+    
     result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
+
+    if(result.end_time is not None):
+        return redirect('quiz:start_test')
+
+    if(quiz.requires_payment and not request.user.has_paid):
+        return render(request,'demo_question.html',{
+        'quiz': quiz,
+        'question': question,
+        'answers': answers,
+        'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
+        "is_last_question": (question == quiz.quiz_questions.last()),
+        "is_completed": (len(result.user_answers) == quiz.quiz_questions.count()),
+        })
+
+    
     remaining_time = quiz.time * 60 - (now() - result.start_time).seconds + GRACE_TIME
 
     if remaining_time <= 0:
@@ -140,6 +152,8 @@ def save_answer(request, quiz_id, question_id):
 
         # Retrieve the Result object
         result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
+        if(result.end_time is not None):
+            return redirect('quiz:quiz_summary', quiz_id=quiz.id)
         
         remaining_time = quiz.time * 60 - (now() - result.start_time).seconds + GRACE_TIME
         if remaining_time <= 0:

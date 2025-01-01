@@ -51,7 +51,7 @@
                 {% csrf_token %}
                 {% for answer in answers %}
                 <div class="question">
-                    <input type="radio" id="option-{{answer.id}}" 
+                    <input tabindex="1" type="radio" id="option-{{answer.id}}" 
                            {% if selected_answer|add:0 == answer.id %} checked {% endif %}
                            name="selected_answer" value="{{ answer.id }}" required />
                     <label  label for="option-{{answer.id}}">
@@ -61,18 +61,18 @@
                 {% endfor %}
                 <input type="hidden" name="current_question" value="{{ question.id }}" />
                 <div class="question-btns">
-                     <button id="prev--btn"> <i class="fa-solid fa-angle-left"></i> Prev</button>  
-                     <button id="next--btn" type="submit">Save & Next <i class="fa-solid fa-angle-right"></i></button> 
+                     <button tabindex="2" id="prev--btn"> <i class="fa-solid fa-angle-left"></i> Prev</button>  
+                     <button tabindex="3" id="next--btn" type="submit">Save & Next <i class="fa-solid fa-angle-right"></i></button> 
                 </div>
             </form>
         </div>
         <div class="box-3">
             <div class="account-3">
                 <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
-                <h6 style="margin-top: -40px;" >{{user_full_name}}</h6>
+                <h6 style="margin-top: -40px;" >{{user.username}}</h6>
                  
                 
-                <span>{{user_email}}</span>
+                <span>{{user.email}}</span>
             </div>
             <div class="timer-3">
                 Time Remaining: <span class="mx-2" id="time_remaining"></span>
