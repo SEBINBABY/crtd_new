@@ -38,7 +38,7 @@ def automatic_selection(request):
             "user_email": user.email,
         })
     else:
-        return render(request, "no_quizzes.html")
+        return JsonResponse({"Message":"No quizzes present"})
 
 @user_only
 @never_cache
@@ -116,7 +116,9 @@ def start_question(request, quiz_id, question_id):
         "unmarked_questions": quiz.quiz_questions.count() - len(request.session["marked_questions"]),
         "user_full_name":user.username,
         "user_email":user.email,
-        "selected_answer": selected_answer
+        "selected_answer": selected_answer,
+        "is_last_question": (question == quiz.quiz_questions.last()),
+        "is_completed": (len(result.user_answers) == quiz.quiz_questions.count()),
     })
 
 @user_only
@@ -147,9 +149,9 @@ def save_answer(request, quiz_id, question_id):
         # Update the answer in the Result object
         result.user_answers[str(question.id)] = selected_answer_id
         result.save()
-        
-        request.session["marked_questions"].append(question_id)
-        request.session.save()
+        if question_id not in request.session["marked_questions"]:
+            request.session["marked_questions"].append(question_id)
+            request.session.save()
 
         # Determine the next question
         questions = list(quiz.quiz_questions.all())
@@ -158,8 +160,11 @@ def save_answer(request, quiz_id, question_id):
         if current_index + 1 < len(questions):
             next_question = questions[current_index + 1]
             return redirect('quiz:start_question', quiz_id=quiz.id, question_id=next_question.id)
-
-        return redirect('quiz:quiz_summary', quiz_id=quiz.id)
+        
+        if len(result.user_answers) == len(questions):
+            return redirect('quiz:quiz_summary', quiz_id=quiz.id)
+        else:
+            return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 
     return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 

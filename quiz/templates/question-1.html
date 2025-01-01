@@ -88,7 +88,6 @@
     </div>
 <script>
 document.addEventListener("DOMContentLoaded",() =>{
-    
     const boxes = document.querySelectorAll('.box');
     const prevButton = document.getElementById("prev--btn");
     const question_ids = JSON.parse('{{all_question_ids}}');
@@ -107,8 +106,6 @@ document.addEventListener("DOMContentLoaded",() =>{
 
     question_number.innerHTML = current_index+1
     
-    console.log(visitedQuestions)
-    console.log(curr_id)
     boxes.forEach((box) => {
         const boxId = parseInt(box.id.split('-')[1]);
         if (visitedQuestions.includes(boxId)) {
@@ -116,11 +113,7 @@ document.addEventListener("DOMContentLoaded",() =>{
             box.classList.remove('not-Visited');
             box.classList.remove('active');
         }
-        console.log("?")
-        console.log(boxId)
-        console.log(curr_id)
         if (boxId == curr_id) {
-            console.log("?")
             box.classList.add('active');
             box.classList.remove('not-Visited');
             box.classList.remove('Marked');
@@ -206,31 +199,7 @@ document.addEventListener("DOMContentLoaded",() =>{
       modal.style.display = 'none';
       location.replace(currentPage);
   });*/
-  
  
- 
- 
-
- 
- 
- 
- 
- 
- 
- 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
 });
 window.onload = function () {
             history.replaceState(null, null, window.location.href); // Replace current state
