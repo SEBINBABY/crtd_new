@@ -66,7 +66,7 @@ def start_test(request):
     quiz = get_next_quiz(results)
     if not quiz:
         return redirect('quiz:finish_test')
-    if(requires_payment(quiz) and not request.user.has_paid):
+    if(quiz.requires_payment and not request.user.has_paid):
         return redirect('payment_integration:payment_start')
 
     request.session["marked_questions"] =  []

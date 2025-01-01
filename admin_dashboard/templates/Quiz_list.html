@@ -67,6 +67,8 @@
             <input type="number" class="passkeyInput" placeholder="Time" name="time" id="edit_time" value="" required/>
             <label>Score to pass</label>
             <input type="number" class="passkeyInput" placeholder="Score to pass" name="score"  id="edit_score"  value="" required/>
+            <input type="checkbox" class="passkeyInput" name="requires_payment"  id="requires_payment"  value="true" required/>
+            <label>requires_payment</label>
             <input type="hidden" id="edit_id" name="quiz_id" value="">
 
             <!-- <div class="activebutton"  > 
@@ -118,6 +120,8 @@
               <input type="number" class="passkeyInput" placeholder="Time" name="time"  value="" required/>
               <label class="score">Score to pass</label>
               <input type="number" class="passkeyInput" placeholder="Score to pass" name="score"  value="" required/>
+              <input type="checkbox" class="passkeyInput" name="requires_payment"  id="requires_payment"  value="true" required/>
+              <label>requires_payment</label>
               <!-- <div class="activebutton"  > 
               <label for="is_active" style="margin-left: 80px;">Active:</label>
               <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -80px;" {% if passkey.is_active %}checked{% endif %}>
@@ -167,6 +171,10 @@
               document.getElementById("edit_name").value = data['name']
               document.getElementById("edit_time").value = data['time']
               document.getElementById("edit_score").value = data['score_to_pass']
+
+              if(data['requires_payment']){
+                document.getElementById("requires_payment").checked = true;
+              }
               document.getElementById("edit_id").value = data['id']
             })
             .then(() => {
