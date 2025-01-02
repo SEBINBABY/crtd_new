@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from admin_dashboard.models import User
 from admin_dashboard.models import Amount
 from django.db import transaction
+from quiz.models import Quiz
 
 # Payment integration starts from here 
 @never_cache
@@ -18,9 +19,12 @@ def payment_start(request):
     if user.is_user:
         full_name = user.username
         email = user.email
+    quiz = Quiz.objects.filter(requires_payment=True).first()
     context = {
         "full_name":full_name,
-        "email":email
+        "email":email,
+        'quiz' : quiz,
+        'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
     }
     return render(request, "payment-start.html", context)
 
