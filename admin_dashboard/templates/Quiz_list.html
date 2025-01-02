@@ -42,7 +42,6 @@
               </tbody>
             </table>
           </div>
-          <!-- <button class="click">click me</button> -->
         </div>
 
         <div class="containe up"  >
@@ -70,10 +69,6 @@
             <input type="checkbox" class="passkeyInput" name="requires_payment"  id="requires_payment"  value="true"/>
             <label>requires_payment</label>
             <input type="hidden" id="edit_id" name="quiz_id" value="">
-
-            <!-- <div class="activebutton"  > 
-            <label for="is_active" style="margin-left: 80px;">Active:</label>
-            <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -80px;" {% if passkey.is_active %}checked{% endif %}>
           </div> -->
             <div class="modal-buttons">
               <button class="cancel-btn-edit" type="button">Cancel</button>
@@ -122,9 +117,6 @@
               <input type="number" class="passkeyInput" placeholder="Score to pass" name="score"  value="" required/>
               <input type="checkbox" class="passkeyInput" name="requires_payment"  id="requires_payment"  value="true"/>
               <label>requires_payment</label>
-              <!-- <div class="activebutton"  > 
-              <label for="is_active" style="margin-left: 80px;">Active:</label>
-              <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -80px;" {% if passkey.is_active %}checked{% endif %}>
             </div> -->
               <div class="modal-buttons">
                 <button class="cancel-btn-add" type="button">Cancel</button>
@@ -212,17 +204,6 @@
     deleteModal.style.display = "none";
   });
 
-
-      /* document
-      .getElementById("questionSectionLink")
-      .addEventListener("click", function () {
-        const questionSection = document.getElementById(
-          "questionSectionContent"
-        );
-        questionSection.style.display =
-          questionSection.style.display === "none" ? "block" : "none";
-      }); */
-
       document.querySelectorAll("#edit-button").forEach((button) => {
         button.addEventListener("click", function () {
           document.getElementById("edit-content").style.display = "block";
@@ -232,25 +213,6 @@
       function closePopup() {
         document.getElementById("edit-content").style.display = "none";
       }
-
-      /* // modal >>>>>>>>>>>>>>>
-      const passkeyModalEdit = document.querySelector(".edit-modal");
-      const editBtn = document.querySelectorAll(".eye-btn");
-
-      editBtn.forEach((btn) => {
-      btn.addEventListener("click", (event) => {
-        passkeyModalEdit.style.display = "block";
-        });
-      });
-
-      const editModal = document.getElementById("edit-modal");
-      editBtn.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        event.preventDefault();
-        editModal.style.display = "block";
-      });
-    }); */
-
 
       </script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
