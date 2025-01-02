@@ -42,12 +42,12 @@ body {
     top: -7%;
 }
 .im-instructions ul li {
-    line-height: 50px;
+    line-height: 40px;
     font-size: 18px;
 }
 .im-instructions ul{
     position: relative;
-    top: -5%;
+    top: 5%;
 }
 
 .instruct-img{
@@ -79,9 +79,13 @@ body {
  font-weight: 700;
  font-size: 24px;
  position: relative;
- top: -7%;
- left: -300px;
- color: #005AD5;
+ top: 1%;
+ left: -270px;
+ /* color: #005AD5; */
+ background: linear-gradient(to right, #13B3FF, #005AD5);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+z-index: 1;
 }
 .imp-check {
  height: 40px;

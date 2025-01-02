@@ -77,7 +77,9 @@
             <div class="timer-3">
                 Time Remaining: <span class="mx-2" id="time_remaining"></span>
             </div>
+            <button id="section-btn" class="next-section-btn">Next Section</button>
         </div>
+       
     </div>
     <div class="modal1" id="modal1">
         <div class="modal-content1">
@@ -86,7 +88,45 @@
             <button id="closeModal">Close</button>
         </div>
     </div>
+
+    <!-- Complete the test Modal -->
+    <div class="modal2" id="modal2">
+        <div class="modal-content2">
+            <h2>Complete All the Questions</h2>
+            <p>You must attempt all the questions within the given time</p>
+            <button id="closeModal2">Close</button>
+        </div>
+    </div>
+
+     <!-- Modal for next section -->
+     <div class="modal3" id="modal3">
+        <div class="modal-content3">
+            <h5>all questions are mandatory, make sure you save every response</h5>
+            <button id="closeModal3">Close</button>
+        </div>
+    </div>
 <script>
+    
+
+    let modal2 = document.getElementById('modal2');
+    let closeBTN = document.getElementById("closeModal2");
+
+    closeBTN.addEventListener("click", ()=> {
+        modal2.style.display = "none";
+    });
+
+    let modal3 = document.getElementById('modal3');
+    let closeBTN2 = document.getElementById("closeModal3");
+    let sectionBtn = document.getElementById("section-btn");
+
+    sectionBtn.addEventListener("click", () => {
+        modal3.style.display = "block";
+    })
+
+    closeBTN2.addEventListener("click", ()=> {
+        modal3.style.display = "none";
+    });
+
 document.addEventListener("DOMContentLoaded",() =>{
     const boxes = document.querySelectorAll('.box');
     const prevButton = document.getElementById("prev--btn");
@@ -193,12 +233,9 @@ document.addEventListener("DOMContentLoaded",() =>{
       const modal = document.getElementById('modal1');
       modal.style.display = 'flex';
   }
+      */
 //   Close modal on button click
-  document.getElementById("closeModal").addEventListener("click", () => {
-      const modal = document.getElementById('modal1');
-      modal.style.display = 'none';
-      location.replace(currentPage);
-  });*/
+  
  
 });
 window.onload = function () {

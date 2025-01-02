@@ -59,10 +59,13 @@ justify-content: center;
  margin-bottom: 50px;
 }
 .instruction h1 {
- font-weight: 600;
+ font-weight: 700;
  font-size: 24px;
  margin-top: 10px;
- color: #003B8B;
+ /* color: #005AD5; */
+ background: linear-gradient(to right, #13B3FF, #005AD5);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 }
 .instruction ul {
  margin-top: 35px;
