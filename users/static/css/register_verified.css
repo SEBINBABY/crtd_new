@@ -186,6 +186,7 @@ display: none;
     /* background-color: red; */
 }
 .content-input i{
+    cursor: pointer;
     font-size: 14px;
     position: relative;
     top: -40px;
