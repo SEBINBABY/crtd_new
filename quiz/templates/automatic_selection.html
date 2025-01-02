@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="selection" style="margin-left: 72%;">
-             <h6> Selection Attempted 0/{{ quizzes|length }} </h6></div>
+             <h6> Section Attempted 0/{{ quizzes|length }} </h6></div>
         <div class="automate-content-box">
             {% for quiz in quizzes %}
             <div class="content-box">
@@ -35,7 +35,7 @@
             {% endfor %}
         </div>
         <form action="{% url 'quiz:exam_guidelines' %}" method="GET">
-            <button id="automateBtn">Start the Test</button>
+            <button id="automateBtn" style="margin-top: 30px;">Start the Test</button>
         </form>
     </div>
     <script>
