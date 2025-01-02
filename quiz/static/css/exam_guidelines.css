@@ -135,11 +135,11 @@ body {
     justify-content: center;
     align-items: center;
 }
-.impp-account h6{
-    color: #003B8B;
-    font-size: 16px;
-    font-weight: 650;
-}
+/* .impp-account h6{ */
+/*     */
+    /* font-size: 16px; */
+    /* font-weight: 650; */
+/* } */
 .impp-account div{
     position: relative;
     /* top: 23%; */

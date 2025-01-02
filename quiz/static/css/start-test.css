@@ -110,16 +110,16 @@ justify-content: space-between;
     width: 15%;
     padding: 10px;
 }
-.imp-account h6{
-    color: #003B8B;
-    font-size: 16px;
-    font-weight: 650;
-}
-.imp-account p{
-    font-weight: 400;
-    font-size: 14px;
-    color: #808080;
-}
+/* .imp-account h6{ */
+/*       */
+    /* font-size: 16px; */
+    /* font-weight: 650; */
+/* } */
+/* .imp-account p{ */
+    /* font-weight: 400; */
+    /* font-size: 14px; */
+    /* color: #808080; */
+/* } */
 .is_complete{
     height: 80%;
     width: 15%;
