@@ -86,16 +86,6 @@
             rzp1.open();
             e.preventDefault();
           }
-          const buttons = document.querySelectorAll(".part1-box");
-buttons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-        const link = button.querySelector("a");
-        if (link) {
-            window.location.href = link.getAttribute("/quiz/templates/question-1.html");
-        }
-        event.preventDefault(); // Prevent default behavior (if needed)
-    });
-});
 
         
         </script>
