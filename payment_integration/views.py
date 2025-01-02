@@ -19,12 +19,9 @@ def payment_start(request):
     if user.is_user:
         full_name = user.username
         email = user.email
-    quiz = Quiz.objects.filter(requires_payment=True).first()
     context = {
         "full_name":full_name,
         "email":email,
-        'quiz' : quiz,
-        'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
     }
     return render(request, "payment-start.html", context)
 
@@ -75,6 +72,7 @@ def initiate_payment(request):
             amount=amount,  # Convert paise to INR
             status='pending'
         )
+        quiz = Quiz.objects.filter(requires_payment=True).first()
         context = {
             "razorpay_order_id":razorpay_order_id,
             "amount":amount,  # Amount in INR
@@ -82,7 +80,9 @@ def initiate_payment(request):
             "email":email,
             "contact_number":contact_number,
             "razorpay_merchant_id":settings.RAZORPAY_KEY_ID,
-            "callback_url":callback_url
+            "callback_url":callback_url,
+            'quiz' : quiz,
+            'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
         }
         return render(request, "payment-second.html", context)
     except Exception as e:
