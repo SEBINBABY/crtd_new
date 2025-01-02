@@ -87,11 +87,6 @@ def start_question(request, quiz_id, question_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     question = get_object_or_404(Question, id=question_id)
     answers = question.get_answers()
-    
-    result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
-
-    if(result.end_time is not None):
-        return redirect('quiz:quiz_summary',quiz.id)
 
     if(quiz.requires_payment and not request.user.has_paid):
         return render(request,'demo_question.html',{
@@ -100,9 +95,13 @@ def start_question(request, quiz_id, question_id):
         'answers': answers,
         'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
         "is_last_question": (question == quiz.quiz_questions.last()),
-        "is_completed": (len(result.user_answers) == quiz.quiz_questions.count()),
+        "is_completed": False,
         })
 
+    result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
+
+    if(result.end_time is not None):
+        return redirect('quiz:quiz_summary',quiz.id)
     
     remaining_time = quiz.time * 60 - (now() - result.start_time).seconds + GRACE_TIME
 
