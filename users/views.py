@@ -18,6 +18,14 @@ from django import forms
 from django.contrib.auth.forms import PasswordResetForm
 from django.views.decorators.cache import never_cache
 
+
+# For generating the Unique six digit TCN Number once the user creates the account
+def generate_unique_tcn(request):
+    while True:
+        tcn = f"{random.randint(100000, 999999)}"
+        if not User.objects.filter(tcn_number=tcn).exists():
+            return tcn
+
 # Password validation function
 def is_valid_password(password):
     if len(password) < 8:
@@ -83,6 +91,8 @@ def register_verified(request):
         try:
             otp_instance = OTP.objects.get(email=email)
             if not otp_instance.is_expired():
+                # Generate a unique TCN Number
+                tcn_number = generate_unique_tcn()
                 # Email verified, proceed with registration
                 user = User.objects.create_user(
                     username=username.strip(),
@@ -90,6 +100,7 @@ def register_verified(request):
                     contact_number=contact_number,
                     password=password,
                 )
+                user.tcn_number = tcn_number  # Assign the generated TCN Number
                 user.is_email_verified = True
                 user.save()
                 return render(request, "create_account_success.html")
