@@ -28,7 +28,7 @@ class Quiz(models.Model):
 
 
 class Question(models.Model):
-    question_text = models.CharField(max_length=255)
+    question_text = models.CharField(max_length=800)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE,related_name="quiz_questions")
     created_at = models.DateTimeField(auto_now_add=True)
 
