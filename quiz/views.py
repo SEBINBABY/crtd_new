@@ -67,10 +67,7 @@ def start_test(request):
     if not quiz:
         return redirect('quiz:finish_test')
     if(quiz.requires_payment and not request.user.has_paid):
-        return redirect('payment_integration:payment_start',{
-            'quiz' : quiz,
-            'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
-        })
+        return redirect('payment_integration:payment_start')
 
     request.session["marked_questions"] =  []
     request.session.save()
@@ -94,7 +91,7 @@ def start_question(request, quiz_id, question_id):
     result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
 
     if(result.end_time is not None):
-        return redirect('quiz:start_test')
+        return redirect('quiz:quiz_summary',quiz.id)
 
     if(quiz.requires_payment and not request.user.has_paid):
         return render(request,'demo_question.html',{
@@ -244,13 +241,17 @@ def finish_test(request):
 @user_only
 def get_remaining_time(request):
     user = request.user
-    results = Result.objects.filter(end_time__isnull=True,user_id = user.id)
+    results = Result.objects.filter(end_time__isnull=True,user = user)
     if results.count() > 1:
         messages.error(request,"Something went wrong")
         return JsonResponse({"error": "Something went wrong"})
     result = results.first()
     if result is None:
-        return redirect('quiz:start_test')
+        quiz = Result.objects.filter(user = user).last().quiz
+        if quiz:
+            return redirect('quiz:quiz_summary',quiz.id)
+        else:
+            return redirect('quiz:start_test')
     remaining_time = result.quiz.time * 60 - (now() - result.start_time).seconds
     if(remaining_time <= 0):
         return redirect('quiz:quiz_summary',result.quiz.id)
