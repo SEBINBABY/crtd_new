@@ -133,6 +133,7 @@ label p {
   position: relative;
   top: 30%;
   left: 12%;
+  text-align: center;
 }
 .question p {
   font-size: 16px;
@@ -177,11 +178,15 @@ label p {
 }
 .timer-3 {
   height: 15%;
-  width: 90%;
+  width: 100%;
   /* background-color: pink; */
   position: relative;
   top: -5%;
   padding: 10px;
+  font-weight: 600;
+   font-size: 18px;
+   margin-left: -20px;
+   margin-top: 20px;
 }
 .small-box-cont {
   width: 100%;

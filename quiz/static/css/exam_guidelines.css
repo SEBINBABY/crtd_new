@@ -37,7 +37,7 @@ body {
     scale: 0.78;
 }
 .im-instructions{
-    height: 65% !important;
+    /* height: 65% !important; */
     position: relative;
     top: -7%;
 }
@@ -60,7 +60,7 @@ body {
     left: 40px;
 }
 .instruction{
-    height: 70% !important;
+    height: 60vh !important;
     width: 75%;
     background-color: #D0EDFF;
     position: relative;

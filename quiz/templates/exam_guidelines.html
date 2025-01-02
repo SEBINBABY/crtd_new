@@ -22,9 +22,9 @@
                     <p>{{ user_email }}</p>
                 </div>
             </div>
-            <h3>Exam Guidelines:</h3>
+            <h3 style="margin-left: -70px;">Exam Guidelines:</h3>
             <div class="instruction im-instructions">
-                <ul>
+                <ul style="margin-top: 30px;">
                     <li>15 questions per section, 20-minutes is the limit for each section.</li>
                     <li>No extra time; submit before the timer ends.</li>
                     <li>Use a stable internet connection and recommended browser.</li>
@@ -37,9 +37,9 @@
             </div>
             <div class="imp-check">
                 <input type="checkbox" id="is_checked">
-                <span>Please check the box to confirm that you have read the instructions</span>
+                <span>Please check the box to confirm that you have read the instructions.</span>
             </div>
-            <span class="popup">Please check the box to agree with the terms before starting the test.</span>
+            <span style="margin-left: 30px; margin-top: 10px;" class="popup">Please check the box to agree with the terms before starting the test.</span>
             <form id="submit-form" action="{% url 'quiz:start_test' %}" method="POST">
                 {% csrf_token %}
                 <button class="imp-instruct-btn" id="submit-btn" type="button">Start the Test</button>
