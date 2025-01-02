@@ -20,7 +20,7 @@ from django.views.decorators.cache import never_cache
 
 
 # For generating the Unique six digit TCN Number once the user creates the account
-def generate_unique_tcn(request):
+def generate_unique_tcn():
     while True:
         tcn = f"{random.randint(100000, 999999)}"
         if not User.objects.filter(tcn_number=tcn).exists():
