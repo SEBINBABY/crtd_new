@@ -30,12 +30,17 @@ body {
     height: 18%;
     width: 62%;
     /* background-color: blue; */
-    background: url("../images/image_1.png");
+    /* background: url("../images/image_1.png"); */
     background-size: cover;
     position: relative;
-    left: 5%;
-    top: 3%;
-    scale: 0.85;
+    left: 6%;
+    top: 3.5%;
+    /* scale: 0.85; */
+}
+.left-logo img{
+    height: 90%;
+    width: 90%;
+    /* background-color: ; */
 }
 .left-img{
     height: 60%;
