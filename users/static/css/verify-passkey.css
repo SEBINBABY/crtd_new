@@ -84,15 +84,23 @@ body{
     left: 33%;
 }
 .passkey-left .passkey-logo{
-  height: 18%;
-  width: 72%;
+  height: 22.9%;
+  width: 75%;
   position: relative;
-  top: 4%;
-  left: 4%;
-  background: url("/static/images/image_1.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  scale: 0.9;
+  /* background-color: pink; */
+  /* background-size: cover; */
+  /* background-repeat: no-repeat; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* scale: 0.9; */
+}
+.passkey-logo img{
+  height: 70%;
+  width: 85%;
+  position: relative;
+  left: 2%;
+  /* scale: 0.9; */
 }
 .passkey-left .passkey-img{
   height: 60%;

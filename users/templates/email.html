@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Template</title>
+    <style>
+        body {
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .blurred {
+            filter: blur(10px);
+        }
+    </style>
 </head>
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f8f9fa;">
 
@@ -38,8 +48,8 @@
             </div>
             <p style="font-size: 16px; color: #333;">This OTP is valid for the next 10 minutes. Please use this code to complete your verification process.</p>
             <p style="font-size: 16px; color: #333;">For your security, never share this OTP with anyone, including company representatives. If you did not request this code, please contact our support team immediately.</p>
-            <p style="font-size: 16px; color: #333;">Best Regards</p>
-            <p style="font-size: 16px; color: #333;">CRTD Technologies</p>
+            <h6 style="font-size: 16px; color: #333;">Best Regards</h6>
+            <h6 style="font-size: 16px; color: #333;">Team CRTD Technologies</h6>
         </div>
 
         <!-- Footer Section -->
@@ -51,6 +61,30 @@
         </div>
         
     </div>
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    
+        document.addEventListener('keydown', event => {
+            if ((event.ctrlKey || event.metaKey) && (event.key === 'c' || event.key === 'u')) {
+                event.preventDefault();
+            }
+        });
 
+       
+        let isMetaKeyPressed = false;
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Meta' && !isMetaKeyPressed) {
+                isMetaKeyPressed = true;  
+                document.body.classList.add('blurred'); 
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Meta') {
+                isMetaKeyPressed = false;
+                document.body.classList.remove('blurred');
+            }
+        });
+      </script>
 </body>
 </html>

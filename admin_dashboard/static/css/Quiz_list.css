@@ -578,8 +578,8 @@ input {
 .delete-close-btn {
   position: absolute;
   top: 15px;
-  right: 20px;
-  font-size: 20px;
+  right: 0;
+  font-size: 30px;
   color: #555;
   cursor: pointer;
 }
