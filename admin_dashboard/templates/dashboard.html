@@ -99,6 +99,20 @@
                   </button>
         </div>
 
+        <div class="pagination-container">
+    <button class="all-button">All</button>
+    <div class="page-selector">
+      <span>Page</span>
+      <div class="dropdown">
+        <button class="dropdown-toggle">1</button>
+        <ul class="dropdown-menu">
+          <!-- JavaScript will dynamically generate page numbers -->
+        </ul>
+      </div>
+      <span>of 10</span>
+    </div>
+  </div>
+
     <div class="delete-modal">
       <div class="modal-content">
         <!-- Close Button -->
@@ -247,6 +261,37 @@ function scrollToTableTop() {
         });
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const dropdownToggle = document.querySelector('.dropdown-toggle');
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+  const totalPages = 10;
+
+  // Populate dropdown menu with page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    const listItem = document.createElement('li');
+    listItem.textContent = i;
+    listItem.style.cursor = 'pointer';
+    listItem.addEventListener('click', () => {
+      dropdownToggle.textContent = i; // Update selected page
+      dropdownMenu.style.display = 'none'; // Close dropdown
+    });
+    dropdownMenu.appendChild(listItem);
+  }
+
+  // Toggle dropdown menu visibility
+  dropdownToggle.addEventListener('click', (event) => {
+    event.stopPropagation(); // Prevent event from bubbling
+    dropdownMenu.style.display =
+      dropdownMenu.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', () => {
+    dropdownMenu.style.display = 'none';
+  });
+});
+
 
       </script>
       {% endblock %}
