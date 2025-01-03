@@ -12,7 +12,9 @@
 <body>
     <div class="main-box">
         <div class="box-1">
-            <div class="box-1-logo"></div>
+            <div class="box-1-logo">
+                <img src="/static/images/image_1.png" alt="">
+            </div>
             <div class="box-1-content">
                 <a href="{% url 'payment_integration:initiate-payment' %}" class="case-study">
                     <span>Case study</span>
@@ -50,7 +52,7 @@
         </div>
         <div class="box-2">
             <h2 id="quiz-title">{{quiz.order}}. {{ quiz.name }}</h2>
-            <p style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q<span id="question_number"></span> {{question}}</p>
+            <p class="questt-para" style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q<span id="question_number"></span> {{question}}</p>
                 {% csrf_token %}
                 {% for answer in answers %}
                 <div class="question">
