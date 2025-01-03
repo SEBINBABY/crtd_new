@@ -170,6 +170,11 @@ label p {
   border-radius: 10px;
 }
 
+#prev--btn{
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .account-3 {
   height: 15%;
   width: 90%;
