@@ -14,17 +14,17 @@
         <div class="box-1">
             <div class="box-1-logo"></div>
             <div class="box-1-content">
-                <div class="case-study">
+                <a href="{% url 'payment_integration:initiate-payment' %}" class="case-study">
                     <span>Case study</span>
                     <span>'Payment Gateway Integration'</span>
-                </div>
+                </a>
                 <div class="small-box-cont">
                     <div>Marked
-                    <div class="marked Marked">{{marked_questions|length}}</div>
+                    <div class="marked Marked">0</div>
                     </div>
                     <div>
                         Not visited
-                    <div class="not-visit not-Visited">{{unmarked_questions}}</div>
+                    <div class="not-visit not-Visited">{{quiz.quiz_questions.count}}</div>
                     </div>
                     <div>
                         Active
