@@ -1,0 +1,93 @@
+Watching for file changes with StatReloader
+Method Not Allowed: /handle_request/
+[02/Jan/2025 18:50:57] "GET /handle_request/ HTTP/1.1" 405 52
+Method Not Allowed: /handle_request/
+[02/Jan/2025 18:50:59] "GET /handle_request/ HTTP/1.1" 405 52
+[02/Jan/2025 18:51:01] "GET /dashboard/ HTTP/1.1" 200 23123
+Method Not Allowed: /handle_request/
+[02/Jan/2025 18:51:05] "GET /handle_request/ HTTP/1.1" 405 52
+[02/Jan/2025 18:51:15] "GET /admin_hr_login/ HTTP/1.1" 200 1771
+[02/Jan/2025 18:51:15] "GET /static/css/static/images/background.png HTTP/1.1" 404 2027
+[02/Jan/2025 18:51:19] "GET / HTTP/1.1" 200 3280
+[02/Jan/2025 18:51:21] "POST / HTTP/1.1" 302 0
+[02/Jan/2025 18:51:21] "GET /user_login/ HTTP/1.1" 200 5793
+[02/Jan/2025 18:51:34] "POST /user_login/ HTTP/1.1" 302 0
+[02/Jan/2025 18:51:34] "GET /exam_instructionv/ HTTP/1.1" 200 2224
+[02/Jan/2025 18:51:35] "GET /automatic_selection/? HTTP/1.1" 200 3293
+[02/Jan/2025 18:51:38] "GET /exam_guidelines/? HTTP/1.1" 200 3155
+[02/Jan/2025 18:51:38] "GET /static/css/exam_guidelines.css HTTP/1.1" 304 0
+[02/Jan/2025 18:51:40] "POST /start_test/ HTTP/1.1" 302 0
+[02/Jan/2025 18:51:40] "GET /payment_start/ HTTP/1.1" 200 2665
+[02/Jan/2025 18:51:44] "POST /initiate-payment/ HTTP/1.1" 200 4169
+[02/Jan/2025 18:52:05] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 18:52:05] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 18:52:05] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 18:52:09] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 18:52:14] "POST /handle_request/ HTTP/1.1" 200 3361
+[02/Jan/2025 18:52:14] "GET /static/css/payment_success.css HTTP/1.1" 200 4885
+[02/Jan/2025 18:52:14] "GET /static/images/congrats-modal.png HTTP/1.1" 200 78778
+[02/Jan/2025 18:52:20] "POST /start_test/ HTTP/1.1" 302 0
+[02/Jan/2025 18:52:20] "GET /quiz/6/question/94/ HTTP/1.1" 200 10397
+[02/Jan/2025 18:52:20] "GET /static/css/question-1.css HTTP/1.1" 304 0
+[02/Jan/2025 18:52:20] "GET /get_remaining_time/ HTTP/1.1" 200 24
+[02/Jan/2025 18:52:23] "POST /quiz/6/save_answer/94/ HTTP/1.1" 302 0
+[02/Jan/2025 18:52:23] "GET /quiz/6/question/95/ HTTP/1.1" 200 10400
+[02/Jan/2025 18:52:23] "GET /get_remaining_time/ HTTP/1.1" 200 24
+[02/Jan/2025 18:52:25] "GET /get_remaining_time/ HTTP/1.1" 200 24
+[02/Jan/2025 18:52:25] "POST /quiz/6/save_answer/95/ HTTP/1.1" 302 0
+[02/Jan/2025 18:52:25] "GET /quiz/6/question/96/ HTTP/1.1" 200 10184
+[02/Jan/2025 18:52:25] "GET /get_remaining_time/ HTTP/1.1" 200 24
+[02/Jan/2025 18:52:27] "POST /quiz/6/save_answer/96/ HTTP/1.1" 302 0
+[02/Jan/2025 18:52:27] "GET /quiz/6/question/97/ HTTP/1.1" 200 10389
+[02/Jan/2025 18:52:27] "GET /get_remaining_time/ HTTP/1.1" 200 24
+[02/Jan/2025 18:52:29] "POST /quiz/6/save_answer/97/ HTTP/1.1" 302 0
+[02/Jan/2025 18:52:29] "GET /quiz/6/question/98/ HTTP/1.1" 200 10356
+[02/Jan/2025 18:52:30] "GET /get_remaining_time/ HTTP/1.1" 200 24
+[02/Jan/2025 18:52:31] "GET /get_remaining_time/ HTTP/1.1" 200 24
+[02/Jan/2025 18:52:31] "POST /quiz/6/save_answer/98/ HTTP/1.1" 302 0
+[02/Jan/2025 18:52:31] "GET /quiz_summary/6 HTTP/1.1" 200 4857
+[02/Jan/2025 18:52:31] "GET /static/css/start-test.css HTTP/1.1" 304 0
+[02/Jan/2025 18:52:34] "POST /start_test/ HTTP/1.1" 302 0
+[02/Jan/2025 18:52:34] "GET /finish_test/ HTTP/1.1" 200 1436
+[02/Jan/2025 18:52:34] "GET /static/css/complete-congrats.css HTTP/1.1" 404 2006
+[02/Jan/2025 18:53:09] "GET / HTTP/1.1" 200 3280
+[02/Jan/2025 18:54:21] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 18:56:50] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 18:59:08] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 19:01:24] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 19:03:31] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 19:05:51] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 19:14:16] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 19:16:44] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 19:22:34] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 19:25:17] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 19:27:39] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 19:30:03] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 19:42:27] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 20:01:20] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 20:09:20] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 20:21:10] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 20:22:15] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 20:27:25] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 20:29:48] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 20:42:43] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 21:02:44] "GET / HTTP/1.1" 200 3280
+[02/Jan/2025 21:03:50] "GET / HTTP/1.1" 200 3280
+Not Found: /api/session/properties
+[02/Jan/2025 21:03:50] "GET /api/session/properties HTTP/1.1" 404 14513
+[02/Jan/2025 21:04:14] "GET /admin/ HTTP/1.1" 302 0
+Not Found: /owncloud/status.php
+[02/Jan/2025 21:04:15] "GET /owncloud/status.php HTTP/1.1" 404 14504
+Not Found: /status.php
+[02/Jan/2025 21:04:36] "GET /status.php HTTP/1.1" 404 14477
+[02/Jan/2025 21:04:53] code 400, message Bad request version ('À\x14À')
+[02/Jan/2025 21:04:53] You're accessing the development server over HTTPS, but it only supports HTTP.
+Not Found: /console
+[02/Jan/2025 21:05:21] "GET /console HTTP/1.1" 404 14468
+Not Found: /ext-js/app/common/zld_product_spec.js
+[02/Jan/2025 21:05:34] "GET /ext-js/app/common/zld_product_spec.js HTTP/1.1" 404 14558
+[02/Jan/2025 22:30:56,472] - Broken pipe from ('87.251.64.11', 63553)
+[02/Jan/2025 22:39:14] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 22:55:06] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 22:57:02] "POST /handle_request/ HTTP/1.1" 200 68
+[02/Jan/2025 22:58:53] "POST /handle_request/ HTTP/1.1" 200 68
