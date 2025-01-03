@@ -56,12 +56,13 @@ body{
 .payment-account h6{
     font-size: 16px;
     font-weight: 600;
-    color:#003B8B;
+   
 }
-.payment-account span{
-    font-size: 14px;
-    opacity: 0.8;
-}
+.payment-account img{
+   
+   
+   
+}  
 .payment-content{
     height: 74%;
     width: 47%;
@@ -79,7 +80,7 @@ body{
 }
 .payment-content p{
     font-size: 16px;
-    color: rgba(0, 0, 0, 0.567);
+     color: black;
 }
 .content-check{
     display: flex;

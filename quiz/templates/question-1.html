@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Desktop 5</title>
+    <link rel="stylesheet" href="{% static 'css/clock.css' %}">
     <link rel="stylesheet" href="{% static 'css/question-1.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -22,7 +23,9 @@
 <body>
     <div class="main-box">
         <div class="box-1">
-            <div class="box-1-logo"></div>
+            <div class="box-1-logo">
+                <img src="/static/images/image_1.png" alt="">
+            </div>
             <div class="box-1-content">
                 <div class="small-box-cont">
                     <div>Marked
@@ -55,13 +58,13 @@
             </div>
         </div>
         <div class="box-2">
-            <h2 id="quiz-title">{{ quiz.name }}</h2>
-            <p style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q<span id="question_number"></span> {{question}}</p>
+            <h2 id="quiz-title">{{quiz.order}}. {{ quiz.name }}</h2>
+            <p class="quest-para" style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q<span id="question_number"></span> {{question.question_text}}</p>
             <form id="question_form" method="POST" action="{% url 'quiz:save_answer' quiz.id question.id %}">
                 {% csrf_token %}
                 {% for answer in answers %}
                 <div class="question">
-                    <input type="radio" id="option-{{answer.id}}" 
+                    <input tabindex="1" type="radio" id="option-{{answer.id}}" 
                            {% if selected_answer|add:0 == answer.id %} checked {% endif %}
                            name="selected_answer" value="{{ answer.id }}" required />
                     <label  label for="option-{{answer.id}}">
@@ -71,23 +74,53 @@
                 {% endfor %}
                 <input type="hidden" name="current_question" value="{{ question.id }}" />
                 <div class="question-btns">
-                     <button id="prev--btn"> <i class="fa-solid fa-angle-left"></i> Prev</button>  
-                     <button id="next--btn" type="submit">Save & Next <i class="fa-solid fa-angle-right"></i></button> 
+                     <button tabindex="2" id="prev--btn"> <i class="fa-solid fa-angle-left"></i> Prev</button>  
+                     <button tabindex="3" id="next--btn" type="submit">Save{%if not is_last_question%} & Next <i class="fa-solid fa-angle-right"></i>{% endif %}</button> 
                 </div>
             </form>
         </div>
         <div class="box-3">
             <div class="account-3">
                 <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
-                <h6 style="margin-top: -40px;" >{{user_full_name}}</h6>
+                <h6 style="margin-top: -40px;color: #003B8B" >{{user.username}}</h6>
                  
                 
-                <span>{{user_email}}</span>
+                <h6 style="margin-top: -10px;">{{user.email}}</h6>
             </div>
-            <div class="timer-3">
-                Time Remaining: <span class="mx-2" id="time_remaining"></span>
-            </div>
+            <div class="timer-container">
+                <h4>Time Remaining</h4>
+                <div class="progress-ring">
+                  <svg width="200" height="150" viewBox="0 0 200 200">
+                    <!-- Outer circle (static background) -->
+                    <circle class="progress-ring__background" cx="100" cy="100" r="90"></circle>
+                    <!-- Circular progress bar with gradient -->
+                    <defs>
+                      <linearGradient id="gradientColor" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color=" #005AD5" />
+                        <stop offset="100%" stop-color=" #13B3FF" />
+                      </linearGradient>
+                    </defs>
+                    <circle class="progress-ring__circle" cx="100" cy="100" r="90" stroke="url(#gradientColor)"></circle>
+                  </svg>
+                  <!-- Timer text -->
+                  <div class="timer-text">20:00</div>
+                </div>
+              </div>
+            {% if is_last_question %}
+                {% if is_completed%}
+                    <a href="{% url 'quiz:quiz_summary' quiz.id %}">
+                        <button tabindex="4" class="next-section-btn">Next</button>
+                    </a>
+                {% else %}
+                    {% if question.id in marked_questions %}
+                        <button tabindex="4" id="section-btn" class="next-section-btn">Next</button>
+                    {% else %}
+                        <button tabindex="4" disabled class="next-section-btn-disabled">Next</button>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
         </div>
+       
     </div>
     <div class="modal1" id="modal1">
         <div class="modal-content1">
@@ -96,6 +129,16 @@
             <button id="closeModal">Close</button>
         </div>
     </div>
+
+    <!-- Complete the test Modal -->
+    <div class="modal3" id="modal3">
+        <div class="modal-content3">
+            <h2>Complete All the Questions</h2>
+            <p>You must attempt all the questions within the given time</p>
+            <button id="closeModal3">Close</button>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
     
@@ -122,8 +165,33 @@
         });
       </script>
 <script>
+
 document.addEventListener("DOMContentLoaded",() =>{
+    // Initial call to set up the timer
+    // Full circumference of the progress ring
+    const FULL_CIRCUMFERENCE = 565.48; // 2πr where r=90
+    const TIME_LIMIT = parseInt("{{quiz.time}}")*60; // Total countdown time in seconds
+    let timeLeft = parseInt("{{remaining_time}}");
     
+    // Select progress ring and timer text elements
+    const progressRingCircle = document.querySelector('.progress-ring__circle');
+    const timerText = document.querySelector('.timer-text');
+    syncTimer();
+    initTimer();
+
+
+    let modal3 = document.getElementById('modal3');
+    let closeBTN2 = document.getElementById("closeModal3");
+    let sectionBtn = document.getElementById("section-btn");
+    
+    sectionBtn?.addEventListener("click", () => {
+        modal3.style.display = "block";
+    })
+
+    closeBTN2.addEventListener("click", ()=> {
+        modal3.style.display = "none";
+    });
+
     const boxes = document.querySelectorAll('.box');
     const prevButton = document.getElementById("prev--btn");
     const question_ids = JSON.parse('{{all_question_ids}}');
@@ -142,8 +210,6 @@ document.addEventListener("DOMContentLoaded",() =>{
 
     question_number.innerHTML = current_index+1
     
-    console.log(visitedQuestions)
-    console.log(curr_id)
     boxes.forEach((box) => {
         const boxId = parseInt(box.id.split('-')[1]);
         if (visitedQuestions.includes(boxId)) {
@@ -151,11 +217,7 @@ document.addEventListener("DOMContentLoaded",() =>{
             box.classList.remove('not-Visited');
             box.classList.remove('active');
         }
-        console.log("?")
-        console.log(boxId)
-        console.log(curr_id)
         if (boxId == curr_id) {
-            console.log("?")
             box.classList.add('active');
             box.classList.remove('not-Visited');
             box.classList.remove('Marked');
@@ -168,15 +230,45 @@ document.addEventListener("DOMContentLoaded",() =>{
         window.location.href = `/quiz/{{quiz.id}}/question/${question_ids[current_index-1]}`;
 
     });
-
-    let timeRemaining = 0;
-    const timerElement = document.getElementById("time_remaining");
     
-    function updateTimer() {
-        let minutes = Math.floor(timeRemaining / 60);
-        let seconds = timeRemaining % 60;
-        // Format as MM:SS (e.g., 20:00, 19:59)
-        timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    // Helper function: Format time as mm:ss
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // Helper function: Update the circle's progress
+    function updateProgress() {
+      const offset = FULL_CIRCUMFERENCE * (1 - timeLeft / TIME_LIMIT);
+      progressRingCircle.style.strokeDashoffset = offset;
+    }
+
+    // Start the countdown
+    function startCountdown() {
+        const interval = setInterval(() => {
+            if (timeLeft % 5 === 0) {
+                syncTimer();
+            }
+            if (timeLeft > 0) {
+                timeLeft--;
+                timerText.textContent = formatTime(timeLeft);
+                updateProgress();
+            } else {
+                document.getElementById('question_form').submit()
+                clearInterval(interval);
+                timerText.textContent = "00:00"; // Timer reaches zero
+            }
+        }, 1000); // 1 second interval
+    }
+
+    // Initialize the timer
+    function initTimer() {
+      // Initialize ring stroke and timer display
+      progressRingCircle.style.strokeDasharray = FULL_CIRCUMFERENCE;
+      timerText.textContent = formatTime(timeLeft);
+      // Start the countdown
+      startCountdown();
     }
 
     // Sync the timer with the API every 10 seconds
@@ -185,92 +277,20 @@ document.addEventListener("DOMContentLoaded",() =>{
             const response = await fetch('/get_remaining_time/');
             const data = await response.json();
             if (data.time_remaining) {
-                timeRemaining = data.time_remaining;
-                updateTimer();
+                timeLeft = data.time_remaining;
+                timerText.textContent = formatTime(timeLeft);
+                updateProgress();
             }
         } catch (error) {
             console.error('Error syncing timer:', error);
         }
     }
-
-    if(timerElement != null){
-    // Update the timer every second
-        setInterval(() => {
-            if(timeRemaining>0){
-                timeRemaining--; // Decrement the timer
-            }
-            updateTimer();
-
-            // Every 5 seconds, sync the timer with the API
-            if (timeRemaining % 5 === 0) {
-                syncTimer();
-            }
-            if(timeRemaining <= 0) {
-                document.getElementById('question_form').submit()
-            }
-        }, 1000);
-
-        // Initial call to set up the timer
-        syncTimer()
-        updateTimer();
-    }
-    
- /*     // Initialize state to prevent back button navigation
- window.history.pushState(null,null,window.location.href);
  
- const currentPage = window.location.href;
-//   Intercept the back navigation
-  window.onpopstate = function () {
-    //   Re-push the current state to block the back button
-  window.history.pushState(null, null, location.href);
-  showModal();
-    //  alert("You cannot go back to the previous page!");
-    
-  
-    //   Show the modal when trying to go back
-      
-  };
-//   Show the modal
-  function showModal() {
-      const modal = document.getElementById('modal1');
-      modal.style.display = 'flex';
-  }
-//   Close modal on button click
-  document.getElementById("closeModal").addEventListener("click", () => {
-      const modal = document.getElementById('modal1');
-      modal.style.display = 'none';
-      location.replace(currentPage);
-  });*/
-  
- 
- 
- 
-
- 
- 
- 
- 
- 
- 
- 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
 });
 window.onload = function () {
-            history.replaceState(null, null, window.location.href); // Replace current state
-            history.pushState(null, null, window.location.href);   // Push a new state
-        };
+    history.replaceState(null, null, window.location.href); // Replace current state
+    history.pushState(null, null, window.location.href);   // Push a new state
+};
   
   
   

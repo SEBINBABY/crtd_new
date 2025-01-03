@@ -30,24 +30,29 @@ body {
 .instruct-logo{
     height: 19%;
     width: 76%;
-    background: url("/static/images/image_1.png");
+    /* background: url("/static/images/image_1.png"); */
     background-size: cover ;
     position: relative;
-    top: 10px;
-    scale: 0.78;
+    top: 14px;
+    left: 0.8%;
+    /* background-color: pink; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* scale: 0.78; */
 }
 .im-instructions{
-    height: 65% !important;
+    /* height: 65% !important; */
     position: relative;
     top: -7%;
 }
 .im-instructions ul li {
-    line-height: 50px;
+    line-height: 40px;
     font-size: 18px;
 }
 .im-instructions ul{
     position: relative;
-    top: -5%;
+    /* top: 5%; */
 }
 
 .instruct-img{
@@ -60,7 +65,7 @@ body {
     left: 40px;
 }
 .instruction{
-    height: 70% !important;
+    height: 60vh !important;
     width: 75%;
     background-color: #D0EDFF;
     position: relative;
@@ -75,13 +80,18 @@ body {
  background: url("/static/images/imp-instruction.png");
  background-size: cover;
 }
-.imp-instruct-right h3 {
+.instruction h3 {
  font-weight: 700;
  font-size: 24px;
  position: relative;
- top: -7%;
- left: -300px;
- color: #005AD5;
+ top: 1%;
+ left: 2%;
+ /* left: -270px; */
+ /* color: #005AD5; */
+ background: linear-gradient(to right, #13B3FF, #005AD5);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+z-index: 1;
 }
 .imp-check {
  height: 40px;
@@ -135,11 +145,11 @@ body {
     justify-content: center;
     align-items: center;
 }
-.impp-account h6{
-    color: #003B8B;
-    font-size: 16px;
-    font-weight: 650;
-}
+/* .impp-account h6{ */
+/*     */
+    /* font-size: 16px; */
+    /* font-weight: 650; */
+/* } */
 .impp-account div{
     position: relative;
     /* top: 23%; */

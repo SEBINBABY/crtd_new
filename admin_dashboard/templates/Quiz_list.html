@@ -42,7 +42,6 @@
               </tbody>
             </table>
           </div>
-          <!-- <button class="click">click me</button> -->
         </div>
 
         <div class="containe up"  >
@@ -58,34 +57,41 @@
         <!-- edit modal -->
         <div class="edit-modal" id="edit-modal">
           <div class="modal-content">
+            <span id="delete-close-btn" class="delete-close-btn">&times;</span>
             <h3>Edit</h3>
             <form action="{% url 'admin_dashboard:edit_quiz' %}" method="POST">
               {% csrf_token %}
-            <label>Name of the Quiz</label>
-            <input type="text" class="passkeyInput" placeholder="Name of the Quiz" name="name" id="edit_name" value="" required/>
-            <label class="label-timer">Time</label>
-            <input type="number" class="passkeyInput" placeholder="Time" name="time" id="edit_time" value="" required/>
-            <label>Score to pass</label>
-            <input type="number" class="passkeyInput" placeholder="Score to pass" name="score"  id="edit_score"  value="" required/>
-            <input type="hidden" id="edit_id" name="quiz_id" value="">
-
-            <!-- <div class="activebutton"  > 
-            <label for="is_active" style="margin-left: 80px;">Active:</label>
-            <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -80px;" {% if passkey.is_active %}checked{% endif %}>
-          </div> -->
-            <div class="modal-buttons">
-              <button class="cancel-btn-edit" type="button">Cancel</button>
-              <button id="saveBtnEdit" class="save-btn-edit" type="submit">Save</button>
-              </form>         
-            </div>
+              <div class="form-group">
+                <label>Name of the Quiz</label>
+                <input type="text" class="passkeyInput" placeholder="Name of the Quiz" name="name" id="edit_name" value="" required />
+              </div>
+              <div class="form-group">
+                <label>Time</label>
+                <input type="number" class="passkeyInput" placeholder="Time" name="time" id="edit_time" value="" required />
+              </div>
+              <div class="form-group">
+                <label>Score to pass</label>
+                <input type="number" class="passkeyInput" placeholder="Score to pass" name="score" id="edit_score" value="" required />
+              </div>
+              <div class="requires-payment">
+                <input type="checkbox" class="passkeyInput" name="requires_payment" id="requires_payment" value="true" />
+                <label for="requires_payment">Requires Payment</label>
+              </div>
+              <input type="hidden" id="edit_id" name="quiz_id" value="">
+              <div class="modal-buttons">
+                <button class="cancel-btn-edit" type="button" onclick="closeModal()">Cancel</button>
+                <button id="saveBtnEdit" class="save-btn-edit" type="submit">Save</button>
+              </div>
+            </form>
           </div>
-          </div>
+        </div>
+        
 
           <!-- delete modal -->
           <div class="delete-modal" id="delete-modal" style="display: none;">
             <div class="modal-content">
               <!-- Close Button -->
-              <span class="delete-close-btn">&times;</span>
+              <!-- <span class="delete-close-btn">&times;</span> -->
               <!-- Illustration -->
               <div class="modal-image">
                 <img src="/static/images/Delete.png" alt="Illustration" />
@@ -109,31 +115,48 @@
 
           <div class="add-modal" id="add-modal">
             <div class="modal-content add-inner-modal" id="modal">
-              <h3>Add new Quiz</h3>
-              <form action="{% url 'admin_dashboard:add_quiz' %}" method="post">
-                {% csrf_token %}
-              <label class="name">Name of the Quiz</label>
-              <input type="text" class="passkeyInput input-name" placeholder="Name of the Quiz" name="name"  value="" required/>
-              <label class="time">Time</label>
-              <input type="number" class="passkeyInput" placeholder="Time" name="time"  value="" required/>
-              <label class="score">Score to pass</label>
-              <input type="number" class="passkeyInput" placeholder="Score to pass" name="score"  value="" required/>
-              <!-- <div class="activebutton"  > 
-              <label for="is_active" style="margin-left: 80px;">Active:</label>
-              <input type="checkbox" id="is_active" class="passkeyInput" name="is_active" style="margin-left: -80px;" {% if passkey.is_active %}checked{% endif %}>
-            </div> -->
-              <div class="modal-buttons">
-                <button class="cancel-btn-add" type="button">Cancel</button>
-                <button id="saveBtnAdd" class="save-btn-add" type="submit">Save</button>       
-              </div>
-            </form>
+              <h3 class="modal-title">Add new Quiz</h3>
+              <form class="form-modal" action="{% url 'admin_dashboard:add_quiz' %}" method="post">
+                <!-- {% csrf_token %} -->
+                <div class="form-group">
+                  <label class="name">Name of the Quiz</label>
+                  <input type="text" class="passkeyInput input-name" placeholder="Name of the Quiz" name="name" value="" required />
+                </div>
+                <div class="form-group">
+                  <label class="time">Time</label>
+                  <input type="number" class="passkeyInput" placeholder="Time" name="time" value="" required />
+                </div>
+                <div class="form-group">
+                  <label class="score">Score to pass</label>
+                  <input type="number" class="passkeyInput" placeholder="Score to pass" name="score" value="" required />
+                </div>
+                <div class="require-payment">
+                  <div style="display: flex; justify-content: center;">
+                    <input type="checkbox" class="passkeyInput" name="requires_payment" id="requires_payment" value="true" />
+                  </div>
+                  <label for="requires_payment">Requires Payment</label>
+                </div>
+                <div class="modal-buttons">
+                  <button class="cancel-btn-add" type="button" onclick="closeModal()">Cancel</button>
+                  <button id="saveBtnAdd" class="save-btn-add" type="submit">Save</button>
+                </div>
+              </form>
             </div>
+          </div>
+          
             
 
     {% endblock %}
 
 {% block extra_js %}
     <script>
+
+const deleteCloseBtn = document.getElementById('delete-close-btn');
+const passkeyModalEditt = document.querySelector(".edit-modal");
+
+deleteCloseBtn.addEventListener("click", () => {
+  passkeyModalEditt.style.display = "none";
+      });
 
       const addNewButton = document.getElementById('add-btn');
       const addNewModal = document.querySelector('.add-modal');
@@ -142,6 +165,7 @@
 
       addNewButton.addEventListener('click', () => {
         addNewModal.style.display = 'block';
+        addNewModal.style.display = 'flex';
       });
 
       addCancelBtn.addEventListener('click', () => {
@@ -151,6 +175,11 @@
       addSaveBtn.addEventListener('click', () => {
         addNewModal.style.display = 'none';
       }); 
+
+      function closeModal() {
+  document.getElementById('add-modal').style.display = 'none';
+}
+
 
     // let Click = document.querySelector(".click");
     const passkeyModalEdit = document.querySelector(".edit-modal");
@@ -167,10 +196,15 @@
               document.getElementById("edit_name").value = data['name']
               document.getElementById("edit_time").value = data['time']
               document.getElementById("edit_score").value = data['score_to_pass']
+
+              if(data['requires_payment']){
+                document.getElementById("requires_payment").checked = true;
+              }
               document.getElementById("edit_id").value = data['id']
             })
             .then(() => {
               passkeyModalEdit.style.display = "block";
+              passkeyModalEdit.style.display = 'flex';
             });
       });
     });
@@ -204,17 +238,6 @@
     deleteModal.style.display = "none";
   });
 
-
-      /* document
-      .getElementById("questionSectionLink")
-      .addEventListener("click", function () {
-        const questionSection = document.getElementById(
-          "questionSectionContent"
-        );
-        questionSection.style.display =
-          questionSection.style.display === "none" ? "block" : "none";
-      }); */
-
       document.querySelectorAll("#edit-button").forEach((button) => {
         button.addEventListener("click", function () {
           document.getElementById("edit-content").style.display = "block";
@@ -224,25 +247,6 @@
       function closePopup() {
         document.getElementById("edit-content").style.display = "none";
       }
-
-      /* // modal >>>>>>>>>>>>>>>
-      const passkeyModalEdit = document.querySelector(".edit-modal");
-      const editBtn = document.querySelectorAll(".eye-btn");
-
-      editBtn.forEach((btn) => {
-      btn.addEventListener("click", (event) => {
-        passkeyModalEdit.style.display = "block";
-        });
-      });
-
-      const editModal = document.getElementById("edit-modal");
-      editBtn.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        event.preventDefault();
-        editModal.style.display = "block";
-      });
-    }); */
-
 
       </script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>

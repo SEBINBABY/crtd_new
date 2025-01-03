@@ -3,12 +3,11 @@ from django.http import JsonResponse
 from .models import *
 from django.utils.timezone import now 
 from django.contrib import messages
-from admin_dashboard.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.views.decorators.cache import never_cache
 from .utils import *
 
-GRACE_TIME = 3 # SECONDS
+GRACE_TIME = 5 # SECONDS
 
 @user_only
 @never_cache
@@ -38,7 +37,7 @@ def automatic_selection(request):
             "user_email": user.email,
         })
     else:
-        return render(request, "no_quizzes.html")
+        return JsonResponse({"Message":"No quizzes present"})
 
 @user_only
 @never_cache
@@ -66,7 +65,7 @@ def start_test(request):
     quiz = get_next_quiz(results)
     if not quiz:
         return redirect('quiz:finish_test')
-    if(requires_payment(quiz) and not request.user.has_paid):
+    if(quiz.requires_payment and not request.user.has_paid):
         return redirect('payment_integration:payment_start')
 
     request.session["marked_questions"] =  []
@@ -83,18 +82,29 @@ def start_question(request, quiz_id, question_id):
     """
     Renders a question based on the given IDs.
     """
+    user = request.user
     quiz = get_object_or_404(Quiz, id=quiz_id)
     question = get_object_or_404(Question, id=question_id)
     answers = question.get_answers()
 
-    # Calculate remaining time
-    user = request.user
-    if not user.is_user:
-        return redirect("users:user_login")
-    result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
-    remaining_time = quiz.time * 60 - (now() - result.start_time).seconds + GRACE_TIME
+    if(quiz.requires_payment and not request.user.has_paid):
+        return render(request,'demo_question.html',{
+        'quiz': quiz,
+        'question': question,
+        'answers': answers,
+        'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
+        "is_last_question": (question == quiz.quiz_questions.last()),
+        "is_completed": False,
+        })
 
-    if remaining_time <= 0:
+    result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
+
+    if(result.end_time is not None):
+        return redirect('quiz:quiz_summary',quiz.id)
+    
+    remaining_time = quiz.time * 60 - (now() - result.start_time).seconds
+
+    if remaining_time + GRACE_TIME <= 0:
         messages.error(request, "Time limit exceeded")
         return redirect('quiz:quiz_summary', quiz_id=quiz.id)
     
@@ -116,7 +126,9 @@ def start_question(request, quiz_id, question_id):
         "unmarked_questions": quiz.quiz_questions.count() - len(request.session["marked_questions"]),
         "user_full_name":user.username,
         "user_email":user.email,
-        "selected_answer": selected_answer
+        "selected_answer": selected_answer,
+        "is_last_question": (question == quiz.quiz_questions.last()),
+        "is_completed": (len(result.user_answers) == quiz.quiz_questions.count()),
     })
 
 @user_only
@@ -125,19 +137,19 @@ def save_answer(request, quiz_id, question_id):
     Saves the user's answer for a question.
     """
     if request.method == "POST":
-        selected_answer_id = request.POST.get("selected_answer")
-
-        if not selected_answer_id:
-            return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
-
         user = request.user
-        if not user.is_user:
-            return redirect("users:user_login")
+        selected_answer_id = request.POST.get("selected_answer")
         quiz = get_object_or_404(Quiz, id=quiz_id)
         question = get_object_or_404(Question, id=question_id)
-
-        # Retrieve the Result object
         result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
+        remaining_time = result.quiz.time * 60 - (now() - result.start_time).seconds
+
+        if not selected_answer_id and remaining_time > 0:
+            return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
+
+        
+        if(result.end_time is not None):
+            return redirect('quiz:quiz_summary', quiz_id=quiz.id)
         
         remaining_time = quiz.time * 60 - (now() - result.start_time).seconds + GRACE_TIME
         if remaining_time <= 0:
@@ -147,9 +159,9 @@ def save_answer(request, quiz_id, question_id):
         # Update the answer in the Result object
         result.user_answers[str(question.id)] = selected_answer_id
         result.save()
-        
-        request.session["marked_questions"].append(question_id)
-        request.session.save()
+        if question_id not in request.session["marked_questions"]:
+            request.session["marked_questions"].append(question_id)
+            request.session.save()
 
         # Determine the next question
         questions = list(quiz.quiz_questions.all())
@@ -158,8 +170,11 @@ def save_answer(request, quiz_id, question_id):
         if current_index + 1 < len(questions):
             next_question = questions[current_index + 1]
             return redirect('quiz:start_question', quiz_id=quiz.id, question_id=next_question.id)
-
-        return redirect('quiz:quiz_summary', quiz_id=quiz.id)
+        
+        if(remaining_time <= 0):
+            return redirect('quiz:quiz_summary',result.quiz.id)
+        else:
+            return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 
     return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 
@@ -222,14 +237,34 @@ def finish_test(request):
 @user_only
 def get_remaining_time(request):
     user = request.user
-    results = Result.objects.filter(end_time__isnull=True,user_id = user.id)
+    results = Result.objects.filter(end_time__isnull=True,user = user)
     if results.count() > 1:
         messages.error(request,"Something went wrong")
         return JsonResponse({"error": "Something went wrong"})
     result = results.first()
     if result is None:
-        return redirect('quiz:start_test')
+        quiz = Result.objects.filter(user = user).last().quiz
+        if quiz:
+            return redirect('quiz:quiz_summary',quiz.id)
+        else:
+            return redirect('quiz:start_test')
     remaining_time = result.quiz.time * 60 - (now() - result.start_time).seconds
     if(remaining_time <= 0):
         return redirect('quiz:quiz_summary',result.quiz.id)
     return JsonResponse({"time_remaining": remaining_time})
+
+@user_only
+def end_test(request):
+    user = request.user
+    for result in Result.objects.filter(user=user):
+        if not result.end_time: result.end_time = now()
+        result.is_passed = False
+        result.score = 0
+        result.save()
+    for quiz in Quiz.objects.all():
+        if not Result.objects.filter(user=user,quiz=quiz).exists():
+            result = Result(user=user,quiz=quiz,score=0,end_time=now())
+            result.save()
+    messages.error(request, "You violated our terms and are disqualified from the test.")
+    logout(request)
+    return redirect('users:verify_passkey')

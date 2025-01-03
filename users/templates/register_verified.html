@@ -23,7 +23,9 @@
 <body>
     <div class="box">
         <div class="box-left">
-            <div class="left-logo"></div>
+            <div class="left-logo">
+                <img src="/static/images/image_1.png" alt="">
+            </div>
             <div class="left-img"></div>
         </div>
         <div class="box-right">
@@ -44,7 +46,7 @@
                     {% csrf_token %}
                 <div class="content-input">
                     <label for="" class="form-label">Full name*</label>
-                    <input type="text" id="displayName" class="form-control" value="{{full_name|default:''}}" name="full_name" required>
+                    <input type="text" id="displayName" onkeypress="return onlyAlphabets(event)" class="form-control" value="{{full_name|default:''}}" name="full_name" required>
                     <label for="" class="form-label">Email ID*</label>
                     <div class="check-perform">
                     <input type="email" id="displayEmail" class="form-control" value="{{ email|default:'' }}"
@@ -72,6 +74,15 @@
         </div>
     </div>
     <script>
+
+    function onlyAlphabets(event) {
+        var charCode = event.which || event.keyCode;
+        if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
+            return true;
+        }
+        return false; 
+    }
+
         document.addEventListener('contextmenu', event => event.preventDefault());
     
         document.addEventListener('keydown', event => {

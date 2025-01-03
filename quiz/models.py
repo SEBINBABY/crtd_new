@@ -7,6 +7,7 @@ class Quiz(models.Model):
     time = models.IntegerField(help_text="duration of the quiz in minutes")
     score_to_pass = models.IntegerField(help_text="Minimum score(%) to pass")
     order = models.PositiveIntegerField(default = 0)
+    requires_payment = models.BooleanField(default=False)
     def __str__(self):
         return f"{self.name}"
     
@@ -18,6 +19,7 @@ class Quiz(models.Model):
             "time": self.time,
             "score_to_pass": self.score_to_pass,
             "order": self.order,
+            "requires_payment": self.requires_payment,
         }
     
     class Meta:
@@ -26,7 +28,7 @@ class Quiz(models.Model):
 
 
 class Question(models.Model):
-    question_text = models.CharField(max_length=255)
+    question_text = models.CharField(max_length=800)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE,related_name="quiz_questions")
     created_at = models.DateTimeField(auto_now_add=True)
 

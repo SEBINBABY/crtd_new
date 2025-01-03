@@ -21,20 +21,23 @@
 <body>
     <div class="instruction-box">
         <div class="imp-instruct-left">
-            <div class="instruct-logo"></div>
+            <div class="instruct-logo">
+                <img src="/static/images/image_1.png" alt="">
+            </div>
             <div class="instruct-img imp-instruct-img"></div>
         </div>
         <div class="imp-instruct-right">
             <div class="impp-account">
                 <img src="/static/images/user.png" alt="" height="40px" width="40px">
                 <div>
-                    <h6>{{ user_full_name }}</h6>
-                    <p>{{ user_email }}</p>
+                    <h6 style="color: #003B8B;margin-top: 5px;" >{{ user_full_name }}</h6>
+                    <h6 style="color:black;margin-top: -10px;">{{ user_email }}</h6>
                 </div>
             </div>
-            <h3>Exam Guidelines:</h3>
+            
             <div class="instruction im-instructions">
-                <ul>
+                <h3>Exam Guidelines:</h3>
+                <ul style="margin-top: 30px;">
                     <li>15 questions per section, 20-minutes is the limit for each section.</li>
                     <li>No extra time; submit before the timer ends.</li>
                     <li>Use a stable internet connection and recommended browser.</li>
@@ -47,9 +50,9 @@
             </div>
             <div class="imp-check">
                 <input type="checkbox" id="is_checked">
-                <span>Please check the box to confirm that you have read the instructions</span>
+                <span>Please check the box to confirm that you have read the instructions.</span>
             </div>
-            <span class="popup">Please check the box to agree with the terms before starting the test.</span>
+            <span style="margin-left: 30px; margin-top: 10px;" class="popup">Please check the box to agree with the terms before starting the test.</span>
             <form id="submit-form" action="{% url 'quiz:start_test' %}" method="POST">
                 {% csrf_token %}
                 <button class="imp-instruct-btn" id="submit-btn" type="button">Start the Test</button>

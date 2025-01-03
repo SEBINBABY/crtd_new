@@ -4,8 +4,6 @@ from functools import wraps
 from admin_dashboard.models import User
 from .models import *
 
-PAYMENT_KEYWORD = "payment"
-
 def user_only(view_func):
     @wraps(view_func)
     @login_required(login_url="/user_login")
@@ -31,10 +29,6 @@ def calculate_score(quiz,result):
                 correct_answers += 1
 
     return(correct_answers / total_questions) * 100
-
-
-def requires_payment(quiz):
-    return PAYMENT_KEYWORD.lower() in quiz.name.lower()
 
 def get_next_quiz(results):
 # Start a new quiz

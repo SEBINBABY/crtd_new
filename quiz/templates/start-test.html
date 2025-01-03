@@ -23,15 +23,15 @@
 <div class="automaticaly-box">
     <div class="part-1">
     <div class="automate-logo"></div>
-    <p>Technical Aptitude Evaluation</p>
+    <p> Technical Programming Test</p>
     <div class="imp-account automate-account">
         <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
-        <h6 style="margin-top: -40px;" >{{user_full_name}}</h6>
-        <p>{{user_email}}</p>
+        <h6 style="margin-top: -40px;color: #003B8B;" >{{user_full_name}}</h6>
+        <h6 style="margin-top: -10px;">{{user_email}}</h6>
          
     </div>
     </div>
-    <div class="selection">Selection Attempted {{completed_quizzes | length}}/6</div>
+    <div class="selection">Section Attempted {{completed_quizzes | length}}/6</div>
     <div class="automate-content-box">
         {% for quiz in completed_quizzes %}
         <div class="inner-box">

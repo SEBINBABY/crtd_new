@@ -21,31 +21,33 @@
 <body>
     <div class="automaticaly-box" id="section-1">
         <div class="part-1">
-            <div class="automate-logo"></div>
+            <div class="automate-logo">
+                <img src="/static/images/image_1.png" alt="">
+            </div>
           
-            <p>Technical Programming Test </p>
+            <p> Technical Programming Test </p>
          
             <div class="automate-account">
                 <img src="/static/images/user.png" alt="" height="40px" width="40px" style="margin-left: -65px;margin-bottom: -60px;">
                 <div>
                     <h6 style="color: #003B8B; margin-left: -20px;" >{{ user_full_name }}</h6>
-                    <hp style=" margin-left: -20px; margin-right: 40px;" >{{ user_email }}</hp>
+                    <h6 style=" margin-left: -20px; margin-right: 80px;  margin-top: -10px; color: #212536;" >{{ user_email }}</h6>
                 </div>
             </div>
         </div>
         <div class="selection" style="margin-left: 72%;">
-             <h6> Selection Attempted 0/{{ quizzes|length }} </h6></div>
+             <h6> Section Attempted 0/{{ quizzes|length }} </h6></div>
         <div class="automate-content-box">
             {% for quiz in quizzes %}
             <div class="content-box">
                 <h6>{{ forloop.counter }}. {{ quiz.name }}</h6>
                 <p class="mid-minutes"><i class="fa-solid fa-clock"></i> &nbsp;{{ quiz.time }} minutes</p>
-                <h6 class="end-question">{{ quiz.number_of_questions }} questions</h6>
+                <h6 class="end-question">{{ quiz.quiz_questions.count }} questions</h6>
             </div>
             {% endfor %}
         </div>
         <form action="{% url 'quiz:exam_guidelines' %}" method="GET">
-            <button id="automateBtn">Start the Test</button>
+            <button id="automateBtn" style="margin-top: 30px;">Start the Test</button>
         </form>
     </div>
     <script>

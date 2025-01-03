@@ -93,12 +93,46 @@
                         </tbody>
                     </table>
                 </div>
-                <button class="move-to-top-btn">
+                <button class="move-to-top-btn" onclick="scrollToTableTop()">
                     Move to top
                     <div class="arrow-up"></div>
                   </button>
         </div>
 
+        <!-- <div class="pagination-container">
+          <ul class="pagination">
+              <li>
+                  <a href="?page=all">All</a>
+              </li>
+      
+              
+              {% if paginator %}
+                  <li class="dropdown">
+                      <button class="dropdown-toggle">
+                          Page {{ users.number }} of {{ paginator.num_pages }}
+                      </button>
+                      <ul class="dropdown-menu">
+                          {% for num in paginator.page_range %}
+                              <li>
+                                  <a href="?page={{ num }}">Page {{ num }}</a>
+                              </li>
+                          {% endfor %}
+                      </ul>
+                  </li>
+              {% endif %}
+          </ul>
+      </div> -->
+
+      <div class="pagination-container">
+        <button id="prevBtn" onclick="prevPage()">❮</button>
+        <div id="pagination"></div>
+        <button id="nextBtn" onclick="nextPage()">❯</button>
+    </div>
+      
+      
+        
+        
+        
     <div class="delete-modal">
       <div class="modal-content">
         <!-- Close Button -->
@@ -132,6 +166,87 @@
 {% endblock %}
 
 {% block extra_js %}
+
+  <script>
+    let currentPage = 1;
+    const totalPages = 12; 
+
+    function createPagination() {
+        const paginationContainer = document.getElementById("pagination");
+        paginationContainer.innerHTML = "";
+
+        let pages = [];
+
+        // First Page
+        if (currentPage > 2) {
+            pages.push(1);
+        }
+
+        // Ellipsis before current page
+        if (currentPage > 3) {
+            pages.push("...");
+        }
+
+        // Previous, Current, Next Page
+        for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
+            pages.push(i);
+        }
+
+        // Ellipsis after current page
+        if (currentPage < totalPages - 2) {
+            pages.push("...");
+        }
+
+        // Last Page
+        if (currentPage < totalPages - 1) {
+            pages.push(totalPages);
+        }
+
+        pages.forEach(page => {
+            if (page === "...") {
+                const span = document.createElement("span");
+                span.classList.add("dots");
+                span.innerText = "...";
+                paginationContainer.appendChild(span);
+            } else {
+                const button = document.createElement("button");
+                button.innerText = page;
+                button.onclick = () => goToPage(page);
+                if (page === currentPage) {
+                    button.classList.add("active");
+                    // here add something
+                    
+                }
+                paginationContainer.appendChild(button);
+            }
+        });
+
+        document.getElementById("prevBtn").disabled = currentPage === 1;
+        document.getElementById("nextBtn").disabled = currentPage === totalPages;
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        createPagination();
+    }
+
+    function prevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            createPagination();
+        }
+    }
+
+    function nextPage() {
+        if (currentPage < totalPages) {
+            currentPage++;
+            createPagination();
+        }
+    }
+
+    createPagination();
+  </script>
+
     <script>
 
         function openCalendarPopup() {
@@ -238,11 +353,51 @@
   }
 });
 
-      function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth" // Smooth scrolling effect
+function scrollToTableTop() {
+    const tableContainer = document.querySelector('.table-container');
+    if (tableContainer) {
+        tableContainer.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Smooth scrolling effect
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const dropdownToggle = document.querySelector('.dropdown-toggle');
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+  const totalPages = 10;
+
+  // Populate dropdown menu with page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    const listItem = document.createElement('li');
+    listItem.textContent = i;
+    listItem.style.cursor = 'pointer';
+    listItem.addEventListener('click', () => {
+      dropdownToggle.textContent = i; // Update selected page
+      dropdownMenu.style.display = 'none'; // Close dropdown
     });
+    dropdownMenu.appendChild(listItem);
   }
+
+  // Toggle dropdown menu visibility
+  dropdownToggle.addEventListener('click', (event) => {
+    event.stopPropagation(); // Prevent event from bubbling
+    dropdownMenu.style.display =
+      dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    // # Pagination
+    const selectedPage = dropdownToggle.textContent;
+    const url = new URL(window.location.href);
+    url.searchParams.set('page', selectedPage);
+    window.location.href = url.toString();
+      // # Pagination
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', () => {
+    dropdownMenu.style.display = 'none';
+  });
+});
+
       </script>
       {% endblock %}

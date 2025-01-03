@@ -29,12 +29,16 @@ justify-content: center;
 }
 .instruct-left .instruct-logo {
  height: 20.5%;
- width: 70%;
- background: url("/static/images/image_1.png");
- background-size: cover;
+ width: 66%;
+ /* background: url("/static/images/image_1.png"); */
+ /* background-color: pink; */
+ /* background-size: cover; */
  position: relative;
  top: 10px;
- scale: 0.78;
+ /* scale: 0.78; */
+ display: flex;
+ justify-content: center;
+ align-items: center;
 }
 .instruct-img {
  height: 60%;
@@ -59,10 +63,13 @@ justify-content: center;
  margin-bottom: 50px;
 }
 .instruction h1 {
- font-weight: 600;
+ font-weight: 700;
  font-size: 24px;
  margin-top: 10px;
- color: #003B8B;
+ /* color: #005AD5; */
+ background: linear-gradient(to right, #13B3FF, #005AD5);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 }
 .instruction ul {
  margin-top: 35px;

@@ -578,8 +578,8 @@ input {
 .delete-close-btn {
   position: absolute;
   top: 15px;
-  right: 20px;
-  font-size: 20px;
+  right: 0;
+  font-size: 30px;
   color: #555;
   cursor: pointer;
 }
@@ -598,6 +598,7 @@ input {
 /* Modal Body */
 .modal-body {
   margin: 20px 0;
+  flex: none !important;
 }
 
 .modal-title {
@@ -684,63 +685,8 @@ input {
 input[type="checkbox"]:checked {
   accent-color: green; /* Applies green color for checked state */
 }
-.add-modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-#modal{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  margin: 15% auto;
-  padding: 20px;
-  border-radius: 8px;
-  width: 50%;
-  height: 60vh;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
 
-#modal form .name{
-  position: relative;
-  top: 2% !important;
-  left: -34%;
-  font-weight: 600;
-  font-size: 18px;
-}
-#modal form .input-name{
-  position: relative;
-  top: 3% !important;
-  left: 3% !important;
-  margin-bottom: 10px;
-}
-#modal .time{
-  position: relative;
-  top: 15% !important;
-  left: -87%;
-  font-weight: 600;
-  font-size: 18px;
-  /* margin-top: 10px !important; */
-}
-#modal .score{
-  position: relative;
-  left: -36.5%;
-  top: 8% !important;
-  font-weight: 600;
-  font-size: 18px;
-}
-#modal .order{
-  position: relative;
-  left: -19.5vw;
-}
+
 /* For Chrome, Edge, Safari */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -755,13 +701,76 @@ input[type="number"] {
 input{
   margin-bottom: 1vh;
 }
-#modal .modal-buttons{
-  display: flex;
+
+.add-modal {
+  display: none;
   justify-content: center;
-  gap: 3vw;
-  margin-top: 2vh;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
-#modal h3{
+
+.modal-content {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 40vw;
+  height: 60%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
+
+.passkeyInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.form-modal{
+  width: 80%;
   position: relative;
-  top: 2vh;
+  top: 5%;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel-btn-add,
+.save-btn-add {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-btn-add {
+  background-color: #4caf50;
+  color: white;
 }
