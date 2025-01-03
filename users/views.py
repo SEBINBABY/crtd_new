@@ -266,8 +266,16 @@ class CustomPasswordResetForm(PasswordResetForm):
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'password_reset.html'
     email_template_name = 'password_reset_email.html'
+    html_email_template_name = 'html_password_reset_email.html'
     form_class = CustomPasswordResetForm
     success_url = reverse_lazy('users:user_login')
+
+    def get_email_context(self, user, token):
+        context = super().get_email_context(user, token)
+        context.update({
+            'user': user,
+        })
+        return context
 
     def form_valid(self, form):
         messages.add_message(
