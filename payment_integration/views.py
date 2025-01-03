@@ -8,6 +8,7 @@ from .models import Payment
 from django.contrib.auth.decorators import login_required
 from admin_dashboard.models import User
 from admin_dashboard.models import Amount
+from quiz.models import Quiz
 
 # Initialize Razorpay client globally
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
