@@ -175,4 +175,4 @@ def handle_request(request):
             return JsonResponse({"status": "error", "message": str(e)})
 
     # For non-POST requests, return a 405 Method Not Allowed response
-    return JsonResponse({"status": "error", "message": "Method Not Allowed"}, status=405)
+    return JsonResponse({"status": "error", "message": "Method Not Allowed"},status=405)
