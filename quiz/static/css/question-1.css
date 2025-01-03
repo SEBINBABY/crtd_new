@@ -140,7 +140,7 @@ label p {
   flex-direction: column;
 }
 .question {
-  text-align: center;
+   
   position: relative;
   top: 30%;
   left: 12%;
