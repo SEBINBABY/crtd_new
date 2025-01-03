@@ -93,7 +93,7 @@
                         </tbody>
                     </table>
                 </div>
-                <button class="move-to-top-btn">
+                <button class="move-to-top-btn" onclick="scrollToTableTop()">
                     Move to top
                     <div class="arrow-up"></div>
                   </button>
@@ -238,11 +238,15 @@
   }
 });
 
-      function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth" // Smooth scrolling effect
-    });
-  }
+function scrollToTableTop() {
+    const tableContainer = document.querySelector('.table-container');
+    if (tableContainer) {
+        tableContainer.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Smooth scrolling effect
+        });
+    }
+}
+
       </script>
       {% endblock %}
