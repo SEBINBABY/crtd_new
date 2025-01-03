@@ -62,7 +62,7 @@
                 <input type="hidden" name="current_question" value="{{ question.id }}" />
                 <div class="question-btns">
                      <button tabindex="2" id="prev--btn"> <i class="fa-solid fa-angle-left"></i> Prev</button>  
-                     <button tabindex="3" id="next--btn" type="submit">Save & Next <i class="fa-solid fa-angle-right"></i></button> 
+                     <button tabindex="3" id="next--btn" type="submit">Save {%if not is_last_question%}& Next <i class="fa-solid fa-angle-right"></i>{% endif %}</button> 
                 </div>
             </form>
         </div>
@@ -77,7 +77,17 @@
             <div class="timer-3">
                 Time Remaining: <span class="mx-2" id="time_remaining"></span>
             </div>
+            {% if is_last_question %}
+                {% if is_completed%}
+                    <a href="{% url 'quiz:quiz_summary' quiz.id %}">
+                        <button class="next-section-btn">Next Section</button>
+                    </a>
+                {% else %}
+                    <button id="section-btn" class="next-section-btn">Next Section</button>
+                {% endif %}
+            {% endif %}
         </div>
+       
     </div>
     <div class="modal1" id="modal1">
         <div class="modal-content1">
@@ -86,8 +96,33 @@
             <button id="closeModal">Close</button>
         </div>
     </div>
+
+    <!-- Complete the test Modal -->
+    <div class="modal3" id="modal3">
+        <div class="modal-content3">
+            <h2>Complete All the Questions</h2>
+            <p>You must attempt all the questions within the given time</p>
+            <button id="closeModal3">Close</button>
+        </div>
+    </div>
+
 <script>
+    
 document.addEventListener("DOMContentLoaded",() =>{
+
+    
+    let modal3 = document.getElementById('modal3');
+    let closeBTN2 = document.getElementById("closeModal3");
+    let sectionBtn = document.getElementById("section-btn");
+    
+    sectionBtn?.addEventListener("click", () => {
+        modal3.style.display = "block";
+    })
+
+    closeBTN2.addEventListener("click", ()=> {
+        modal3.style.display = "none";
+    });
+
     const boxes = document.querySelectorAll('.box');
     const prevButton = document.getElementById("prev--btn");
     const question_ids = JSON.parse('{{all_question_ids}}');
@@ -151,60 +186,31 @@ document.addEventListener("DOMContentLoaded",() =>{
         }
     }
 
-    if(timerElement != null){
     // Update the timer every second
-        setInterval(() => {
-            if(timeRemaining>0){
-                timeRemaining--; // Decrement the timer
-            }
-            updateTimer();
-
-            // Every 5 seconds, sync the timer with the API
-            if (timeRemaining % 5 === 0) {
-                syncTimer();
-            }
-            if(timeRemaining <= 0) {
-                document.getElementById('question_form').submit()
-            }
-        }, 1000);
-
-        // Initial call to set up the timer
-        syncTimer()
+    setInterval(() => {
+        if(timeRemaining>0){
+            timeRemaining--; // Decrement the timer
+        }
         updateTimer();
-    }
-    
- /*     // Initialize state to prevent back button navigation
- window.history.pushState(null,null,window.location.href);
- 
- const currentPage = window.location.href;
-//   Intercept the back navigation
-  window.onpopstate = function () {
-    //   Re-push the current state to block the back button
-  window.history.pushState(null, null, location.href);
-  showModal();
-    //  alert("You cannot go back to the previous page!");
-    
-  
-    //   Show the modal when trying to go back
-      
-  };
-//   Show the modal
-  function showModal() {
-      const modal = document.getElementById('modal1');
-      modal.style.display = 'flex';
-  }
-//   Close modal on button click
-  document.getElementById("closeModal").addEventListener("click", () => {
-      const modal = document.getElementById('modal1');
-      modal.style.display = 'none';
-      location.replace(currentPage);
-  });*/
+
+        // Every 5 seconds, sync the timer with the API
+        if (timeRemaining % 5 === 0) {
+            syncTimer();
+        }
+        if(timeRemaining <= 0) {
+            document.getElementById('question_form').submit()
+        }
+    }, 1000);
+
+    // Initial call to set up the timer
+    syncTimer()
+    updateTimer();
  
 });
 window.onload = function () {
-            history.replaceState(null, null, window.location.href); // Replace current state
-            history.pushState(null, null, window.location.href);   // Push a new state
-        };
+    history.replaceState(null, null, window.location.href); // Replace current state
+    history.pushState(null, null, window.location.href);   // Push a new state
+};
   
   
   

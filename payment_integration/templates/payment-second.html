@@ -21,26 +21,18 @@
                     <span>'Payment Gateway Integration'</span>
                 </div>
                 <div class="small-box-cont2">
-                    <div class="cont2-part1">
-                        <div class="part1-box">1</div>
-                        <div class="part1-box not-Visited">2</div>
-                        <div class="part1-box not-Visited">3</div>
-                        <div class="part1-box not-Visited">4</div>
-                        <div class="part1-box not-Visited">5</div>
-                    </div>
-                    <div class="cont2-part2">
-                        <div class="part2-box not-Visited">6</div>
-                        <div class="part2-box not-Visited">7</div>
-                        <div class="part2-box not-Visited">8</div>
-                        <div class="part2-box not-Visited">9</div>
-                        <div class="part2-box not-Visited">10</div>
-                    </div>
-                    <div class="cont2-part3">
-                        <div class="part3-box not-Visited">11</div>
-                        <div class="part3-box not-Visited">12</div>
-                        <div class="part3-box not-Visited">13</div>
-                        <div class="part3-box not-Visited">14</div>
-                        <div class="part3-box not-Visited">15</div>
+                    <div  class="cont2-part1" >
+                    {% for question_id in all_question_ids %}
+                        <a href="{% url 'quiz:start_question' quiz.id question_id%}" ><div class="part1-box box 
+                                {% if question_id in marked_questions %} Marked {% else %} not-Visited {% endif %}" 
+                                id="box-{{ question_id }}">
+                            {{ forloop.counter }}
+                        </div></a>
+                        {% if forloop.counter|divisibleby:5 and not forloop.last %}
+                            </div>
+                            <div class="cont2-part1">
+                        {% endif %}
+                    {% endfor %}
                     </div>
                 </div>
             </div>
@@ -55,7 +47,7 @@
             </form>
             <div class="part2-buttons">
                 <button class="prev"> Prev </button>
-                <button> Save & Next </button>
+                <button class="save-btn"> Save & Next </button>
             </div>
         </div>
         <div class="part-3" id="part3">
@@ -68,6 +60,8 @@
             <div class="part3-timer"></div>
         </div>
     <div>
+    </div>
+    </div>
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <script>
           var options = {
@@ -92,6 +86,8 @@
             rzp1.open();
             e.preventDefault();
           }
+
+        
         </script>
 
 </body>
