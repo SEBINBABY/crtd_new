@@ -16,26 +16,26 @@ import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
 
-@role_required(allowed_roles=['admin', 'hr_staff'])
-def dashboard(request):
-    # Fetch all user objects
-    users = User.objects.filter(role=User.USER)   
-    # Check if users were retrieved
-    if not users.exists():
-        # If no users exist, display a relevant message
-        title = "No Users Found"
-        context = {
-            "users": None,
-            "title": title,
-        }
-    else:
-        # If users exist, display them
-        title = "All Users"
-        context = {
-            "users": users,
-            "title": title,
-        }
-    return render(request, 'dashboard.html', context)
+# @role_required(allowed_roles=['admin', 'hr_staff'])
+# def dashboard(request):
+#     # Fetch all user objects
+#     users = User.objects.filter(role=User.USER)   
+#     # Check if users were retrieved
+#     if not users.exists():
+#         # If no users exist, display a relevant message
+#         title = "No Users Found"
+#         context = {
+#             "users": None,
+#             "title": title,
+#         }
+#     else:
+#         # If users exist, display them
+#         title = "All Users"
+#         context = {
+#             "users": users,
+#             "title": title,
+#         }
+#     return render(request, 'dashboard.html', context)
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def dashboard_home(request):
@@ -412,52 +412,27 @@ def amount_section(request):
         'amount': Amount.get_amount()
     })
 
-def dummy_paginator(request):
-    # Fetch all user objects
-    users = User.objects.filter(role=User.USER)
-    
-    # Check for "show_all" query parameter
-    show_all = request.GET.get('show_all', False)
-    
-    if show_all:
-        # If show_all is true, don't paginate, just show all users
-        users_page = users
-        title = "All Users (Showing All)"
-        context = {
-            "users": users_page,
-            "title": title,
-            "users_page": users_page,
-            "paginator": None,
-        }
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render
+
+from django.core.paginator import Paginator
+
+def dashboard(request):
+    users_list = User.objects.all()
+    page = request.GET.get('page')
+
+    if page == "all":
+        # Display all users without pagination
+        users = users_list
+        paginator = None  # No paginator needed for "all"
     else:
-        # Pagination logic
-        page = request.GET.get('page', 1)  # Default to page 1
-        paginator = Paginator(users, 10)  # Show 10 users per page
+        # Paginate with 10 users per page
+        paginator = Paginator(users_list, 10)
+        users = paginator.get_page(page)
 
-        try:
-            users_page = paginator.page(page)
-        except:
-            raise Http404("Page not found")
+    return render(request, 'dashboard.html', {'users': users, 'paginator': paginator})
 
-        # If no users exist, show an appropriate message
-        if not users.exists():
-            title = "No Users Found"
-            context = {
-                "users": None,
-                "title": title,
-                "users_page": users_page,
-                "paginator": paginator,
-            }
-        else:
-            title = "All Users"
-            context = {
-                "users": users_page,
-                "title": title,
-                "users_page": users_page,
-                "paginator": paginator,
-                "page_range": range(1, paginator.num_pages + 1),
-            }
-    
-    return render(request, 'dummy.html', context)
+
 
     

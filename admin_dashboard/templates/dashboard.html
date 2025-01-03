@@ -100,19 +100,34 @@
         </div>
 
         <div class="pagination-container">
-    <button class="all-button">All</button>
-    <div class="page-selector">
-      <span>Page</span>
-      <div class="dropdown">
-        <button class="dropdown-toggle">1</button>
-        <ul class="dropdown-menu">
-          <!-- JavaScript will dynamically generate page numbers -->
-        </ul>
+          <ul class="pagination">
+              <!-- "All" Button -->
+              <li>
+                  <a href="?page=all">All</a>
+              </li>
+      
+              <!-- Dropdown for Pages -->
+              {% if paginator %}
+                  <li class="dropdown">
+                      <button class="dropdown-toggle">
+                          Page {{ users.number }} of {{ paginator.num_pages }}
+                      </button>
+                      <ul class="dropdown-menu">
+                          {% for num in paginator.page_range %}
+                              <li>
+                                  <a href="?page={{ num }}">Page {{ num }}</a>
+                              </li>
+                          {% endfor %}
+                      </ul>
+                  </li>
+              {% endif %}
+          </ul>
       </div>
-      <span>of 10</span>
-    </div>
-  </div>
-
+      
+      
+        
+        
+        
     <div class="delete-modal">
       <div class="modal-content">
         <!-- Close Button -->
@@ -284,6 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
     event.stopPropagation(); // Prevent event from bubbling
     dropdownMenu.style.display =
       dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    // # Pagination
+    const selectedPage = dropdownToggle.textContent;
+    const url = new URL(window.location.href);
+    url.searchParams.set('page', selectedPage);
+    window.location.href = url.toString();
+      // # Pagination
   });
 
   // Close dropdown when clicking outside
@@ -291,7 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
     dropdownMenu.style.display = 'none';
   });
 });
-
 
       </script>
       {% endblock %}
