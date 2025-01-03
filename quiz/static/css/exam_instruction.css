@@ -29,12 +29,16 @@ justify-content: center;
 }
 .instruct-left .instruct-logo {
  height: 20.5%;
- width: 70%;
- background: url("/static/images/image_1.png");
- background-size: cover;
+ width: 66%;
+ /* background: url("/static/images/image_1.png"); */
+ /* background-color: pink; */
+ /* background-size: cover; */
  position: relative;
  top: 10px;
- scale: 0.78;
+ /* scale: 0.78; */
+ display: flex;
+ justify-content: center;
+ align-items: center;
 }
 .instruct-img {
  height: 60%;

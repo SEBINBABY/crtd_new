@@ -29,13 +29,18 @@ body{
     align-items: center;
 }
 .login-logo{
-    height: 22.5%;
+    height: 22.9%;
     width: 67%;
-    background: url("/static/images/image_1.png");
+    /* background: url("/static/images/image_1.png"); */
+    /* background-color: pink; */
     background-size: cover;
     position: relative;
-    left: -3%;
-    scale: 0.7;
+    left: -5%;
+    /* top: ; */
+    /* scale: 0.9; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     /* text-align: center; */
 }
 .login-img{
@@ -122,6 +127,8 @@ body{
 .content-submit a{
     text-decoration: none;
     font-size: 18px;
+    position: relative;
+    top: 55%;
 }
 
 /* error messages  */

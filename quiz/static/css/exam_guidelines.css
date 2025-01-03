@@ -30,11 +30,16 @@ body {
 .instruct-logo{
     height: 19%;
     width: 76%;
-    background: url("/static/images/image_1.png");
+    /* background: url("/static/images/image_1.png"); */
     background-size: cover ;
     position: relative;
-    top: 10px;
-    scale: 0.78;
+    top: 14px;
+    left: 0.8%;
+    /* background-color: pink; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* scale: 0.78; */
 }
 .im-instructions{
     /* height: 65% !important; */

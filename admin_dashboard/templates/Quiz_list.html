@@ -57,6 +57,7 @@
         <!-- edit modal -->
         <div class="edit-modal" id="edit-modal">
           <div class="modal-content">
+            <span id="delete-close-btn" class="delete-close-btn">&times;</span>
             <h3>Edit</h3>
             <form action="{% url 'admin_dashboard:edit_quiz' %}" method="POST">
               {% csrf_token %}
@@ -82,7 +83,7 @@
           <div class="delete-modal" id="delete-modal" style="display: none;">
             <div class="modal-content">
               <!-- Close Button -->
-              <span class="delete-close-btn">&times;</span>
+              <!-- <span class="delete-close-btn">&times;</span> -->
               <!-- Illustration -->
               <div class="modal-image">
                 <img src="/static/images/Delete.png" alt="Illustration" />
@@ -130,6 +131,13 @@
 
 {% block extra_js %}
     <script>
+
+const deleteCloseBtn = document.getElementById('delete-close-btn');
+const passkeyModalEditt = document.querySelector(".edit-modal");
+
+deleteCloseBtn.addEventListener("click", () => {
+  passkeyModalEditt.style.display = "none";
+      });
 
       const addNewButton = document.getElementById('add-btn');
       const addNewModal = document.querySelector('.add-modal');
