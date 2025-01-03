@@ -13,6 +13,8 @@ from .utils import role_required
 from users.models import Passkey
 from .models import Amount
 import datetime
+from django.core.paginator import Paginator
+from django.http import Http404
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def dashboard(request):
@@ -409,3 +411,53 @@ def amount_section(request):
     return render(request, "Amount-Edit.html",{
         'amount': Amount.get_amount()
     })
+
+def dummy_paginator(request):
+    # Fetch all user objects
+    users = User.objects.filter(role=User.USER)
+    
+    # Check for "show_all" query parameter
+    show_all = request.GET.get('show_all', False)
+    
+    if show_all:
+        # If show_all is true, don't paginate, just show all users
+        users_page = users
+        title = "All Users (Showing All)"
+        context = {
+            "users": users_page,
+            "title": title,
+            "users_page": users_page,
+            "paginator": None,
+        }
+    else:
+        # Pagination logic
+        page = request.GET.get('page', 1)  # Default to page 1
+        paginator = Paginator(users, 10)  # Show 10 users per page
+
+        try:
+            users_page = paginator.page(page)
+        except:
+            raise Http404("Page not found")
+
+        # If no users exist, show an appropriate message
+        if not users.exists():
+            title = "No Users Found"
+            context = {
+                "users": None,
+                "title": title,
+                "users_page": users_page,
+                "paginator": paginator,
+            }
+        else:
+            title = "All Users"
+            context = {
+                "users": users_page,
+                "title": title,
+                "users_page": users_page,
+                "paginator": paginator,
+                "page_range": range(1, paginator.num_pages + 1),
+            }
+    
+    return render(request, 'dummy.html', context)
+
+    

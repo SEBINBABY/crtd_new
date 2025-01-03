@@ -140,7 +140,7 @@ label p {
   flex-direction: column;
 }
 .question {
-  text-align: center;
+   
   position: relative;
   top: 30%;
   left: 12%;
@@ -170,6 +170,11 @@ label p {
   border-radius: 10px;
 }
 
+#prev--btn{
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .account-3 {
   height: 15%;
   width: 90%;
@@ -196,7 +201,7 @@ label p {
   width: 60%;
   padding: 5px;
   border: none;
-  background: linear-gradient(to right, #13b3ff, #005ad5);
+  /* background: linear-gradient(to right, #13b3ff, #005ad5); */
   color: white;
   border-radius: 10px;
   position: relative;
@@ -438,4 +443,10 @@ label p {
   border: none;
   background: linear-gradient(to right, #13b3ff, #005ad5);
   color: #fff;
+}
+.next-section-btn:disabled {
+    
+    background-color:  grey;
+    cursor: not-allowed;
+   
 }
