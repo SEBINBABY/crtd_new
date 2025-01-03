@@ -26,7 +26,6 @@ urlpatterns = [
     path('edit_quiz/', edit_quiz, name="edit_quiz"),
     path('delete_quiz/', delete_quiz, name="delete_quiz"),
     path('reorder_quizzes/', reorder_quizzes, name="reorder_quizzes"),
-    path('dummy_paginator/', dummy_paginator, name="dummy_paginator"),
 ]
 
 
