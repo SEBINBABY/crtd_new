@@ -102,9 +102,9 @@ def start_question(request, quiz_id, question_id):
     if(result.end_time is not None):
         return redirect('quiz:quiz_summary',quiz.id)
     
-    remaining_time = quiz.time * 60 - (now() - result.start_time).seconds + GRACE_TIME
+    remaining_time = quiz.time * 60 - (now() - result.start_time).seconds
 
-    if remaining_time <= 0:
+    if remaining_time + GRACE_TIME <= 0:
         messages.error(request, "Time limit exceeded")
         return redirect('quiz:quiz_summary', quiz_id=quiz.id)
     
