@@ -348,11 +348,13 @@ label p {
     background-color:  #D9F2FD;
     border-radius: 8px;
     margin-top: 10px;
+    text-decoration: none;
 }
 
 .case-study:hover{
   background: linear-gradient(to right, #13B3FF, #005AD5);
   cursor: pointer;
+  color: black;
 }
 
 .modal2 {
