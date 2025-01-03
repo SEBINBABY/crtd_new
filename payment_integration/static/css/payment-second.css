@@ -40,10 +40,18 @@ body{
     height: 20%;
     width: 100%;
     /* background-color: blue; */
-    background: url("/static/images/image_1.png");
+    /* background: url("/static/images/image_1.png");x */
     background-size: cover;
     object-fit: cover;
-    scale: 0.8;
+    /* scale: 0.8; */
+    /* background-color: powderblue; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.part1-logo img{
+    height: 75%;
+    width: 75%;
 }
 .part1-content{
 width: 90%;
