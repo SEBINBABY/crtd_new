@@ -95,6 +95,10 @@ def initiate_payment(request):
 def handle_request(request):
     print(f"Request Method: {request.method}")  # Log the request method
     if request.method == "POST":
+        user = request.user
+        if user.is_user:
+            full_name = user.username
+            email = user.email
         try:
             # Log the entire request body to debug missing parameters
             print(f"Request Data: {request.POST}")
@@ -150,15 +154,13 @@ def handle_request(request):
                 payment_obj.status = "failed"
                 payment_obj.save()
                 # Render the payment failure page if verification fails
-                return render(request, "payment_fail.html", {"order_id": razorpay_order_id, "message": "Signature verification failed."})
+                return render(request, "payment_fail.html", {"order_id": razorpay_order_id, "message": "Signature verification failed.", "full_name":full_name, "email":email})
 
             # The payment was already captured automatically by Razorpay
             payment_obj.status = "successful"
             payment_obj.save()
 
             # Update the user model to reflect the paid status
-            user = request.user
-            email = user.email
             print('User email:', email)
             user = User.objects.get(email=email)
             user.has_paid = True
@@ -166,7 +168,7 @@ def handle_request(request):
             print("User paid status:", user.has_paid)
 
             # If payment is successful, render the success page
-            return render(request, "payment_success.html")
+            return render(request, "payment_success.html", {"full_name":full_name, "email":email})
 
         except Exception as e:
             print(f"Error: {e}")  # Log the error
