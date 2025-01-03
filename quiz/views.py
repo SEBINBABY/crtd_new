@@ -173,11 +173,8 @@ def save_answer(request, quiz_id, question_id):
         if current_index + 1 < len(questions):
             next_question = questions[current_index + 1]
             return redirect('quiz:start_question', quiz_id=quiz.id, question_id=next_question.id)
-        
-        if len(result.user_answers) == len(questions):
-            return redirect('quiz:quiz_summary', quiz_id=quiz.id)
-        else:
-            return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
+
+        return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 
     return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 

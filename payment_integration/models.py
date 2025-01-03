@@ -12,7 +12,7 @@ class Payment(models.Model):
         ('pending', 'Pending'),
         ('successful', 'Successful'),
         ('failed', 'Failed'),
-    ], default='pending')
+    ])
     created_at = models.DateTimeField(auto_now_add=True)  # Timestamp for creation
     updated_at = models.DateTimeField(auto_now=True)  # Timestamp for updates
 

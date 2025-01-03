@@ -124,6 +124,10 @@ border: 0.8px solid #C2C2C2;
     border-radius: 8px;
     margin-top: 10px;
 }
+.case-study:hover{
+    background: linear-gradient(to right, #13B3FF, #005AD5);
+    cursor: pointer;
+}
 .small-box-cont2{
     width: 100%;
     /* background-color: blue; */
