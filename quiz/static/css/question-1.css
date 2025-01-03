@@ -35,14 +35,7 @@ body {
 .box-1-logo {
   height: 17.2%;
   width: 73%;
-  /* background-color: beige; */
-  /* background: url("/static/images/image_1.png"); */
-  /* background-color: pink; */
   background-size: cover;
-  position: relative;
-  left: -4%;
-  /* top: -0.4%; */
-  /* scale: 0.9; */
 }
 .box-1-content {
   width: 80%;
@@ -195,14 +188,14 @@ label p {
 }
 .box-3 button{
   height: 7%;
-  width: 60%;
+  width: 10%;
   padding: 5px;
   border: none;
   /* background: linear-gradient(to right, #13b3ff, #005ad5); */
   color: white;
   border-radius: 10px;
-  position: relative;
-  top: 55%;
+  position: absolute;
+  bottom: 10%;
   cursor: pointer;
 }
 .timer-3 {
@@ -368,6 +361,11 @@ label p {
     text-decoration: none;
 }
 
+.case-study{
+    text-decoration: none;
+    color: black;
+}
+
 .case-study:hover{
   background: linear-gradient(to right, #13B3FF, #005AD5);
   cursor: pointer;
@@ -441,9 +439,11 @@ label p {
   background: linear-gradient(to right, #13b3ff, #005ad5);
   color: #fff;
 }
-.next-section-btn:disabled {
-    
+.next-section-btn-disabled {
     background-color:  grey;
     cursor: not-allowed;
-   
 }
+.next-section-btn {
+  background: linear-gradient(to right, #13b3ff, #005ad5);
+  cursor: pointer;
+} 

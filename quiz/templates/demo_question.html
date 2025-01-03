@@ -12,7 +12,9 @@
 <body>
     <div class="main-box">
         <div class="box-1">
-            <div class="box-1-logo"></div>
+            <div class="box-1-logo">
+                <img src="/static/images/image_1.png" alt="">
+            </div>
             <div class="box-1-content">
                 <a href="{% url 'payment_integration:initiate-payment' %}" class="case-study">
                     <span>Case study</span>
@@ -64,7 +66,7 @@
                 {% endfor %}
                 <input type="hidden" name="current_question" value="{{ question.id }}" />
                 <div class="question-btns">
-                     <button style="cursor: not-allowed; opacity: 0.6;" tabindex="2" id="prev--btn"> <i class="fa-solid fa-angle-left"></i> Prev</button>  
+                     <button tabindex="2" id="prev--btn"> <i class="fa-solid fa-angle-left"></i> Prev</button>  
                      <button tabindex="3" class="save-btn" id="next--btn" type="submit"> Next <i class="fa-solid fa-angle-right"></i></button> 
                 </div>
         </div>
