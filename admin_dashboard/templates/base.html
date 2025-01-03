@@ -97,23 +97,23 @@
   
                 <div class="side">
                   <div class="side-bar">
-                    <a class="icon-con">
+                    <a class="icon-con" href="{% url 'admin_dashboard:filtered_users' 'all' %}">
                       <img src="/static/images/2.png" alt="Icon-1" />
                     </a>
-                    <a class="icon-con">
+                    <a class="icon-con" href="{% url 'admin_dashboard:filtered_users' 'submitted' %}">
                       <img src="/static/images/3.png" alt="Icon-2" />
                     </a>
-                    <a class="icon-con">
+                    <a class="icon-con" href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
                       <img src="/static/images/4.png" alt="Icon-3" />
                     </a>
-                    <a class="icon-con">
+                    <a class="icon-con" href="{% url 'admin_dashboard:question_section' %}">
                       <img src="/static/images/5.png" alt="Icon-4" />
                     </a>
-                    <a class="icon-con">
+                    <a class="icon-con" href="{% url 'admin_dashboard:passkey' %}">
                       <img src="/static/images/6.png" alt="Icon-5" />
                     </a>
-                    <a class="icon-con">
-                      <i style="position: relative; right: 7px;" class="fa-solid fa-money-check-dollar"></i>
+                    <a class="icon-con" href="{% url 'admin_dashboard:amount_section' %}">
+                      <i class="fa-solid fa-money-check-dollar"></i>
                     </a>
                   </div>
                 </div>

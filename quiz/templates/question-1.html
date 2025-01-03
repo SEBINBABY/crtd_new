@@ -59,7 +59,7 @@
         </div>
         <div class="box-2">
             <h2 id="quiz-title">{{quiz.order}}. {{ quiz.name }}</h2>
-            <p class="quest-para" style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q<span id="question_number"></span> {{question}}</p>
+            <p class="quest-para" style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q<span id="question_number"></span> {{question.question_text}}</p>
             <form id="question_form" method="POST" action="{% url 'quiz:save_answer' quiz.id question.id %}">
                 {% csrf_token %}
                 {% for answer in answers %}
@@ -88,16 +88,16 @@
                 <h6 style="margin-top: -10px;">{{user.email}}</h6>
             </div>
             <div class="timer-container">
-                <h2>Time Remaining</h2>
+                <h4>Time Remaining</h4>
                 <div class="progress-ring">
-                  <svg width="200" height="200" viewBox="0 0 200 200">
+                  <svg width="200" height="150" viewBox="0 0 200 200">
                     <!-- Outer circle (static background) -->
                     <circle class="progress-ring__background" cx="100" cy="100" r="90"></circle>
                     <!-- Circular progress bar with gradient -->
                     <defs>
                       <linearGradient id="gradientColor" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#A8DBFF" />
-                        <stop offset="100%" stop-color="#1A73E8" />
+                        <stop offset="0%" stop-color=" #005AD5" />
+                        <stop offset="100%" stop-color=" #13B3FF" />
                       </linearGradient>
                     </defs>
                     <circle class="progress-ring__circle" cx="100" cy="100" r="90" stroke="url(#gradientColor)"></circle>
@@ -112,7 +112,11 @@
                         <button class="next-section-btn">Next</button>
                     </a>
                 {% else %}
-                    <button id="section-btn" class="next-section-btn">Next</button>
+                    {% if question.id in marked_questions %}
+                        <button id="section-btn" class="next-section-btn">Next</button>
+                    {% else %}
+                        <button disabled class="next-section-btn">Next</button>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         </div>
