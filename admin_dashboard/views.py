@@ -16,26 +16,51 @@ import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
 
-# @role_required(allowed_roles=['admin', 'hr_staff'])
-# def dashboard(request):
-#     # Fetch all user objects
-#     users = User.objects.filter(role=User.USER)   
-#     # Check if users were retrieved
-#     if not users.exists():
-#         # If no users exist, display a relevant message
-#         title = "No Users Found"
-#         context = {
-#             "users": None,
-#             "title": title,
-#         }
-#     else:
-#         # If users exist, display them
-#         title = "All Users"
-#         context = {
-#             "users": users,
-#             "title": title,
-#         }
-#     return render(request, 'dashboard.html', context)
+@role_required(allowed_roles=['admin', 'hr_staff'])
+def user_list(request):
+    query = request.GET.get('query', '')  # Get the search query
+    filter_date = request.GET.get('filter_date')  # Single date for filtering
+    submitted = request.GET.get('submitted')  # Submission filter (True/False)
+    page = int(request.GET.get('page', 1))  # Pagination
+    items_per_page = 10  # Number of items per page
+
+    # Fetch all users by default
+    users = User.objects.filter(role=User.USER)
+
+    # Apply search filtering
+    if query:
+        users = users.filter(
+            Q(username__icontains=query) |  # Full name search (using username)
+            Q(email__icontains=query) |    # Email search
+            Q(contact_number__icontains=query) |  # Contact number search
+            Q(tcn_number__icontains=query) |  # TCN number search
+            Q(created_at__icontains=query)  # Account creation date search
+        )
+
+    # Apply date filtering
+    if filter_date:
+        users = users.filter(created_at__date=filter_date)
+
+    # Apply verification status filtering
+    if submitted == 'True':
+        users = users.filter(is_verified=True)
+    elif submitted == 'False':
+        users = users.filter(is_verified=False)
+
+    # Paginate the results
+    paginator = Paginator(users, items_per_page)
+    users = paginator.get_page(page)
+
+    context = {
+        'users': users,
+        'query': query,
+        'filter_date': filter_date,
+        'submitted': submitted,
+        'paginator': paginator,
+        'current_page': page,
+        'total_pages': paginator.num_pages,
+    }
+    return render(request, 'dashboard.html', context)
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def dashboard_home(request):
@@ -78,26 +103,6 @@ def get_user_results(request,user_id):
                          'quizzes': list(map(Quiz.serialize,Quiz.objects.all())),
                          'total_quizzes': Quiz.objects.count(),
                          })
-
-
-
-@role_required(allowed_roles=['admin', 'hr_staff'])
-def filtered_users(request, status):
-    if status == "submitted":
-        users = User.objects.filter(is_verified=True, role=User.USER)
-        title = "Submitted Users"
-    elif status == "not_submitted":
-        users = User.objects.filter(is_verified=False, role=User.USER)
-        title = "Not Submitted Users"
-    else:
-        users = User.objects.filter(role=User.USER)
-        title = "All Users"
-
-    context = {
-        "users": users,
-        "title": title,
-    }
-    return render(request, "dashboard.html", context)
 
 @never_cache
 def admin_hr_login(request):
@@ -324,30 +329,6 @@ def delete_question(request):
 
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
-def user_list(request):
-    query = request.GET.get('query', '')  # Get the search query
-    users = User.objects.all()
-    filter_date = request.GET.get('filter_date') # Single date for filtering
-    submitted = request.GET.get('submitted')
-    if query:
-        users = users.filter(
-            Q(username__icontains=query) |  # Full name search (using username)
-            Q(email__icontains=query) |    # Email search
-            Q(contact_number__icontains=query) |  # Contact number search
-            Q(tcn_number__icontains=query) |  # TCN number search
-            Q(created_at__icontains=query)  # Account creation date search
-        )
-    # Apply date filtering
-    if filter_date:
-        users = users.filter(created_at__date=filter_date, role=User.USER)  # Compare with the date part of created_at
-    if submitted == 'True':
-        users = users.filter(is_verified=True)
-    elif submitted == 'False':
-        users = users.filter(is_verified=False)
-
-    return render(request, 'dashboard.html', {'users': users, 'query': query})
-
-@role_required(allowed_roles=['admin', 'hr_staff'])
 def passkey(request):   # Once user click Passkey Section
     # Fetch all passkey objects
     passkeys = Passkey.objects.all() 
@@ -411,28 +392,6 @@ def amount_section(request):
     return render(request, "Amount-Edit.html",{
         'amount': Amount.get_amount()
     })
-
-
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render
-
-from django.core.paginator import Paginator
-
-def dashboard(request):
-    users_list = User.objects.all()
-    page = request.GET.get('page')
-
-    if page == "all":
-        # Display all users without pagination
-        users = users_list
-        paginator = None  # No paginator needed for "all"
-    else:
-        # Paginate with 10 users per page
-        paginator = Paginator(users_list, 10)
-        users = paginator.get_page(page)
-
-    return render(request, 'dashboard.html', {'users': users, 'paginator': paginator})
-
 
 
     

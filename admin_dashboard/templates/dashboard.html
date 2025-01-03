@@ -45,8 +45,8 @@
               <!-- Toggle Buttons -->
               <div class="filter-toggle">
                 <label>Filter by</label>
-                <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}"><button class="filter-button active" onclick="toggleActive(this)">Verified</button></a>
-                <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}"><button class="filter-button" onclick="toggleActive(this)">Non-Verified</button></a>
+                <a href="{% url 'admin_dashboard:user_list' %}?submitted=True"><button class="filter-button active" onclick="toggleActive(this)">Verified</button></a>
+                <a href="{% url 'admin_dashboard:user_list' %}?submitted=False"><button class="filter-button" onclick="toggleActive(this)">Non-Verified</button></a>
               </div>
         </div>
                 <div class="table-container">

@@ -8,10 +8,10 @@
 {% endblock %}
 
 {% block content %}
-<section class="mb-3 contai" style="">
+<section class="mb-3 contai">
     <div class="row">
       <div class="col-md-custom">
-        <a href="{% url 'admin_dashboard:dashboard' %}" style="text-decoration: none; color:black" >
+        <a href="{% url 'admin_dashboard:user_list' %}" style="text-decoration: none; color:black" >
           <div class="stat-card">
             <h6>Total Account Created</h6>
             <h2>{{total_users}}</h2>
@@ -19,7 +19,7 @@
         </a>
       </div>
       <div class="col-md-custom">
-        <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}" style="text-decoration: none; color:black" >
+        <a href="{% url 'admin_dashboard:user_list' %}?submitted=True" style="text-decoration: none; color:black" >
           <div class="stat-card">
             <h6>Total Submitted</h6>
             <h2>{{total_submitted_users}}/{{total_users}}</h2>
@@ -27,7 +27,7 @@
         </a>
       </div>
       <div class="col-md-custom">
-        <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}" style="text-decoration: none; color:black" >
+        <a href="{% url 'admin_dashboard:user_list' %}?submitted=False" style="text-decoration: none; color:black" >
           <div class="stat-card">
             <h6>Not Submitted</h6>
             <h2>{{total_not_submitted_users}}/{{total_users}}</h2>

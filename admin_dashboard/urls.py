@@ -1,14 +1,12 @@
 from django.urls import path
-from .views import filtered_users, admin_hr_login,dashboard, filtered_users, question_section, user_list, passkey, add_passkey, update_passkey
+from .views import admin_hr_login, question_section, user_list, passkey, add_passkey, update_passkey
 from .views import *
 
 app_name = "admin_dashboard"
 
 urlpatterns = [
-    path('users/<str:status>/', filtered_users, name='filtered_users'),
     path('admin_hr_login/', admin_hr_login, name='admin_hr_login'),
     path('admin_hr_logout/', admin_hr_logout, name='admin_hr_logout'), 
-    path('dashboard/', dashboard, name='dashboard'),
     path('dashboard_home/', dashboard_home, name='dashboard_home'),
     path('question_section/', question_section, name='question_section'),
     path('question_list/<int:quiz_id>', question_list, name='question_list'),
