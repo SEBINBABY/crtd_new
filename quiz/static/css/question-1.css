@@ -36,11 +36,13 @@ body {
   height: 17.2%;
   width: 73%;
   /* background-color: beige; */
-  background: url("/static/images/image_1.png");
+  /* background: url("/static/images/image_1.png"); */
+  /* background-color: pink; */
   background-size: cover;
   position: relative;
-  left: -10%;
-  scale: 0.9;
+  left: -4%;
+  /* top: -0.4%; */
+  /* scale: 0.9; */
 }
 .box-1-content {
   width: 80%;
@@ -121,6 +123,15 @@ label p {
   font-size: 18px;
   position: relative;
   top: 25%;
+  /* padding: 5px; */
+  /* left: 10%; */
+  /* width: 60%; */
+}
+.box-2 .quest-para{
+  position: relative;
+  left: 2%;
+  width: 57%;
+  padding: 5px;
 }
 .box-2 form {
   width: 90%;
@@ -146,6 +157,7 @@ label p {
   position: relative;
   top: 40%;
   justify-content: space-around;
+  left: 10%;
 }
 .question-btns button {
   height: 130%;
