@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded",() =>{
     // Full circumference of the progress ring
     const FULL_CIRCUMFERENCE = 565.48; // 2πr where r=90
     const TIME_LIMIT = parseInt("{{quiz.time}}")*60; // Total countdown time in seconds
-    let timeLeft = TIME_LIMIT;
+    let timeLeft = parseInt("{{remaining_time}}");
     
     // Select progress ring and timer text elements
     const progressRingCircle = document.querySelector('.progress-ring__circle');
