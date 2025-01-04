@@ -52,10 +52,10 @@
         </div>
         <div class="box-2">
             <h2 id="quiz-title">{{quiz.order}}. {{ quiz.name }}</h2>
-            <p class="questt-para" style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q<span id="question_number"></span> {{question}}</p>
+            <p class="questt-para" style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80); position: relative; left: 5%; ">Q<span id="question_number"></span> {{question}}</p>
                 {% csrf_token %}
                 {% for answer in answers %}
-                <div class="question">
+                <div class="question" style="position: relative; left: 8%;">
                     <input tabindex="1" type="radio" id="option-{{answer.id}}" 
                            {% if selected_answer|add:0 == answer.id %} checked {% endif %}
                            name="selected_answer" value="{{ answer.id }}" required />
@@ -65,7 +65,7 @@
                 </div>
                 {% endfor %}
                 <input type="hidden" name="current_question" value="{{ question.id }}" />
-                <div class="question-btns">
+                <div class="question-btns questtt-btns">
                      <button tabindex="2" id="prev--btn"> <i class="fa-solid fa-angle-left"></i> Prev</button>  
                      <button tabindex="3" class="save-btn" id="next--btn" type="submit"> Next <i class="fa-solid fa-angle-right"></i></button> 
                 </div>
@@ -90,9 +90,9 @@
 
     <div class="modal2" id="modal2">
         <div class="modal-content2">
-            <h4>You must complete the payment to attempt this quiz</h4>
+            <h5>Please complete the first step of Payment Gateway Architecture to proceed further.</h5>
             <!-- <p>You must attempt all the questions within the given time</p> -->
-            <form action=""><button type="submit" id="closeModal2">Continue</button> </form>
+            <form action="{% url 'payment_integration:initiate-payment' %}"><button type="submit" id="closeModal2">Continue</button> </form>
         </div>
     </div>
 
@@ -100,6 +100,7 @@
 
     const saveBtn = document.querySelector(".save-btn");
     const modal2 = document.querySelector(".modal2");
+
     saveBtn.addEventListener("click" , () => {
       modal2.style.display = "block";
     })

@@ -134,7 +134,7 @@ def user_login(request):
         if user:
             # Check if the user is verified
             if not user.is_email_verified:
-                messages.error(request, "Your account is not verified.")
+                messages.error(request, "You are not allowed to log in")
                 return render(request, "login.html")
             
             if Result.objects.filter(user=user).count() == Quiz.objects.count() and not user.is_verified:
@@ -187,9 +187,9 @@ def send_email_verification_otp(request):
         OTP.objects.create(email=email, full_name=username, otp_code=otp_code)
         # Send OTP email
         # Split OTP into individual characters
-        otp_digits = list(str(otp_code))  # ['2', '4', '6', '8']
-        context = {"otp_digits": otp_digits, "name":username} #  OR
-        #context = {"otp_code": otp_code, "name":username}
+        # otp_digits = list(str(otp_code))  # ['2', '4', '6', '8']
+        # context = {"otp_digits": otp_digits, "name":username} #  OR
+        context = {"otp_code": otp_code, "name":username}
         email_subject = "Email Verification Code"
         email_body = render_to_string("email_message.txt", context)
         email_html = render_to_string("email.html", context)
