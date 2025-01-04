@@ -151,6 +151,12 @@ display: none;
     align-items: center;
     color: rgb(214, 32, 32);
 }
+.alertt{
+    color: red;
+}
+.alertt-success{
+    color: green;
+}
 
 /* General alert message styling */
 .content-input i{
