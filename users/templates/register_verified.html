@@ -53,10 +53,20 @@
                     name="email" required>
                     <button class="verified" type="submit">Verified  <span>&#10003</span></button>
                     </div>
-                    <label for="" class="form-label">Contact Number*</label>
-                    <input type="text" id="displayContact" class="form-control"
-                    name="contact_number"  min="10"  maxlength="10"  id="displayContact" pattern="^\d{10}$" 
-                    title="Contact number must be exactly 10 digits and contain only numbers." required>
+                    <label for="inputContact" class="form-label">Contact Number*</label>
+                    <input 
+    type="tel" 
+    id="inputContact" 
+    class="form-control" 
+    placeholder="Enter Contact Number" 
+    maxlength="10" 
+    name="contact_number" 
+    value="{{ contact_number|default:'' }}" 
+    pattern="\d{10}" 
+    title="Contact number must be exactly 10 digits and contain only numbers." 
+    required>
+                    
+                    
                     <label for="" class="form-label">Create Password*</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Enter Password"
                     name="password" required>
@@ -91,7 +101,13 @@
             }
         });
 
-       
+        const contactInput = document.getElementById('inputContact');
+
+  // Add an event listener for the input event to restrict non-numeric characters
+  contactInput.addEventListener('input', function() {
+    // Replace any non-digit characters with an empty string
+    this.value = this.value.replace(/\D/g, '');  // \D matches anything that's not a number
+  });
         let isMetaKeyPressed = false;
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Meta' && !isMetaKeyPressed) {
