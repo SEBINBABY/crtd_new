@@ -45,12 +45,12 @@
                     <h4 class="section-title">Favorites</h4>
                     <ul class="sidebar-list">
                       <li class="sidebar-item">
-                        <a href="{% url 'admin_dashboard:filtered_users' 'all' %}">
+                        <a href="{% url 'admin_dashboard:user_list' %}">
                           • Total Account Created
                         </a>
                       </li>
                       <li class="sidebar-item">
-                        <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
+                        <a href="{% url 'admin_dashboard:user_list' %}?submitted=False">
                           • Not Submitted
                         </a>
                       </li>
@@ -61,18 +61,18 @@
                     <h4 class="section-title">Dashboards</h4>
                     <ul class="sidebar-list">
                         <li>
-                          <a href="{% url 'admin_dashboard:filtered_users' 'all' %}">
+                          <a href="{% url 'admin_dashboard:user_list' %}">
                               <img src="/static/images/2.png" alt="">Total Account Created
                           </a>
                         </li>
                         
                         <li>
-                          <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}">
+                          <a href="{% url 'admin_dashboard:user_list' %}?submitted=True">
                             <img src="/static/images/3.png" alt="">Total Submitted
                           </a>
                         </li>
                         <li>
-                          <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
+                          <a href="{% url 'admin_dashboard:user_list' %}?submitted=False">
                             <img src="/static/images/4.png" alt="">Not Submitted
                           </a>
                         </li>
@@ -97,13 +97,13 @@
   
                 <div class="side">
                   <div class="side-bar">
-                    <a class="icon-con" href="{% url 'admin_dashboard:filtered_users' 'all' %}">
+                    <a class="icon-con" href="{% url 'admin_dashboard:user_list' %}">
                       <img src="/static/images/2.png" alt="Icon-1" />
                     </a>
-                    <a class="icon-con" href="{% url 'admin_dashboard:filtered_users' 'submitted' %}">
+                    <a class="icon-con" href="{% url 'admin_dashboard:user_list' %}?submitted=True">
                       <img src="/static/images/3.png" alt="Icon-2" />
                     </a>
-                    <a class="icon-con" href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}">
+                    <a class="icon-con" href="{% url 'admin_dashboard:user_list' %}?submitted=False">
                       <img src="/static/images/4.png" alt="Icon-3" />
                     </a>
                     <a class="icon-con" href="{% url 'admin_dashboard:question_section' %}">

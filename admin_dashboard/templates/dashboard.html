@@ -45,8 +45,8 @@
               <!-- Toggle Buttons -->
               <div class="filter-toggle">
                 <label>Filter by</label>
-                <a href="{% url 'admin_dashboard:filtered_users' 'submitted' %}"><button class="filter-button active" onclick="toggleActive(this)">Verified</button></a>
-                <a href="{% url 'admin_dashboard:filtered_users' 'not_submitted' %}"><button class="filter-button" onclick="toggleActive(this)">Non-Verified</button></a>
+                <a href="{% url 'admin_dashboard:user_list' %}?submitted=True"><button class="filter-button active" onclick="toggleActive(this)">Verified</button></a>
+                <a href="{% url 'admin_dashboard:user_list' %}?submitted=False"><button class="filter-button" onclick="toggleActive(this)">Non-Verified</button></a>
               </div>
         </div>
                 <div class="table-container">
@@ -66,7 +66,7 @@
                         <tbody>
                             {% for user in users %}
                             <tr>
-                                <td>{{forloop.counter}}.</td>
+                                <td>{{ start_sl_no|add:forloop.counter0 }}</td>
                                 <td>
                                     <div class="user">
                                         <div class="avatar"></div>
@@ -99,39 +99,14 @@
                   </button>
         </div>
 
-        <!-- <div class="pagination-container">
-          <ul class="pagination">
-              <li>
-                  <a href="?page=all">All</a>
-              </li>
-      
-              
-              {% if paginator %}
-                  <li class="dropdown">
-                      <button class="dropdown-toggle">
-                          Page {{ users.number }} of {{ paginator.num_pages }}
-                      </button>
-                      <ul class="dropdown-menu">
-                          {% for num in paginator.page_range %}
-                              <li>
-                                  <a href="?page={{ num }}">Page {{ num }}</a>
-                              </li>
-                          {% endfor %}
-                      </ul>
-                  </li>
-              {% endif %}
-          </ul>
-      </div> -->
-
-      <div class="pagination-container">
+        <!-- Pagination Container starts -->
+        <div class="pagination-container" id="pagination-container" data-current-page="{{ current_page }}"
+         data-total-pages="{{ total_pages }}">
         <button id="prevBtn" onclick="prevPage()">❮</button>
         <div id="pagination"></div>
         <button id="nextBtn" onclick="nextPage()">❯</button>
     </div>
-      
-      
-        
-        
+    <!-- Pagination Container ends -->
         
     <div class="delete-modal">
       <div class="modal-content">
@@ -167,85 +142,59 @@
 
 {% block extra_js %}
 
+<!-- JS for Pagination starts -->
   <script>
-    let currentPage = 1;
-    const totalPages = 12; 
+    document.addEventListener('DOMContentLoaded', () => {
+      const paginationContainer = document.getElementById('pagination-container');
+      const currentPage = parseInt(paginationContainer.getAttribute('data-current-page'));
+      const totalPages = parseInt(paginationContainer.getAttribute('data-total-pages'));
 
-    function createPagination() {
-        const paginationContainer = document.getElementById("pagination");
-        paginationContainer.innerHTML = "";
+        const paginationDiv = document.getElementById('pagination');
 
-        let pages = [];
-
-        // First Page
-        if (currentPage > 2) {
-            pages.push(1);
-        }
-
-        // Ellipsis before current page
-        if (currentPage > 3) {
-            pages.push("...");
-        }
-
-        // Previous, Current, Next Page
-        for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
-            pages.push(i);
-        }
-
-        // Ellipsis after current page
-        if (currentPage < totalPages - 2) {
-            pages.push("...");
-        }
-
-        // Last Page
-        if (currentPage < totalPages - 1) {
-            pages.push(totalPages);
-        }
-
-        pages.forEach(page => {
-            if (page === "...") {
-                const span = document.createElement("span");
-                span.classList.add("dots");
-                span.innerText = "...";
-                paginationContainer.appendChild(span);
-            } else {
-                const button = document.createElement("button");
-                button.innerText = page;
-                button.onclick = () => goToPage(page);
-                if (page === currentPage) {
-                    button.classList.add("active");
-                    // here add something
-                    
-                }
-                paginationContainer.appendChild(button);
+        // Generate pagination buttons
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.innerText = i;
+            button.className = 'pagination-btn';
+            if (i === currentPage) {
+                button.classList.add('active');
             }
-        });
+            button.onclick = () => goToPage(i);
+            paginationDiv.appendChild(button);
+        }
 
-        document.getElementById("prevBtn").disabled = currentPage === 1;
-        document.getElementById("nextBtn").disabled = currentPage === totalPages;
-    }
+        // Enable/disable prev/next buttons
+        document.getElementById('prevBtn').disabled = currentPage === 1;
+        document.getElementById('nextBtn').disabled = currentPage === totalPages;
+    });
 
     function goToPage(page) {
-        currentPage = page;
-        createPagination();
+        const queryParams = new URLSearchParams(window.location.search);
+        queryParams.set('page', page);
+        window.location.search = queryParams.toString(); // Reload with updated query
     }
 
     function prevPage() {
+        const queryParams = new URLSearchParams(window.location.search);
+        const currentPage = parseInt(queryParams.get('page') || 1);
         if (currentPage > 1) {
-            currentPage--;
-            createPagination();
+            queryParams.set('page', currentPage - 1);
+            window.location.search = queryParams.toString();
         }
     }
 
     function nextPage() {
+        const queryParams = new URLSearchParams(window.location.search);
+        const currentPage = parseInt(queryParams.get('page') || 1);
+        const paginationContainer = document.getElementById('pagination-container');
+        const totalPages = parseInt(paginationContainer.getAttribute('data-total-pages'));
         if (currentPage < totalPages) {
-            currentPage++;
-            createPagination();
+            queryParams.set('page', currentPage + 1);
+            window.location.search = queryParams.toString();
         }
     }
-
-    createPagination();
-  </script>
+</script>
+<!-- JS for Pagination ends -->
 
     <script>
 
@@ -385,12 +334,6 @@ document.addEventListener('DOMContentLoaded', () => {
     event.stopPropagation(); // Prevent event from bubbling
     dropdownMenu.style.display =
       dropdownMenu.style.display === 'block' ? 'none' : 'block';
-    // # Pagination
-    const selectedPage = dropdownToggle.textContent;
-    const url = new URL(window.location.href);
-    url.searchParams.set('page', selectedPage);
-    window.location.href = url.toString();
-      // # Pagination
   });
 
   // Close dropdown when clicking outside
