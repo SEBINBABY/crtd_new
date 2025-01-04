@@ -132,6 +132,10 @@ def user_login(request):
         # Authenticate the user
         user = authenticate(request, email=email, password=password)
         if user:
+            # Check if the user is verified
+            if not user.is_verified:
+                messages.error(request, "Your account is not verified.")
+                return render(request, "login.html")
             # Check if the user is IN USER Role itself, Not admin or hr_staff
             if user.role == User.USER:
             # Successfully authenticated, log the user in
