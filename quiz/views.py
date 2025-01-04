@@ -121,6 +121,7 @@ def start_question(request, quiz_id, question_id):
         'question': question,
         'answers': answers,
         'remaining_time': remaining_time,
+        'formatted_remaining_time': f"{remaining_time//60}:{remaining_time%60}",
         'all_question_ids': list(q.id for q in quiz.quiz_questions.all()),
         "marked_questions": request.session["marked_questions"],
         "unmarked_questions": quiz.quiz_questions.count() - len(request.session["marked_questions"]),
