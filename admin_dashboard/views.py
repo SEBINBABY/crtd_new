@@ -59,6 +59,7 @@ def user_list(request):
         'paginator': paginator,
         'current_page': page,
         'total_pages': paginator.num_pages,
+        'start_sl_no': (page - 1) * items_per_page + 1,
     }
     return render(request, 'dashboard.html', context)
 
