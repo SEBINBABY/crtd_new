@@ -17,11 +17,20 @@
   .congrats-logo{
     height: 17%;
     width: 25%;
-    background-color: black;
-    background: url("../images/image_1.png");
+    /* background-color: pink; */
+    /* background: url("../images/image_1.png"); */
     background-color: cover;
     background-repeat: no-repeat;
-    scale: 0.8;
+    /* scale: 0.8; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: -40%;
+  }
+  .congrats-logo img{
+    height: 80%;
+    width: 76%;
   }
   .congrats-content{
     height: 90%;
