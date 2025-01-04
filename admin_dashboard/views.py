@@ -15,6 +15,7 @@ from .models import Amount
 import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
+from django.http import JsonResponse, HttpResponseNotFound, HttpResponseForbidden
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def user_list(request):
@@ -393,6 +394,26 @@ def amount_section(request):
     return render(request, "Amount-Edit.html",{
         'amount': Amount.get_amount()
     })
+
+@role_required(allowed_roles=['admin', 'hr_staff'])
+def delete_user(request, user_id):
+    """
+    View to delete a user with the 'USER' role.
+    """
+    try:
+        # Get the user by ID
+        user = User.objects.get(id=user_id)      
+        # Check if the user has the 'USER' role
+        if user.role != User.USER:
+            return HttpResponseForbidden("You can only delete users with 'USER' role.")     
+        # Delete the user
+        user.delete() 
+        # Provide feedback to the admin
+        messages.success(request, f"User {user.username} deleted successfully.")
+        return redirect('admin_dashboard:user_list' )  
+
+    except User.DoesNotExist:
+        return HttpResponseNotFound("User not found.")
 
 
     
