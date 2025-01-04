@@ -17,7 +17,7 @@ from django.urls import reverse_lazy
 from django import forms
 from django.contrib.auth.forms import PasswordResetForm
 from django.views.decorators.cache import never_cache
-
+from quiz.models import Quiz, Result
 
 # For generating the Unique six digit TCN Number once the user creates the account
 def generate_unique_tcn():
@@ -136,6 +136,10 @@ def user_login(request):
             if not user.is_email_verified:
                 messages.error(request, "Your account is not verified.")
                 return render(request, "login.html")
+            
+            if Result.objects.filter(user=user).count() == Quiz.objects.count() and not user.is_verified:
+                return render(request,'disqualified.html')
+            
             # Check if the user is IN USER Role itself, Not admin or hr_staff
             if user.role == User.USER:
             # Successfully authenticated, log the user in
