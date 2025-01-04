@@ -163,6 +163,19 @@
                 document.body.classList.remove('blurred');
             }
         });
+        let tabSwitchCount = 0;
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                tabSwitchCount++;
+
+                if (tabSwitchCount === 1) {
+                    alert("Warning: You switched tabs. Please return immediately.");
+                } else if (tabSwitchCount === 2) {
+                    window.close();
+                }
+            }
+        });
       </script>
 <script>
 
@@ -291,11 +304,9 @@ window.onload = function () {
     history.replaceState(null, null, window.location.href); // Replace current state
     history.pushState(null, null, window.location.href);   // Push a new state
 };
-  
-  
-  
-</script>       
 
+</script>       
+ 
 </body>
 </html>
 
