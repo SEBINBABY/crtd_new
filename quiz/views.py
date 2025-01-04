@@ -214,9 +214,21 @@ def quiz_summary(request, quiz_id):
         "user_full_name" : user.username,
         "user_email" : user.email,
         "completed_quizzes":completed_quizzes,
-        "incomplete_quizzes":incomplete_quizzes
+        "incomplete_quizzes":incomplete_quizzes,
+        "total_quizzes" : Quiz.objects.count(),
     })
+
+@user_only
+def final_quiz_summary(request):
+    if not request.user.is_verified:
+        return redirect("quiz:start_test")
     
+    return render(request, 'final_summary.html', {
+    "user_full_name" : request.user.username,
+    "user_email" : request.user.email,
+    "quizzes" : Quiz.objects.all(),
+    "total_quizzes" : Quiz.objects.count(),
+    })
 
 @user_only
 def finish_test(request):
