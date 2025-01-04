@@ -59,7 +59,7 @@
           <div class="modal-content">
             <span id="delete-close-btn" class="delete-close-btn">&times;</span>
             <h3>Edit</h3>
-            <form action="{% url 'admin_dashboard:edit_quiz' %}" method="POST">
+            <form class="form-modal" action="{% url 'admin_dashboard:edit_quiz' %}" method="POST">
               {% csrf_token %}
               <div class="form-group">
                 <label>Name of the Quiz</label>

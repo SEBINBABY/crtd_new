@@ -286,10 +286,6 @@ tr {
 .modal-header {
   border-bottom: none;
 }
-.modal-title {
-  color: #083fd3;
-  font-weight: bold;
-}
 .form-check-input1 {
   margin-top: 12px;
 }
@@ -431,6 +427,8 @@ tbody td {
 /* modal >>>>>>>>>>>>>>>>>>>>>>>>>>> */
 .edit-modal {
   display: none; /* Hidden by default */
+  justify-content: center;
+  align-items: center;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -455,18 +453,6 @@ tbody td {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.modal-content h3 {
-  color: #003b8b;
-  position: relative;
-  /* top: 6%; */
-}
-.modal-content label{
-  /* position: relative;
-  top: 10%;
-  left: -23%;
-  font-size: 18px;
-  font-weight: 600; */
-}
 .modal-content .label-timer{
   position: relative;
   left: -38% !important;
@@ -508,11 +494,6 @@ input {
   top: 10%;
 }
 
-/* Buttons Inside Modal */
-.modal-buttons {
-  display: flex;
-  justify-content: space-around;
-}
 
 .cancel-btn,
 .cancel-btn-edit,
@@ -601,12 +582,6 @@ input {
   flex: none !important;
 }
 
-.modal-title {
-  font-size: 18px;
-  color: #333;
-  font-weight: bold;
-}
-
 .modal-item {
   font-size: 18px;
   color: #333;
@@ -617,7 +592,7 @@ input {
 .modal-footer {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 5vw;
   margin-top: 15px;
 }
 
@@ -728,6 +703,9 @@ input{
   font-size: 20px;
   font-weight: bold;
   text-align: center;
+  color: #003b8b;
+  position: relative;
+  top: 2%;
 }
 
 .form-group {
@@ -751,6 +729,15 @@ label {
   font-size: 14px;
 }
 
+.passkeyInput2 {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
 .form-modal{
   width: 80%;
   position: relative;
@@ -760,6 +747,8 @@ label {
 .modal-buttons {
   display: flex;
   justify-content: space-between;
+  position: relative;
+  bottom: 3vh;
 }
 
 .cancel-btn-add,
@@ -773,4 +762,10 @@ label {
 .save-btn-add {
   background-color: #4caf50;
   color: white;
+}
+
+.edit-modal h3{
+  position: relative;
+  top: 3%;
+  color: #003b8b;
 }
