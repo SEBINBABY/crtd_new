@@ -92,7 +92,7 @@
         <div class="modal-content2">
             <h5>Please complete the first step of Payment Gateway Architecture to proceed further.</h5>
             <!-- <p>You must attempt all the questions within the given time</p> -->
-            <form action=""><button type="submit" id="closeModal2">Continue</button> </form>
+            <form action="{% url 'payment_integration:initiate-payment' %}"><button type="submit" id="closeModal2">Continue</button> </form>
         </div>
     </div>
 
