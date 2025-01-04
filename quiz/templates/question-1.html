@@ -109,13 +109,13 @@
             {% if is_last_question %}
                 {% if is_completed%}
                     <a href="{% url 'quiz:quiz_summary' quiz.id %}">
-                        <button class="next-section-btn">Next</button>
+                        <button tabindex="4" class="next-section-btn">Next</button>
                     </a>
                 {% else %}
                     {% if question.id in marked_questions %}
-                        <button id="section-btn" class="next-section-btn">Next</button>
+                        <button tabindex="4" id="section-btn" class="next-section-btn">Next</button>
                     {% else %}
-                        <button disabled class="next-section-btn">Next</button>
+                        <button tabindex="4" disabled class="next-section-btn-disabled">Next</button>
                     {% endif %}
                 {% endif %}
             {% endif %}
