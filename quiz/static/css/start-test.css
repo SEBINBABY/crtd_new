@@ -25,6 +25,8 @@ body{
     position: relative;
     top: 2%;
     left: 15%;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .part-1{
 height: 15%;
