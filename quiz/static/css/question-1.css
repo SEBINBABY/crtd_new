@@ -448,8 +448,9 @@ label p {
   color: #fff;
 }
 .next-section-btn-disabled {
-    background-color:  grey;
-    cursor: not-allowed;
+    background: linear-gradient(to right, #13b3ff, #005ad5);
+    opacity: 0.5;
+    cursor: not-allowed !important;
 }
 .next-section-btn {
   background: linear-gradient(to right, #13b3ff, #005ad5);
