@@ -165,51 +165,61 @@
         });
       </script>
 <script>
-
-document.addEventListener("DOMContentLoaded",() =>{
-    // Initial call to set up the timer
+document.addEventListener("DOMContentLoaded", () => {
     // Full circumference of the progress ring
     const FULL_CIRCUMFERENCE = 565.48; // 2πr where r=90
-    const TIME_LIMIT = parseInt("{{quiz.time}}")*60; // Total countdown time in seconds
+    const TIME_LIMIT = parseInt("{{quiz.time}}") * 60; // Total countdown time in seconds
     let timeLeft = parseInt("{{remaining_time}}");
-    
+
     // Select progress ring and timer text elements
     const progressRingCircle = document.querySelector('.progress-ring__circle');
     const timerText = document.querySelector('.timer-text');
+
+    // Initialize the timer display without animation
+    progressRingCircle.style.transition = 'none'; // Disable transition
+    progressRingCircle.style.strokeDasharray = FULL_CIRCUMFERENCE;
+    progressRingCircle.style.strokeDashoffset = FULL_CIRCUMFERENCE * (1 - timeLeft / TIME_LIMIT);
+    timerText.textContent = formatTime(timeLeft);
+
+    // Re-enable transition after the first render
+    setTimeout(() => {
+        progressRingCircle.style.transition = ''; // Re-enable transition for subsequent changes
+    }, 0);
+
+    // Start and sync the timer
     initTimer();
     syncTimer();
 
-
+    // Modal and navigation setup
     let modal3 = document.getElementById('modal3');
     let closeBTN2 = document.getElementById("closeModal3");
     let sectionBtn = document.getElementById("section-btn");
     
     sectionBtn?.addEventListener("click", () => {
         modal3.style.display = "block";
-    })
+    });
 
-    closeBTN2.addEventListener("click", ()=> {
+    closeBTN2.addEventListener("click", () => {
         modal3.style.display = "none";
     });
 
     const boxes = document.querySelectorAll('.box');
     const prevButton = document.getElementById("prev--btn");
     const question_ids = JSON.parse('{{all_question_ids}}');
-    const curr_id = parseInt('{{question.id}}')
+    const curr_id = parseInt('{{question.id}}');
     const visitedQuestions = JSON.parse('{{ marked_questions }}'); 
     const question_number = document.getElementById("question_number");
 
-    
     let current_index = 0;
-    for(let i = 0; i < question_ids.length; i++) {
-        if(question_ids[i] == curr_id){
+    for (let i = 0; i < question_ids.length; i++) {
+        if (question_ids[i] == curr_id) {
             current_index = i;
             break;
         }
     }
 
-    question_number.innerHTML = current_index+1
-    
+    question_number.innerHTML = current_index + 1;
+
     boxes.forEach((box) => {
         const boxId = parseInt(box.id.split('-')[1]);
         if (visitedQuestions.includes(boxId)) {
@@ -223,25 +233,24 @@ document.addEventListener("DOMContentLoaded",() =>{
             box.classList.remove('Marked');
         }
     });
-    
-    prevButton.addEventListener("click", () =>{
-        event.preventDefault();
-        if(current_index == 0) return
-        window.location.href = `/quiz/{{quiz.id}}/question/${question_ids[current_index-1]}`;
 
+    prevButton.addEventListener("click", () => {
+        event.preventDefault();
+        if (current_index == 0) return;
+        window.location.href = `/quiz/{{quiz.id}}/question/${question_ids[current_index - 1]}`;
     });
-    
+
     // Helper function: Format time as mm:ss
     function formatTime(seconds) {
-      const minutes = Math.floor(seconds / 60);
-      const secs = seconds % 60;
-      return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
 
     // Helper function: Update the circle's progress
     function updateProgress() {
-      const offset = FULL_CIRCUMFERENCE * (1 - timeLeft / TIME_LIMIT);
-      progressRingCircle.style.strokeDashoffset = offset;
+        const offset = FULL_CIRCUMFERENCE * (1 - timeLeft / TIME_LIMIT);
+        progressRingCircle.style.strokeDashoffset = offset;
     }
 
     // Start the countdown
@@ -255,7 +264,7 @@ document.addEventListener("DOMContentLoaded",() =>{
                 timerText.textContent = formatTime(timeLeft);
                 updateProgress();
             } else {
-                document.getElementById('question_form').submit()
+                document.getElementById('question_form').submit();
                 clearInterval(interval);
                 timerText.textContent = "00:00"; // Timer reaches zero
             }
@@ -264,11 +273,7 @@ document.addEventListener("DOMContentLoaded",() =>{
 
     // Initialize the timer
     function initTimer() {
-      // Initialize ring stroke and timer display
-      progressRingCircle.style.strokeDasharray = FULL_CIRCUMFERENCE;
-      timerText.textContent = formatTime(timeLeft);
-      // Start the countdown
-      startCountdown();
+        startCountdown();
     }
 
     // Sync the timer with the API every 10 seconds
@@ -285,14 +290,140 @@ document.addEventListener("DOMContentLoaded",() =>{
             console.error('Error syncing timer:', error);
         }
     }
- 
 });
+
 window.onload = function () {
     history.replaceState(null, null, window.location.href); // Replace current state
     history.pushState(null, null, window.location.href);   // Push a new state
 };
-  
-  
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   
 </script>       
 

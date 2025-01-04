@@ -47,7 +47,7 @@ h2 {
   stroke-dashoffset: 0;
   transform: rotate(-90deg); /* Start progress from the top */
   transform-origin: 50% 50%;
-  transition: stroke-dashoffset 1s linear;
+  
 }
 
 /* Timer text (centered in the circle) */
