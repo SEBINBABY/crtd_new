@@ -67,9 +67,9 @@ body {
 
 label {
   display: block;
-  height: 160%;
+  height: 140%;
   width: 80%; /* Adjusts to the container's width */
-  padding: 5px 15px;
+  padding: 7px 15px;
   border-radius: 5px;
   cursor: pointer;
   margin-top: -5px;
@@ -77,7 +77,7 @@ label {
   background-color: #f6f6f6;
   transition: all 0.3s ease;
   box-sizing: border-box; /* Ensures padding is included in the width */
-  text-align: center;
+  /* text-align: center; */
 }
  /* Default hover effect for labels of unchecked radio buttons */
 input[type="radio"]:not(:checked) + label:hover {
@@ -117,10 +117,6 @@ label p {
   font-size: 18px;
   position: relative;
   top: 25%;
-  /* text-align: center; */
-  /* padding: 5px; */
-  /* left: 10%; */
-  /* width: 60%; */
 }
 .box-2 .quest-para{
   position: relative;
@@ -148,16 +144,13 @@ label p {
   top: 30%;
   left: 12%;
 }
-.question label{
-  display: flex;
-  justify-content: center;
-}
+
 .question p {
   font-size: 16px;
   font-weight: 480;
   padding-left: 10px;
   position: relative;
-  top: -2px;
+  /* top: -2px; */
 }
 .question-btns {
   width: 80%;
