@@ -21,6 +21,7 @@ body {
  display: flex;
  flex-direction: column;
  justify-content: space-evenly;
+ margin-top: -25px;
 }
 .part-1 {
  height: 15%;
