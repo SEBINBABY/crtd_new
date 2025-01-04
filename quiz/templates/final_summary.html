@@ -25,7 +25,7 @@
     <div class="automate-logo">
         <img src="/static/images/image_1.png" alt="">
     </div>
-    <p> Technical Programming Test</p>
+    <p> Technical Programming Test</p>
     <div class="imp-account automate-account">
         <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
         <h6 style="margin-top: -40px;color: #003B8B;" >{{user_full_name}}</h6>
@@ -33,9 +33,9 @@
          
     </div>
     </div>
-    <div class="selection">Section Attempted {{completed_quizzes | length}}/{{total_quizzes}}</div>
+    <div class="selection">Section Attempted {{total_quizzes}}/{{total_quizzes}}</div>
     <div class="automate-content-box">
-        {% for quiz in completed_quizzes %}
+        {% for quiz in quizzes %}
         <div class="inner-box">
         <div class="is_start"> <p> </p>  </div>   
         <div class="content-box attempted">
@@ -45,43 +45,8 @@
         </div>
         <div class="is_complete visible"><img src="/static/images/green-tick.png"/> <p>Attempted</p></div>
         </div>
-        {% endfor %}
-        {% for quiz in incomplete_quizzes %}
-            {% if forloop.first %}
-            <div class="inner-box">
-                <div class="is_start"> <p>Starting- </p>  </div>   
-               <div class="content-box current">
-                   <h6>{{quiz.name}}</h6>
-                   <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
-                   <p>{{quiz.quiz_questions.count}} Questions</p>
-               </div>
-               <div class="is_complete"><img src="/static/images/green-tick.png"/> <p>Attempted</p></div>
-               </div>
-            {% else %}
-            <div class="inner-box">
-                <div class="is_start"> <p></p>  </div>   
-               <div class="content-box remaining">
-                   <h6>{{quiz.name}}</h6>
-                   <p><i class="fa-solid fa-clock"></i> &nbsp;{{quiz.time}} minutes</p>
-                   <p>{{quiz.quiz_questions.count}} Questions</p>
-               </div>
-               <div class="is_complete"><img src="/static/images/green-tick.png"/> <p>Attempted</p></div>
-               </div>
-            {% endif %}
-        {% endfor %}
-
-        {% if incomplete_quizzes|length != 0 %}
-        <h5>Automatically starting in <span id="timer">10</span> sec</h5>
-        <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
-            {% csrf_token %}
-            <button>Start Now</button>
-        </form>
-        {% else %}
-        <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
-            {% csrf_token %}
-            <button>Complete Test!</button>
-        </form>
-        {% endif %}
+        {% endfor %}        
+        <button disabled>Test completed!</button>
     </div>
 </div>
 <script>
