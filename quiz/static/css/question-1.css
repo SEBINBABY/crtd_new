@@ -57,6 +57,8 @@ body {
   padding: 10px;
   border-radius: 8px;
   margin-left: 60px;
+  /* justify-content: center\; */
+  align-items: center;
 }
 /* input[type="radio"] { */
 
@@ -66,10 +68,12 @@ body {
 /* } */
 
 label {
-  display: block;
-  height: 140%;
+  display: flex;
+  align-items: center;
+  height: 150%;
   width: 80%; /* Adjusts to the container's width */
-  padding: 7px 15px;
+  padding: 0px 15px;
+  padding-bottom: 13px;
   border-radius: 5px;
   cursor: pointer;
   margin-top: -5px;
@@ -78,6 +82,7 @@ label {
   transition: all 0.3s ease;
   box-sizing: border-box; /* Ensures padding is included in the width */
   /* text-align: center; */
+  /* align-items: center; */
 }
  /* Default hover effect for labels of unchecked radio buttons */
 input[type="radio"]:not(:checked) + label:hover {
@@ -150,7 +155,6 @@ label p {
   font-weight: 480;
   padding-left: 10px;
   position: relative;
-  /* top: -2px; */
 }
 .question-btns {
   width: 80%;
@@ -346,6 +350,12 @@ label p {
   border: none;
   background: linear-gradient(to right, #13b3ff, #005ad5);
   color: #fff;
+}
+.questtt-btns{
+  /* margin-bottom: 30px !important; */
+  position: relative;
+  top: 35% !important;
+  left: 5% !important;
 }
 
 

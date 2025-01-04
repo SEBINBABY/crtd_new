@@ -42,7 +42,7 @@
 
         <div class="part-2" id="part2">
 
-            <h4>Payment Gateway Analysis</h4>
+            <h4>Payment Gateway Architecture</h4>
             <div class="part2-innerbox">Only for Testing Purpose</div>
             <form>
                 <button class="check-payment" id="check-payment">Check Payment Gateway</button>
@@ -64,8 +64,29 @@
     <div>
     </div>
     </div>
+
+    <div class="modal1" id="modal1">
+        <div class="modal-content1">
+            <!-- <h2>Exam In Progress</h2> -->
+            <h5>Please complete the first step of Payment Gateway Architecture to proceed further.</h5>
+            <button id="closeModal">Close</button>
+        </div>
+    </div>
+
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <script>
+            const saveBtn = document.querySelector(".save-btn");
+        const modal2 = document.querySelector(".modal1");
+    
+        saveBtn.addEventListener("click" , () => {
+          modal2.style.display = "block";
+         })
+
+         const closeModal2 = document.querySelector("#closeModal");
+         closeModal2.addEventListener("click" , () => {
+         modal2.style.display = "none";
+        })
+
           var options = {
             "key": "{{razorpay_merchant_id}}", // Enter the Key ID generated from the Dashboard
             "amount": "{% widthratio amount 1 100 %}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
