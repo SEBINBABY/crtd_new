@@ -31,12 +31,12 @@
                 <img src="/static/images/user.png" alt="" height="40px" width="40px" style="margin-left: -65px;margin-bottom: -60px;">
                 <div>
                     <h6 style="color: #003B8B; margin-left: -20px;" >{{ user_full_name }}</h6>
-                    <h6 style=" margin-left: -20px; margin-right: 80px;  margin-top: -10px; color: #212536;" >{{ user_email }}</h6>
+                    <h6 style=" margin-left: -20px; margin-right: 120px;  margin-top: -10px; color: #212536;" >{{ user_email }}</h6>
                 </div>
             </div>
         </div>
-        <div class="selection" style="margin-left: 72%;">
-             <h6> Section Attempted 0/{{ quizzes|length }} </h6></div>
+        <div class="selection" style="margin-left: 72%; margin-top: 30px;">
+             <h6 > Section Attempted 0/{{ quizzes|length }} </h6></div>
         <div class="automate-content-box">
             {% for quiz in quizzes %}
             <div class="content-box">
