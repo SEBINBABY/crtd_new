@@ -126,8 +126,8 @@
           <button class="btn delete-cancel-btn">Cancel</button>
           {% for user in users %}
           <form action="{% url 'admin_dashboard:delete_user' user_id=user.id %}" method="GET">
-          <button class="btn delete-delete-btn">Delete</button>
           {% endfor %}
+          <button class="btn delete-delete-btn">Delete</button>
         </form>
         </div>
       </div>
