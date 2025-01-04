@@ -28,8 +28,8 @@
             </div>
             <div class="box-1-content">
                 <div class="small-box-cont">
-                    <div>Marked
-                    <div class="marked Marked">{{marked_questions|length}}</div>
+                    <div style="margin-left: 5px;">Marked
+                    <div style="margin-left: 1px;" class="marked Marked">{{marked_questions|length}}</div>
                     </div>
                     <div>
                         Not visited
@@ -37,7 +37,7 @@
                     </div>
                     <div>
                         Active
-                    <div class="active">1</div>
+                    <div style="margin-left: -1px;" class="active">1</div>
                     </div>
                 </div>
                 <div class="small-box-cont2">
@@ -161,6 +161,19 @@
             if (e.key === 'Meta') {
                 isMetaKeyPressed = false;
                 document.body.classList.remove('blurred');
+            }
+        });
+        let tabSwitchCount = 0;
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                tabSwitchCount++;
+
+                if (tabSwitchCount === 1) {
+                    alert("Warning: You switched tabs. Please return immediately.");
+                } else if (tabSwitchCount === 2) {
+                    window.close();
+                }
             }
         });
       </script>
@@ -427,6 +440,8 @@ window.onload = function () {
   
 </script>       
 
+</script>       
+ 
 </body>
 </html>
 

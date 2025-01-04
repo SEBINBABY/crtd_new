@@ -92,6 +92,19 @@
                 document.body.classList.remove('blurred');
             }
         });
+         let tabSwitchCount = 0;
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                tabSwitchCount++;
+
+                if (tabSwitchCount === 1) {
+                    alert("Warning: You switched tabs. Please return immediately.");
+                } else if (tabSwitchCount === 2) {
+                    window.close();
+                }
+            }
+        });
       </script>
       <script>
         const isMobile = window.innerWidth < 1024;
