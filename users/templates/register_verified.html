@@ -162,7 +162,7 @@
 
     // Attach validation to the submit button
     document.querySelector(".submit-btn").addEventListener("click", function (event) {
-        const contactInput = document.getElementById("displayContact").value.trim();
+        const contactInput = document.getElementById("inputContact").value.trim();
 
         // Check if contact number is entered and valid
         if (contactInput && !validateContactNumber(contactInput)) {
