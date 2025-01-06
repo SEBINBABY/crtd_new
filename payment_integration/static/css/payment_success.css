@@ -190,8 +190,6 @@ border: 0.8px solid #C2C2C2;
     font-size: 20px;
     font-weight: 600;
     color: #015DD6;
-    position: relative;
-    left: 3%;
 }
 .modal-fail span{
     width: 90%;
