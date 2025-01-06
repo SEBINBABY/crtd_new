@@ -307,6 +307,8 @@ def edit_question(request):
         answers_data = []
         for answer_id in answer_ids:
             answer_text = data.get(f'answer_text-{answer_id}')
+            if not answer_text:
+                return JsonResponse({"data":answers_data})
             if(answer_text == ''): continue
             answers_data.append([answer_text,answer_id==correct_answer_id])
 
