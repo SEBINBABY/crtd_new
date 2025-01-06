@@ -194,9 +194,9 @@ def quiz_summary(request, quiz_id):
     result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
     
     # Update the score and end time in the Result object
-    result.score = calculate_score(quiz,result)
-    if result.score >= result.quiz.score_to_pass:
-        result.is_passed = True
+    # result.score = calculate_score(quiz,result)
+    # if result.score >= result.quiz.score_to_pass:
+    #     result.is_passed = True
     result.end_time = now()
     result.save()
 
@@ -280,7 +280,7 @@ def end_test(request):
             result = Result(user=user,quiz=quiz,score=0,end_time=now())
             result.save()
     messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
-    user.is_email_verified = False
+    user.is_verified = False
     user.save()
     logout(request)
     return JsonResponse({"message":"You have been disqualified due to non-compliance with the test guidelines."})

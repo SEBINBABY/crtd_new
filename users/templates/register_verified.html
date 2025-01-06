@@ -122,6 +122,27 @@
                 document.body.classList.remove('blurred');
             }
         });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+            }
+           });
+           document.addEventListener('keydown', (event) => {
+            if (event.key === 'PrintScreen') {
+                event.preventDefault();  
+            }
+            if (event.ctrlKey || event.metaKey) {
+                if (event.key === 's' || event.key === 'Shift') {
+                    event.preventDefault();
+                }
+            }
+           });
+           document.addEventListener('keyup', (event) => {
+            if (event.key === 'PrintScreen') {
+                document.body.classList.add('blurred'); // Blur content
+                setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
+            }
+           });
       </script>
     <script>
         // Retrieve data from session storage
@@ -134,7 +155,7 @@
         // Populate the fields or display data
         document.getElementById("displayName").value = fullName || "";
         document.getElementById("displayEmail").value = email || "";
-        document.getElementById("displayContact").value = contactNumber || "";
+        document.getElementById("inputContact").value = contactNumber || "";
         document.getElementById("inputPassword").value = Password || "";
         document.getElementById("inputPassword2").value = Password || "";
 
@@ -162,7 +183,7 @@
 
     // Attach validation to the submit button
     document.querySelector(".submit-btn").addEventListener("click", function (event) {
-        const contactInput = document.getElementById("displayContact").value.trim();
+        const contactInput = document.getElementById("inputContact").value.trim();
 
         // Check if contact number is entered and valid
         if (contactInput && !validateContactNumber(contactInput)) {

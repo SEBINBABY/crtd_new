@@ -152,13 +152,16 @@ def add_quiz(request):
     score = data.get('score')
     requires_payment = data.get('requires_payment') == 'true'
 
-    if None in (name,time,score,requires_payment):
+    if None in (name,time):
         return JsonResponse({"error":"Please fill all fields"})
     
-    order = Quiz.objects.last().order + 1
+    last_quiz = Quiz.objects.last()
+    if last_quiz:
+        order = last_quiz.order + 1
+    else:
+        order = 1
 
-    new_quiz = Quiz(name=name,time=time,score_to_pass=score,order=order,requires_payment=requires_payment)
-    new_quiz.save()
+    new_quiz = Quiz.objects.create(name=name,time=time,order=order,requires_payment=requires_payment)
     return redirect("admin_dashboard:question_section")
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
@@ -175,8 +178,12 @@ def edit_quiz(request):
         time = data.get('time')
         score = data.get('score')
         requires_payment = data.get('requires_payment') == 'true'
-        if None in (name,time,score,requires_payment):
-            return JsonResponse({"error":"Please fill all fields"})
+        if None in (name,time):
+            return JsonResponse({"error":"Please fill all fields"})     
+        try:
+            quiz_id = int(quiz_id)
+        except ValueError:
+            return JsonResponse({"error": "Invalid Quiz ID."}, status=400)
     
         this_quiz = get_object_or_404(Quiz,id=quiz_id)
         this_quiz.name = name
@@ -293,6 +300,8 @@ def edit_question(request):
         correct_answer_id  = data.get('correct_answer_id',None)
         if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
         answer_ids = data.get('answer_ids',None)
+        if not answer_ids:
+            return JsonResponse({"error": "Answers data is missing"})
         answer_ids = list(answer_ids.split(','))[:-1]
         
         answers_data = []
@@ -306,16 +315,18 @@ def edit_question(request):
         question = get_object_or_404(Question,id = question_id)
         question.question_text = question_text
         new_answer_ids = []
-        for data in answers_data:
-            answer, created = Answer.objects.get_or_create(answer_text = data[0],is_correct=data[1],question_id=question.id)
-            new_answer_ids.append(answer.id)
+        for answer_text, is_correct in answers_data:
+            answer, created = Answer.objects.get_or_create(
+                answer_text=answer_text,
+                question_id=question.id
+            )
+            answer.is_correct = is_correct
             answer.save()
+            new_answer_ids.append(answer.id)
 
         question.save()
-        for answer in Answer.objects.filter(question_id=question.id):
-            if answer.id not in new_answer_ids:
-                answer.delete()
-
+        # Delete answers that are not part of the updated list
+        Answer.objects.filter(question_id=question.id).exclude(id__in=new_answer_ids).delete()
         return redirect('admin_dashboard:question_list',question.quiz.id)
 
 @role_required(allowed_roles=['admin', 'hr_staff'])

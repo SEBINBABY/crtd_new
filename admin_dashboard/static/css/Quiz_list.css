@@ -739,12 +739,17 @@ label {
   font-size: 14px;
 }
 
-.form-modal{
+.edit-form-modal{
   width: 80%;
   position: relative;
   top: 5%;
 }
 
+.save-form-modal{
+  width: 80%;
+  position: relative;
+  top: 5%;
+}
 .modal-buttons {
   display: flex;
   justify-content: space-between;

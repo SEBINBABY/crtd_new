@@ -70,10 +70,8 @@ body {
 label {
   display: flex;
   align-items: center;
-  height: 150%;
   width: 80%; /* Adjusts to the container's width */
-  padding: 0px 15px;
-  padding-bottom: 13px;
+  padding: 5px 15px;
   border-radius: 5px;
   cursor: pointer;
   margin-top: -5px;
@@ -81,8 +79,6 @@ label {
   background-color: #f6f6f6;
   transition: all 0.3s ease;
   box-sizing: border-box; /* Ensures padding is included in the width */
-  /* text-align: center; */
-  /* align-items: center; */
 }
  /* Default hover effect for labels of unchecked radio buttons */
 input[type="radio"]:not(:checked) + label:hover {
