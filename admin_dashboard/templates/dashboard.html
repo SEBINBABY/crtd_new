@@ -51,7 +51,7 @@
         </div>
                 <div class="table-container">
                     <table>
-                        <thead>
+                        <thead class="thead">
                             <tr>
                                 <th>S.no.</th>
                                 <th>Full Name</th>
@@ -93,20 +93,23 @@
                         </tbody>
                     </table>
                 </div>
-                <button class="move-to-top-btn" onclick="scrollToTableTop()">
-                    Move to top
-                    <div class="arrow-up"></div>
-                  </button>
         </div>
+        <div class="footer">
 
-        <!-- Pagination Container starts -->
+          <!-- Pagination Container starts -->
         <div class="pagination-container" id="pagination-container" data-current-page="{{ current_page }}"
-         data-total-pages="{{ total_pages }}">
-        <button id="prevBtn" onclick="prevPage()">❮</button>
-        <div id="pagination"></div>
-        <button id="nextBtn" onclick="nextPage()">❯</button>
-       </div>
-    <!-- Pagination Container ends -->
+        data-total-pages="{{ total_pages }}">
+       <button id="prevBtn" onclick="prevPage()">❮</button>
+       <div id="pagination"></div>
+       <button id="nextBtn" onclick="nextPage()">❯</button>
+      </div>
+   <!-- Pagination Container ends -->
+
+        <button class="move-to-top-btn" onclick="scrollToTableTop()">
+          Move to top
+          <div class="arrow-up"></div>
+        </button>
+        </div>
         
     <div class="delete-modal">
       <div class="modal-content">
@@ -217,10 +220,12 @@
         const deleteCancelBtn = document.querySelector('.delete-cancel-btn');
         const deleteDeleteBtn = document.querySelector('.delete-delete-btn');
         const passkeyModalDelete = document.querySelector(".delete-modal");
+        const thead = document.querySelector('.thead');
 
     deleteBtn.forEach(btn => {
       btn.addEventListener('click', () => {
         deleteModal.style.display = 'block';
+        thead.style.position = "none"
       });
     });
 
@@ -240,7 +245,7 @@
       });
 
       deleteDeleteBtn.addEventListener("click", () => {
-        alert("Passkey has been deleted!");
+        alert("User has been deleted!");
         passkeyModalDelete.style.display = "none";
       });
 

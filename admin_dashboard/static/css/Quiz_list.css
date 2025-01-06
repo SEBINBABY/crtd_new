@@ -541,6 +541,7 @@ input {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 1010;
 }
 
 /* Modal Content */
@@ -695,7 +696,7 @@ input{
   border-radius: 8px;
   padding: 20px;
   width: 40vw;
-  height: 60%;
+  height: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -723,7 +724,7 @@ label {
 .passkeyInput {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 2px solid #003b8b;
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 14px;

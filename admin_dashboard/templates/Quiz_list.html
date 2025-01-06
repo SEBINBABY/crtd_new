@@ -69,10 +69,6 @@
                 <label>Time</label>
                 <input type="number" class="passkeyInput" placeholder="Time" name="time" id="edit_time" value="" required />
               </div>
-              <div class="form-group">
-                <label>Score to pass (%)</label>
-                <input type="number" class="passkeyInput" placeholder="Score to pass in %" name="score" id="edit_score" value="" required />
-              </div>
               <div class="requires-payment">
                 <input type="checkbox" class="passkeyInput" name="requires_payment" id="requires_payment" value="true" />
                 <label for="requires_payment">Requires Payment</label>
@@ -125,10 +121,6 @@
                 <div class="form-group">
                   <label class="time">Time</label>
                   <input type="number" class="passkeyInput" placeholder="Time" name="time" value="" required />
-                </div>
-                <div class="form-group">
-                  <label class="score">Score to pass (%)</label>
-                  <input type="number" class="passkeyInput" placeholder="Score to pass in %" name="score" value="" required />
                 </div>
                 <div class="require-payment">
                   <div style="display: flex; justify-content: center;">
@@ -195,7 +187,6 @@ deleteCloseBtn.addEventListener("click", () => {
               console.log(data)
               document.getElementById("edit_name").value = data['name']
               document.getElementById("edit_time").value = data['time']
-              document.getElementById("edit_score").value = data['score_to_pass']
 
               if(data['requires_payment']){
                 document.getElementById("requires_payment").checked = true;
