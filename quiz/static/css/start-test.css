@@ -80,7 +80,7 @@ justify-content: space-between;
     font-size: 24px;
     position: relative;
     top: 1%;
-    left: 38%;
+    left: 30%;
 }
 .automaticaly-box button{
     background: linear-gradient(to right, #13B3FF, #005AD5); 
@@ -91,7 +91,7 @@ justify-content: space-between;
     width: 15%;
     position: relative;
     top: 2%;
-    left: 48%;
+    left: 40%;
 }
 .automate-account{
     position: relative;
@@ -136,6 +136,7 @@ justify-content: space-between;
     width: 115%;
     height: 12%;
     align-items: center;
+    margin-bottom: 10px;
 }
 .is_complete img{
     height: 20px;
