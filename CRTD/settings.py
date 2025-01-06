@@ -81,10 +81,8 @@ WSGI_APPLICATION = 'CRTD.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-selected_db = 1
 
-if selected_db == 1:
-    DATABASES = {
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': config('DATABASE_NAME'),
@@ -94,13 +92,7 @@ if selected_db == 1:
             'PORT':config('DATABASE_PORT'),
         }
 }
-else:
-    DATABASES = {
-        'sqlite': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',  # or use a path from config like: config('SQLITE_DB_PATH')
-        }
-    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
