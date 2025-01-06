@@ -193,8 +193,6 @@ def quiz_summary(request, quiz_id):
     """
     Displays the quiz summary and calculates the final score.
     """
-    if request.session.get("finish_test") == True:
-        return redirect('quiz:finish_test')
 
     user = request.user
     if not user.is_user:
@@ -221,7 +219,10 @@ def quiz_summary(request, quiz_id):
     incomplete_quizzes = Quiz.objects.exclude(id__in=results.values_list('quiz_id', flat=True))
     request.session["marked_questions"] = []
     request.session.save()
-
+    
+    if request.session.get("finished_test") == True:
+        return redirect('quiz:finish_test')
+    
     return render(request, 'start-test.html', {
         "user_full_name" : user.username,
         "user_email" : user.email,
@@ -247,7 +248,7 @@ def finish_test(request):
     """
     Renders the finish test template.
     """
-    request.session["finish_test"] = True
+    request.session["finished_test"] = True
 
     user = request.user
     if not user.is_user:
