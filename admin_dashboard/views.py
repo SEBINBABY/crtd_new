@@ -161,7 +161,7 @@ def add_quiz(request):
     else:
         order = 1
 
-    new_quiz = Quiz.objects.create(name=name,time=time,score_to_pass=score,order=order,requires_payment=requires_payment)
+    new_quiz = Quiz.objects.create(name=name,time=time,order=order,requires_payment=requires_payment)
     return redirect("admin_dashboard:question_section")
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
