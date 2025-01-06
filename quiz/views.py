@@ -188,6 +188,7 @@ def save_answer(request, quiz_id, question_id):
     return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 
 @user_only
+@never_cache
 def quiz_summary(request, quiz_id):
     """
     Displays the quiz summary and calculates the final score.
