@@ -15,6 +15,7 @@ from .models import Amount
 import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
+from django.http import JsonResponse, HttpResponseNotFound, HttpResponseForbidden
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def user_list(request):
@@ -151,13 +152,15 @@ def add_quiz(request):
     score = data.get('score')
     requires_payment = data.get('requires_payment') == 'true'
 
-    if None in (name,time,score,requires_payment):
+    if None in (name,time):
         return JsonResponse({"error":"Please fill all fields"})
     
-    order = Quiz.objects.last().order + 1
+    if Quiz.objects.last().exists():
+        order = Quiz.objects.last().order + 1
+    else:
+        order = 1
 
-    new_quiz = Quiz(name=name,time=time,score_to_pass=score,order=order,requires_payment=requires_payment)
-    new_quiz.save()
+    new_quiz = Quiz.objects.create(name=name,time=time,score_to_pass=score,order=order,requires_payment=requires_payment)
     return redirect("admin_dashboard:question_section")
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
@@ -174,7 +177,7 @@ def edit_quiz(request):
         time = data.get('time')
         score = data.get('score')
         requires_payment = data.get('requires_payment') == 'true'
-        if None in (name,time,score,requires_payment):
+        if None in (name,time):
             return JsonResponse({"error":"Please fill all fields"})
     
         this_quiz = get_object_or_404(Quiz,id=quiz_id)
@@ -393,6 +396,26 @@ def amount_section(request):
     return render(request, "Amount-Edit.html",{
         'amount': Amount.get_amount()
     })
+
+@role_required(allowed_roles=['admin', 'hr_staff'])
+def delete_user(request, user_id):
+    """
+    View to delete a user with the 'USER' role.
+    """
+    try:
+        # Get the user by ID
+        user = User.objects.get(id=user_id)      
+        # Check if the user has the 'USER' role
+        if user.role != User.USER:
+            return HttpResponseForbidden("You can only delete users with 'USER' role.")     
+        # Delete the user
+        user.delete() 
+        # Provide feedback to the admin
+        messages.success(request, f"User {user.username} deleted successfully.")
+        return redirect('admin_dashboard:user_list' )  
+
+    except User.DoesNotExist:
+        return HttpResponseNotFound("User not found.")
 
 
     

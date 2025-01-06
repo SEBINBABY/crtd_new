@@ -116,8 +116,8 @@
           <div class="add-modal" id="add-modal">
             <div class="modal-content add-inner-modal" id="modal">
               <h3 class="modal-title">Add new Quiz</h3>
-              <form class="form-modal" action="{% url 'admin_dashboard:add_quiz' %}" method="post">
-                <!-- {% csrf_token %} -->
+              <form class="form-modal" action="{% url 'admin_dashboard:add_quiz' %}" method="POST">
+                {% csrf_token %}
                 <div class="form-group">
                   <label class="name">Name of the Quiz</label>
                   <input type="text" class="passkeyInput input-name" placeholder="Name of the Quiz" name="name" value="" required />

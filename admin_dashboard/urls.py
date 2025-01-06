@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import admin_hr_login, question_section, user_list, passkey, add_passkey, update_passkey
+from .views import admin_hr_login, question_section, user_list, passkey, add_passkey, update_passkey, delete_user
 from .views import *
 
 app_name = "admin_dashboard"
@@ -24,6 +24,7 @@ urlpatterns = [
     path('edit_quiz/', edit_quiz, name="edit_quiz"),
     path('delete_quiz/', delete_quiz, name="delete_quiz"),
     path('reorder_quizzes/', reorder_quizzes, name="reorder_quizzes"),
+     path('delete_user/<int:user_id>/',delete_user, name='delete_user'),
 ]
 
 
