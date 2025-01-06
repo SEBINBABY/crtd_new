@@ -316,7 +316,7 @@ def edit_question(request):
         question.question_text = question_text
         new_answer_ids = []
         for data in answers_data:
-            answer, created = Answer.objects.get_or_create(answer_text = data[0],is_correct=data[1],question_id=question.id)
+            answer, created = Answer.objects.get_or_create(answer_text = data[0],question_id=question.id)
             answer.is_correct = data[1]
             answer.save()
             new_answer_ids.append(answer.id)
