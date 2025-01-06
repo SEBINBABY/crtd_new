@@ -188,7 +188,7 @@ def edit_quiz(request):
         this_quiz = get_object_or_404(Quiz,id=quiz_id)
         this_quiz.name = name
         this_quiz.time = time
-        this_quiz.score_to_password = score
+        this_quiz.score_to_pass = score
         this_quiz.requires_payment = requires_payment
         this_quiz.save()
         return redirect("admin_dashboard:question_section")

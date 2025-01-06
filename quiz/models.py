@@ -63,6 +63,9 @@ class Answer(models.Model):
             'question': self.question.id,
         }
     
+    class Meta:
+        unique_together = ('answer_text', 'question')
+    
 
 class Result(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
@@ -75,3 +78,6 @@ class Result(models.Model):
 
     def __str__(self):
         return f"${self.user}'s result for ${self.quiz}"
+    
+    class Meta:
+        unique_together = ('user', 'quiz')
