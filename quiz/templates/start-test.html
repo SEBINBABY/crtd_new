@@ -79,7 +79,7 @@
         {% else %}
         <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
             {% csrf_token %}
-            <button>Complete Test!</button>
+            <button>Submit Test</button>
         </form>
         {% endif %}
     </div>

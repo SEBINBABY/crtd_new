@@ -32,12 +32,22 @@
             <h4>successfully completed the test</h4>
             <span>Your Test/Case Number</span>
             <h3>TCN-{{TCN}}</h3>
-            <form action="{% url 'quiz:final_quiz_summary' %}" method="get">
-                <button type="submit" class="return-btn">Return to Dashboard</button>
-              </form>
+            <form action="#">    
+                <button disabled ="submit" class="return-btn">Test Submitted Successfully</button>
+            </form>
         </div>
     </div>
     <script>
+        // Replace the current history entry
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+            window.history.pushState(null, null, window.location.href);
+        };
+        // Prevent the back button from working
+        window.addEventListener('popstate',()=>{
+        // Push the state again to prevent going back
+            history.pushState(null, null, location.href);
+        });
         document.addEventListener('contextmenu', event => event.preventDefault());
     
         document.addEventListener('keydown', event => {
@@ -45,7 +55,6 @@
                 event.preventDefault();
             }
         });
-
        
         let isMetaKeyPressed = false;
         document.addEventListener('keydown', (e) => {
@@ -82,6 +91,9 @@
                 setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
             }
            });
+
+           
+        
       </script>
 </body>
 </html>

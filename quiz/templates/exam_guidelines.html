@@ -52,7 +52,7 @@
                 <input type="checkbox" id="is_checked">
                 <span>Please check the box to confirm that you have read the instructions.</span>
             </div>
-            <span style="margin-left: 30px; margin-top: 10px;" class="popup">Please check the box to agree with the terms before starting the test.</span>
+            <span style="margin-left: 30px; margin-top: 10px;" class="popup">Please check the box to agree with the terms before starting the test.</span>
             <form id="submit-form" action="{% url 'quiz:start_test' %}" method="POST">
                 {% csrf_token %}
                 <button class="imp-instruct-btn" id="submit-btn" type="button">Start the Test</button>
@@ -116,7 +116,7 @@
          if(is_Checked.checked){
              window.location.href = "http://127.0.0.1:8000/start-test/";
              document.getElementById("submit-form").submit();
-             alert(" Alert !!                                                                        Once the test begins, do not switch tabs. Doing so will result in     disqualification.")
+             alert("Alert !!\nOnce the test begins, do not switch tabs. Doing so will result in disqualification.")
          }
          else{
              popup.style.opacity = "1";
