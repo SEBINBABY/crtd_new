@@ -152,13 +152,12 @@ def add_quiz(request):
     score = data.get('score')
     requires_payment = data.get('requires_payment') == 'true'
 
-    if None in (name,time,score,requires_payment):
+    if None in (name,time):
         return JsonResponse({"error":"Please fill all fields"})
     
     order = Quiz.objects.last().order + 1
 
-    new_quiz = Quiz(name=name,time=time,score_to_pass=score,order=order,requires_payment=requires_payment)
-    new_quiz.save()
+    new_quiz = Quiz.objects.create(name=name,time=time,score_to_pass=score,order=order,requires_payment=requires_payment)
     return redirect("admin_dashboard:question_section")
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
@@ -175,7 +174,7 @@ def edit_quiz(request):
         time = data.get('time')
         score = data.get('score')
         requires_payment = data.get('requires_payment') == 'true'
-        if None in (name,time,score,requires_payment):
+        if None in (name,time):
             return JsonResponse({"error":"Please fill all fields"})
     
         this_quiz = get_object_or_404(Quiz,id=quiz_id)
