@@ -81,7 +81,9 @@
                     <div  class="cont2-part1" >
                     {% for question_id in all_question_ids %}
                         <a href="{% url 'quiz:start_question' quiz.id question_id%}" ><div class="part1-box box 
-                                {% if question_id in marked_questions %} Marked {% else %} not-Visited {% endif %}" 
+                                {% if question_id in marked_questions %} 
+                                Marked 
+                                {% elif question_id == question.id %} active {% else %} not-Visited {% endif %}" 
                                 id="box-{{ question_id }}">
                             {{ forloop.counter }}
                         </div></a>
@@ -146,13 +148,13 @@
             {% if is_last_question %}
                 {% if is_completed%}
                     <a href="{% url 'quiz:quiz_summary' quiz.id %}">
-                        <button tabindex="4" class="next-section-btn">Next</button>
+                        <button tabindex="4" class="next-section-btn">Submit</button>
                     </a>
                 {% else %}
                     {% if question.id in marked_questions %}
-                        <button tabindex="4" id="section-btn" class="next-section-btn">Next</button>
+                        <button tabindex="4" id="section-btn" class="next-section-btn">Submit</button>
                     {% else %}
-                        <button tabindex="4" disabled class="next-section-btn-disabled">Next</button>
+                        <button tabindex="4" disabled class="next-section-btn-disabled">Submit</button>
                     {% endif %}
                 {% endif %}
             {% endif %}
@@ -172,7 +174,7 @@
         <div class="modal-content3">
             <h2>Complete All the Questions</h2>
             <p>You must attempt all the questions within the given time</p>
-            <button id="closeModal3">Close</button>
+            <button id="closeModal3">Continue</button>
         </div>
     </div>
     <script>
@@ -306,6 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     closeBTN2.addEventListener("click", () => {
         modal3.style.display = "none";
+        window.location.replace("{% url 'quiz:start_question' quiz.id first_unmarked_question %}")
     });
 
     const boxes = document.querySelectorAll('.box');

@@ -116,6 +116,12 @@ def start_question(request, quiz_id, question_id):
         selected_answer = result.user_answers.get(str(question_id))
     
     request.session.save()
+    first_unmarked = quiz.quiz_questions.exclude(id__in = request.session["marked_questions"]).first()
+    if first_unmarked:
+        first_unmarked_id = first_unmarked.id
+    else:
+        first_unmarked_id = quiz.quiz_questions.last().id
+
     return render(request, 'question-1.html', {
         'quiz': quiz,
         'question': question,
@@ -128,6 +134,7 @@ def start_question(request, quiz_id, question_id):
         "user_full_name":user.username,
         "user_email":user.email,
         "selected_answer": selected_answer,
+        "first_unmarked_question": first_unmarked_id,
         "is_last_question": (question == quiz.quiz_questions.last()),
         "is_completed": (len(result.user_answers) == quiz.quiz_questions.count()),
         "is_first_question": (question == Quiz.objects.first().quiz_questions.first())
@@ -282,6 +289,7 @@ def end_test(request):
                 result.save()
         messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
         user.is_verified = False
+        user.is_qualified = False
         user.save()
         logout(request)
         return JsonResponse({"message":"You have been disqualified due to non-compliance with the test guidelines."})

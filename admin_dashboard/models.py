@@ -28,6 +28,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
+    is_qualified = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     tcn_number = models.CharField(max_length=5, null=True, blank=True)
