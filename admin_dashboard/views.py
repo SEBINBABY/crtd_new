@@ -179,7 +179,11 @@ def edit_quiz(request):
         score = data.get('score')
         requires_payment = data.get('requires_payment') == 'true'
         if None in (name,time):
-            return JsonResponse({"error":"Please fill all fields"})
+            return JsonResponse({"error":"Please fill all fields"})     
+        try:
+            quiz_id = int(quiz_id)
+        except ValueError:
+            return JsonResponse({"error": "Invalid Quiz ID."}, status=400)
     
         this_quiz = get_object_or_404(Quiz,id=quiz_id)
         this_quiz.name = name
