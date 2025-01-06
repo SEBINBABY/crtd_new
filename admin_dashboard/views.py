@@ -155,8 +155,9 @@ def add_quiz(request):
     if None in (name,time):
         return JsonResponse({"error":"Please fill all fields"})
     
-    if Quiz.objects.last().exists():
-        order = Quiz.objects.last().order + 1
+    last_quiz = Quiz.objects.last()
+    if last_quiz:
+        order = last_quiz.order + 1
     else:
         order = 1
 

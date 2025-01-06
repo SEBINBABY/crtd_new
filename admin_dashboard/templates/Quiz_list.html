@@ -172,9 +172,10 @@ deleteCloseBtn.addEventListener("click", () => {
         addNewModal.style.display = 'none';
       });
 
-      addSaveBtn.addEventListener('click', () => {
-        addNewModal.style.display = 'none';
-      }); 
+      addSaveBtn.addEventListener('click', (event) => {
+    event.preventDefault(); // Prevent the form submission
+    document.querySelector('.form-modal').submit(); // Manually submit the form
+});
 
       function closeModal() {
   document.getElementById('add-modal').style.display = 'none';
