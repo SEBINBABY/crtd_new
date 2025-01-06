@@ -96,7 +96,7 @@ if selected_db == 1:
 }
 else:
     DATABASES = {
-        'sqlite': {
+        'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',  # or use a path from config like: config('SQLITE_DB_PATH')
         }
