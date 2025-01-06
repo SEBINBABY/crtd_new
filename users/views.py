@@ -18,13 +18,21 @@ from django import forms
 from django.contrib.auth.forms import PasswordResetForm
 from django.views.decorators.cache import never_cache
 from quiz.models import Quiz, Result
+from django.db.models import Max
 
-# For generating the Unique six digit TCN Number once the user creates the account
 def generate_unique_tcn():
-    while True:
-        tcn = f"{random.randint(100000, 999999)}"
-        if not User.objects.filter(tcn_number=tcn).exists():
-            return tcn
+    # Get the maximum TCN number from the database
+    max_tcn = User.objects.aggregate(Max('tcn_number'))['tcn_number__max']
+    
+    if max_tcn:
+        # Increment the maximum TCN number by 1
+        next_tcn = int(max_tcn) + 1
+    else:
+        # Start with 1 if no TCN exists
+        next_tcn = 1
+    
+    # Format the TCN as a 5-digit string with leading zeros
+    return f"{next_tcn:05}"
 
 # Password validation function
 def is_valid_password(password):
