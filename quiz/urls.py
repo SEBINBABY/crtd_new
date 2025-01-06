@@ -12,6 +12,7 @@ urlpatterns = [
     path('quiz/<int:quiz_id>/question/<int:question_id>/', views.start_question, name='start_question'),
     path('quiz/<int:quiz_id>/save_answer/<int:question_id>/', views.save_answer, name='save_answer'),
     path("quiz_summary/<int:quiz_id>", views.quiz_summary, name="quiz_summary"),  
+    path("final_quiz_summary", views.final_quiz_summary, name="final_quiz_summary"),  
     path("finish_test/", views.finish_test, name="finish_test"),
     path("get_remaining_time/", views.get_remaining_time, name="get_remaining_time"),
 

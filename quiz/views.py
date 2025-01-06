@@ -130,6 +130,7 @@ def start_question(request, quiz_id, question_id):
         "selected_answer": selected_answer,
         "is_last_question": (question == quiz.quiz_questions.last()),
         "is_completed": (len(result.user_answers) == quiz.quiz_questions.count()),
+        "is_first_question": (question == Quiz.objects.first().quiz_questions.first())
     })
 
 @user_only
@@ -193,9 +194,9 @@ def quiz_summary(request, quiz_id):
     result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
     
     # Update the score and end time in the Result object
-    result.score = calculate_score(quiz,result)
-    if result.score >= result.quiz.score_to_pass:
-        result.is_passed = True
+    # result.score = calculate_score(quiz,result)
+    # if result.score >= result.quiz.score_to_pass:
+    #     result.is_passed = True
     result.end_time = now()
     result.save()
 
@@ -214,9 +215,21 @@ def quiz_summary(request, quiz_id):
         "user_full_name" : user.username,
         "user_email" : user.email,
         "completed_quizzes":completed_quizzes,
-        "incomplete_quizzes":incomplete_quizzes
+        "incomplete_quizzes":incomplete_quizzes,
+        "total_quizzes" : Quiz.objects.count(),
     })
+
+@user_only
+def final_quiz_summary(request):
+    if not request.user.is_verified:
+        return redirect("quiz:start_test")
     
+    return render(request, 'final_summary.html', {
+    "user_full_name" : request.user.username,
+    "user_email" : request.user.email,
+    "quizzes" : Quiz.objects.all(),
+    "total_quizzes" : Quiz.objects.count(),
+    })
 
 @user_only
 def finish_test(request):
@@ -266,6 +279,8 @@ def end_test(request):
         if not Result.objects.filter(user=user,quiz=quiz).exists():
             result = Result(user=user,quiz=quiz,score=0,end_time=now())
             result.save()
-    messages.error(request, "You violated our terms and are disqualified from the test.")
+    messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
+    user.is_verified = False
+    user.save()
     logout(request)
-    return redirect('users:verify_passkey')
+    return JsonResponse({"message":"You have been disqualified due to non-compliance with the test guidelines."})

@@ -105,7 +105,7 @@
         <button id="prevBtn" onclick="prevPage()">❮</button>
         <div id="pagination"></div>
         <button id="nextBtn" onclick="nextPage()">❯</button>
-    </div>
+       </div>
     <!-- Pagination Container ends -->
         
     <div class="delete-modal">
@@ -124,7 +124,11 @@
         <!-- Buttons -->
         <div class="modal-footer">
           <button class="btn delete-cancel-btn">Cancel</button>
+          {% for user in users %}
+          <form action="{% url 'admin_dashboard:delete_user' user_id=user.id %}" method="GET">
+          {% endfor %}
           <button class="btn delete-delete-btn">Delete</button>
+        </form>
         </div>
       </div>
     </div>
@@ -151,7 +155,7 @@
 
         const paginationDiv = document.getElementById('pagination');
 
-        // Generate pagination buttons
+       
         for (let i = 1; i <= totalPages; i++) {
             const button = document.createElement('button');
             button.innerText = i;
@@ -162,8 +166,7 @@
             button.onclick = () => goToPage(i);
             paginationDiv.appendChild(button);
         }
-
-        // Enable/disable prev/next buttons
+        
         document.getElementById('prevBtn').disabled = currentPage === 1;
         document.getElementById('nextBtn').disabled = currentPage === totalPages;
     });

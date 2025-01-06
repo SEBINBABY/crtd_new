@@ -23,6 +23,7 @@
 
     <div class="box">
         <div class="congrats-logo">
+            <img src="/static/images/image_1.png" alt="">
         </div>
 
         <div class="congrats-content">
@@ -31,8 +32,7 @@
             <h4>successfully completed the test</h4>
             <span>Your Test/Case Number</span>
             <h3>TCN-{{TCN}}</h3>
-            <form action="#" method="post">
-                {% csrf_token %} 
+            <form action="{% url 'quiz:final_quiz_summary' %}" method="get">
                 <button type="submit" class="return-btn">Return to Dashboard</button>
               </form>
         </div>

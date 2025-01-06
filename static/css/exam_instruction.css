@@ -1,0 +1,96 @@
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+body {
+ margin: 0;
+ padding: 0;
+ display: flex;
+ flex-direction: column;
+ overflow: hidden;
+}
+.instruction-box {
+ height: 100%;
+ width: 100%;
+ background-color: #fff;
+ display: flex;
+}
+.instruct-left {
+ height: 100vh;
+ width: 35%;
+}
+.instruct-right {
+ height: 100vh;
+ width: 65%;
+ display: flex;
+ flex-direction: column;
+justify-content: center;
+}
+.instruct-left .instruct-logo {
+ height: 20.5%;
+ width: 66%;
+ /* background: url("/static/images/image_1.png"); */
+ /* background-color: pink; */
+ /* background-size: cover; */
+ position: relative;
+ top: 10px;
+ /* scale: 0.78; */
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+.instruct-img {
+ height: 60%;
+ width: 85%;
+ background: url("/static/images/instruction.png");
+ background-size: cover;
+ position: relative;
+ top: 90px;
+ left: 40px;
+}
+.instruction {
+
+    
+ height: 60% !important;
+ width: 75%;
+ background-color: #D0EDFF;
+ position: relative;
+ left:100px;
+ top: 30px;
+ border-radius: 14px;
+ padding: 15px;
+ margin-bottom: 50px;
+}
+.instruction h1 {
+ font-weight: 700;
+ font-size: 24px;
+ margin-top: 10px;
+ /* color: #005AD5; */
+ background: linear-gradient(to right, #13B3FF, #005AD5);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+.instruction ul {
+ margin-top: 35px;
+}
+.instruction ul li {
+ font-weight: 400;
+ font-size: 16px;
+ line-height: 40px;
+ color: #000000;
+}
+.instruct-btn {
+ height: 50px !important;
+ width: 22%;
+ justify-content: center;
+ background: linear-gradient(to right, #13B3FF, #005AD5);
+ border: none;
+ border-radius: 10px;
+ color: white;
+ position: relative;
+ top: -20px;
+ left: 38%;
+ padding: 5px 15px 5px 15px;
+ font-size: 18px;
+}

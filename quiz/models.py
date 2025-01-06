@@ -5,7 +5,7 @@ from admin_dashboard.models import User
 class Quiz(models.Model):
     name = models.CharField(max_length=120)
     time = models.IntegerField(help_text="duration of the quiz in minutes")
-    score_to_pass = models.IntegerField(help_text="Minimum score(%) to pass")
+    score_to_pass = models.IntegerField(help_text="Minimum score(%) to pass", null=True, blank=True)
     order = models.PositiveIntegerField(default = 0)
     requires_payment = models.BooleanField(default=False)
     def __str__(self):
