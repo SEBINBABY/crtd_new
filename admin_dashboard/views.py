@@ -300,6 +300,8 @@ def edit_question(request):
         correct_answer_id  = data.get('correct_answer_id',None)
         if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
         answer_ids = data.get('answer_ids',None)
+        if not answer_ids:
+            return JsonResponse({"error": "Answers data is missing"})
         answer_ids = list(answer_ids.split(','))[:-1]
         
         answers_data = []
@@ -313,16 +315,18 @@ def edit_question(request):
         question = get_object_or_404(Question,id = question_id)
         question.question_text = question_text
         new_answer_ids = []
-        for data in answers_data:
-            answer, created = Answer.objects.get_or_create(answer_text = data[0],is_correct=data[1],question_id=question.id)
-            new_answer_ids.append(answer.id)
+        for answer_text, is_correct in answers_data:
+            answer, created = Answer.objects.get_or_create(
+                answer_text=answer_text,
+                question_id=question.id
+            )
+            answer.is_correct = is_correct
             answer.save()
+            new_answer_ids.append(answer.id)
 
         question.save()
-        for answer in Answer.objects.filter(question_id=question.id):
-            if answer.id not in new_answer_ids:
-                answer.delete()
-
+        # Delete answers that are not part of the updated list
+        Answer.objects.filter(question_id=question.id).exclude(id__in=new_answer_ids).delete()
         return redirect('admin_dashboard:question_list',question.quiz.id)
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
