@@ -83,7 +83,9 @@
                         <a href="{% url 'quiz:start_question' quiz.id question_id%}" ><div class="part1-box box 
                                 {% if question_id in marked_questions %} 
                                 Marked 
-                                {% elif question_id == question.id %} active {% else %} not-Visited {% endif %}" 
+                                {% else %}
+                                    {% if question_id == question.id %} active {% else %} not-Visited {%endif%}
+                                {% endif %}" 
                                 id="box-{{ question_id }}">
                             {{ forloop.counter }}
                         </div></a>
@@ -315,7 +317,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const prevButton = document.getElementById("prev--btn");
     const question_ids = JSON.parse('{{all_question_ids}}');
     const curr_id = parseInt('{{question.id}}');
-    const visitedQuestions = JSON.parse('{{ marked_questions }}'); 
     const question_number = document.getElementById("question_number");
 
     let current_index = 0;
@@ -328,19 +329,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     question_number.innerHTML = current_index + 1;
 
-    boxes.forEach((box) => {
+    /* boxes.forEach((box) => {
         const boxId = parseInt(box.id.split('-')[1]);
-        if (visitedQuestions.includes(boxId)) {
-            box.classList.add('Marked');
-            box.classList.remove('not-Visited');
-            box.classList.remove('active');
-        }
         if (boxId == curr_id) {
             box.classList.add('active');
-            box.classList.remove('not-Visited');
-            box.classList.remove('Marked');
         }
-    });
+    }); */
 
     prevButton.addEventListener("click", () => {
         event.preventDefault();

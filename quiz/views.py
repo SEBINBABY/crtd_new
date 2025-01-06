@@ -192,6 +192,9 @@ def quiz_summary(request, quiz_id):
     """
     Displays the quiz summary and calculates the final score.
     """
+    if request.session.get("finish_test") == True:
+        return redirect('quiz:finish_test')
+
     user = request.user
     if not user.is_user:
         return redirect("users:user_login")
@@ -243,6 +246,8 @@ def finish_test(request):
     """
     Renders the finish test template.
     """
+    request.session["finish_test"] = True
+
     user = request.user
     if not user.is_user:
         return redirect("users:user_login")
