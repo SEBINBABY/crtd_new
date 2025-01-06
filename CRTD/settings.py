@@ -100,7 +100,7 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',  # or use a path from config like: config('SQLITE_DB_PATH')
         }
     }
-
+}
 
 
 # Password validation
