@@ -25,13 +25,13 @@ body{
 }
 .payment-logo{
     height: 100%;
-    width: 20%;
+    width: 10%;
     /* background-color: aqua; */
     /* background: url("/static/images/image_1.png"); */
     background-size: cover;
     position: relative;
-    left: 2%;
-    top: 10%;
+    left: 3%;
+    top: 22%;
 }
 .payment-head{
     height: 100%;

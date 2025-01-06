@@ -16,14 +16,15 @@ body {
 }
 .automate-content-box {
  width: 65%;
- height: 65%;
+ max-height: 80%;
  transform: translate(30%, 2%);
  display: flex;
  flex-direction: column;
  justify-content: space-evenly;
- margin-top: -25px;
- overflow-y: auto;
- overflow-x: hidden;
+ /* margin-top: -25px; */
+ overflow-x: auto;
+-webkit-overflow-scrolling: touch;
+scrollbar-width: none;
 }
 .part-1 {
  height: 15%;
@@ -33,14 +34,14 @@ body {
  justify-content: space-between;
 }
 .automate-logo {
- height: 114.9%;
+ height: 112.9%;
  width: 20.9%;
  /* background: url("/static/images/image_1.png"); */
  /* background-color: pink; */
  background-size: cover;
  position: relative;
- top: 33%;
- left: 2.3%;
+ top: 38%;
+ left: 3.1%;
  /* scale: 0.9; */
 }
 .part-1 p {
@@ -52,7 +53,7 @@ body {
  width: 25%;
 }
 .content-box {
- height: 12%;
+ height: 60px;
  background-color: #F1FBFF;
  border-radius: 10px;
  padding: 5px 27px 5px 27px;
@@ -60,6 +61,7 @@ body {
  align-items: center;
  justify-content: space-between;
  border: 0.45px solid #13B3FF;
+ margin-bottom: 12px;
 }
 .content-box p {
  position: relative;

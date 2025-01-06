@@ -96,13 +96,15 @@ body{
   /* scale: 0.9; */
 }
 .passkey-logo img{
+
   height: 70%;
-  width: 85%;
+  width: 70%;
   position: relative;
   left: 2%;
   /* scale: 0.9; */
 }
 .passkey-left .passkey-img{
+  margin-top: -100px;
   height: 60%;
   width: 90%;
   position: relative;

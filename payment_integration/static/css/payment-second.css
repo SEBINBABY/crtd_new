@@ -38,7 +38,7 @@ body{
 }
 .part1-logo{
     height: 20%;
-    width: 100%;
+    width: 80%;
     /* background-color: blue; */
     /* background: url("/static/images/image_1.png");x */
     background-size: cover;
@@ -46,12 +46,12 @@ body{
     /* scale: 0.8; */
     /* background-color: powderblue; */
     display: flex;
-    justify-content: center;
+     
     align-items: center;
 }
 .part1-logo img{
-    height: 75%;
-    width: 75%;
+    height: 70%;
+    width: 80%;
 }
 .part1-content{
 width: 90%;
