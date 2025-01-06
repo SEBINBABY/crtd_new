@@ -24,7 +24,7 @@ urlpatterns = [
     path('edit_quiz/', edit_quiz, name="edit_quiz"),
     path('delete_quiz/', delete_quiz, name="delete_quiz"),
     path('reorder_quizzes/', reorder_quizzes, name="reorder_quizzes"),
-     path('delete_user/<int:user_id>/',delete_user, name='delete_user'),
+     path('delete_user/',delete_user, name='delete_user'),
 ]
 
 

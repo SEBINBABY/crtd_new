@@ -269,7 +269,7 @@ def add_question(request):
     question = Question(question_text=question_text, quiz_id=quiz_id)
     question.save()
     for data in answers_data:
-        answer = Answer(answer_text = data[0],is_correct=data[1],question_id=question.id)
+        answer = Answer(answer_text = data[0], question_id=question.id)
         answer.save()
 
     return redirect('admin_dashboard:question_list',quiz_id)
@@ -404,12 +404,14 @@ def amount_section(request):
     })
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
-def delete_user(request, user_id):
+def delete_user(request):
     """
     View to delete a user with the 'USER' role.
     """
-    try:
+    if request.POST:
         # Get the user by ID
+        user_id = request.POST.get('user_id',None)
+        if not user_id : return JsonResponse({"error":"No user id specified"})
         user = User.objects.get(id=user_id)      
         # Check if the user has the 'USER' role
         if user.role != User.USER:
@@ -418,10 +420,8 @@ def delete_user(request, user_id):
         user.delete() 
         # Provide feedback to the admin
         messages.success(request, f"User {user.username} deleted successfully.")
-        return redirect('admin_dashboard:user_list' )  
+        return redirect('admin_dashboard:user_list')  
 
-    except User.DoesNotExist:
-        return HttpResponseNotFound("User not found.")
 
 
     

@@ -84,7 +84,7 @@
                                 {% endif %}
                                 <td>
                                     <div class="action-btns">
-                                        <img class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
+                                        <img id="delete-{{user.id}}" class="delete-btn" src="/static/images/delete-1.png" alt="Delete">
                                         <img class="eye-btn" id="eye-{{user.id}}" src="/static/images/eye.png" alt="See">
                                     </div>
                                 </td>
@@ -124,11 +124,10 @@
         <!-- Buttons -->
         <div class="modal-footer">
           <button class="btn delete-cancel-btn">Cancel</button>
-          {% for user in users %}
-          <form action="{% url 'admin_dashboard:delete_user' user_id=user.id %}" method="GET">
-          {% endfor %}
-          <button class="btn delete-delete-btn">Delete</button>
-        </form>
+          <form action="{% url 'admin_dashboard:delete_user' %}" method="post">
+            <input type="hidden" name="user_id" id="hidden_user_id" value="">
+            <button class="btn delete-delete-btn">Delete</button>
+          </form>
         </div>
       </div>
     </div>
@@ -220,6 +219,7 @@
 
     deleteBtn.forEach(btn => {
       btn.addEventListener('click', () => {
+        document.getElementById('hidden_user_id').value = btn.id.split('-')[1];
         deleteModal.style.display = 'block';
       });
     });
