@@ -15,5 +15,6 @@ urlpatterns = [
     path("final_quiz_summary", views.final_quiz_summary, name="final_quiz_summary"),  
     path("finish_test/", views.finish_test, name="finish_test"),
     path("get_remaining_time/", views.get_remaining_time, name="get_remaining_time"),
+    path("end_test/", views.end_test, name="end_test"),
 
 ]

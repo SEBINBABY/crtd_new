@@ -176,6 +176,17 @@
         </div>
     </div>
     <script>
+        function getCSRFToken() {
+            const name = 'csrftoken';
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                const [key, value] = cookie.trim().split('=');
+                    if (key === name) {
+                        return value;
+                    }
+            }
+            return null; // If no CSRF token is found
+        }
         let tabSwitchCount = 0;
 
         document.addEventListener('visibilitychange', () => {
@@ -185,6 +196,14 @@
                 if (tabSwitchCount === 1) {
                     alert("🚨 Warning: Do Not Switch Tabs!Switching or leaving this page will automatically terminate the test. You will not be able to log in again or continue the test once it ends.Please stay on this page until the test is completed.");
                 } else if (tabSwitchCount === 2) {
+                    url = "{% url 'quiz:end_test' %}"
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            "X-CSRFToken": getCSRFToken(),
+                            'Content-Type': 'application/json', // Optional, depending on your API
+                        },
+                    }).then(response => console.log(response.json()))
                     // Create overlay
                     const overlay = document.createElement('div');
                     overlay.classList.add('overlay');
