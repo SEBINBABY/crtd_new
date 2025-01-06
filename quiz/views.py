@@ -280,7 +280,7 @@ def end_test(request):
             result = Result(user=user,quiz=quiz,score=0,end_time=now())
             result.save()
     messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
-    user.is_email_verified = False
+    user.is_verified = False
     user.save()
     logout(request)
     return JsonResponse({"message":"You have been disqualified due to non-compliance with the test guidelines."})

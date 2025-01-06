@@ -155,7 +155,10 @@ def add_quiz(request):
     if None in (name,time):
         return JsonResponse({"error":"Please fill all fields"})
     
-    order = Quiz.objects.last().order + 1
+    if Quiz.objects.last().exists():
+        order = Quiz.objects.last().order + 1
+    else:
+        order = 1
 
     new_quiz = Quiz.objects.create(name=name,time=time,score_to_pass=score,order=order,requires_payment=requires_payment)
     return redirect("admin_dashboard:question_section")
