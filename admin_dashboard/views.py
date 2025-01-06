@@ -188,7 +188,7 @@ def edit_quiz(request):
         this_quiz = get_object_or_404(Quiz,id=quiz_id)
         this_quiz.name = name
         this_quiz.time = time
-        this_quiz.score_to_password = score
+        this_quiz.score_to_pass = score
         this_quiz.requires_payment = requires_payment
         this_quiz.save()
         return redirect("admin_dashboard:question_section")
@@ -307,7 +307,7 @@ def edit_question(request):
         answers_data = []
         for answer_id in answer_ids:
             answer_text = data.get(f'answer_text-{answer_id}')
-            if(answer_text == ''): break
+            if(answer_text == ''): continue
             answers_data.append([answer_text,answer_id==correct_answer_id])
 
         if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
@@ -315,12 +315,9 @@ def edit_question(request):
         question = get_object_or_404(Question,id = question_id)
         question.question_text = question_text
         new_answer_ids = []
-        for answer_text, is_correct in answers_data:
-            answer, created = Answer.objects.get_or_create(
-                answer_text=answer_text,
-                question_id=question.id
-            )
-            answer.is_correct = is_correct
+        for data in answers_data:
+            answer, created = Answer.objects.get_or_create(answer_text = data[0],is_correct=data[1],question_id=question.id)
+            answer.is_correct = data[1]
             answer.save()
             new_answer_ids.append(answer.id)
 
