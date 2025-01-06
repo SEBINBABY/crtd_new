@@ -137,6 +137,11 @@ def user_login(request):
                 messages.error(request, "You are not allowed to log in")
                 return render(request, "login.html")
             
+            if user.is_verified:
+                messages.error(request, "You can only attempt the quiz once")
+                return render(request, "login.html")
+
+            
             if Result.objects.filter(user=user).count() == Quiz.objects.count() and not user.is_verified:
                 return render(request,'disqualified.html')
             
