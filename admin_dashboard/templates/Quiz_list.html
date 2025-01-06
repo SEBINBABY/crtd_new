@@ -59,7 +59,7 @@
           <div class="modal-content">
             <span id="delete-close-btn" class="delete-close-btn">&times;</span>
             <h3>Edit</h3>
-            <form class="form-modal" action="{% url 'admin_dashboard:edit_quiz' %}" method="POST">
+            <form class="edit-form-modal" action="{% url 'admin_dashboard:edit_quiz' %}" method="POST">
               {% csrf_token %}
               <div class="form-group">
                 <label>Name of the Quiz</label>
@@ -116,7 +116,7 @@
           <div class="add-modal" id="add-modal">
             <div class="modal-content add-inner-modal" id="modal">
               <h3 class="modal-title">Add new Quiz</h3>
-              <form class="form-modal" action="{% url 'admin_dashboard:add_quiz' %}" method="POST">
+              <form class="save-form-modal" action="{% url 'admin_dashboard:add_quiz' %}" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
                   <label class="name">Name of the Quiz</label>
@@ -172,9 +172,10 @@ deleteCloseBtn.addEventListener("click", () => {
         addNewModal.style.display = 'none';
       });
 
-      addSaveBtn.addEventListener('click', () => {
-        addNewModal.style.display = 'none';
-      }); 
+      addSaveBtn.addEventListener('click', (event) => {
+    event.preventDefault(); // Prevent the form submission
+    document.querySelector('.save-form-modal').submit(); // Manually submit the form
+});
 
       function closeModal() {
   document.getElementById('add-modal').style.display = 'none';

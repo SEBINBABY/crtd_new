@@ -37,7 +37,7 @@
         <div class="content">
           <div class="left">
               <div id="sidebar" class="sidebar">
-                  <h3 class="sidebar-title">SuperAdmin</h3>
+                  <h3 class="sidebar-title">Super Admin</h3>
                   <form action="{% url 'admin_dashboard:dashboard_home' %}" method="GET">
                     {% csrf_token %}
              <button class="open-dashboard">Open dashboard</button></form>
@@ -88,7 +88,7 @@
                         </li>
                         <li>
                           <a href="{% url 'admin_dashboard:amount_section' %}">
-                            <i class="fa-solid fa-money-check-dollar"></i>Amount
+                            <i class="fa-solid fa-money-check-dollar" style="margin-right: 2px;"></i>Amount
                           </a>
                         </li>
                     </ul>

@@ -94,14 +94,36 @@
 //         }
 //     });
 
-//     document.addEventListener('keyup', (e) => {
-//         if (e.key === 'Meta') {
-//             isMetaKeyPressed = false;
-//             document.body.classList.remove('blurred');
-//         }
-//     });
-//  
-//     document.addEventListener("DOMContentLoaded",() =>{
+    document.addEventListener('keyup', (e) => {
+        if (e.key === 'Meta') {
+            isMetaKeyPressed = false;
+            document.body.classList.remove('blurred');
+        }
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+        }
+       });
+       document.addEventListener('keydown', (event) => {
+        if (event.key === 'PrintScreen') {
+            event.preventDefault();  
+        }
+        if (event.ctrlKey || event.metaKey) {
+            if (event.key === 's' || event.key === 'Shift') {
+                event.preventDefault();
+            }
+        }
+       });
+       document.addEventListener('keyup', (event) => {
+        if (event.key === 'PrintScreen') {
+            document.body.classList.add('blurred'); // Blur content
+            setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
+        }
+       });
+  </script>
+<script>
+    document.addEventListener("DOMContentLoaded",() =>{
     
 //         let timeRemaining = 30;
 //         const timerElement = document.getElementById("timer");
@@ -127,7 +149,7 @@
 //     updateTimer();
 //     });
 //     
-        
+    });
 </script>
     
     </body>
