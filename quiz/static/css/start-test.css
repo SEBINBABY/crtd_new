@@ -18,16 +18,18 @@ body{
 }
 .automate-content-box{
     width: 72%;
-    max-height: 68%;
+    max-height: 75%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     position: relative;
     top: 3%;
     left: 15%;
-    overflow-x: auto;
+    overflow-y: auto;
+    overflow-x: none;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    /* background-color: pink; */
 }
 .part-1{
 height: 15%;
@@ -79,8 +81,8 @@ justify-content: space-between;
     color: #032F84;
     font-size: 24px;
     position: relative;
-    top: 1%;
-    left: 30%;
+    top: 2%;
+    left: 40%;
 }
 .automaticaly-box button{
     background: linear-gradient(to right, #13B3FF, #005AD5); 
@@ -90,8 +92,10 @@ justify-content: space-between;
     height: 40px;
     width: 15%;
     position: relative;
-    top: 2%;
-    left: 40%;
+    top: 30px;
+    left: 43%;
+    
+   
 }
 .automate-account{
     position: relative;
@@ -134,7 +138,7 @@ justify-content: space-between;
 .inner-box{
     display: flex;
     width: 115%;
-    height: 13%;
+    height: 60px;
     align-items: center;
     margin-bottom: 10px;
 }
@@ -154,7 +158,8 @@ justify-content: space-between;
     height: 80%;
     width: 10%;
     display: flex;
-    align-items: first baseline;
+    align-items: center;
+    justify-content: center;
 }
 .is_start p{
     font-weight: 600;
