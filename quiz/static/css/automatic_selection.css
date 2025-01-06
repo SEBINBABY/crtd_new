@@ -33,14 +33,14 @@ body {
  justify-content: space-between;
 }
 .automate-logo {
- height: 114.9%;
+ height: 112.9%;
  width: 20.9%;
  /* background: url("/static/images/image_1.png"); */
  /* background-color: pink; */
  background-size: cover;
  position: relative;
- top: 33%;
- left: 2.3%;
+ top: 38%;
+ left: 3.1%;
  /* scale: 0.9; */
 }
 .part-1 p {
