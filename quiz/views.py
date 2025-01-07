@@ -261,12 +261,11 @@ def finish_test(request):
     user = request.user
     if not user.is_user:
         return redirect("users:user_login")
-    for quiz in Quiz.objects.all():
-        if not Result.objects.filter(quiz=quiz,user=user).first():
-            return redirect('quiz:start_test')
+    if not user.is_verified:
+        return redirect("quiz:start_test")
 
     tcn = request.user.tcn_number
-    return render(request, 'Complete-congrats.html', {'TCN': tcn,'last': Quiz.objects.last().id})
+    return render(request, 'Complete-congrats.html', {'TCN': tcn})
 
 @user_only
 def get_remaining_time(request):
