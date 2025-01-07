@@ -288,13 +288,7 @@ def end_test(request):
         user = request.user
         for result in Result.objects.filter(user=user):
             if not result.end_time: result.end_time = now()
-            result.is_passed = False
-            result.score = 0
             result.save()
-        for quiz in Quiz.objects.all():
-            if not Result.objects.filter(user=user,quiz=quiz).exists():
-                result = Result(user=user,quiz=quiz,score=0,end_time=now())
-                result.save()
         messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
         user.is_verified = False
         user.is_qualified = False
