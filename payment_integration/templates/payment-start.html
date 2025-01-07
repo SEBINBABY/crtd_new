@@ -48,7 +48,7 @@
             </div>
             <form action="{% url 'payment_integration:initiate-payment' %}" method="POST" class="pass-box">
                 {% csrf_token %}
-                <button class="continue-btn" id="cont-btn" type="submit"> Continue </button>
+                <button class="continue-btn" id="cont-btn" type="submit" disabled> Continue </button>
             </form>
         </div>
     </div>
