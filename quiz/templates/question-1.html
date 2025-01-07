@@ -102,7 +102,7 @@
             <h2 id="quiz-title">{{quiz.order}}. {{ quiz.name }}</h2>
             <p class="quest-para" style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q<span id="question_number"></span> {{question.question_text}}</p>
             <form id="question_form" method="POST" action="{% url 'quiz:save_answer' quiz.id question.id %}">
-                {% csrf_token %}
+
                 {% for answer in answers %}
                 <div class="question">
                     <input tabindex="1" type="radio" id="option-{{answer.id}}" 

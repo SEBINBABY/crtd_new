@@ -33,7 +33,6 @@
                 </div>
             {% endif %}
             <form action="{% url 'admin_dashboard:admin_hr_login' %}" method="POST">
-                {% csrf_token %}
                 <div class="" style="width: 250px;">
                   <label for="User ID" class="form-label"> <h3>Email ID</h3> </label>
                   <input type="email" class="input-1" id="email" placeholder="Enter User ID" name="email" style="border: 2px solid black;  ">

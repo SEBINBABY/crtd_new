@@ -55,7 +55,7 @@
     action="{% url 'admin_dashboard:edit_question' %}"
     method="post"
   >
-    {% csrf_token %}
+
     <div
       class="modal-content1"
       style="text-align: center; justify-content: center; align-items: center"
@@ -140,7 +140,7 @@
           method="post"
           action="{% url 'admin_dashboard:add_question' %}"
         >
-          {% csrf_token %}
+
           <input name="question_text" class="mb-4 fw-bold form-control" placeholder="Add Your Question Here"
           style="background-color: white ; border: none;" required>
         <hr style="margin-top: -25px;">
@@ -235,7 +235,6 @@
             action="{% url 'admin_dashboard:delete_question' %}"
             method="post"
           >
-            {% csrf_token %}
             <input id="delete_question_id" type="hidden" name="question_id" />
             <button type="submit" class="btn btn-primary">Delete</button>
           </form>

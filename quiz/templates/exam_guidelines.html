@@ -54,7 +54,6 @@
             </div>
             <span style="margin-left: 30px; margin-top: 10px;" class="popup">Please check the box to agree with the terms before starting the test.</span>
             <form id="submit-form" action="{% url 'quiz:start_test' %}" method="POST">
-                {% csrf_token %}
                 <button class="imp-instruct-btn" id="submit-btn" type="button">Start the Test</button>
             </form>
         </div>

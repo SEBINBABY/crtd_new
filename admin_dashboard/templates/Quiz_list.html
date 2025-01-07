@@ -60,7 +60,6 @@
             <span id="delete-close-btn" class="delete-close-btn">&times;</span>
             <h3>Edit</h3>
             <form class="edit-form-modal" action="{% url 'admin_dashboard:edit_quiz' %}" method="POST">
-              {% csrf_token %}
               <div class="form-group">
                 <label>Name of the Quiz</label>
                 <input type="text" class="passkeyInput" placeholder="Name of the Quiz" name="name" id="edit_name" value="" required />
@@ -101,7 +100,6 @@
               <div class="modal-footer">
                 <button class="btn delete-cancel-btn">Cancel</button>
                 <form id="delete-form" method="POST" action="{% url 'admin_dashboard:delete_quiz' %}" onsubmit="return confirmDelete(event)">
-                  {% csrf_token %}
                   <input id="quiz_to_be_deleted" name="quiz_id" type="hidden" value="">
                 <button class="btn delete-delete-btn" type="submit">Delete</button>
                 </form>
@@ -113,7 +111,6 @@
             <div class="modal-content add-inner-modal" id="modal">
               <h3 class="modal-title">Add new Quiz</h3>
               <form class="save-form-modal" action="{% url 'admin_dashboard:add_quiz' %}" method="POST">
-                {% csrf_token %}
                 <div class="form-group">
                   <label class="name">Name of the Quiz</label>
                   <input type="text" class="passkeyInput input-name" placeholder="Name of the Quiz" name="name" value="" required />
