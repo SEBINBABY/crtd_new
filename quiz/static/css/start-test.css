@@ -25,11 +25,10 @@ body{
     position: relative;
     top: 3%;
     left: 15%;
+    overflow-x: hidden;
     overflow-y: auto;
-    overflow-x: none;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    /* background-color: pink; */
 }
 .part-1{
 height: 15%;
