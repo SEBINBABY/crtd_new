@@ -63,11 +63,11 @@
             </div>
         </div>
         <div class="part-3" id="part3">
-            <div class="part3-account">
-                <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
+            <div class="part3-account" style="margin-top: -10px;">
+                <img src="/static/images/user.png" alt="" style="margin-left: -80px;  margin-top:20px"; height="40px" width="40px" margin-top="30px">
                  
-                <h5  style="margin-top: -40px;">{{full_name}}</h5>
-                <h6 style="margin-top: -8px;">{{email}}</h6>
+                <h5  style="margin-top: -40px;margin-left: -30px;">{{full_name}}</h5>
+                <h6 style="margin-top: -8px;margin-left: -30px;">{{email}}</h6>
             </div>
             <div class="part3-timer"></div>
         </div>
@@ -79,7 +79,7 @@
         <div class="modal-content1">
             <!-- <h2>Exam In Progress</h2> -->
             <h5>Please complete the first step of Payment Gateway Architecture to proceed further.</h5>
-            <button id="closeModal">Close</button>
+            <button id="closeModal">Continue</button>
         </div>
     </div>
     <script>
@@ -139,8 +139,10 @@
          })
 
          const closeModal2 = document.querySelector("#closeModal");
-         closeModal2.addEventListener("click" , () => {
+         closeModal2.addEventListener("click" , (e) => {
          modal2.style.display = "none";
+         rzp1.open();
+            e.preventDefault();
         })
 
           var options = {

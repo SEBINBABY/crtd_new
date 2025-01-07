@@ -35,13 +35,14 @@ body{
     /* background-color: pink; */
     background-size: cover;
     position: relative;
-    left: -5%;
+   
     /* top: ; */
     /* scale: 0.9; */
     display: flex;
     justify-content: center;
     align-items: center;
     /* text-align: center; */
+     
 }
 .login-img{
     height: 50%;
@@ -51,6 +52,7 @@ body{
     position: relative;
     bottom:15%;
     left: 5%;
+    
 }
 .login-content{
     height: 90%;

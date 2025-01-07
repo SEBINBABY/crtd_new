@@ -116,6 +116,12 @@ def start_question(request, quiz_id, question_id):
         selected_answer = result.user_answers.get(str(question_id))
     
     request.session.save()
+    first_unmarked = quiz.quiz_questions.exclude(id__in = request.session["marked_questions"]).first()
+    if first_unmarked:
+        first_unmarked_id = first_unmarked.id
+    else:
+        first_unmarked_id = quiz.quiz_questions.last().id
+
     return render(request, 'question-1.html', {
         'quiz': quiz,
         'question': question,
@@ -128,6 +134,7 @@ def start_question(request, quiz_id, question_id):
         "user_full_name":user.username,
         "user_email":user.email,
         "selected_answer": selected_answer,
+        "first_unmarked_question": first_unmarked_id,
         "is_last_question": (question == quiz.quiz_questions.last()),
         "is_completed": (len(result.user_answers) == quiz.quiz_questions.count()),
         "is_first_question": (question == Quiz.objects.first().quiz_questions.first())
@@ -181,10 +188,12 @@ def save_answer(request, quiz_id, question_id):
     return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 
 @user_only
+@never_cache
 def quiz_summary(request, quiz_id):
     """
     Displays the quiz summary and calculates the final score.
     """
+
     user = request.user
     if not user.is_user:
         return redirect("users:user_login")
@@ -203,14 +212,18 @@ def quiz_summary(request, quiz_id):
     # Get list of quizzes
     completed_quizzes = []
     
-    results = Result.objects.filter(user = user.id)
+    results = Result.objects.filter(user = user.id).order_by('quiz__order')
     for result in results:
         completed_quizzes.append(result.quiz)
-
+    
+    #completed_quizzes.sort(key=lambda quiz:quiz.order)
     incomplete_quizzes = Quiz.objects.exclude(id__in=results.values_list('quiz_id', flat=True))
     request.session["marked_questions"] = []
     request.session.save()
-
+    
+    if request.session.get("finished_test") == True:
+        return redirect('quiz:finish_test')
+    
     return render(request, 'start-test.html', {
         "user_full_name" : user.username,
         "user_email" : user.email,
@@ -236,6 +249,8 @@ def finish_test(request):
     """
     Renders the finish test template.
     """
+    request.session["finished_test"] = True
+
     user = request.user
     if not user.is_user:
         return redirect("users:user_login")
@@ -282,6 +297,7 @@ def end_test(request):
                 result.save()
         messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
         user.is_verified = False
+        user.is_qualified = False
         user.save()
         logout(request)
         return JsonResponse({"message":"You have been disqualified due to non-compliance with the test guidelines."})
