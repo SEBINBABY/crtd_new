@@ -83,38 +83,52 @@
         </div>
     </div>
     <script>
-        // Disable context menu and certain key combinations
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+     
+        // Disable context menu
         document.addEventListener('contextmenu', event => event.preventDefault());
-
+     
+        // Disable keyboard shortcuts
         document.addEventListener('keydown', event => {
-            if ((event.ctrlKey || event.metaKey) && (event.key === 'c' || event.key === 'u' || event.key === 's')) {
-                event.preventDefault();
-            }
-            if (event.key === 'PrintScreen' || event.key === 'Escape') {
+            if ((event.ctrlKey || event.metaKey) && (event.key === 'c' || event.key === 'u')) {
                 event.preventDefault();
             }
         });
-        let isMetaKeyPressed = false;
-
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Meta' && !isMetaKeyPressed) {
-                isMetaKeyPressed = true;  
+     
+        // Handle Meta key and blur
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Meta' || event.code === 'OS') {
                 document.body.classList.add('blurred');
             }
+            if (event.key === 'Escape') {
+                event.preventDefault();
+            }
+            if (event.key === 'PrintScreen') {
+                event.preventDefault();
+            }
         });
-
-        document.addEventListener('keyup', e => {
-            if (e.key === 'Meta') {
-                isMetaKeyPressed = false;
+     
+        document.addEventListener('keyup', event => {
+            if (event.key === 'Meta' || event.code === 'OS') {
                 document.body.classList.remove('blurred');
             }
-
-            if (e.key === 'PrintScreen') {
+            if (event.key === 'PrintScreen') {
                 document.body.classList.add('blurred'); // Blur content
                 setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
             }
         });
-    </script>
+     
+        // Add touch event listeners for iOS
+        if (isIOS) {
+            document.addEventListener('touchstart', () => {
+                document.body.classList.add('blurred');
+            });
+     
+            document.addEventListener('touchend', () => {
+                document.body.classList.remove('blurred');
+            });
+        }
+     </script>
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <script>
             const saveBtn = document.querySelector(".save-btn");
