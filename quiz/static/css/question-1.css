@@ -37,6 +37,12 @@ body {
   height: 17.2%;
   width: 73%;
   background-size: cover;
+  margin-top:-2%;
+}
+.box-1-logo img {
+  height: 87%;
+  width: 94%;
+  margin-left: 13px;
 }
 .box-1-content {
   width: 80%;
