@@ -130,7 +130,7 @@ def admin_hr_logout(request):
     if request.user.is_authenticated and request.user.role in [User.ADMIN, User.HR_STAFF]:
         # Log the user out
         logout(request)
-        messages.success(request, "You have been successfully logged out.")
+        # messages.success(request, "You have been successfully logged out.")
         return redirect("admin_dashboard:admin_hr_login")  # Redirect to the admin login page
     else:
         messages.error(request, "You are not authorized to perform this action.")
@@ -261,7 +261,7 @@ def add_question(request):
     for answer_id in range(1,5):
         answer_text = data.get(f'answer_text-{answer_id}')
         if answer_text == '':
-            break;
+            break
         answers_data.append([answer_text,answer_id==correct_answer_id])
 
     if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
@@ -355,7 +355,7 @@ def add_passkey(request):  # For Save button in Add Passkey Modal
         is_active = request.POST.get("is_active") == "on"  # Get is_active as a boolean   
         if key_value:
             passkey = Passkey.objects.create(key=key_value, is_active=is_active)
-            messages.success(request, f"Passkey '{passkey.key}' added successfully!")
+            # messages.success(request, f"Passkey '{passkey.key}' added successfully!")
         else:
             messages.error(request, "Passkey cannot be empty.")
         return redirect("admin_dashboard:passkey")
@@ -374,7 +374,7 @@ def update_passkey(request, passkey_id):
             passkey.key = key_value
             passkey.is_active = is_active
             passkey.save()
-            messages.success(request, "Passkey updated successfully!")
+            # messages.success(request, "Passkey updated successfully!")
         else:
             messages.error(request, "Passkey cannot be empty.")
         return redirect("admin_dashboard:passkey")
