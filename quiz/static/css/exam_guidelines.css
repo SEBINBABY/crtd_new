@@ -70,7 +70,7 @@ body {
     background-color: #D0EDFF;
     position: relative;
     left: -50px;
-    top: -50px;
+    top: -1px;
     border-radius: 14px;
     padding: 15px;
 }
@@ -98,7 +98,8 @@ z-index: 1;
  display: flex;
  position: relative;
  left: -130px;
- top: -3%;
+ top: 4%;
+ /* background-color: pink; */
 }
 .imp-check span {
  font-weight: 600;
@@ -122,7 +123,7 @@ z-index: 1;
  border-radius: 10px;
  color: white;
  position: relative;
- top: -50px;
+ /* top: -50px; */
  left: -170%;
  padding: 5px 15px 5px 15px;
  font-size: 17px;
@@ -132,7 +133,7 @@ z-index: 1;
  color: red;
  position: relative;
  left: -15%;
- top: -8%;
+ top: -2%;
 }
 .impp-account{
     height: 20%;
