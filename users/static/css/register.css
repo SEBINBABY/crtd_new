@@ -34,12 +34,12 @@ body {
     background-size: cover;
     position: relative;
     left: 6%;
-    top: 5%;
+    top: 4%;
     /* scale: 0.85; */
 }
 .left-logo img{
-    height: 73%;
-    width: 80%;
+    height: 83%;
+    width: 79%;
     /* background-color: ; */
     margin-left: 13px;
 }
