@@ -43,7 +43,6 @@
                 {% endif %}
                 </div>
                 <form action="{% url 'users:register_verified' %}" method="POST">
-                    {% csrf_token %}
                 <div class="content-input">
                     <label for="" class="form-label">Full name*</label>
                     <input type="text" id="displayName" onkeypress="return onlyAlphabets(event)" class="form-control" value="{{full_name|default:''}}" name="full_name" required>

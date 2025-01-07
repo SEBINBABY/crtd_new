@@ -138,8 +138,7 @@
             </div>
             <div class="imp-check"><input type="checkbox" id="is_checked"/> <span>Please check the box to confirm that you have read the instructions</span></div>
             <span class="popup">Please check the box to agree terms before starting the test.</span>
-            <form id="submit-form" action="{% url 'quiz:start_test' %}" method="POST">
-                {% csrf_token %}    
+            <form id="submit-form" action="{% url 'quiz:start_test' %}" method="POST">    
                 <button class="imp-instruct-btn" id="submit-btn" type="button">Start the Test</button>
             </form>
         </div>

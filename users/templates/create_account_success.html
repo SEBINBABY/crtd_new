@@ -35,7 +35,6 @@
             </div>
           {% endif %}
           <form action="{% url 'users:user_login' %}" method="GET">
-            {% csrf_token %}
             <button type="submit" class="container-btn congrats-btn">Continue</button>
           </form>
         </div>

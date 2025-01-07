@@ -59,7 +59,6 @@
 <div class="modal-content">
   <h3>Enter New Passkey</h3>
   <form action="{% url 'admin_dashboard:add_passkey' %}" method="POST">
-    {% csrf_token %}
   <input type="text" class="passkeyInput" placeholder="Passkey"  name="key" required/>
   <div class="activebutton" > 
   <label for="is_active"  style="margin-left: 80px;">Active:</label>
@@ -80,7 +79,6 @@
 <div class="modal-content">
   <h3>Edit Passkey</h3>
   <form action="{% url 'admin_dashboard:update_passkey' passkey.id %}" method="POST">
-    {% csrf_token %}
   <input type="text" class="passkeyInput" placeholder="Passkey" name="key"  value="{{ passkey.key }}" required/>
   <div class="activebutton"  > 
   <label for="is_active" style="margin-left: 80px;">Active:</label>
@@ -113,7 +111,6 @@
   <div class="modal-footer">
     <button class="btn delete-cancel-btn">Cancel</button>
     <form id="delete-form" method="POST" action="" onsubmit="return confirmDelete(event)">
-      {% csrf_token %}
     <button class="btn delete-delete-btn" type="submit">Delete</button>
     
     </form>

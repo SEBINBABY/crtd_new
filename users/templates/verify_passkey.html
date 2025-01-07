@@ -58,7 +58,6 @@
                 
                 <h6>Enter Passkey</h6>
                 <form action="{% url 'users:verify_passkey' %}" method="POST" class="pass-box">
-                    {% csrf_token %}
                     <input type="text" name="passkey" placeholder="user@hr6t5lth5ts" aria-label="Username" aria-describedby="addon-wrapping">      
                     </div>
                     <button type="submit" class="next-btn">Next</button>

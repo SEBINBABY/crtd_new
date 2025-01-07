@@ -65,7 +65,6 @@
                 <h3>Congratulation! You have successfully completed</h3>
                 <h3>the first step.</h3>
                     <form method="post" action="{% url 'quiz:start_test' %}">
-                        {% csrf_token %}
                         <button class="try-btn continue-btn">Continue</button>
                     </form>
             </div>

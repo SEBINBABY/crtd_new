@@ -95,7 +95,6 @@
                 
                 <div class="content-input">
                 <form action="{% url 'users:user_login' %}" method="POST">
-                    {% csrf_token %}
                     <h5>Email ID</h5>
                     <input type="email" name="email" placeholder="Enter Email ID" required />
                     <h5 class="input-pass">Password</h5>
