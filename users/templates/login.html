@@ -73,7 +73,7 @@
                 </div>
                 {% endif %}
                 <!-- <button id="ok-btn">Ok</button> -->
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" id="close-tab-btn" data-dismiss="modal">Close</button>
             </div>
         </div>
 
@@ -212,7 +212,12 @@
 
 </script>
 
-
+<script>
+    document.getElementById('close-tab-btn').addEventListener('click', function() {
+        // Close the current browser tab
+        window.close();
+    });
+</script>
 </body>
 </html>    
 
