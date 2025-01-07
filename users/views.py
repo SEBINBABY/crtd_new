@@ -285,6 +285,7 @@ class CustomPasswordResetForm(PasswordResetForm):
         return email
 
  #  Will take the user to a page to enter his mail id and submit the same  
+@csrf_exempt
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'password_reset.html'
     email_template_name = 'password_reset_email.html'
