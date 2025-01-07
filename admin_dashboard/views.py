@@ -419,7 +419,7 @@ def delete_user(request):
         # Delete the user
         user.delete() 
         # Provide feedback to the admin
-        messages.success(request, f"User {user.username} deleted successfully.")
+        #messages.success(request, f"User {user.username} deleted successfully.")
         return redirect('admin_dashboard:user_list')  
 
 
