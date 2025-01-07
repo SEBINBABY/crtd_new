@@ -34,14 +34,30 @@ body {
     background-size: cover;
     position: relative;
     left: 6%;
-    top: 3.5%;
+    top: 5%;
     /* scale: 0.85; */
 }
 .left-logo img{
-    height: 90%;
-    width: 90%;
+    height: 73%;
+    width: 80%;
     /* background-color: ; */
+    margin-left: 13px;
 }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 .left-img{
     height: 60%;
     width: 75%;
