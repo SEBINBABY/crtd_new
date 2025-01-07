@@ -212,10 +212,11 @@ def quiz_summary(request, quiz_id):
     # Get list of quizzes
     completed_quizzes = []
     
-    results = Result.objects.filter(user = user.id)
+    results = Result.objects.filter(user = user.id).order_by('quiz__order')
     for result in results:
         completed_quizzes.append(result.quiz)
-
+    
+    #completed_quizzes.sort(key=lambda quiz:quiz.order)
     incomplete_quizzes = Quiz.objects.exclude(id__in=results.values_list('quiz_id', flat=True))
     request.session["marked_questions"] = []
     request.session.save()
