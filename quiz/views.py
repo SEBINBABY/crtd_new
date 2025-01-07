@@ -224,6 +224,10 @@ def quiz_summary(request, quiz_id):
     if request.session.get("finished_test") == True:
         return redirect('quiz:finish_test')
     
+    if incomplete_quizzes.count() == 0:
+        user.is_verified = True
+        user.save()
+    
     return render(request, 'start-test.html', {
         "user_full_name" : user.username,
         "user_email" : user.email,
@@ -232,6 +236,8 @@ def quiz_summary(request, quiz_id):
         "total_quizzes" : Quiz.objects.count(),
     })
 
+""" 
+TO BE REMOVED
 @user_only
 def final_quiz_summary(request):
     if not request.user.is_verified:
@@ -242,7 +248,8 @@ def final_quiz_summary(request):
     "user_email" : request.user.email,
     "quizzes" : Quiz.objects.all(),
     "total_quizzes" : Quiz.objects.count(),
-    })
+    }) 
+"""
 
 @user_only
 def finish_test(request):
@@ -254,14 +261,11 @@ def finish_test(request):
     user = request.user
     if not user.is_user:
         return redirect("users:user_login")
-    user.is_verified = True
-    user.save()
-    for quiz in Quiz.objects.all():
-        if not Result.objects.filter(quiz=quiz,user=user).first():
-            return redirect('quiz:start_test')
+    if not user.is_verified:
+        return redirect("quiz:start_test")
 
     tcn = request.user.tcn_number
-    return render(request, 'Complete-congrats.html', {'TCN': tcn,'last': Quiz.objects.last().id})
+    return render(request, 'Complete-congrats.html', {'TCN': tcn})
 
 @user_only
 def get_remaining_time(request):
