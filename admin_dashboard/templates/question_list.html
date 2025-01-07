@@ -90,9 +90,7 @@
         class="p-0 m-0"
         style="position: relative; left: -10%"
       ></div>
-      <input type="hidden" name="answer_ids" id="answer_ids" value="" />
       <input type="hidden" name="question_id" id="question_id" value="" />
-      <input type="hidden" name="quiz_id" id="quiz_id" value="" />
       <div class="d-flex">
         <button
           type="button"
@@ -266,7 +264,6 @@
               let counter = 1;
               data["answers"].forEach((answer) => {
                 createAnswerElement(
-                  answer.id,
                   answer.is_correct,
                   answer.answer_text,
                   counter
@@ -274,7 +271,7 @@
                 counter += 1;
               });
               while (counter <= 4) {
-                createAnswerElement(counter, false, "", counter);
+                createAnswerElement(false, "", counter);
                 counter += 1;
               }
             })
@@ -285,13 +282,12 @@
       });
 
       function createAnswerElement(
-        answer_id,
         is_correct,
         answer_text,
         counter
       ) {
         let answers_div = document.getElementById("answers");
-        let answer_ids = document.getElementById("answer_ids");
+        
         let div = document.createElement("div");
         div.classList.add("form-check");
         div.classList.add("mb-3");
@@ -301,29 +297,28 @@
         radio.name = "correct_answer_id";
         radio.classList.add("form-check-input");
         radio.required = true;
-        radio.id = `radio-${answer_id}`;
-        radio.value = answer_id;
+        radio.id = `radio-${counter}`;
+        radio.value = counter;
         if (is_correct) {
           radio.checked = true;
         }
 
         let label = document.createElement("label");
         label.classList.add("form-check-label");
-        label.for = `radio-${answer_id}`;
+        label.for = `radio-${counter}`;
 
         let input = document.createElement("input");
         input.type = "text";
         input.classList.add("form-control");
         input.value = answer_text;
         input.style.backgroundColor = "white";
-        input.name = `answer_text-${answer_id}`;
+        input.name = `answer_text-${counter}`;
         input.placeholder = `Answer ${counter}`;
 
         label.appendChild(input);
         div.appendChild(radio);
         div.appendChild(label);
         answers_div.appendChild(div);
-        answer_ids.value += answer_id + ",";
       }
 
       document.querySelectorAll(".delete-btns").forEach((button) => {

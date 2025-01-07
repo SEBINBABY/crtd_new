@@ -299,20 +299,18 @@ def edit_question(request):
 
         correct_answer_id  = data.get('correct_answer_id',None)
         if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
-        answer_ids = data.get('answer_ids',None)
-        if not answer_ids:
-            return JsonResponse({"error": "Answers data is missing"})
-        answer_ids = list(answer_ids.split(','))[:-1]
-        
+
         answers_data = []
-        for answer_id in answer_ids:
+        true_found = False
+        for answer_id in range(1,5):
             answer_text = data.get(f'answer_text-{answer_id}')
-            if not answer_text:
-                return JsonResponse({"data":answers_data})
             if(answer_text == ''): continue
-            answers_data.append([answer_text,answer_id==correct_answer_id])
+            if(str(answer_id)==str(correct_answer_id)) : true_found = True
+            answers_data.append([answer_text,str(answer_id)==str(correct_answer_id)])
+
 
         if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
+        if not true_found: return JsonResponse({"error":"Select correct answer"})
 
         question = get_object_or_404(Question,id = question_id)
         question.question_text = question_text

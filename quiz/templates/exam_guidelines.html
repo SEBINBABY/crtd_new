@@ -27,8 +27,8 @@
             <div class="instruct-img imp-instruct-img"></div>
         </div>
         <div class="imp-instruct-right">
-            <div class="impp-account">
-                <img src="/static/images/user.png" alt="" height="40px" width="40px" style="margin-left:-80px;">
+            <div class="impp-account " style="margin-top: -25px;">
+                <img src="/static/images/user.png" alt="" height="40px" width="40px" style="margin-left:-150px;">
                 <div>
                     <h6 style="color: #003B8B;margin-top: 5px;" >{{ user_full_name }}</h6>
                     <h6 style="color:black;margin-top: -10px;">{{ user_email }}</h6>
@@ -52,60 +52,60 @@
                 <input type="checkbox" id="is_checked">
                 <span>Please check the box to confirm that you have read the instructions.</span>
             </div>
-            <span style="margin-left: 30px; margin-top: 10px;" class="popup">Please check the box to agree with the terms before starting the test.</span>
+            <span style="margin-left: 30px; margin-top: 10px;" class="popup">Please check the box to agree with the terms before starting the test.</span>
             <form id="submit-form" action="{% url 'quiz:start_test' %}" method="POST">
                 {% csrf_token %}
                 <button class="imp-instruct-btn" id="submit-btn" type="button">Start the Test</button>
             </form>
         </div>
     </div>
-    
     <script>
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+     
+        // Disable context menu
         document.addEventListener('contextmenu', event => event.preventDefault());
-    
+     
+        // Disable keyboard shortcuts
         document.addEventListener('keydown', event => {
             if ((event.ctrlKey || event.metaKey) && (event.key === 'c' || event.key === 'u')) {
                 event.preventDefault();
             }
         });
-
-       
-        let isMetaKeyPressed = false;
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Meta' && !isMetaKeyPressed) {
-                isMetaKeyPressed = true;  
-                document.body.classList.add('blurred'); 
+     
+        // Handle Meta key and blur
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Meta' || event.code === 'OS') {
+                document.body.classList.add('blurred');
             }
-        });
-
-        document.addEventListener('keyup', (e) => {
-            if (e.key === 'Meta') {
-                isMetaKeyPressed = false;
-                document.body.classList.remove('blurred');
-            }
-        });
-        document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 event.preventDefault();
             }
-           });
-           document.addEventListener('keydown', (event) => {
             if (event.key === 'PrintScreen') {
-                event.preventDefault();  
+                event.preventDefault();
             }
-            if (event.ctrlKey || event.metaKey) {
-                if (event.key === 's' || event.key === 'Shift') {
-                    event.preventDefault();
-                }
+        });
+     
+        document.addEventListener('keyup', event => {
+            if (event.key === 'Meta' || event.code === 'OS') {
+                document.body.classList.remove('blurred');
             }
-           });
-           document.addEventListener('keyup', (event) => {
             if (event.key === 'PrintScreen') {
                 document.body.classList.add('blurred'); // Blur content
                 setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
             }
-           });
-      </script>
+        });
+     
+        // Add touch event listeners for iOS
+        if (isIOS) {
+            document.addEventListener('touchstart', () => {
+                document.body.classList.add('blurred');
+            });
+     
+            document.addEventListener('touchend', () => {
+                document.body.classList.remove('blurred');
+            });
+        }
+     </script>
     <script> 
      let is_Checked = document.getElementById("is_checked");
      let impInstructBtn = document.getElementById("submit-btn");
@@ -116,7 +116,7 @@
          if(is_Checked.checked){
              window.location.href = "http://127.0.0.1:8000/start-test/";
              document.getElementById("submit-form").submit();
-             alert(" Alert !!                                                                        Once the test begins, do not switch tabs. Doing so will result in     disqualification.")
+             alert("Alert !!\nOnce the test begins, do not switch tabs. Doing so will result in disqualification.")
          }
          else{
              popup.style.opacity = "1";

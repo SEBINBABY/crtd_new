@@ -27,9 +27,9 @@
     </div>
     <p> Technical Programming Test</p>
     <div class="imp-account automate-account">
-        <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
-        <h6 style="margin-top: -40px;color: #003B8B;" >{{user_full_name}}</h6>
-        <h6 style="margin-top: -10px;">{{user_email}}</h6>
+        <img src="/static/images/user.png" alt="" style="margin-left: -75px;  margin-top:45px"; height="40px" width="40px" margin-top="30px">
+        <h6 style="margin-top: -40px;color: #003B8B;margin-left: -25px;" >{{user_full_name}}</h6>
+        <h6 style="margin-top: -10px;margin-left: -25px;">{{user_email}}</h6>
          
     </div>
     </div>
@@ -82,35 +82,57 @@
     {% else %}
     <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
         {% csrf_token %}
-        <button>Complete Test!</button>
+        <button>Submit Test</button>
     </form>
     {% endif %}
 </div>
 <script>
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+ 
+    // Disable context menu
     document.addEventListener('contextmenu', event => event.preventDefault());
-
+ 
+    // Disable keyboard shortcuts
     document.addEventListener('keydown', event => {
         if ((event.ctrlKey || event.metaKey) && (event.key === 'c' || event.key === 'u')) {
             event.preventDefault();
         }
     });
-
-   
-    let isMetaKeyPressed = false;
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Meta' && !isMetaKeyPressed) {
-            isMetaKeyPressed = true;  
-            document.body.classList.add('blurred'); 
+ 
+    // Handle Meta key and blur
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Meta' || event.code === 'OS') {
+            document.body.classList.add('blurred');
+        }
+        if (event.key === 'Escape') {
+            event.preventDefault();
+        }
+        if (event.key === 'PrintScreen') {
+            event.preventDefault();
         }
     });
-
-    document.addEventListener('keyup', (e) => {
-        if (e.key === 'Meta') {
-            isMetaKeyPressed = false;
+ 
+    document.addEventListener('keyup', event => {
+        if (event.key === 'Meta' || event.code === 'OS') {
             document.body.classList.remove('blurred');
         }
+        if (event.key === 'PrintScreen') {
+            document.body.classList.add('blurred'); // Blur content
+            setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
+        }
     });
-  </script>
+ 
+    // Add touch event listeners for iOS
+    if (isIOS) {
+        document.addEventListener('touchstart', () => {
+            document.body.classList.add('blurred');
+        });
+ 
+        document.addEventListener('touchend', () => {
+            document.body.classList.remove('blurred');
+        });
+    }
+ </script>
 <script>
     document.addEventListener("DOMContentLoaded",() =>{
     

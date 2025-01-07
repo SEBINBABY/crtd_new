@@ -61,7 +61,7 @@
     <div class="main-box">
         <div class="box-1">
             <div class="box-1-logo">
-                <img src="/static/images/image_1.png" alt="">
+                <img src="/static/images/image_1.png" alt="" style="  margin-left: 15px;margin-top: 3px;">
             </div>
             <div class="box-1-content">
                 <div class="small-box-cont">
@@ -81,7 +81,11 @@
                     <div  class="cont2-part1" >
                     {% for question_id in all_question_ids %}
                         <a href="{% url 'quiz:start_question' quiz.id question_id%}" ><div class="part1-box box 
-                                {% if question_id in marked_questions %} Marked {% else %} not-Visited {% endif %}" 
+                                {% if question_id in marked_questions %} 
+                                Marked 
+                                {% else %}
+                                    {% if question_id == question.id %} active {% else %} not-Visited {%endif%}
+                                {% endif %}" 
                                 id="box-{{ question_id }}">
                             {{ forloop.counter }}
                         </div></a>
@@ -118,11 +122,11 @@
         </div>
         <div class="box-3">
             <div class="account-3">
-                <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
-                <h6 style="margin-top: -40px;color: #003B8B" >{{user.username}}</h6>
+                <img src="/static/images/user.png" alt="" style="margin-left: -90px;  margin-top:25px"; height="40px" width="40px" margin-top="30px">
+                <h6 style="margin-top: -40px;color: #003B8B;margin-left: -45px;" >{{user.username}}</h6>
                  
                 
-                <h6 style="margin-top: -10px;">{{user.email}}</h6>
+                <h6 style="margin-top: -10px;margin-left: -45px;">{{user.email}}</h6>
             </div>
             <div class="timer-container">
                 <h4>Time Remaining</h4>
@@ -146,13 +150,13 @@
             {% if is_last_question %}
                 {% if is_completed%}
                     <a href="{% url 'quiz:quiz_summary' quiz.id %}">
-                        <button tabindex="4" class="next-section-btn">Next</button>
+                        <button tabindex="4" class="next-section-btn">Submit</button>
                     </a>
                 {% else %}
                     {% if question.id in marked_questions %}
-                        <button tabindex="4" id="section-btn" class="next-section-btn">Next</button>
+                        <button tabindex="4" id="section-btn" class="next-section-btn">Submit</button>
                     {% else %}
-                        <button tabindex="4" disabled class="next-section-btn-disabled">Next</button>
+                        <button tabindex="4" disabled class="next-section-btn-disabled">Submit</button>
                     {% endif %}
                 {% endif %}
             {% endif %}
@@ -172,7 +176,7 @@
         <div class="modal-content3">
             <h2>Complete All the Questions</h2>
             <p>You must attempt all the questions within the given time</p>
-            <button id="closeModal3">Close</button>
+            <button id="closeModal3">Continue</button>
         </div>
     </div>
     <script>
@@ -223,51 +227,52 @@
         });
     </script>
     <script>
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+     
+        // Disable context menu
         document.addEventListener('contextmenu', event => event.preventDefault());
-    
+     
+        // Disable keyboard shortcuts
         document.addEventListener('keydown', event => {
             if ((event.ctrlKey || event.metaKey) && (event.key === 'c' || event.key === 'u')) {
                 event.preventDefault();
             }
         });
-
-       
-        let isMetaKeyPressed = false;
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Meta' && !isMetaKeyPressed) {
-                isMetaKeyPressed = true;  
-                document.body.classList.add('blurred'); 
+     
+        // Handle Meta key and blur
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Meta' || event.code === 'OS') {
+                document.body.classList.add('blurred');
             }
-        });
-
-        document.addEventListener('keyup', (e) => {
-            if (e.key === 'Meta') {
-                isMetaKeyPressed = false;
-                document.body.classList.remove('blurred');
-            }
-        });
-        document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 event.preventDefault();
             }
-           });
-           document.addEventListener('keydown', (event) => {
             if (event.key === 'PrintScreen') {
-                event.preventDefault();  
+                event.preventDefault();
             }
-            if (event.ctrlKey || event.metaKey) {
-                if (event.key === 's' || event.key === 'Shift') {
-                    event.preventDefault();
-                }
+        });
+     
+        document.addEventListener('keyup', event => {
+            if (event.key === 'Meta' || event.code === 'OS') {
+                document.body.classList.remove('blurred');
             }
-           });
-           document.addEventListener('keyup', (event) => {
             if (event.key === 'PrintScreen') {
                 document.body.classList.add('blurred'); // Blur content
                 setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
             }
-           });
-      </script>
+        });
+     
+        // Add touch event listeners for iOS
+        if (isIOS) {
+            document.addEventListener('touchstart', () => {
+                document.body.classList.add('blurred');
+            });
+     
+            document.addEventListener('touchend', () => {
+                document.body.classList.remove('blurred');
+            });
+        }
+     </script>
       
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -306,13 +311,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     closeBTN2.addEventListener("click", () => {
         modal3.style.display = "none";
+        window.location.replace("{% url 'quiz:start_question' quiz.id first_unmarked_question %}")
     });
 
     const boxes = document.querySelectorAll('.box');
     const prevButton = document.getElementById("prev--btn");
     const question_ids = JSON.parse('{{all_question_ids}}');
     const curr_id = parseInt('{{question.id}}');
-    const visitedQuestions = JSON.parse('{{ marked_questions }}'); 
     const question_number = document.getElementById("question_number");
 
     let current_index = 0;
@@ -325,19 +330,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     question_number.innerHTML = current_index + 1;
 
-    boxes.forEach((box) => {
+    /* boxes.forEach((box) => {
         const boxId = parseInt(box.id.split('-')[1]);
-        if (visitedQuestions.includes(boxId)) {
-            box.classList.add('Marked');
-            box.classList.remove('not-Visited');
-            box.classList.remove('active');
-        }
         if (boxId == curr_id) {
             box.classList.add('active');
-            box.classList.remove('not-Visited');
-            box.classList.remove('Marked');
         }
-    });
+    }); */
 
     prevButton.addEventListener("click", () => {
         event.preventDefault();

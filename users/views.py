@@ -150,7 +150,7 @@ def user_login(request):
                 return render(request, "login.html")
 
             
-            if Result.objects.filter(user=user).count() == Quiz.objects.count() and not user.is_verified:
+            if not user.is_qualified:
                 return render(request,'disqualified.html')
             
             # Check if the user is IN USER Role itself, Not admin or hr_staff
