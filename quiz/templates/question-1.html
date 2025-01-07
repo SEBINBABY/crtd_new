@@ -200,7 +200,7 @@
                 if (tabSwitchCount === 1) {
                     alert("🚨 Warning: Do Not Switch Tabs!Switching or leaving this page will automatically terminate the test. You will not be able to log in again or continue the test once it ends.Please stay on this page until the test is completed.");
                 } else if (tabSwitchCount === 2) {
-                    url = "{% url 'quiz:end_test' %}"
+                    url = "{% url 'quiz:disqualify' %}"
                     fetch(url, {
                         method: 'POST',
                         headers: {
