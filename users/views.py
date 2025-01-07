@@ -151,7 +151,8 @@ def user_login(request):
 
             
             if not user.is_qualified:
-                return render(request,'disqualified.html')
+                messages.error(request, "You have been disqualified due to non-compliance with the test guidelines") 
+                return render(request, "login.html")
             
             # Check if the user is IN USER Role itself, Not admin or hr_staff
             if user.role == User.USER:

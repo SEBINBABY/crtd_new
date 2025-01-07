@@ -154,6 +154,7 @@ thead {
   z-index: 1;
 background: linear-gradient(to bottom, #99A0FF80, #9CF5FF80);
   text-align: left;
+  background-color: white;
 }
 
 thead th {
