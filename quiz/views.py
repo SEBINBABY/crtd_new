@@ -203,7 +203,7 @@ def quiz_summary(request, quiz_id):
 
 
     results = Result.objects.filter(user = user.id).order_by('quiz__order')
-    completed_quizzes = results.values_list('quiz', flat=True)
+    completed_quizzes = Quiz.objects.filter(id__in=results.values_list('quiz_id', flat=True))
     incomplete_quizzes = Quiz.objects.exclude(id__in=results.values_list('quiz_id', flat=True))
 
     request.session["marked_questions"] = []
@@ -266,7 +266,6 @@ def disqualify(request):
     user.is_qualified = False
     user.save()
     
-    messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
     logout(request)
     
     if request.method == "POST":
@@ -278,4 +277,5 @@ def disqualify(request):
         messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
         return JsonResponse({"message":"You have been disqualified due to non-compliance with the test guidelines."})
     
+    messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
     return redirect("users:user_login")

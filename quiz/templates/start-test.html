@@ -151,7 +151,7 @@
 <script>
     document.addEventListener("DOMContentLoaded",() =>{
     
-        if(!localStorage.timeRemaining ){
+        if(!localStorage.timeRemaining || localStorage.timeRemaining <= 0){
             localStorage.timeRemaining = 30;
         }
         const timerElement = document.getElementById("timer");
@@ -170,12 +170,15 @@
     
             if(localStorage.timeRemaining <= 0) {
                 document.getElementById('start_test').submit()
-                localStorage.timeRemaining = 0
             }
         }, 1000);
+
+        document.getElementById('start_test').onsubmit = function(event) {
+            localStorage.timeRemaining = 30
+        }
     
        
-    updateTimer();
+        updateTimer();
     });
     </script>   
     <script>
