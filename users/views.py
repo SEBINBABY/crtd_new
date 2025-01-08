@@ -147,8 +147,6 @@ def register_verified(request):
 def user_login(request):
     if request.user.is_authenticated:
         return redirect("quiz:start_test")
-    if not request.session.get("passkey_verified"):
-        return redirect("users:verify_passkey")
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
