@@ -203,7 +203,7 @@ def quiz_summary(request, quiz_id):
 
 
     results = Result.objects.filter(user = user.id).order_by('quiz__order')
-    completed_quizzes = results.values_list('quiz', flat=True)
+    completed_quizzes = Quiz.objects.filter(id__in=results.values_list('quiz_id', flat=True))
     incomplete_quizzes = Quiz.objects.exclude(id__in=results.values_list('quiz_id', flat=True))
 
     request.session["marked_questions"] = []
