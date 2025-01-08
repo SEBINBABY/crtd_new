@@ -68,7 +68,7 @@ scrollbar-width: none;
  top: 12%;
 }
 .content-box h6 {
- width: 25%;
+ width: 28%;
  font-size: 14px;
  font-weight: 600;
 }
@@ -94,4 +94,8 @@ scrollbar-width: none;
 }
 .automate-account{
     margin-left: -50px;
+}
+
+.content-box .end-question{
+    text-align: center;
 }

@@ -84,6 +84,23 @@
     </form>
     {% endif %}
 </div>
+<div id="quitModal" class="modal">
+    <div class="modal-content">
+      <p>Are you sure you want to quit the test? You won't be able to retake it.</p>
+      <button id="confirmQuit" class="btn-confirm">Yes, Quit</button>
+      <button id="cancelQuit" class="btn-cancel">Cancel</button>
+    </div>
+  </div>
+
+  <div id="quitModal-5" class="modal-5">
+    <div class="modal-content-5">
+      <p>Are you sure you want to quit the test</p>
+      <button id="confirmQuitt" class="btn-confirm">Yes, Quit</button>
+      <button id="cancelQuitt" class="btn-cancel">Cancel</button>
+    </div>
+  </div>
+
+
 <script>
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
  
@@ -161,6 +178,53 @@
     updateTimer();
     });
     </script>   
+    <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+      // Disable browser back button
+      window.history.pushState(null, "", window.location.href);
+      window.onpopstate = function () {
+        // Show the quit confirmation modal
+        showModal("quitModal");
+      };
+
+      // Modal handling
+      function showModal(modalId) {
+        document.getElementById(modalId).style.display = "block";
+      }
+
+      function hideModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+      }
+
+      // Quit confirmation modal buttons
+      document.getElementById("confirmQuit").addEventListener("click", function () {
+        hideModal("quitModal");
+        showModal("quitModal-5");
+      });
+
+      document.getElementById("confirmQuitt").addEventListener("click", function () {
+        hideModal("quitModal-5");
+        window.location.href = "thank-you.html";
+    });
+
+
+      document.getElementById("cancelQuit").addEventListener("click", function () {
+        hideModal("quitModal");
+        window.history.pushState(null, "", window.location.href); // Prevent back navigation
+      });
+
+      document.getElementById("cancelQuitt").addEventListener("click", function () {
+        hideModal("quitModal-5");
+        window.history.pushState(null, "", window.location.href); // Prevent back navigation
+      });
+
+      
+    });
+ 
+ 
+
+    </script>
         
     
     

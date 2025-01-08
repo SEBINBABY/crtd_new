@@ -191,13 +191,15 @@
     </div>
   </div>
 
-  <!-- Already Quit Modal -->
-  <div id="alreadyQuitModal" class="modal">
-    <div class="modal-content">
-      <p>You have already quit the test. You cannot retake it.</p>
-      <button id="okAlreadyQuit" class="btn-confirm">OK</button>
+  <div id="quitModal-5" class="modal-5">
+    <div class="modal-content-5">
+      <p>Are you sure you want to quit the test</p>
+      <button id="confirmQuitt" class="btn-confirm">Yes, Quit</button>
+      <button id="cancelQuitt" class="btn-cancel">Cancel</button>
     </div>
   </div>
+
+  
 
     <script>
         function getCSRFToken() {
@@ -408,20 +410,9 @@ document.addEventListener("DOMContentLoaded", function () {
       // Disable browser back button
       window.history.pushState(null, "", window.location.href);
       window.onpopstate = function () {
-        // Check if the user already quit
-        if (localStorage.getItem("testStatus") === "quit") {
-          showModal("alreadyQuitModal");
-          return;
-        }
-
         // Show the quit confirmation modal
         showModal("quitModal");
       };
-
-      // Check if the user already quit on page load
-      if (localStorage.getItem("testStatus") === "quit") {
-        showModal("alreadyQuitModal");
-      }
 
       // Modal handling
       function showModal(modalId) {
@@ -434,24 +425,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Quit confirmation modal buttons
       document.getElementById("confirmQuit").addEventListener("click", function () {
-        // Set test status to 'quit' in localStorage
-        localStorage.setItem("testStatus", "quit");
         hideModal("quitModal");
-        alert("You have quit the test. Redirecting...");
-        // Redirect to another page or show a message
-        window.location.href = "thank-you.html"; // Example redirection
+        showModal("quitModal-5");
       });
+
+      document.getElementById("confirmQuitt").addEventListener("click", function () {
+        hideModal("quitModal-5");
+        window.location.href = "thank-you.html";
+    });
+
 
       document.getElementById("cancelQuit").addEventListener("click", function () {
         hideModal("quitModal");
         window.history.pushState(null, "", window.location.href); // Prevent back navigation
       });
 
-      // Already quit modal button
-      document.getElementById("okAlreadyQuit").addEventListener("click", function () {
-        hideModal("alreadyQuitModal");
-        window.location.href = "thank-you.html"; // Example redirection
+      document.getElementById("cancelQuitt").addEventListener("click", function () {
+        hideModal("quitModal-5");
+        window.history.pushState(null, "", window.location.href); // Prevent back navigation
       });
+
+      
     });
  
  
