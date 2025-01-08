@@ -3,6 +3,7 @@
 *.pot
 *.pyc
 __pycache__
+.CRTD/settings.py
 media
 __pycache__/
 *.pyc
