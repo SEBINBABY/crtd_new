@@ -134,7 +134,7 @@
 <script>
     document.addEventListener("DOMContentLoaded",() =>{
     
-        if(!localStorage.timeRemaining){
+        if(!localStorage.timeRemaining || localStorage.timeRemaining <= 0){
             localStorage.timeRemaining = 30;
         }
         const timerElement = document.getElementById("timer");
