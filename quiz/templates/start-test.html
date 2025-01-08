@@ -74,7 +74,7 @@
     </div>
 
     {% if incomplete_quizzes|length != 0 %}
-    <h5>Automatically starting in <span id="timer">10</span> sec</h5>
+    <h5>Automatically starting in <span id="timer"></span> sec</h5>
     <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
         <button>Start Now</button>
     </form>
@@ -134,23 +134,26 @@
 <script>
     document.addEventListener("DOMContentLoaded",() =>{
     
-        let timeRemaining = 30;
+        if(!localStorage.timeRemaining ){
+            localStorage.timeRemaining = 30;
+        }
         const timerElement = document.getElementById("timer");
         function updateTimer() {
-            let seconds = timeRemaining;
+            let seconds = localStorage.timeRemaining;
             
             timerElement.textContent = `${seconds.toString().padStart(2, '0')}`;
         }
     
         
         setInterval(() => {
-            if(timeRemaining>0){
-                timeRemaining--; 
+            if(localStorage.timeRemaining>0){
+                localStorage.timeRemaining -= 1; 
             }
             updateTimer();
     
-            if(timeRemaining <= 0) {
+            if(localStorage.timeRemaining <= 0) {
                 document.getElementById('start_test').submit()
+                localStorage.timeRemaining = 0
             }
         }, 1000);
     

@@ -8,6 +8,5 @@ class DisqualificationMiddleware(MiddlewareMixin):
             referer = request.META.get("HTTP_REFERER", "")
             allowed_domain = request.get_host()  # Your site's domain
 
-            if referer : print(referer)            
             if not referer or allowed_domain not in referer:
                 return redirect("quiz:disqualify")
