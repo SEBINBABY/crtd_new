@@ -147,6 +147,8 @@ def register_verified(request):
 def user_login(request):
     if request.user.is_authenticated:
         return redirect("quiz:start_test")
+    if not request.session.get("passkey_verified"):
+        return redirect("users:verify_passkey")
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
@@ -188,7 +190,6 @@ def user_logout(request):
     if request.user.is_authenticated and request.user.role == User.USER:
         # Clear the session and log out the user
         logout(request)
-        messages.success(request, "You have been successfully logged out.")
         return redirect('users:verify_passkey') # Redirect to the login page
     else:
         messages.error(request, "You are not authorized to perform this action.")
