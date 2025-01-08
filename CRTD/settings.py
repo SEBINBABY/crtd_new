@@ -82,6 +82,7 @@ WSGI_APPLICATION = 'CRTD.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 selected_db = 0
 if selected_db:
     DATABASES = {
@@ -101,6 +102,8 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',  # or use a path from config like: config('SQLITE_DB_PATH')
         }
     }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

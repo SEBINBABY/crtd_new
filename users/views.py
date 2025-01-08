@@ -310,7 +310,7 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            "We have emailed you the steps to reset your password. Please check your inbox and follow the steps provided."
+            "We have emailed you the steps to reset your password. Please check your inbox and follow the instructions provided."
         )
         return super().form_valid(form)
 
