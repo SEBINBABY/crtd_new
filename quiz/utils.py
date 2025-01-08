@@ -38,13 +38,8 @@ def get_next_quiz(user_id):
         None
 
     return available_quizzes.first()
-    
 
-def redirect_to_end_if_submitted(request):
-    if request.user.is_verified:
-        return redirect('quiz:finish_test')
-
-def disqualify_if_test_started(request):
+def is_test_started(request):
     if Result.objects.filter(user=request.user,end_time__isnull=True).exists():
-        return redirect('quiz:disqualify')
+        return True
     

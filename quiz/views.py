@@ -15,8 +15,8 @@ def exam_instruction(request):
     """
     Renders the exam instruction template.
     """
-    redirect_to_end_if_submitted(request)
-    disqualify_if_test_started(request)
+    if request.user.is_verified: return redirect('quiz:finish_test')
+    if(is_test_started(request)): return redirect('quiz:disqualify')
     return render(request, "exam_instruction.html")
 
 @user_only
@@ -25,8 +25,8 @@ def exam_guidelines(request):
     """
     Renders the exam guidelines template.
     """
-    redirect_to_end_if_submitted(request)
-    disqualify_if_test_started(request)
+    if request.user.is_verified: return redirect('quiz:finish_test')
+    if(is_test_started(request)): return redirect('quiz:disqualify')
     return render(request, "exam_guidelines.html")
 
 
@@ -36,8 +36,8 @@ def automatic_selection(request):
     """
     Renders the template which lists all the quizzes to the user before the test starts.
     """
-    redirect_to_end_if_submitted(request)
-    disqualify_if_test_started(request)
+    if request.user.is_verified: return redirect('quiz:finish_test')
+    if(is_test_started(request)): return redirect('quiz:disqualify')
     quizzes = Quiz.objects.all()
     if quizzes.exists():
         return render(request, "automatic_selection.html", {"quizzes": quizzes})
@@ -247,10 +247,6 @@ def finish_test(request):
     """
     request.session["finished_test"] = True
 
-    user = request.user
-    if not user.is_verified:
-        return redirect("quiz:start_test")
-
     tcn = request.user.tcn_number
     return render(request, 'Complete-congrats.html', {'TCN': tcn})
 
@@ -259,7 +255,7 @@ def get_remaining_time(request):
     user = request.user
     results = Result.objects.filter(end_time__isnull=True,user = user)
     if results.count() > 1:
-        messages.error(request,"Something went wrong")
+        print(results)
         return JsonResponse({"error": "Something went wrong"})
     result = results.first()
     if result is None:
@@ -267,7 +263,7 @@ def get_remaining_time(request):
         if quiz:
             return redirect('quiz:quiz_summary',quiz.id)
         else:
-            return redirect('quiz:start_test')
+            return redirect('quiz:exam_instruction')
     remaining_time = result.get_remaining_time()
     if(remaining_time <= 0):
         return redirect('quiz:quiz_summary',result.quiz.id)
