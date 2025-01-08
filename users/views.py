@@ -51,9 +51,12 @@ def is_valid_password(password):
 # To verify passkey entered by user
 @never_cache
 def verify_passkey(request):
+    if request.user.is_authenticated:
+        logout(request)
     if request.method == "POST":
         passkey = request.POST.get("passkey")
         if Passkey.objects.filter(key=passkey, is_active=True).exists():
+            request.session["passkey_verified"] = True
             return redirect("users:user_login")
         else:
             messages.error(request, "Invalid Passkey!")
@@ -62,10 +65,18 @@ def verify_passkey(request):
 # User can submit the username and email for email verification
 @never_cache
 def register(request):
+    if not request.session.get("passkey_verified"):
+        return redirect("users:verify_passkey")
+    if request.user.is_authenticated:
+        logout(request)
     return render(request, 'register.html')
 
 # Once the email is verified, User will be registered in the User model
 def register_verified(request):
+    if not request.session.get("passkey_verified"):
+        return redirect("users:verify_passkey")
+    if request.user.is_authenticated:
+        logout(request)
     if request.method == "POST":
         username = request.POST.get("full_name")
         email = request.POST.get("email")
@@ -134,6 +145,8 @@ def register_verified(request):
 # Login functionality for authentication
 @never_cache
 def user_login(request):
+    if request.user.is_authenticated:
+        return redirect("quiz:start_test")
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")

@@ -13,12 +13,20 @@ GRACE_TIME = 5 # SECONDS
 @never_cache
 def exam_instruction(request):
     user = request.user
+    if user.is_verified:
+        return redirect('quiz:finish_test')
+    if Result.objects.filter(user=user,end_time__isnull=True).exists():
+        return redirect('quiz:disqualify')
     return render(request, "exam_instruction.html", { "user_full_name": user.username,"user_email": user.email,})
 
 @user_only
 @never_cache
 def exam_guidelines(request):
     user = request.user
+    if user.is_verified:
+        return redirect('quiz:finish_test')
+    if Result.objects.filter(user=user,end_time__isnull=True).exists():
+        return redirect('quiz:disqualify')
     return render(request, "exam_guidelines.html", { "user_full_name": user.username,"user_email": user.email,})
 
 
@@ -30,6 +38,10 @@ def automatic_selection(request):
     """
     quizzes = Quiz.objects.all()
     user = request.user
+    if user.is_verified:
+        return redirect('quiz:finish_test')
+    if Result.objects.filter(user=user,end_time__isnull=True).exists():
+        return redirect('quiz:disqualify')
     if quizzes.exists():
         return render(request, "automatic_selection.html", {
             "quizzes": quizzes,
@@ -236,21 +248,6 @@ def quiz_summary(request, quiz_id):
         "total_quizzes" : Quiz.objects.count(),
     })
 
-""" 
-TO BE REMOVED
-@user_only
-def final_quiz_summary(request):
-    if not request.user.is_verified:
-        return redirect("quiz:start_test")
-    
-    return render(request, 'final_summary.html', {
-    "user_full_name" : request.user.username,
-    "user_email" : request.user.email,
-    "quizzes" : Quiz.objects.all(),
-    "total_quizzes" : Quiz.objects.count(),
-    }) 
-"""
-
 @user_only
 def finish_test(request):
     """
@@ -285,17 +282,21 @@ def get_remaining_time(request):
     if(remaining_time <= 0):
         return redirect('quiz:quiz_summary',result.quiz.id)
     return JsonResponse({"time_remaining": remaining_time})
-
+            
 @user_only
-def end_test(request):
-    if request.method == 'POST':
-        user = request.user
-        for result in Result.objects.filter(user=user):
-            if not result.end_time: result.end_time = now()
-            result.save()
-        messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
-        user.is_verified = False
-        user.is_qualified = False
-        user.save()
+def disqualify(request):
+    user = request.user
+    if user.is_verified:
         logout(request)
+        return redirect("users:user_login")
+    for result in Result.objects.filter(user=user,end_time__isnull=True):
+        result.end_time = now()
+        result.save()
+    messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
+    user.is_verified = False
+    user.is_qualified = False
+    user.save()
+    logout(request)
+    if request.method == "POST":
         return JsonResponse({"message":"You have been disqualified due to non-compliance with the test guidelines."})
+    return redirect("users:user_login")
