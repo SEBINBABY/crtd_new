@@ -266,7 +266,6 @@ def disqualify(request):
     user.is_qualified = False
     user.save()
     
-    messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
     logout(request)
     
     if request.method == "POST":
@@ -278,4 +277,5 @@ def disqualify(request):
         messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
         return JsonResponse({"message":"You have been disqualified due to non-compliance with the test guidelines."})
     
+    messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
     return redirect("users:user_login")
