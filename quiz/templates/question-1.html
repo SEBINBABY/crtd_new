@@ -80,15 +80,17 @@
                 <div class="small-box-cont2">
                     <div  class="cont2-part1" >
                     {% for question_id in all_question_ids %}
-                        <a href="{% url 'quiz:start_question' quiz.id question_id%}" ><div class="part1-box box 
+                        <a href="{% url 'quiz:start_question' quiz.id question_id%}" >
+                            <div id="box-{{question_id}}" class="part1-box box 
                                 {% if question_id in marked_questions %} 
                                 Marked 
                                 {% else %}
                                     {% if question_id == question.id %} active {% else %} not-Visited {%endif%}
                                 {% endif %}" 
                                 id="box-{{ question_id }}">
-                            {{ forloop.counter }}
-                        </div></a>
+                                {{ forloop.counter }}
+                            </div>
+                        </a>
                         {% if forloop.counter|divisibleby:5 and not forloop.last %}
                             </div>
                             <div class="cont2-part1">
@@ -100,7 +102,7 @@
         </div>
         <div class="box-2">
             <h2 id="quiz-title">{{quiz.order}}. {{ quiz.name }}</h2>
-            <p class="quest-para" style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q<span id="question_number"></span> {{question.question_text}}</p>
+            <p class="quest-para" style=" background: linear-gradient(to bottom, #99a0ff80, #9cf5ff80);  ">Q{{question_number}} {{question.question_text}}</p>
             <form id="question_form" method="POST" action="{% url 'quiz:save_answer' quiz.id question.id %}">
 
                 {% for answer in answers %}
@@ -335,31 +337,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const boxes = document.querySelectorAll('.box');
     const prevButton = document.getElementById("prev--btn");
-    const question_ids = JSON.parse('{{all_question_ids}}');
+    const question_number = parseInt('{{question_number}}');
     const curr_id = parseInt('{{question.id}}');
-    const question_number = document.getElementById("question_number");
-
-    let current_index = 0;
-    for (let i = 0; i < question_ids.length; i++) {
-        if (question_ids[i] == curr_id) {
-            current_index = i;
-            break;
-        }
-    }
-
-    question_number.innerHTML = current_index + 1;
-
-    /* boxes.forEach((box) => {
-        const boxId = parseInt(box.id.split('-')[1]);
-        if (boxId == curr_id) {
-            box.classList.add('active');
-        }
-    }); */
 
     prevButton.addEventListener("click", () => {
         event.preventDefault();
-        if (current_index == 0) return;
-        window.location.href = `/quiz/{{quiz.id}}/question/${question_ids[current_index - 1]}`;
+        if (question_number == 1) return;
+        window.location.href = `/quiz/{{quiz.id}}/question/${question_ids[question_number - 1]}`;
     });
 
     // Helper function: Format time as mm:ss
