@@ -30,11 +30,21 @@ def calculate_score(quiz,result):
 
     return(correct_answers / total_questions) * 100
 
-def get_next_quiz(results):
-# Start a new quiz
+def get_next_quiz(user_id):
+    """Returns the next quiz the user is supposed to attempt"""
+    results = Result.objects.filter(user_id=user_id)
     available_quizzes = Quiz.objects.exclude(id__in=results.values_list('quiz_id', flat=True))
     if not available_quizzes.exists():
         None
 
     return available_quizzes.first()
+    
+
+def redirect_to_end_if_submitted(request):
+    if request.user.is_verified:
+        return redirect('quiz:finish_test')
+
+def disqualify_if_test_started(request):
+    if Result.objects.filter(user=request.user,end_time__isnull=True).exists():
+        return redirect('quiz:disqualify')
     
