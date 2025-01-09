@@ -618,3 +618,15 @@ label p {
   background-color: #dc3545;
   color: white;
 }
+
+/*  */
+.mail-popup{
+  display: none;
+  background-color: gainsboro;
+  position: absolute;
+  top: 130px;
+  /* right:2%; */
+  padding: 20px;
+  z-index: 1;
+  border-radius: 8px;
+}

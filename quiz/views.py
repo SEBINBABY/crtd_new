@@ -73,7 +73,6 @@ def start_test(request):
     return redirect('quiz:start_question', quiz_id=quiz.id, question_id=quiz.quiz_questions.first().id)
 
 @user_only
-@never_cache
 def start_question(request, quiz_id, question_id):
     """
     Renders a question based on the given IDs.
@@ -95,7 +94,9 @@ def start_question(request, quiz_id, question_id):
         "is_completed": False,
         })
 
-    result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
+    result = Result.objects.filter(user_id=user.id, quiz=quiz).first()
+    if result is None:
+        return redirect('quiz:start_test')
 
     # redirect to quiz summary if quiz is already submitted
     if(result.end_time is not None):

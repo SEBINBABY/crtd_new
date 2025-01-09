@@ -30,10 +30,12 @@
                 <img src="/static/images/image_1.png" alt="">
             </div>
             <div class="payment-head"><h3>Payment Gateway Architecture</h3></div>
-            <div class="payment-account">
-                <img src="/static/images/user.png" alt="User" style="margin-left: -100px; margin-top:15px; opacity: 0.3;" height="40px" width="40px">
-                <h6 style="margin-top: -40px; color:#003B8B;margin-left: -50px;">{{full_name}}</h6>
-                <h6 style="color: black; margin-top: -10px;margin-left: -50px;">{{email}}</h6>
+            <div class="payment-account" style="display: flex;  ">
+                <img class="mail-img" src="/static/images/user.png" alt="User" style=" opacity: 0.3;" height="40px" width="40px">
+                <div class="mail-popup">
+                <h6 style=" color:#003B8B;">{{full_name}}</h6>
+                <h6 style="color: black; margin-top: -10px;">{{email}}</h6>
+                </div>
             </div>
         </div>
 
@@ -56,6 +58,26 @@
     </div>
 
     <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    var popup = document.querySelector(".mail-popup");
+    var trigger = document.querySelector(".mail-img");
+
+    // Show popup when clicking on the trigger (mail-img)
+    trigger.addEventListener("click", function (event) {
+        popup.style.display = "block";
+        event.stopPropagation(); // Prevent immediate closing when clicking the trigger
+    });
+
+    // Hide popup when clicking anywhere outside of it
+    document.addEventListener("click", function (event) {
+        if (!popup.contains(event.target) && event.target !== trigger) {
+            popup.style.display = "none";
+        }
+    });
+});
+
+
         document.getElementById("cont-btn").addEventListener('click', ()=> {    
             let check = document.getElementById("check-first");
             if(check.checked){

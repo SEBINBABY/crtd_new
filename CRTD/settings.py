@@ -83,7 +83,6 @@ WSGI_APPLICATION = 'CRTD.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-
 selected_db = 0
 if selected_db:
     DATABASES = {
