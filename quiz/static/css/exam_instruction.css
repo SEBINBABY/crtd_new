@@ -94,3 +94,15 @@ justify-content: center;
  padding: 5px 15px 5px 15px;
  font-size: 18px;
 }
+
+.instruct-right .instruct-account .mail-popup{
+    display: none;
+    background-color: gainsboro;
+    position: absolute;
+    top: 20%;
+    right:2%;
+    padding: 20px;
+    z-index: 1;
+    border-radius: 8px;
+}
+

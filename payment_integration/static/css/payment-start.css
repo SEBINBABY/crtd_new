@@ -43,6 +43,12 @@ body{
     color: #003B8B;
     font-size: 22px;
 }
+.payment-content .alerttt{
+    color: red;
+    opacity: 0;
+    position: relative;
+    top: -2%;
+}
 .payment-account{
     height: 100%;
     width: 15%;
@@ -106,5 +112,18 @@ body{
     background:  linear-gradient(to right, #13B3FF, #005AD5);
     position: relative;
     left: 38%;
-    opacity: 0.5;
+    /* opacity: 0.5; */
 }
+
+/*  */
+.mail-popup{
+    display: none;
+    background-color: gainsboro;
+    position: absolute;
+    top: 130px;
+    right:2%;
+    padding: 20px;
+    z-index: 1;
+    border-radius: 8px;
+  }
+  
