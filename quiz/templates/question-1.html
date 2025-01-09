@@ -339,12 +339,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const boxes = document.querySelectorAll('.box');
     const prevButton = document.getElementById("prev--btn");
     const question_number = parseInt('{{question_number}}');
+    const question_ids = JSON.parse("{{all_question_ids}}")
     const curr_id = parseInt('{{question.id}}');
 
     prevButton.addEventListener("click", () => {
         event.preventDefault();
         if (question_number == 1) return;
-        window.location.href = `/quiz/{{quiz.id}}/question/${question_ids[question_number - 1]}`;
+        window.location.href = `/quiz/{{quiz.id}}/question/${question_ids[question_number - 2]}`;
     });
 
     // Helper function: Format time as mm:ss
