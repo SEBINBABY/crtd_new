@@ -114,3 +114,16 @@ body{
     left: 38%;
     /* opacity: 0.5; */
 }
+
+/*  */
+.mail-popup{
+    display: none;
+    background-color: gainsboro;
+    position: absolute;
+    top: 130px;
+    right:2%;
+    padding: 20px;
+    z-index: 1;
+    border-radius: 8px;
+  }
+  

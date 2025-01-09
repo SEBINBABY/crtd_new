@@ -28,10 +28,12 @@
         </div>
         <div class="instruct-right" >
             <div class="instruct-account" style="display: flex; justify-content: end; margin-right: 10%;">
-                <img src="/static/images/user.png" alt="" height="40px" width="40px" style="margin-left: -45px; margin-right: 5px; margin-bottom: -60px;">
-                <div>
-                    <h6 style="color: #003B8B" style="margin-top: 60px;">{{ user.username }}</h6>
-                    <h6 style="margin-top: -10.5px; color: black;">{{ user.email }}</h6>
+                
+                <img class="mail-img" src="/static/images/user.png" alt="" height="40px" width="40px" style="margin-left: -25px; margin-right: 5px; ">
+                <div class="mail-popup" >
+                    
+                    <h6 style="color: #003B8B">{{ user.username }}</h6>
+                    <h6 style="color: black;">{{ user.email }}</h6>
                 </div>
             </div>
             <div class="instruction">
@@ -57,6 +59,27 @@
     </div>
     
     <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    var popup = document.querySelector(".mail-popup");
+    var trigger = document.querySelector(".mail-img");
+
+    // Show popup when clicking on the trigger (mail-img)
+    trigger.addEventListener("click", function (event) {
+        popup.style.display = "block";
+        event.stopPropagation(); // Prevent immediate closing when clicking the trigger
+    });
+
+    // Hide popup when clicking anywhere outside of it
+    document.addEventListener("click", function (event) {
+        if (!popup.contains(event.target) && event.target !== trigger) {
+            popup.style.display = "none";
+        }
+    });
+});
+
+
+
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
      
         // Disable context menu

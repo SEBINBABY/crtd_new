@@ -99,3 +99,16 @@ scrollbar-width: none;
 .content-box .end-question{
     text-align: center;
 }
+
+/*  */
+.automate-account .mail-popup{
+    display: none;
+    background-color: gainsboro;
+    position: absolute;
+    top: 20%;
+    right:2%;
+    padding: 20px;
+    z-index: 1;
+    border-radius: 8px;
+}
+
