@@ -134,11 +134,12 @@
 
 .table-container {
   overflow-y: auto;
+  overflow-x: auto;
   margin: 20px;
   border-radius: 8px;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: thin; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer/Edge */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -146,6 +147,7 @@
 table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 800px;
 }
 
 thead {
@@ -165,8 +167,8 @@ thead th {
 }
 
 th, td {
-  text-align: center; /* Center align text in table cells */
-  vertical-align: middle; /* Center align vertically */
+  /* text-align: center;  */
+  /* vertical-align: middle;  */
   padding: 12px; /* Add padding for better spacing */
 }
 
@@ -183,6 +185,23 @@ tbody td {
   padding: 10px 15px;
   font-size: 14px;
   color: #555;
+}
+
+.table-container::-webkit-scrollbar {
+  height: 5px; /* Scrollbar thickness */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #888; /* Scrollbar color */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Scrollbar hover color */
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Scrollbar track color */
 }
 
 .user {
