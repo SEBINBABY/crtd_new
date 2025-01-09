@@ -61,7 +61,7 @@
                 </div>
             </div> -->
 
-            <div class="modal" id="passwordResetModal">
+        <div class="modal" id="passwordResetModal">
             <div class="msg-container">
                 {% if messages %}
                 <div class="messages mt-3">
@@ -169,7 +169,6 @@
             const messages = document.querySelectorAll('.messages .alert');
             if (messages.length > 0) {
                 // Show the modal if a message exists
-
                 let modal1 = document.querySelector(".modal");
                 modal1.style.display = "block";
                 const modal = new bootstrap.Modal(document.getElementById('passwordResetModal'));
@@ -212,12 +211,6 @@
 
 </script>
 
-<script>
-    document.getElementById('close-tab-btn').addEventListener('click', function() {
-        // Close the current browser tab
-        window.close();
-    });
-</script>
 </body>
 </html>    
 
