@@ -164,6 +164,12 @@ thead th {
   color: #333;
 }
 
+th, td {
+  text-align: center; /* Center align text in table cells */
+  vertical-align: middle; /* Center align vertically */
+  padding: 12px; /* Add padding for better spacing */
+}
+
 tbody tr {
   border-bottom: 1px solid #f0f0f0;
   background-color: white;

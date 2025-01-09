@@ -59,6 +59,7 @@
                                 <th>Contact</th>
                                 <th>Account Creation Date</th>
                                 <th>TCN Number</th>
+                                <th>Qualification Status</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -77,6 +78,10 @@
                                 <td>{{user.contact_number}}</td>
                                 <td>{{user.created_at|date:"d-m-Y"}}</td>
                                 <td>{{user.tcn_number}}</td>
+                                <td>
+                                  <span class="status verified">Qualified</span>
+                                  <!-- <span class="status not-verified">Not Qualified</span> -->
+                                </td>
                                 {% if user.is_verified %}
                                 <td><span class="status verified">Verified</span></td>
                                 {% elif not user.is_verified %}
