@@ -16,6 +16,8 @@
         }
         .blurred {
             filter: blur(10px);
+            pointer-events: none;
+            cursor: none;
         }
     </style>
 </head>
@@ -113,6 +115,10 @@
     
     <!-- JavaScript for Modal -->
     <script>
+        function handleBlurEffect() {
+            document.body.classList.add('blurred');
+            setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
+        }
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
      
         // Disable context menu
@@ -123,12 +129,17 @@
             if ((event.ctrlKey || event.metaKey) && (event.key === 'c' || event.key === 'u')) {
                 event.preventDefault();
             }
+            if (event.key === 'F11') {
+                event.preventDefault(); // Prevent default fullscreen behavior
+                handleBlurEffect(); // Apply blur effect
+            }
         });
      
         // Handle Meta key and blur
         document.addEventListener('keydown', event => {
             if (event.key === 'Meta' || event.code === 'OS') {
                 document.body.classList.add('blurred');
+                handleBlurEffect();
             }
             if (event.key === 'Escape') {
                 event.preventDefault();
@@ -141,6 +152,7 @@
         document.addEventListener('keyup', event => {
             if (event.key === 'Meta' || event.code === 'OS') {
                 document.body.classList.remove('blurred');
+                handleBlurEffect();
             }
             if (event.key === 'PrintScreen') {
                 document.body.classList.add('blurred'); // Blur content
@@ -150,6 +162,7 @@
      
         // Add touch event listeners for iOS
         if (isIOS) {
+            document.addEventListener('touchstart', handleBlurEffect);
             document.addEventListener('touchstart', () => {
                 document.body.classList.add('blurred');
             });

@@ -24,6 +24,8 @@
         }
         .blurred {
             filter: blur(100px);
+            pointer-events: none;
+            cursor: none;
         }
         .modal11 {
             position: fixed;
@@ -199,8 +201,51 @@
     </div>
   </div>
 
-  
+  <div id="popupEnable" class="popupEnable">
+    <div class="popupEnable-content">
+      <button id="enableCameraPopup">Enable Camera</button>
+    </div>
+  </div>
+  <button id="openPopup">Open Popup</button>
 
+
+  <video id="video" autoplay playsinline></video>
+  
+  <script>
+    // Get DOM elements
+    const popupEnable = document.getElementById('popupEnable');
+    const openPopup = document.getElementById('openPopup');
+    const enableCameraPopupButton = document.getElementById('enableCameraPopup');
+    const video = document.getElementById('video');
+    const errorElement = document.getElementById('error');
+
+    // Show popup when the trigger button is clicked
+    openPopup.addEventListener('click', () => {
+      popupEnable.style.display = 'flex';
+    });
+
+    // Close popup when clicking outside the content
+    popupEnable.addEventListener('click', (event) => {
+      if (event.target === popupEnable) {
+        popupEnable.style.display = 'none';
+      }
+    });
+
+    // Function to start the camera
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+        video.style.display = 'block'; // Show the video element
+        popupEnable.style.display = 'none'; // Close the popup
+      } catch (error) {
+        errorElement.textContent = `Error accessing camera: ${error.message}`;
+      }
+    }
+
+    // Event listener for the popup button
+    enableCameraPopupButton.addEventListener('click', startCamera);
+  </script>
     <script>
         function getCSRFToken() {
             const name = 'csrftoken';
@@ -249,6 +294,10 @@
         });
     </script>
     <script>
+        function handleBlurEffect() {
+            document.body.classList.add('blurred');
+            setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
+        }
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
      
         // Disable context menu
@@ -259,12 +308,17 @@
             if ((event.ctrlKey || event.metaKey) && (event.key === 'c' || event.key === 'u')) {
                 event.preventDefault();
             }
+            if (event.key === 'F11') {
+                event.preventDefault(); // Prevent default fullscreen behavior
+                handleBlurEffect(); // Apply blur effect
+            }
         });
      
         // Handle Meta key and blur
         document.addEventListener('keydown', event => {
             if (event.key === 'Meta' || event.code === 'OS') {
                 document.body.classList.add('blurred');
+                handleBlurEffect();
             }
             if (event.key === 'Escape') {
                 event.preventDefault();
@@ -277,6 +331,7 @@
         document.addEventListener('keyup', event => {
             if (event.key === 'Meta' || event.code === 'OS') {
                 document.body.classList.remove('blurred');
+                handleBlurEffect();
             }
             if (event.key === 'PrintScreen') {
                 document.body.classList.add('blurred'); // Blur content
@@ -286,6 +341,7 @@
      
         // Add touch event listeners for iOS
         if (isIOS) {
+            document.addEventListener('touchstart', handleBlurEffect);
             document.addEventListener('touchstart', () => {
                 document.body.classList.add('blurred');
             });
@@ -469,47 +525,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       
     });
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-  
-</script>       
-
-</script>       
- 
+</script>             
 </body>
 </html>
 
