@@ -5,6 +5,7 @@ from django.utils.timezone import now
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.views.decorators.cache import never_cache
+import json
 from .utils import *
 
 GRACE_TIME = 5 # SECONDS
@@ -269,8 +270,8 @@ def disqualify(request):
     logout(request)
     
     if request.method == "POST":
-
-        if request.POST.get("reason","") == "quit":
+        data = json.loads(request.body) if request.body else {}
+        if data.get("reason",None) == "quit":
             messages.error(request, "You have quit the test, you will not be able to log in again.")
             return JsonResponse({"message":"You have quit the test, you will not be able to log in again."})
         
