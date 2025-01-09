@@ -213,39 +213,58 @@
             }
             return null; // If no CSRF token is found
         }
-        let tabSwitchCount = 0;
+        if(!localStorage.getItem('tabSwitchCount')){
+            localStorage.setItem('tabSwitchCount',0);
+        }
 
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                tabSwitchCount++;
-                console.log(tabSwitchCount)
+        window.onload = function(){
+            localStorage.setItem('lastVisibilityChangeTime',Date.now()); // Tracks the last visibility change time
+            localStorage.setItem('lastState',document.visibilityState); // Tracks the last visibility state
+        }
 
-                if (tabSwitchCount === 1) {
-                    alert("🚨 Warning: Do Not Switch Tabs!Switching or leaving this page will automatically terminate the test. You will not be able to log in again or continue the test once it ends.Please stay on this page until the test is completed.");
-                } else if (tabSwitchCount === 2) {
-                    var url = "{% url 'quiz:disqualify' %}"
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            "X-CSRFToken": getCSRFToken(),
-                        },
-                    }).then(response => console.log(response.json()))
-                    // Create overlay
-                    const overlay = document.createElement('div');
-                    overlay.classList.add('overlay');
-                    document.body.appendChild(overlay);
+        document.addEventListener("visibilitychange", function () {
+            const now = Date.now();
+            const currentState = document.visibilityState;
 
-                    // Create modal
-                    const modal11 = document.createElement('div');
-                    modal11.classList.add('modal11');
-                    modal11.innerHTML = `
-                        <h4>You have been disqualified</h4>
-                        <p>due to non-compliance with the test guidelines.</p>
-                    `;
-                    console.log(tabSwitchCount)
-                    document.body.appendChild(modal11);
+            if (currentState === "hidden" && localStorage.getItem('lastState') === "visible") {
+                console.log("User switched tabs or minimized the browser.");
+                localStorage.setItem('lastVisibilityChangeTime',now); // Update the last change time
+            } else if (currentState === "visible" && localStorage.getItem('lastState') === "hidden") {
+                const awayTime = parseInt((now - parseInt(localStorage.getItem('lastVisibilityChangeTime'))) / 1000);
+                if(awayTime >= 4) {
+                    localStorage.setItem('tabSwitchCount', parseInt(localStorage.getItem('tabSwitchCount')) + 1);
+                    if (parseInt(localStorage.getItem('tabSwitchCount')) < 2) {
+                        alert("🚨 Warning: Do Not Switch Tabs!Switching or leaving this page will automatically terminate the test. You will not be able to log in again or continue the test once it ends.Please stay on this page until the test is completed.");
+                    }else{
+                        var url = "{% url 'quiz:disqualify' %}"
+                        fetch(url, {
+                            method: 'POST',
+                        })
+                        .then(response => response.json())
+                        .then(data => console.log(data));
+                        // Create overlay
+                        const overlay = document.createElement('div');
+                        overlay.classList.add('overlay');
+                        document.body.appendChild(overlay);
+
+                        // Create modal
+                        const modal11 = document.createElement('div');
+                        modal11.classList.add('modal11');
+                        modal11.innerHTML = `
+                            <h4>You have been disqualified</h4>
+                            <p>due to non-compliance with the test guidelines.</p>
+                        `;
+                        document.body.appendChild(modal11);
+
+                        localStorage.removeItem('lastState');
+                        localStorage.removeItem('lastVisibilityChangeTime');
+                        localStorage.removeItem('tabSwitchCount');
+                        
+                    }
                 }
             }
+
+            localStorage.setItem('lastState',currentState); // Update the state
         });
     </script>
     <script>
