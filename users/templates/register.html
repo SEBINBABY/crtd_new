@@ -162,13 +162,17 @@
  </script>
 <script>
 
-    function onlyAlphabets(event) {
-        var charCode = event.which || event.keyCode;
-        if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
-            return true;
-        }
-        return false; 
+function onlyAlphabets(event) {
+    var charCode = event.which || event.keyCode;
+    if (
+        (charCode >= 65 && charCode <= 90) || // A-Z
+        (charCode >= 97 && charCode <= 122) || // a-z
+        charCode === 32 // Space
+    ) {
+        return true;
     }
+    return false;
+}
     const contactInput = document.getElementById('inputContact');
 
 // Add an event listener for the input event to restrict non-numeric characters
