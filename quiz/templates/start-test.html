@@ -26,11 +26,12 @@
         <img src="/static/images/image_1.png" alt="">
     </div>
     <p> Technical Programming Test</p>
-    <div class="imp-account automate-account">
-        <img src="/static/images/user.png" alt="" style="margin-left: -75px;  margin-top:45px"; height="40px" width="40px" margin-top="30px">
-        <h6 style="margin-top: -40px;color: #003B8B;margin-left: -25px;" >{{user_full_name}}</h6>
-        <h6 style="margin-top: -10px;margin-left: -25px;">{{user_email}}</h6>
-         
+    <div class="imp-account automate-account" style="display: flex; justify-content: end; margin-right: 5%;">
+        <img src="/static/images/user.png" alt="" style="margin-left: -75px;  margin-top:45px; margin-right: 5px;" height="40px" width="40px" margin-top="30px">
+        <div style="margin-top: 22%;">
+        <h6 style="color: #003B8B;margin-left: -3px;" >{{user_full_name}}</h6>
+        <h6 style="margin-left: -3px; margin-top: -10px;">{{user_email}}</h6>
+        </div> 
     </div>
     </div>
     <div class="selection">Section Attempted {{completed_quizzes | length}}/{{total_quizzes}}</div>
