@@ -151,11 +151,7 @@ z-index: 1;
     /* font-size: 16px; */
     /* font-weight: 650; */
 /* } */
-.impp-account div{
-    position: relative;
-    /* top: 23%; */
-    line-height: 2px;
-}
+
 .impp-account img{
     margin-right: 8px;
     position: relative;
@@ -165,4 +161,16 @@ z-index: 1;
     font-weight: 400;
     font-size: 14px;
     color: #808080;
+}
+
+/*  */
+ .mail-popup{
+    display: none;
+    background-color: gainsboro;
+    position: absolute;
+    top: 130px;
+    /* right:2%; */
+    padding: 20px;
+    z-index: 1;
+    border-radius: 8px;
 }
