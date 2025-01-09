@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'quiz.middleware.custom_middleware.DisqualificationMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'CRTD.urls'
@@ -132,9 +133,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static') 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# Directory where all static files will be collected
+STATIC_ROOT = '/home/ubuntu/crtd_new/staticfiles/'
+
+# Include additional static file directories
+STATICFILES_DIRS = [
+    '/home/ubuntu/crtd_new/admin_dashboard/static/',
+    '/home/ubuntu/crtd_new/payment_integration/static/',
+    '/home/ubuntu/crtd_new/quiz/static/',
+    '/home/ubuntu/crtd_new/users/static/'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
