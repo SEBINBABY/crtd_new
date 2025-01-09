@@ -16,6 +16,38 @@
         }
         .blurred {
             filter: blur(10px);
+            pointer-events: none;
+            cursor: none;
+        }
+        .modal11 {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            background-color: #13B3FF;
+            color: black;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            z-index: 1000;
+            text-align: center;
+            color:#f4f4f9
+        }
+
+        .modal p {
+            margin: 10px 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(122, 122, 122, 0.73);
+            backdrop-filter: blur(10px);
+            z-index: 999;
         }
     </style>
 </head>
@@ -25,12 +57,13 @@
     <div class="automate-logo">
         <img src="/static/images/image_1.png" alt="">
     </div>
-    <p> Technical Programming Test</p>
-    <div class="imp-account automate-account">
-        <img src="/static/images/user.png" alt="" style="margin-left: -75px;  margin-top:45px"; height="40px" width="40px" margin-top="30px">
-        <h6 style="margin-top: -40px;color: #003B8B;margin-left: -25px;" >{{user_full_name}}</h6>
-        <h6 style="margin-top: -10px;margin-left: -25px;">{{user_email}}</h6>
-         
+    <p> Technical Programming Test</p>
+    <div class="imp-account automate-account" style="display: flex; justify-content: end; margin-right: 5%;">
+        <img class="mail-img" src="/static/images/user.png" alt="" style="margin-left: -75px;  margin-top:45px; margin-right: 5px;" height="40px" width="40px" margin-top="30px">
+        <div class="mail-popup" style="margin-top: 1%;">
+        <h6 style="color: #003B8B;margin-left: -3px;" >{{user_full_name}}</h6>
+        <h6 style="margin-left: -3px; margin-top: -10px;">{{user_email}}</h6>
+        </div> 
     </div>
     </div>
     <div class="selection">Section Attempted {{completed_quizzes | length}}/{{total_quizzes}}</div>
@@ -74,7 +107,7 @@
     </div>
 
     {% if incomplete_quizzes|length != 0 %}
-    <h5>Automatically starting in <span id="timer">10</span> sec</h5>
+    <h5>Automatically starting in <span id="timer"></span> sec</h5>
     <form id="start_test" method="POST" action="{% url 'quiz:start_test' %}">
         <button>Start Now</button>
     </form>
@@ -84,7 +117,49 @@
     </form>
     {% endif %}
 </div>
+<div id="quitModal" class="modal">
+    <div class="modal-content">
+      <p>Are you sure you want to quit the test? You won't be able to retake it.</p>
+      <button id="confirmQuit" class="btn-confirm">Yes, Quit</button>
+      <button id="cancelQuit" class="btn-cancel">Cancel</button>
+    </div>
+  </div>
+
+  <div id="quitModal-5" class="modal-5">
+    <div class="modal-content-5">
+      <p>Are you sure you want to quit the test</p>
+      <button id="confirmQuitt" class="btn-confirm">Yes, Quit</button>
+      <button id="cancelQuitt" class="btn-cancel">Cancel</button>
+    </div>
+  </div>
+
+
 <script>
+    function handleBlurEffect() {
+        document.body.classList.add('blurred');
+        setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
+    }
+
+document.addEventListener("DOMContentLoaded", function () {
+    var popup = document.querySelector(".mail-popup");
+    var trigger = document.querySelector(".mail-img");
+
+    // Show popup when clicking on the trigger (mail-img)
+    trigger.addEventListener("click", function (event) {
+        popup.style.display = "block";
+        event.stopPropagation(); // Prevent immediate closing when clicking the trigger
+    });
+
+    // Hide popup when clicking anywhere outside of it
+    document.addEventListener("click", function (event) {
+        if (!popup.contains(event.target) && event.target !== trigger) {
+            popup.style.display = "none";
+        }
+    });
+});
+
+
+
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
  
     // Disable context menu
@@ -95,12 +170,17 @@
         if ((event.ctrlKey || event.metaKey) && (event.key === 'c' || event.key === 'u')) {
             event.preventDefault();
         }
+        if (event.key === 'F11') {
+            event.preventDefault(); // Prevent default fullscreen behavior
+            handleBlurEffect(); // Apply blur effect
+        }
     });
  
     // Handle Meta key and blur
     document.addEventListener('keydown', event => {
         if (event.key === 'Meta' || event.code === 'OS') {
             document.body.classList.add('blurred');
+            handleBlurEffect();
         }
         if (event.key === 'Escape') {
             event.preventDefault();
@@ -113,6 +193,7 @@
     document.addEventListener('keyup', event => {
         if (event.key === 'Meta' || event.code === 'OS') {
             document.body.classList.remove('blurred');
+            handleBlurEffect();
         }
         if (event.key === 'PrintScreen') {
             document.body.classList.add('blurred'); // Blur content
@@ -122,6 +203,7 @@
  
     // Add touch event listeners for iOS
     if (isIOS) {
+        document.addEventListener('touchstart', handleBlurEffect);
         document.addEventListener('touchstart', () => {
             document.body.classList.add('blurred');
         });
@@ -132,33 +214,145 @@
     }
  </script>
 <script>
+
+    // Script for automatically starting next quiz
     document.addEventListener("DOMContentLoaded",() =>{
     
-        let timeRemaining = 30;
+        if(!localStorage.timeRemaining || localStorage.timeRemaining <= 0){
+            localStorage.timeRemaining = 30;
+        }
         const timerElement = document.getElementById("timer");
         function updateTimer() {
-            let seconds = timeRemaining;
+            let seconds = localStorage.timeRemaining;
             
             timerElement.textContent = `${seconds.toString().padStart(2, '0')}`;
         }
     
         
         setInterval(() => {
-            if(timeRemaining>0){
-                timeRemaining--; 
+            if(localStorage.timeRemaining>0){
+                localStorage.timeRemaining -= 1; 
             }
             updateTimer();
     
-            if(timeRemaining <= 0) {
+            if(localStorage.timeRemaining <= 0) {
                 document.getElementById('start_test').submit()
             }
         }, 1000);
+
+        document.getElementById('start_test').onsubmit = function(event) {
+            localStorage.timeRemaining = 30
+        }
     
        
-    updateTimer();
+        updateTimer();
     });
-    </script>   
-        
+</script>   
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // Disable browser back button
+      window.history.pushState(null, "", window.location.href);
+      window.onpopstate = function () {
+        // Show the quit confirmation modal
+        showModal("quitModal");
+      };
+
+      // Modal handling
+      function showModal(modalId) {
+        document.getElementById(modalId).style.display = "block";
+      }
+
+      function hideModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+      }
+
+      // Quit confirmation modal buttons
+      document.getElementById("confirmQuit").addEventListener("click", function () {
+        hideModal("quitModal");
+        showModal("quitModal-5");
+      });
+
+      document.getElementById("confirmQuitt").addEventListener("click", function () {
+        hideModal("quitModal-5");
+        window.location.href = "thank-you.html";
+    });
+
+
+      document.getElementById("cancelQuit").addEventListener("click", function () {
+        hideModal("quitModal");
+        window.history.pushState(null, "", window.location.href); // Prevent back navigation
+      });
+
+      document.getElementById("cancelQuitt").addEventListener("click", function () {
+        hideModal("quitModal-5");
+        window.history.pushState(null, "", window.location.href); // Prevent back navigation
+      });
+
+      
+    });
+ 
+    </script>
+ 
+    <script>
+        //Script for user tab switch violations
+
+        window.onload = function(){
+            localStorage.setItem("lastVisibilityChangeTime",Date.now());
+            localStorage.setItem('lastState',document.visibilityState); // Tracks the last visibility state
+            
+        }
+
+        document.addEventListener("visibilitychange", function () {
+            const now = Date.now();
+            const currentState = document.visibilityState;
+
+            if (currentState === "hidden" && localStorage.getItem('lastState') === "visible") {
+                console.log("User switched tabs or minimized the browser.");
+                localStorage.setItem('lastVisibilityChangeTime',now); // Update the last change time
+            } else if (currentState === "visible" && localStorage.getItem('lastState') === "hidden") {
+                const awayTime = parseInt((now - parseInt(localStorage.getItem('lastVisibilityChangeTime'))) / 1000);
+                if(awayTime >= 4) {
+                    localStorage.setItem('tabSwitchCount', parseInt(localStorage.getItem('tabSwitchCount')) + 1);
+                    if (parseInt(localStorage.getItem('tabSwitchCount')) < 2) {
+                        alert("🚨 Warning: Do Not Switch Tabs!Switching or leaving this page will automatically terminate the test. You will not be able to log in again or continue the test once it ends.Please stay on this page until the test is completed.");
+                    }else{
+                        var url = "{% url 'quiz:disqualify' %}"
+                        fetch(url, {
+                            method: 'POST',
+                        })
+                        .then(response => response.json())
+                        .then(data => console.log(data));
+                        // Create overlay
+                        const overlay = document.createElement('div');
+                        overlay.classList.add('overlay');
+                        document.body.appendChild(overlay);
+
+                        // Create modal
+                        const modal11 = document.createElement('div');
+                        modal11.classList.add('modal11');
+                        modal11.innerHTML = `
+                            <h4>You have been disqualified</h4>
+                            <p>due to non-compliance with the test guidelines.</p>
+                        `;
+                        document.body.appendChild(modal11);
+
+                        localStorage.removeItem('lastState');
+                        localStorage.removeItem('lastVisibilityChangeTime');
+                        localStorage.removeItem('tabSwitchCount');
+                        
+                    }
+                }
+            }
+
+            localStorage.setItem('lastState',currentState); // Update the state
+        });
+
+        document.getElementById("start_test").onsubmit = function(){
+            localStorage.setItem("lastVisibilityChangeTime",Date.now());
+        }
+
+    </script>
     
     
     </body>

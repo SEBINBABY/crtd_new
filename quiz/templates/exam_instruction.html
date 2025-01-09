@@ -15,6 +15,8 @@
         }
         .blurred {
             filter: blur(10px);
+            pointer-events: none;
+            cursor: none;
         }
     </style>
 </head>
@@ -27,11 +29,13 @@
             <div class="instruct-img"></div>
         </div>
         <div class="instruct-right" >
-            <div class="instruct-account" style="margin-left: 675px; margin-top: -25px;">
-                <img src="/static/images/user.png" alt="" height="40px" width="40px" style="margin-left: -45px;margin-bottom: -60px;">
-                <div>
-                    <h6 style="color: #003B8B" style="margin-top: 60px;">{{ user_full_name }}</h6>
-                    <h6 style="margin-top: -10.5px; color: black;">{{ user_email }}</h6>
+            <div class="instruct-account" style="display: flex; justify-content: end; margin-right: 10%;">
+                
+                <img class="mail-img" src="/static/images/user.png" alt="" height="40px" width="40px" style="margin-left: -25px; margin-right: 5px; ">
+                <div class="mail-popup" >
+                    
+                    <h6 style="color: #003B8B">{{ user.username }}</h6>
+                    <h6 style="color: black;">{{ user.email }}</h6>
                 </div>
             </div>
             <div class="instruction">
@@ -57,6 +61,31 @@
     </div>
     
     <script>
+        function handleBlurEffect() {
+            document.body.classList.add('blurred');
+            setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
+        }
+
+document.addEventListener("DOMContentLoaded", function () {
+    var popup = document.querySelector(".mail-popup");
+    var trigger = document.querySelector(".mail-img");
+
+    // Show popup when clicking on the trigger (mail-img)
+    trigger.addEventListener("click", function (event) {
+        popup.style.display = "block";
+        event.stopPropagation(); // Prevent immediate closing when clicking the trigger
+    });
+
+    // Hide popup when clicking anywhere outside of it
+    document.addEventListener("click", function (event) {
+        if (!popup.contains(event.target) && event.target !== trigger) {
+            popup.style.display = "none";
+        }
+    });
+});
+
+
+
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
      
         // Disable context menu
@@ -67,12 +96,17 @@
             if ((event.ctrlKey || event.metaKey) && (event.key === 'c' || event.key === 'u')) {
                 event.preventDefault();
             }
+            if (event.key === 'F11') {
+                event.preventDefault(); // Prevent default fullscreen behavior
+                handleBlurEffect(); // Apply blur effect
+            }
         });
      
         // Handle Meta key and blur
         document.addEventListener('keydown', event => {
             if (event.key === 'Meta' || event.code === 'OS') {
                 document.body.classList.add('blurred');
+                handleBlurEffect();
             }
             if (event.key === 'Escape') {
                 event.preventDefault();
@@ -85,6 +119,7 @@
         document.addEventListener('keyup', event => {
             if (event.key === 'Meta' || event.code === 'OS') {
                 document.body.classList.remove('blurred');
+                handleBlurEffect();
             }
             if (event.key === 'PrintScreen') {
                 document.body.classList.add('blurred'); // Blur content
@@ -94,6 +129,7 @@
      
         // Add touch event listeners for iOS
         if (isIOS) {
+            document.addEventListener('touchstart', handleBlurEffect);
             document.addEventListener('touchstart', () => {
                 document.body.classList.add('blurred');
             });

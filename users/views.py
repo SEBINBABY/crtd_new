@@ -158,13 +158,8 @@ def user_login(request):
                 messages.error(request, "You are not allowed to log in")
                 return render(request, "login.html")
             
-            if user.is_verified:
+            if user.is_verified or not user.is_qualified:
                 messages.error(request, "You can only attempt the quiz once")
-                return render(request, "login.html")
-
-            
-            if not user.is_qualified:
-                messages.error(request, "You have been disqualified due to non-compliance with the test guidelines") 
                 return render(request, "login.html")
             
             # Check if the user is IN USER Role itself, Not admin or hr_staff
@@ -315,7 +310,7 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            "We have emailed you the steps to reset your password. Please check your inbox and follow the steps provided."
+            "We have emailed you the steps to reset your password. Please check your inbox and follow the instructions provided."
         )
         return super().form_valid(form)
 

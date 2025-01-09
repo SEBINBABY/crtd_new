@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'quiz.middleware.custom_middleware.DisqualificationMiddleware',
 ]
 
 ROOT_URLCONF = 'CRTD.urls'
@@ -92,6 +93,9 @@ DATABASES = {
             'PORT':config('DATABASE_PORT'),
         }
 }
+
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -1,5 +1,6 @@
 from django.db import models
 from admin_dashboard.models import User
+from django.utils.timezone import now 
 
 
 class Quiz(models.Model):
@@ -78,6 +79,9 @@ class Result(models.Model):
 
     def __str__(self):
         return f"${self.user}'s result for ${self.quiz}"
+    
+    def get_remaining_time(self):
+        return (self.quiz.time * 60) - (now() - self.start_time).seconds
     
     class Meta:
         unique_together = ('user', 'quiz')

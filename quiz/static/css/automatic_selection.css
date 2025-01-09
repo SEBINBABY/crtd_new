@@ -68,7 +68,7 @@ scrollbar-width: none;
  top: 12%;
 }
 .content-box h6 {
- width: 25%;
+ width: 28%;
  font-size: 14px;
  font-weight: 600;
 }
@@ -93,5 +93,22 @@ scrollbar-width: none;
  left: 45%;
 }
 .automate-account{
-    margin-left: -50px;
+    /* margin-left: -50px; */
 }
+
+.content-box .end-question{
+    text-align: center;
+}
+
+/*  */
+.automate-account .mail-popup{
+    display: none;
+    background-color: gainsboro;
+    position: absolute;
+    top: 20%;
+    right:2%;
+    padding: 20px;
+    z-index: 1;
+    border-radius: 8px;
+}
+
