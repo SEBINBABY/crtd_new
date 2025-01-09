@@ -27,7 +27,11 @@ def exam_guidelines(request):
     Renders the exam guidelines template.
     """
     if request.user.is_verified: return redirect('quiz:finish_test')
-    if(is_test_started(request)): return redirect('quiz:disqualify')
+    if(is_test_started(request)): 
+        # Message helps trigger the "back button pop up" in the front end
+        messages.error(request,"Pressing the back button will lead to disqualification!")
+        result = Result.objects.filter(user = request.user, end_time__isnull=True).first()
+        return redirect('quiz:start_question',quiz_id=result.quiz.id, question_id=result.quiz.quiz_questions.first().id)
     return render(request, "exam_guidelines.html")
 
 
@@ -38,7 +42,12 @@ def automatic_selection(request):
     Renders the template which lists all the quizzes to the user before the test starts.
     """
     if request.user.is_verified: return redirect('quiz:finish_test')
-    if(is_test_started(request)): return redirect('quiz:disqualify')
+    if(is_test_started(request)): 
+        # Message helps trigger the "back button pop up" in the front end
+        messages.error(request,"Pressing the back button will lead to disqualification!")
+        result = Result.objects.filter(user = request.user, end_time__isnull=True).first()
+        return redirect('quiz:start_question',quiz_id=result.quiz.id, question_id=result.quiz.quiz_questions.first().id)
+    
     quizzes = Quiz.objects.all()
     if quizzes.exists():
         return render(request, "automatic_selection.html", {"quizzes": quizzes})
@@ -73,6 +82,7 @@ def start_test(request):
     return redirect('quiz:start_question', quiz_id=quiz.id, question_id=quiz.quiz_questions.first().id)
 
 @user_only
+@never_cache
 def start_question(request, quiz_id, question_id):
     """
     Renders a question based on the given IDs.
@@ -195,8 +205,11 @@ def quiz_summary(request, quiz_id):
     result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
     
     # If next quiz is started, and user tries to go to the summary of previous quiz (back button) -> disqualify
-    if (result.end_time is not None) and Result.objects.filter(user=user,end_time__isnull=True).exists():
-        return redirect("quiz:disqualify")
+    if (result.end_time is not None) and is_test_started(request):
+        # Message helps trigger the "back button pop up" in the front end
+        messages.error(request,"Pressing the back button will lead to disqualification!")
+        result = Result.objects.filter(user = request.user, end_time__isnull=True).first()
+        return redirect('quiz:start_question',quiz_id=result.quiz.id, question_id=result.quiz.quiz_questions.first().id)
     
     # end quiz
     if not result.end_time:
