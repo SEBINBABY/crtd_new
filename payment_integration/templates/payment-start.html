@@ -46,13 +46,25 @@
                 <input type="checkbox" id="check-first" required/>
                 <span>Acknowledged</span>
             </div>
-            <form action="{% url 'payment_integration:initiate-payment' %}" method="POST" class="pass-box">
-                <button class="continue-btn" id="cont-btn" type="submit" disabled> Continue </button>
+            <span class="alerttt">Please check the box to agree with the terms before starting the test.</span>
+            <form id="submit-fform" action="{% url 'payment_integration:initiate-payment' %}" method="POST" class="pass-box">
+                <button class="continue-btn" id="cont-btn" type="button"> Continue </button>
             </form>
         </div>
     </div>
 
     <script>
+        document.getElementById("cont-btn").addEventListener('click', ()=> {    
+            let check = document.getElementById("check-first");
+            if(check.checked){
+                document.getElementById("submit-fform").submit();
+            }
+            else{
+                document.querySelector(".alerttt").style.opacity = 1;
+            }
+        })
+
+
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
      
         // Disable context menu
@@ -100,19 +112,7 @@
         }
      </script>
     <script>
-        let check = document.getElementById("check-first");
-        let btn = document.getElementById("cont-btn");
-
-        check.addEventListener('change', () => {
-            if (check.checked) {
-                btn.style.opacity = 1; 
-                btn.disabled = false;
-            } else {
-                btn.style.opacity = 0.5;
-                btn.disabled = true;
-            }
-          });
-
+       
     </script>
 
 
