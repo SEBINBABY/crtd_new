@@ -83,8 +83,9 @@ WSGI_APPLICATION = 'CRTD.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-
-DATABASES = {
+selected_db = 0
+if selected_db:
+    DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': config('DATABASE_NAME'),
@@ -94,7 +95,13 @@ DATABASES = {
             'PORT':config('DATABASE_PORT'),
         }
 }
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',  # or use a path from config like: config('SQLITE_DB_PATH')
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -132,16 +139,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Directory where all static files will be collected
-STATIC_ROOT = '/home/ubuntu/crtd_new/staticfiles/'
+# # Directory where all static files will be collected
+# STATIC_ROOT = '/home/ubuntu/crtd_new/staticfiles/'
 
-# Include additional static file directories
-STATICFILES_DIRS = [
-    '/home/ubuntu/crtd_new/admin_dashboard/static/',
-    '/home/ubuntu/crtd_new/payment_integration/static/',
-    '/home/ubuntu/crtd_new/quiz/static/',
-    '/home/ubuntu/crtd_new/users/static/'
-]
+# # Include additional static file directories
+# STATICFILES_DIRS = [
+#     '/home/ubuntu/crtd_new/admin_dashboard/static/',
+#     '/home/ubuntu/crtd_new/payment_integration/static/',
+#     '/home/ubuntu/crtd_new/quiz/static/',
+#     '/home/ubuntu/crtd_new/users/static/'
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
