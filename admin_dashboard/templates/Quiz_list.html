@@ -269,7 +269,7 @@ deleteCloseBtn.addEventListener("click", () => {
           fetch(url , {
             method: "POST",
             headers:{
-              "X-CSRFToken": getCSRFToken(),
+              //"X-CSRFToken": getCSRFToken(),
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
