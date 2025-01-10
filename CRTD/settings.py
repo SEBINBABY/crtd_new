@@ -84,6 +84,8 @@ WSGI_APPLICATION = 'CRTD.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
+
+
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -131,10 +133,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# # Directory where all static files will be collected
+# Directory where all static files will be collected
 STATIC_ROOT = '/home/ubuntu/crtd_new/staticfiles/'
 
-# # Include additional static file directories
+# Include additional static file directories
 STATICFILES_DIRS = [
     '/home/ubuntu/crtd_new/admin_dashboard/static/',
     '/home/ubuntu/crtd_new/payment_integration/static/',
