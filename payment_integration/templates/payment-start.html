@@ -59,24 +59,6 @@
 
     <script>
 
-document.addEventListener("DOMContentLoaded", function () {
-    var popup = document.querySelector(".mail-popup");
-    var trigger = document.querySelector(".mail-img");
-
-    // Show popup when clicking on the trigger (mail-img)
-    trigger.addEventListener("click", function (event) {
-        popup.style.display = "block";
-        event.stopPropagation(); // Prevent immediate closing when clicking the trigger
-    });
-
-    // Hide popup when clicking anywhere outside of it
-    document.addEventListener("click", function (event) {
-        if (!popup.contains(event.target) && event.target !== trigger) {
-            popup.style.display = "none";
-        }
-    });
-});
-
 
         document.getElementById("cont-btn").addEventListener('click', ()=> {    
             let check = document.getElementById("check-first");
