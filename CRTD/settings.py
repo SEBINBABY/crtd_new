@@ -172,7 +172,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'admin_dashboard.User'
-LOGIN_URL = '/home/ubuntu/crtd_new/user_login/'
+LOGIN_URL = '/user_login/'
 
 CSRF_COOKIE_SECURE = False  # Set to True for HTTPS
 CSRF_COOKIE_HTTPONLY = False
