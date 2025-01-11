@@ -65,7 +65,6 @@ body {
     left: 40px;
 }
 .instruction{
-    height: 60vh !important;
     width: 75%;
     background-color: #D0EDFF;
     position: relative;

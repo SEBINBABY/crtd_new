@@ -82,12 +82,12 @@
                 </div>
         </div>
         <div class="box-3">
-            <div class="account-3">
-                <img src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
-                <h6 style="margin-top: -40px;color: #003B8B" >{{user.username}}</h6>
-                 
-                
-                <h6 style="margin-top: -10px;">{{user.email}}</h6>
+            <div class="account-3" style="display: flex; justify-content: end; margin-right: 10%;">
+                <img class="mail-img" src="/static/images/user.png" alt="" style="margin-left: -50px;  margin-top:30px"; height="40px" width="40px" margin-top="30px">
+                <div class="mail-popup">
+                <h6 style="color: #003B8B" >{{user.username}}</h6>
+                <h6 style="">{{user.email}}</h6>
+                </div>  
             </div>
         </div>
     </div>
