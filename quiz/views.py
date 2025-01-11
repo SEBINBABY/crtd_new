@@ -68,6 +68,8 @@ def start_test(request):
     quiz = get_next_quiz(user.id)
     if not quiz:
         #show the final summary if all quizzes attemted
+        if Quiz.objects.count() == 0:
+            return JsonResponse("No quizzes found.")
         return redirect('quiz:quiz_summary',quiz_id = Quiz.objects.last().id)
     if(quiz.requires_payment and not user.has_paid):
         return redirect('payment_integration:payment_start')
@@ -230,6 +232,7 @@ def quiz_summary(request, quiz_id):
     
     # set is_verified to true if all quizzes are completed
     if incomplete_quizzes.count() == 0:
+        user.tcn_number = generate_unique_tcn()
         user.is_verified = True
         user.save()
     
