@@ -69,7 +69,7 @@ def start_test(request):
     if not quiz:
         #show the final summary if all quizzes attemted
         if Quiz.objects.count() == 0:
-            return JsonResponse("No quizzes found.")
+            return JsonResponse({"error":"No quizzes found."})
         return redirect('quiz:quiz_summary',quiz_id = Quiz.objects.last().id)
     if(quiz.requires_payment and not user.has_paid):
         return redirect('payment_integration:payment_start')
@@ -80,6 +80,9 @@ def start_test(request):
     
     # Create a new empty Result object for the next quiz
     Result.objects.create(user_id=user.id, quiz=quiz, start_time=now(), user_answers={})
+
+    if quiz.quiz_questions.count() == 0:
+        return JsonResponse({"error":"No questions in the quiz"})
 
     return redirect('quiz:start_question', quiz_id=quiz.id, question_id=quiz.quiz_questions.first().id)
 
