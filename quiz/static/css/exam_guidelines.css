@@ -165,7 +165,6 @@ z-index: 1;
 
 /*  */
  .mail-popup{
-    display: none;
     background-color: gainsboro;
     position: absolute;
     top: 130px;
@@ -173,4 +172,17 @@ z-index: 1;
     padding: 20px;
     z-index: 1;
     border-radius: 8px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.mail-img {
+    cursor: pointer;
+}
+
+.mail-img:hover ~ .mail-popup, 
+.mail-popup:hover {
+    visibility: visible;
+    opacity: 1;
 }

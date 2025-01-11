@@ -63,6 +63,10 @@ button:hover {
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   animation: fadeIn 0.3s ease; /* Optional fade-in effect */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* Animation for the popup */
@@ -669,12 +673,23 @@ label p {
 
 /*  */
 .mail-popup{
-  display: none;
   background-color: gainsboro;
   position: absolute;
   top: 130px;
-  /* right:2%; */
   padding: 20px;
   z-index: 1;
   border-radius: 8px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.mail-img {
+  cursor: pointer;
+}
+
+.mail-img:hover ~ .mail-popup, 
+.mail-popup:hover {
+  visibility: visible;
+  opacity: 1;
 }
