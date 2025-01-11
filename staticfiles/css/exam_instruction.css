@@ -50,14 +50,12 @@ justify-content: center;
  left: 40px;
 }
 .instruction {
-
-    
- height: 60% !important;
+ /* height: ; */
  width: 75%;
  background-color: #D0EDFF;
  position: relative;
  left:100px;
- top: 30px;
+ top: 9vh;
  border-radius: 14px;
  padding: 15px;
  margin-bottom: 50px;
@@ -72,7 +70,13 @@ justify-content: center;
 -webkit-text-fill-color: transparent;
 }
 .instruction ul {
- margin-top: 35px;
+ margin-top: 25px;
+}
+.instruct-account{
+    width: 20%;
+    position: absolute;
+    right: 0%;
+    top: 10%;
 }
 .instruction ul li {
  font-weight: 400;
@@ -89,7 +93,7 @@ justify-content: center;
  border-radius: 10px;
  color: white;
  position: relative;
- top: -20px;
+ top: 2vh;
  left: 38%;
  padding: 5px 15px 5px 15px;
  font-size: 18px;
@@ -98,8 +102,8 @@ justify-content: center;
 .instruct-right .instruct-account .mail-popup{
     background-color: gainsboro;
     position: absolute;
-    top: 20%;
-    right:2%;
+    top: 8vh;
+    left:20vh;
     padding: 20px;
     z-index: 1;
     border-radius: 8px;
@@ -109,6 +113,7 @@ justify-content: center;
 }
 .mail-img {
     cursor: pointer;
+    
 }
 
 .mail-img:hover ~ .mail-popup, 
