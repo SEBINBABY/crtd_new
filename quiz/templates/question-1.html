@@ -214,16 +214,20 @@
   <video id="video" autoplay playsinline></video>
   
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
+   window.addEventListener("pageshow", function (event) {
     let popup = document.getElementById("popupEnable");
+    
+    // Fix for page cache: Ensure page is NOT loaded from cache
+    if (event.persisted) {
+        sessionStorage.removeItem("popupShown");
+    }
 
     if (popup && !sessionStorage.getItem("popupShown")) {
         popup.style.display = "block";
         sessionStorage.setItem("popupShown", "true"); 
     }
-
-    
 });
+
 
 
     // Get DOM elements
@@ -514,6 +518,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("confirmQuit").addEventListener("click", function () {
         hideModal("quitModal");
         showModal("quitModal-5");
+        hideModal("popupEnable");
       });
 
     document.getElementById("confirmQuitt").addEventListener("click", function () {
@@ -547,12 +552,14 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("cancelQuit").addEventListener("click", function () {
         hideModal("quitModal");
         window.history.pushState(null, "", window.location.href); // Prevent back navigation
-      });
+        showModal("popupEnable")
+    });
 
       document.getElementById("cancelQuitt").addEventListener("click", function () {
         hideModal("quitModal-5");
         window.history.pushState(null, "", window.location.href); // Prevent back navigation
-      });
+        showModal("popupEnable");
+    });
 
       
     });
