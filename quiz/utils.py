@@ -6,7 +6,7 @@ from .models import *
 
 def user_only(view_func):
     @wraps(view_func)
-    @login_required(login_url="/user_login")
+    @login_required()
     def _wrapped_view(request, *args, **kwargs):
         if request.user.role == User.USER:
             return view_func(request, *args, **kwargs)
