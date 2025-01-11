@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 from . import views
 
 app_name = 'users'
@@ -19,4 +20,5 @@ urlpatterns = [
         template_name='password_reset_confirm.html'), name='password_reset_confirm'),
     path('password_reset_complete/', views.CustomPasswordResetCompleteView.as_view(
         template_name='password_reset_complete.html'), name='password_reset_complete'),
+    path('email_sent/', TemplateView.as_view(template_name="email_sent.html"),name='email_sent'),
 ]

@@ -18,21 +18,6 @@ from django import forms
 from django.contrib.auth.forms import PasswordResetForm
 from django.views.decorators.cache import never_cache
 from quiz.models import Quiz, Result
-from django.db.models import Max
-
-def generate_unique_tcn():
-    # Get the maximum TCN number from the database
-    max_tcn = User.objects.aggregate(Max('tcn_number'))['tcn_number__max']
-    
-    if max_tcn:
-        # Increment the maximum TCN number by 1
-        next_tcn = int(max_tcn) + 1
-    else:
-        # Start with 1 if no TCN exists
-        next_tcn = 1
-    
-    # Format the TCN as a 5-digit string with leading zeros
-    return f"{next_tcn:05}"
 
 # Password validation function
 def is_valid_password(password):
@@ -110,8 +95,6 @@ def register_verified(request):
         try:
             otp_instance = OTP.objects.get(email=email)
             if not otp_instance.is_expired():
-                # Generate a unique TCN Number
-                tcn_number = generate_unique_tcn()
                 # Email verified, proceed with registration
                 user = User.objects.create_user(
                     username=username.strip(),
@@ -119,7 +102,6 @@ def register_verified(request):
                     contact_number=contact_number,
                     password=password,
                 )
-                user.tcn_number = tcn_number  # Assign the generated TCN Number
                 user.is_email_verified = True
                 user.save()
                 return render(request, "create_account_success.html")
@@ -297,7 +279,7 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     email_template_name = 'password_reset_email.html'
     html_email_template_name = 'html_password_reset_email.html'
     form_class = CustomPasswordResetForm
-    success_url = reverse_lazy('users:user_login')
+    success_url = reverse_lazy('users:email_sent')
 
     def get_email_context(self, user, token):
         context = super().get_email_context(user, token)
@@ -305,15 +287,6 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
             'user': user,
         })
         return context
-
-    def form_valid(self, form):
-        messages.add_message(
-            self.request,
-            messages.SUCCESS,
-            "We have emailed you the steps to reset your password. Please check your inbox and follow the instructions provided."
-        )
-        return super().form_valid(form)
-
 
 # After receiving the mail, user will be landed to this page to confirm his New Passsword
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):

@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from functools import wraps
 from admin_dashboard.models import User
+from django.db.models import Max
 from .models import *
 
 def user_only(view_func):
@@ -43,3 +44,17 @@ def is_test_started(request):
     if Result.objects.filter(user=request.user,end_time__isnull=True).exists():
         return True
     
+
+def generate_unique_tcn():
+    # Get the maximum TCN number from the database
+    max_tcn = User.objects.aggregate(Max('tcn_number'))['tcn_number__max']
+    
+    if max_tcn:
+        # Increment the maximum TCN number by 1
+        next_tcn = int(max_tcn) + 1
+    else:
+        # Start with 1 if no TCN exists
+        next_tcn = 1
+    
+    # Format the TCN as a 5-digit string with leading zeros
+    return f"{next_tcn:05}"
