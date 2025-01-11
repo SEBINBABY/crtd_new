@@ -208,30 +208,30 @@
       <button id="enableCameraPopup">Enable Camera</button>
     </div>
   </div>
-  <button id="openPopup">Open Popup</button>
+  <!-- <button id="openPopup">Open Popup</button> -->
 
 
   <video id="video" autoplay playsinline></video>
   
   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    let popup = document.getElementById("popupEnable");
+
+    if (popup && !sessionStorage.getItem("popupShown")) {
+        popup.style.display = "block";
+        sessionStorage.setItem("popupShown", "true"); 
+    }
+
+    
+});
+
+
     // Get DOM elements
-    const popupEnable = document.getElementById('popupEnable');
-    const openPopup = document.getElementById('openPopup');
+   
     const enableCameraPopupButton = document.getElementById('enableCameraPopup');
     const video = document.getElementById('video');
     const errorElement = document.getElementById('error');
 
-    // Show popup when the trigger button is clicked
-    openPopup.addEventListener('click', () => {
-      popupEnable.style.display = 'flex';
-    });
-
-    // Close popup when clicking outside the content
-    popupEnable.addEventListener('click', (event) => {
-      if (event.target === popupEnable) {
-        popupEnable.style.display = 'none';
-      }
-    });
 
     // Function to start the camera
     async function startCamera() {
@@ -259,26 +259,7 @@
 {% for message in messages%}{% endfor %}
 {% endif %}
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    var popup = document.querySelector(".mail-popup");
-    var trigger = document.querySelector(".mail-img");
 
-    // Show popup when clicking on the trigger (mail-img)
-    trigger.addEventListener("click", function (event) {
-        popup.style.display = "block";
-        event.stopPropagation(); // Prevent immediate closing when clicking the trigger
-    });
-
-    // Hide popup when clicking anywhere outside of it
-    document.addEventListener("click", function (event) {
-        if (!popup.contains(event.target) && event.target !== trigger) {
-            popup.style.display = "none";
-        }
-    });
-});
-
-</script>
 
 <script>
     // Violation recorder script (tab/window/url change)

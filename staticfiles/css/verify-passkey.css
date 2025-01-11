@@ -1,0 +1,269 @@
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.box{
+  height: 100vh;
+  width: 100vw;
+  background-color: #E7F7FF;
+  display: flex;
+}
+.passkey-left{
+  height: 100vh;
+  width: 30vw;
+}
+.passkey-right{
+  height: 100vh;
+  width: 69vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.right-inside{
+  height: 65vh;
+  width: 50vw;
+  background-color: #F5FCFF;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 30px 10px 30px;
+  border-radius: 20px;
+}
+.right-inside h2{
+  font-size: 30px;
+  font-weight: 600;
+  color: #032F84;
+  position: relative;
+  left: 27%;
+}
+.right-inside p{
+  height: 60px;
+  width: 74%;
+  background-color: #003B8B;
+  color: white;
+  font-size: 13px;
+  padding: 5px 10px 5px 10px;
+  line-height: 24px;
+  border-radius: 10px;
+  position: relative;
+  top: 5%;
+  left: 15%;
+  margin-bottom: 0;
+}
+.passkey h6{
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  color: #003B8B;
+  position: relative; 
+}
+.passkey{
+  height: 50%;
+  /* background-color: black; */
+  position: relative;
+  top: 10%;
+  left: 15%;
+}
+.passkey input{
+  height: 30px ;
+  width: 74% ;
+  border: none;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.right-inside button{
+    height: 10%;
+    width: 35%;
+    background: linear-gradient(to right, #13B3FF, #005AD5);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    position: relative;
+    left: 33%;
+}
+.passkey-left .passkey-logo{
+  height: 22.9%;
+  width: 75%;
+  position: relative;
+  /* background-color: pink; */
+  /* background-size: cover; */
+  /* background-repeat: no-repeat; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* scale: 0.9; */
+}
+.passkey-logo img{
+
+  height: 66%;
+  width: 76%;
+  position: relative;
+  left: 2%;
+  /* scale: 0.9; */
+}
+.passkey-left .passkey-img{
+  margin-top: -100px;
+  height: 60%;
+  width: 90%;
+  position: relative;
+  left: 15%;
+  top: 10%;
+  background: url("/static/images/verify-passkey.png");
+  background-size: cover;
+}
+
+/* error messages  */
+.messages {
+  padding: 2px;
+  position: relative;
+  font-weight: 600;
+  font-size: 16px;
+}
+.passkey .msg-conatiner{
+  height: 12%;
+  width: 70%;
+  /* background-color: red; */
+  padding: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  top: 48%;
+  color: rgb(214, 32, 32);
+}
+/* General alert message styling */
+
+/* Mobile message styles */
+.mobile-message {
+  height: 30%;
+  width: 50%;
+  /* background-color: rgb(230, 229, 229); */
+  display: none;
+  text-align: center;
+  z-index: 1;
+  font-size: 24px;
+  color: #e13a3a;
+  font-family: Arial, sans-serif;
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px; */
+}
+.mobile-message h3{
+  line-height: 25px; 
+  font-size: 1rem;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Hide the existing content on mobile */
+.desktop-content {
+  display: none;
+}
+
+/* Show desktop content on larger screens */
+@media (min-width: 1024px) {
+  .desktop-content {
+    display: block;
+  }
+}
+@media (max-width: 380px) {
+  .modal-logo {
+    height: 23vh !important;
+    width: 98vw !important;
+  }
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+/* Modal Content */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80% !important;
+  height: 30vh;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+  color: #003b8b;
+  font-size: 1.3rem;
+  font-weight: 650;
+}
+.modal-content p{
+  font-size: 1rem;
+}
+.modal-logo{
+  height: 18vh;
+  width: 96vw;
+  background-color: blue;
+  background: url("/static/images/image_1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  scale: 0.6;
+  position: relative;
+  left:-15%;
+}
+
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+  /* Modal Content */
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    margin: 25% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80% !important;
+    height: 30vh;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-content h3 {
+    color: #003b8b;
+    font-size: 20px;
+    font-weight: 650;
+  }
+  .modal-logo{
+    height: 18vh;
+    width: 96vw;
+    background-color: blue;
+    background: url("/static/images/image_1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    scale: 0.6;
+    position: relative;
+    left: -15%;
+  }
