@@ -201,55 +201,24 @@
       <button id="cancelQuitt" class="btn-cancel">Cancel</button>
     </div>
   </div>
-  
-
-  <div id="popupEnable" class="popupEnable">
+    <div id="popupEnable" class="popupEnable">
     <div class="popupEnable-content">
-      <button id="enableCameraPopup">Enable Camera</button>
+        <h4>You must allow camera access to take this test. Without it, you won't be able to proceed.</h4>
+      <button id="enableCameraPopup">Enable Your Camera</button>
     </div>
   </div>
   <!-- <button id="openPopup">Open Popup</button> -->
 
 
   <video id="video" autoplay playsinline></video>
-  
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        if(localStorage.getItem("cameraStarted") === 'true'){
-            startCamera();
-        }
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
         
-        let popup = document.getElementById("popupEnable");
-        if (popup && !sessionStorage.getItem("popupShown")) {
-            popup.style.display = "block";
-            sessionStorage.setItem("popupShown", "true"); 
-        }
-
-    });
-
-
-   window.addEventListener("pageshow", function (event) {
-    let popup = document.getElementById("popupEnable");
-    
-    // Fix for page cache: Ensure page is NOT loaded from cache
-    if (event.persisted) {
-        sessionStorage.removeItem("popupShown");
-    }
-
-    if (popup && !sessionStorage.getItem("popupShown")) {
-        popup.style.display = "block";
-        sessionStorage.setItem("popupShown", "true"); 
-    }
-});
-
-
-
-    // Get DOM elements
-   
     const enableCameraPopupButton = document.getElementById('enableCameraPopup');
     const video = document.getElementById('video');
     const errorElement = document.getElementById('error');
-
+    startCamera();
 
     // Function to start the camera
     async function startCamera() {
@@ -265,10 +234,8 @@
         errorElement.textContent = `Error accessing camera: ${error.message}`;
       }
     }
-
-    // Event listener for the popup button
-    enableCameraPopupButton.addEventListener('click', startCamera);
-  </script>
+    });
+</script>
 
 {% if messages %}
 <script>
