@@ -1,5 +1,3 @@
-*********** settings local************
-
 """
 Django settings for CRTD project.
 
