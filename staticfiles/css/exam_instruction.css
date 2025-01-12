@@ -102,8 +102,8 @@ justify-content: center;
 .instruct-right .instruct-account .mail-popup{
     background-color: gainsboro;
     position: absolute;
-    top: 8vh;
-    left:20vh;
+    top: -45px;
+    left:20px;
     padding: 20px;
     z-index: 1;
     border-radius: 8px;
