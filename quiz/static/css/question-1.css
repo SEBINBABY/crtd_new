@@ -21,8 +21,9 @@ video {
   max-width:10%;
   display: none;
   position: fixed; 
-  margin-top:38%;
-  margin-left: 88%;
+  margin-top:22%;
+  margin-left: 88.5%;
+  pointer-events: none;
 
 }
 /* Popup container */
