@@ -87,7 +87,7 @@
                                 </td>
                                 <td>{{user.email}}</td>
                                 <td>{{user.contact_number}}</td>
-                                <td>{{user.created_at|date:"d-m-Y"}}</td>
+                                <td>{{user.created_at|date:"d-m-Y | h:m a"}}</td>
                                 <td>{{user.tcn_number}}</td>
                                 {% if user.is_verified %}
                                 <td><span class="status verified submitted">Submitted</span></td>
