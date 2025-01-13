@@ -13,41 +13,52 @@
                 <!-- Search Bar -->
                 <div class="search-container">
                   <div class="search-icon">
-                      <form method="GET" action="{% url 'admin_dashboard:user_list' %}" class="search-form">
-                    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
-                      <img src="/static/images/search-icon.png" alt="Search Icon">
-                    </button>
-                    </div>
-                    <input
-                      type="text"
-                      name="query"
-                      class="search-input"
-                      placeholder="Search here"
-                    >
+                    <form onsubmit="return search(event)" class="search-form">
+                      <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                        <img src="/static/images/search-icon.png" alt="Search Icon">
+                      </button>
+                      </div>
+                      <input
+                        id="search_bar"
+                        type="text"
+                        name="query"
+                        class="search-input"
+                        placeholder="Search here"
+                      >
                     </form>
                   </div>
             
                 <!-- Filter by Date -->
                 <div class="filter-by-date" onclick="openCalendarPopup()">
-                    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                    <button style="background: none; border: none; padding: 0; cursor: pointer;">
                         <div class="calendar-icon"></div>
                     </button>
                     Filter By Date
                   </div>             
                   <div id="overlay" onclick="closeCalendarPopup()"></div>
-                  <form method="GET" action="{% url 'admin_dashboard:user_list' %}">
+                  <form>
                   <div id="calendar-popup">
                     <input type="date" id="date-input" name="filter_date">
-                    <button class="close-btn" onclick="closeCalendarPopup()" type="submit">Done</button>
+                    <button id="date_filter" class="close-btn" onclick="closeCalendarPopup()">Done</button>
                   </div>
                 </form>
 
               <!-- Toggle Buttons -->
               <div class="filter-toggle">
                 <label>Filter by</label>
-                <a href="{% url 'admin_dashboard:user_list' %}?submitted=True"><button class="filter-button active" onclick="toggleActive(this)">Verified</button></a>
-                <a href="{% url 'admin_dashboard:user_list' %}?submitted=False"><button class="filter-button" onclick="toggleActive(this)">Non-Verified</button></a>
+                <select name="status_filter" id="status_filter">
+                  <option selected>Filter by status</option>
+                  <option value="not_started">Not Started</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="disqualified">Disqualified</option>
+                  <option value="submitted">Submitted</option>
+                </select>
               </div>
+
+              <div>
+                <a class="btn btn-primary" href="{% url 'admin_dashboard:user_list'%}">Clear Filter</a>
+              </div>
+
         </div>
                 <div class="table-container">
                     <table>
@@ -59,8 +70,8 @@
                                 <th>Contact</th>
                                 <th>Account Creation Date</th>
                                 <th>TCN Number</th>
-                                <th>Qualification Status</th>
-                                <th>Status</th>
+                                <th>Test Status</th>
+                                <th>Payment Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -78,16 +89,20 @@
                                 <td>{{user.contact_number}}</td>
                                 <td>{{user.created_at|date:"d-m-Y"}}</td>
                                 <td>{{user.tcn_number}}</td>
-                                {% if user.is_qualified %}
-                                <td><span class="status verified">Qualified</span></td>
-                                {% elif not user.is_qualified %}
-                                <td><span class="status not-verified">Not Qualified</span></td>
-                                {% endif %}
-                
                                 {% if user.is_verified %}
-                                <td><span class="status verified">Verified</span></td>
-                                {% elif not user.is_verified %}
-                                <td><span class="status not-verified">Not Verified</span></td>
+                                <td><span class="status verified submitted">Submitted</span></td>
+                                {% elif not user.is_qualified %}
+                                <td><span class="status not-verified disqualified">Disqualified</span></td>
+                                {% elif not user.has_started %}
+                                <td><span class="status verified not_started">Not Started</span></td>
+                                {% elif user.has_started and user.is_qualified and not user.is_verified %}
+                                <td><span class="status verified in_progress">In Progress</span></td>
+                                {% endif %}
+
+                                {% if user.has_paid %}
+                                <td><span class="status verified">Paid</span></td>
+                                {% elif not user.has_paid %}
+                                <td><span class="status not-verified">Not Paid</span></td>
                                 {% endif %}
                                 <td>
                                     <div class="action-btns">
@@ -156,7 +171,7 @@
 {% block extra_js %}
 
 <!-- JS for Pagination starts -->
-  <script>
+<script>
     document.addEventListener('DOMContentLoaded', () => {
       const paginationContainer = document.getElementById('pagination-container');
       const currentPage = parseInt(paginationContainer.getAttribute('data-current-page'));
@@ -208,154 +223,210 @@
 </script>
 <!-- JS for Pagination ends -->
 
-    <script>
+<script>
 
-        function openCalendarPopup() {
-          document.getElementById('calendar-popup').style.display = 'block';
-          document.getElementById('overlay').style.display = 'block';
-        }
-      
-        function closeCalendarPopup() {
-          document.getElementById('calendar-popup').style.display = 'none';
-          document.getElementById('overlay').style.display = 'none';
-        }
+    function openCalendarPopup() {
+      document.getElementById('calendar-popup').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    }
+  
+    function closeCalendarPopup() {
+      document.getElementById('calendar-popup').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    }
 
-        const deleteBtn = document.querySelectorAll('.delete-btn');
-        const deleteModal = document.querySelector('.delete-modal');
-        const deleteCloseBtn = document.querySelector('.delete-close-btn');
-        const deleteCancelBtn = document.querySelector('.delete-cancel-btn');
-        const deleteDeleteBtn = document.querySelector('.delete-delete-btn');
-        const passkeyModalDelete = document.querySelector(".delete-modal");
-        const thead = document.querySelector('.thead');
+    const deleteBtn = document.querySelectorAll('.delete-btn');
+    const deleteModal = document.querySelector('.delete-modal');
+    const deleteCloseBtn = document.querySelector('.delete-close-btn');
+    const deleteCancelBtn = document.querySelector('.delete-cancel-btn');
+    const deleteDeleteBtn = document.querySelector('.delete-delete-btn');
+    const passkeyModalDelete = document.querySelector(".delete-modal");
+    const thead = document.querySelector('.thead');
 
-    deleteBtn.forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.getElementById('hidden_user_id').value = btn.id.split('-')[1];
-        deleteModal.style.display = 'block';
-        thead.style.position = "none"
-      });
+deleteBtn.forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.getElementById('hidden_user_id').value = btn.id.split('-')[1];
+    deleteModal.style.display = 'block';
+    thead.style.position = "none"
+  });
+});
+
+deleteBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      passkeyModalDelete.style.display = "block";
+      passkeyModalDelete.style.display = "flex";
     });
+  });
 
-    deleteBtn.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          passkeyModalDelete.style.display = "block";
-          passkeyModalDelete.style.display = "flex";
-        });
-      });
+  deleteCloseBtn.addEventListener("click", () => {
+    passkeyModalDelete.style.display = "none";
+  });
 
-      deleteCloseBtn.addEventListener("click", () => {
-        passkeyModalDelete.style.display = "none";
-      });
+  deleteCancelBtn.addEventListener("click", () => {
+    passkeyModalDelete.style.display = "none";
+  });
 
-      deleteCancelBtn.addEventListener("click", () => {
-        passkeyModalDelete.style.display = "none";
-      });
-
-      deleteDeleteBtn.addEventListener("click", () => {
-        alert("User has been deleted!");
-        passkeyModalDelete.style.display = "none";
-      });
+  deleteDeleteBtn.addEventListener("click", () => {
+    alert("User has been deleted!");
+    passkeyModalDelete.style.display = "none";
+  });
 
 
-      const overlay = document.querySelector(".overlay");
-      const seeBtn = document.querySelectorAll(".eye-btn");
-      const seeModal = document.querySelector(".see-modal");
-      const seeCloseBtn = document.querySelector(".see-close-btn")
-      const modalUsername = document.getElementById('modal_username')
-      const modalQuizList = document.getElementById('quiz_list')
+  const overlay = document.querySelector(".overlay");
+  const seeBtn = document.querySelectorAll(".eye-btn");
+  const seeModal = document.querySelector(".see-modal");
+  const seeCloseBtn = document.querySelector(".see-close-btn")
+  const modalUsername = document.getElementById('modal_username')
+  const modalQuizList = document.getElementById('quiz_list')
 
 
-      seeBtn.forEach((btn) => {
-        btn.addEventListener("click", (e) => {
+  seeBtn.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      
+      modalQuizList.innerHTML = '';
+      let user_id = e.target.getAttribute("id").split('-')[1];
+
+      let url = window.location.origin + `/get_user_results/${user_id}/`
+      fetch(url).then((response)=>{
+        return response.json();
+      }).then((data)=>{
+        quizzes = data['quizzes']
+        let correct_answer_counts = data['correct_answer_counts']
+        document.getElementById('modal_username').innerHTML = data['requested_user_name']
+        let counter = 1
+        quizzes.forEach((quiz) =>{
+          let correct_answer_count = correct_answer_counts[quiz.id]
           
-          modalQuizList.innerHTML = '';
-          let user_id = e.target.getAttribute("id").split('-')[1];
+          let list_item = document.createElement('div')
+          list_item.classList.add("item")
+          let quiz_name = document.createElement('p')
+          quiz_name.innerHTML = `${counter}. ${quiz.name}`
+          counter += 1
+          let answer_count = document.createElement('span')
+          answer_count.innerHTML = `${correct_answer_count?correct_answer_count:0}/${quiz.number_of_questions}`
 
-          let url = window.location.origin + `/get_user_results/${user_id}/`
-          fetch(url).then((response)=>{
-            return response.json();
-          }).then((data)=>{
-            quizzes = data['quizzes']
-            let correct_answer_counts = data['correct_answer_counts']
-            document.getElementById('modal_username').innerHTML = data['requested_user_name']
-            let counter = 1
-            quizzes.forEach((quiz) =>{
-              let correct_answer_count = correct_answer_counts[quiz.id]
-              
-              let list_item = document.createElement('div')
-              list_item.classList.add("item")
-              let quiz_name = document.createElement('p')
-              quiz_name.innerHTML = `${counter}. ${quiz.name}`
-              counter += 1
-              let answer_count = document.createElement('span')
-              answer_count.innerHTML = `${correct_answer_count?correct_answer_count:0}/${quiz.number_of_questions}`
+          list_item.appendChild(quiz_name)
+          list_item.appendChild(answer_count)
+          modalQuizList.appendChild(list_item)
 
-              list_item.appendChild(quiz_name)
-              list_item.appendChild(answer_count)
-              modalQuizList.appendChild(list_item)
-
-            });
+        });
 
 
-          }).then(() => {
-            seeModal.style.display = "block";
-            overlay.style.display = "block";
-          })
-
-
-        })
+      }).then(() => {
+        seeModal.style.display = "block";
+        overlay.style.display = "block";
       })
 
-      seeCloseBtn.addEventListener("click", () => {
-        seeModal.style.display = "none";
-        overlay.style.display = "";
-      });
 
-      window.addEventListener("click", (event) => {
-  if (event.target === popupOverlay) {
-    overlay.style.display = "none";
-  }
+    })
+  })
+
+  seeCloseBtn.addEventListener("click", () => {
+    seeModal.style.display = "none";
+    overlay.style.display = "";
+  });
+
+  window.addEventListener("click", (event) => {
+if (event.target === popupOverlay) {
+overlay.style.display = "none";
+}
 });
 
 function scrollToTableTop() {
-    const tableContainer = document.querySelector('.table-container');
-    if (tableContainer) {
-        tableContainer.scrollTo({
-            top: 0,
-            behavior: 'smooth' // Smooth scrolling effect
-        });
-    }
+const tableContainer = document.querySelector('.table-container');
+if (tableContainer) {
+    tableContainer.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Smooth scrolling effect
+    });
+}
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const dropdownToggle = document.querySelector('.dropdown-toggle');
-  const dropdownMenu = document.querySelector('.dropdown-menu');
-  const totalPages = 10;
+const dropdownToggle = document.querySelector('.dropdown-toggle');
+const dropdownMenu = document.querySelector('.dropdown-menu');
+const totalPages = 10;
 
-  // Populate dropdown menu with page numbers
-  for (let i = 1; i <= totalPages; i++) {
-    const listItem = document.createElement('li');
-    listItem.textContent = i;
-    listItem.style.cursor = 'pointer';
-    listItem.addEventListener('click', () => {
-      dropdownToggle.textContent = i; // Update selected page
-      dropdownMenu.style.display = 'none'; // Close dropdown
-    });
-    dropdownMenu.appendChild(listItem);
-  }
+// Populate dropdown menu with page numbers
+for (let i = 1; i <= totalPages; i++) {
+const listItem = document.createElement('li');
+listItem.textContent = i;
+listItem.style.cursor = 'pointer';
+listItem.addEventListener('click', () => {
+  dropdownToggle.textContent = i; // Update selected page
+  dropdownMenu.style.display = 'none'; // Close dropdown
+});
+dropdownMenu.appendChild(listItem);
+}
 
-  // Toggle dropdown menu visibility
-  dropdownToggle.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent event from bubbling
-    dropdownMenu.style.display =
-      dropdownMenu.style.display === 'block' ? 'none' : 'block';
-  });
-
-  // Close dropdown when clicking outside
-  document.addEventListener('click', () => {
-    dropdownMenu.style.display = 'none';
-  });
+// Toggle dropdown menu visibility
+dropdownToggle.addEventListener('click', (event) => {
+event.stopPropagation(); // Prevent event from bubbling
+dropdownMenu.style.display =
+  dropdownMenu.style.display === 'block' ? 'none' : 'block';
 });
 
-      </script>
-      {% endblock %}
+// Close dropdown when clicking outside
+document.addEventListener('click', () => {
+dropdownMenu.style.display = 'none';
+});
+});
+
+</script>
+
+
+
+<!-- Filter script -->
+<script>
+document.addEventListener('DOMContentLoaded', () =>{
+
+  const url = new URL(window.location.href);
+
+  const searchbar = document.getElementById('search_bar');
+  searchbar.value = url.searchParams.get('query')
+  
+  const date_filter = document.getElementById('date_filter');
+  const date_input = document.getElementById('date-input');
+  date_filter.onclick = (e) => {
+    e.preventDefault();
+    url.searchParams.set('filter_date',date_input.value);
+    history.replaceState(null,'',url)
+    window.location.reload()
+  }
+
+  const filter = document.getElementById('status_filter')
+  filter.onchange = () => {
+    url.searchParams.delete('in_progress')
+    url.searchParams.delete('disqualified')
+    url.searchParams.delete('submitted')
+    url.searchParams.delete('not_started')
+    if(filter.value == 'not_started'){
+      url.searchParams.set('not_started','True')
+    }else if(filter.value == 'in_progress'){
+      url.searchParams.set('in_progress','True')
+    }else if(filter.value == 'disqualified'){
+      url.searchParams.set('disqualified','True')
+    }else if(filter.value == 'submitted'){
+      url.searchParams.set('submitted','True')
+    }
+    history.replaceState(null,'',url)
+    window.location.reload()
+  }
+
+})
+
+function search(e) {
+  e.preventDefault();
+  const url = new URL(window.location.href);
+  const searchbar = document.getElementById('search_bar');
+  url.searchParams.set('query', searchbar.value);
+  history.replaceState(null,'',url)
+  window.location.reload();
+}
+
+
+
+</script>
+<!-- Filter script end -->
+
+{% endblock %}

@@ -4,11 +4,11 @@ from django.views.decorators.cache import never_cache
 from admin_dashboard.models import User 
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, Exists, OuterRef
 from django.db import transaction
 from django.http import JsonResponse
 from django.contrib.auth import logout
-from quiz.models import Quiz,Question,Answer
+from quiz.models import Quiz,Question,Answer,Result
 from .utils import role_required
 from users.models import Passkey
 from .models import Amount
@@ -21,7 +21,11 @@ from django.http import JsonResponse, HttpResponseNotFound, HttpResponseForbidde
 def user_list(request):
     query = request.GET.get('query', '')  # Get the search query
     filter_date = request.GET.get('filter_date')  # Single date for filtering
+    not_started = request.GET.get('not_started')  # Submission filter (True/False)
     submitted = request.GET.get('submitted')  # Submission filter (True/False)
+    in_progress = request.GET.get('in_progress')  # Submission filter (True/False)
+    disqualified = request.GET.get('disqualified')  # Submission filter (True/False)
+    
     page = int(request.GET.get('page', 1))  # Pagination
     items_per_page = 10  # Number of items per page
 
@@ -38,15 +42,25 @@ def user_list(request):
             Q(created_at__icontains=query)  # Account creation date search
         )
 
+
     # Apply date filtering
     if filter_date:
         users = users.filter(created_at__date=filter_date)
 
-    # Apply verification status filtering
-    if submitted == 'True':
+    users = users.annotate(
+        has_started=Exists(
+            Result.objects.filter(user=OuterRef('pk'))  # Check if a result exists for the user
+        )
+    )
+
+    if not_started == 'True':
+        users = users.filter(has_started=False,is_verified=False,is_qualified=True).distinct()
+    elif submitted == 'True':
         users = users.filter(is_verified=True)
-    elif submitted == 'False':
-        users = users.filter(is_verified=False)
+    elif in_progress == 'True':
+        users = users.filter(has_started=True,is_qualified=True,is_verified=False).distinct()
+    elif disqualified == 'True':
+        users = users.filter(is_qualified=False)
 
     # Paginate the results
     paginator = Paginator(users, items_per_page)
@@ -56,7 +70,6 @@ def user_list(request):
         'users': users,
         'query': query,
         'filter_date': filter_date,
-        'submitted': submitted,
         'paginator': paginator,
         'current_page': page,
         'total_pages': paginator.num_pages,
@@ -65,7 +78,7 @@ def user_list(request):
     return render(request, 'dashboard.html', context)
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
-def dashboard_home(request):
+def dashboard(request):
     total_users = User.objects.filter(role=User.USER).count()
     today_users = User.objects.filter(created_at__date = datetime.date.today(),role=User.USER).count()
     total_submitted_users = User.objects.filter(role=User.USER, is_verified = True).count()
@@ -118,7 +131,7 @@ def admin_hr_login(request):
             if user.role in [User.ADMIN, User.HR_STAFF]:
                 # Log the user in
                 login(request, user)
-                return redirect('admin_dashboard:dashboard_home')  # Shared dashboard for both roles
+                return redirect('admin_dashboard:dashboard')  # Shared dashboard for both roles
             else:
                 messages.error(request, "Access restricted to Admin and HR Staff only.")
         else:
