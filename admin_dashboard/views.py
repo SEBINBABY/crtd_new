@@ -27,7 +27,7 @@ def user_list(request):
     disqualified = request.GET.get('disqualified')  # Submission filter (True/False)
     
     page = int(request.GET.get('page', 1))  # Pagination
-    items_per_page = 10  # Number of items per page
+    items_per_page = 25  # Number of items per page
 
     # Fetch all users by default
     users = User.objects.filter(role=User.USER)
