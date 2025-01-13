@@ -17,20 +17,6 @@ def user_only(view_func):
 
 
 # HELPER FUNCTIONS
-def calculate_score(quiz,result):
-    # Calculate score
-    total_questions = quiz.quiz_questions.count()
-    correct_answers = 0
-
-    for question in quiz.quiz_questions.all():
-        selected_answer_id = result.user_answers.get(str(question.id))
-        if selected_answer_id:
-            selected_answer = Answer.objects.get(id=selected_answer_id)
-            if selected_answer.is_correct:
-                correct_answers += 1
-
-    return(correct_answers / total_questions) * 100
-
 def get_next_quiz(user_id):
     """Returns the next quiz the user is supposed to attempt"""
     results = Result.objects.filter(user_id=user_id)

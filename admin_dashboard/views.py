@@ -162,7 +162,6 @@ def add_quiz(request):
     data = request.POST
     name = data.get('name')
     time = data.get('time')
-    score = data.get('score')
     requires_payment = data.get('requires_payment') == 'true'
 
     if None in (name,time):
@@ -189,7 +188,6 @@ def edit_quiz(request):
         quiz_id = data.get('quiz_id')
         name = data.get('name')
         time = data.get('time')
-        score = data.get('score')
         requires_payment = data.get('requires_payment') == 'true'
         if None in (name,time):
             return JsonResponse({"error":"Please fill all fields"})     
@@ -201,7 +199,6 @@ def edit_quiz(request):
         this_quiz = get_object_or_404(Quiz,id=quiz_id)
         this_quiz.name = name
         this_quiz.time = time
-        this_quiz.score_to_pass = score
         this_quiz.requires_payment = requires_payment
         this_quiz.save()
         return redirect("admin_dashboard:question_section")
