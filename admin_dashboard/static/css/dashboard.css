@@ -209,20 +209,6 @@ tbody td {
   align-items: center;
 }
 
-.avatar {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  background-color: #cce7ff;
-  color: #0066cc;
-  font-size: 14px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-}
-
 .avatar-img {
   width: 35px;
   height: 35px;
@@ -239,14 +225,34 @@ tbody td {
   color: white;
 }
 
-.status.verified {
+.status.verified{
   background-color: #ccffcc;
   color: #33aa33;
 }
 
-.status.not-verified {
+.status.not-verified{
   background-color: #ffcccc;
   color: #cc3333;
+}
+
+.status.submitted {
+  background-color: #ccffcc;
+  color: #33aa33;
+}
+
+.status.disqualified {
+  background-color: #ffcccc;
+  color: #cc3333;
+}
+
+.status.in_progress{
+  background-color: #FF9800;
+  color: #FFFFFF;
+}
+
+.status.not_started{
+  background-color: #d7e5ec;
+  color: #463f3f;
 }
 
 .move-to-top-btn {
@@ -360,6 +366,26 @@ cursor: pointer;
 
 .close-btn:hover {
 background: #3d69d6;
+}
+
+.filter-toggle{
+  padding: 5px;
+  background-color: #E9F1FB;
+  height: 100%;
+  border: 2px solid #e1e1e1;
+  border-radius: 10px;
+}
+
+.filter-toggle label{
+  color: #000;
+  font-weight: bold;
+}
+
+.filter-toggle select{
+  border: 2px solid #e1e1e1 ;
+  border-radius: 10px;
+  padding: 5px;
+  color: #000;
 }
 
 .toggle-icon {
@@ -592,7 +618,7 @@ span {
 .pagination-container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   gap: 10px;
   width: 30%;
   padding: 5px;
@@ -693,4 +719,20 @@ span {
   bottom: 5vh;
   display: flex;
   justify-content: space-evenly;
+}
+
+input[type="number"] {
+  width: 50px;
+  height: 30px;
+  font-size: 16px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input[type="number"]:focus {
+  border-color: #4A90E2; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
 }

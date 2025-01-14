@@ -47,7 +47,7 @@
               <div class="filter-toggle">
                 <label>Filter by</label>
                 <select name="status_filter" id="status_filter">
-                  <option selected>Filter by status</option>
+                  <option selected disabled>Status</option>
                   <option value="not_started">Not Started</option>
                   <option value="in_progress">In Progress</option>
                   <option value="disqualified">Disqualified</option>
@@ -56,7 +56,7 @@
               </div>
 
               <div>
-                <a class="btn btn-primary" href="{% url 'admin_dashboard:user_list'%}">Clear Filter</a>
+                <a class="btn btn-primary" href="{% url 'admin_dashboard:user_list'%}" style="background: linear-gradient(to right, #13B3FF, #005AD5);">Clear Filter</a>
               </div>
 
         </div>
@@ -81,7 +81,6 @@
                                 <td>{{ start_sl_no|add:forloop.counter0 }}</td>
                                 <td>
                                     <div class="user">
-                                        <div class="avatar"></div>
                                         <span>{{user.username}}</span>
                                     </div>
                                 </td>
@@ -90,13 +89,13 @@
                                 <td>{{user.created_at|date:"d-m-Y | h:m a"}}</td>
                                 <td>{{user.tcn_number}}</td>
                                 {% if user.is_verified %}
-                                <td><span class="status verified submitted">Submitted</span></td>
+                                <td><span class="status submitted">Submitted</span></td>
                                 {% elif not user.is_qualified %}
-                                <td><span class="status not-verified disqualified">Disqualified</span></td>
+                                <td><span class="status disqualified">Disqualified</span></td>
                                 {% elif not user.has_started %}
-                                <td><span class="status verified not_started">Not Started</span></td>
+                                <td><span class="status not_started">Not Started</span></td>
                                 {% elif user.has_started and user.is_qualified and not user.is_verified %}
-                                <td><span class="status verified in_progress">In Progress</span></td>
+                                <td><span class="status in_progress">In Progress</span></td>
                                 {% endif %}
 
                                 {% if user.has_paid %}
@@ -121,9 +120,17 @@
           <!-- Pagination Container starts -->
         <div class="pagination-container" id="pagination-container" data-current-page="{{ current_page }}"
         data-total-pages="{{ total_pages }}">
-       <button id="prevBtn" onclick="prevPage()">❮</button>
+       <div class="part-1" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+        <button id="prevBtn" onclick="prevPage()">❮</button>
        <div id="pagination"></div>
        <button id="nextBtn" onclick="nextPage()">❯</button>
+      </div>
+       <div class="part-2">
+        <form method="get" style="display: flex; align-items: center; gap: 10px;">
+        <input name="page" type="number" value="1" min="1" style="width: 50px;">
+        <button type="submit" style="padding: 2px 10px; background-color: #005AD5; color: #ffff;">Go</button>
+        </form>
+       </div>
       </div>
    <!-- Pagination Container ends -->
 
