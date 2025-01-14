@@ -87,7 +87,6 @@ def start_test(request):
     return redirect('quiz:start_question', quiz_id=quiz.id, question_id=quiz.quiz_questions.first().id)
 
 @user_only
-@never_cache
 def start_question(request, quiz_id, question_id):
     """
     Renders a question based on the given IDs.
@@ -163,7 +162,6 @@ def save_answer(request, quiz_id, question_id):
         quiz = question.quiz
         result = get_object_or_404(Result, user=user, quiz=quiz)
         remaining_time = result.get_remaining_time()
-
         if not selected_answer_id and remaining_time > 0: # validating selected answer
             return redirect('quiz:start_question', quiz_id=quiz_id, question_id=question_id)
 
@@ -202,7 +200,7 @@ def save_answer(request, quiz_id, question_id):
 @never_cache
 def quiz_summary(request, quiz_id):
     """
-    Displays the quiz summary and calculates the final score.
+    Displays the quiz summary.
     """
 
     user = request.user
