@@ -65,6 +65,15 @@ html,body{
     justify-content: center;
     align-items: center;
 }
+.content a{
+        position: relative;
+        text-decoration: none;
+        top: -3%;
+        /* left: -10%; */
+        left: 33%;
+        font-size: 18px;
+    
+}
 .text{
     height: 15%;
     width: 70%;
