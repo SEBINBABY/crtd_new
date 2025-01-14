@@ -29,9 +29,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_email_verified = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
     is_qualified = models.BooleanField(default=True)
+    has_quit = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
-    tcn_number = models.CharField(max_length=5, null=True, blank=True)
+    tcn_number = models.CharField(max_length=8, null=True, blank=True)
     has_paid = models.BooleanField(default=False,blank=True, null=True)
 
     objects = UserManager()
