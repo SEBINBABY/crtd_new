@@ -31,13 +31,13 @@
          
             <div class="automate-account" style="display: flex; justify-content: end; margin-top: 10px; width: 10%;">
                 <img class="mail-img" src="/static/images/user.png" alt="" height="40px" width="40px" style=" margin-right: 95px;">
-                <div class="mail-popup">
+                <div class="mail-popup" style=" margin-top:-120px; margin-right:170px;">
                     <h6 style="color: #003B8B; " >{{ user.username }}</h6>
                     <h6 style=" margin-top: -10px; color: #212536;" >{{ user.email }}</h6>
                 </div>
             </div>
         </div>
-        <div class="selection" style="margin-left: 72%; margin-top: 10px;">
+        <div class="selection" style="margin-left: 72%; margin-top:20px;">
              <h6 > Section Attempted 0/{{ quizzes|length }} </h6></div>
         <div class="automate-content-box">
             {% for quiz in quizzes %}

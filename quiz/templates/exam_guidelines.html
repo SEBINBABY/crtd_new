@@ -28,14 +28,14 @@
         </div>
         <div class="imp-instruct-right" style="margin-top: 40px;">
             <div class="impp-account " style="display: flex; justify-content: end; margin-top: -45px;">
-                <img class="mail-img" src="/static/images/user.png" alt="" height="40px" width="40px" style="">
-                <div class="mail-popup">
+                <img class="mail-img" src="/static/images/user.png" alt="" height="40px" width="40px" style="margin-right: 42.5px; margin-top: -7px;">
+                <div class="mail-popup" style="margin-right: 150px; margin-top: -99.5px;">
                     <h6 style="color: #003B8B; margin-bottom: 0;" >{{ user.username }}</h6>
                     <h6 style="color:black; ">{{ user.email }}</h6>
                 </div>
             </div>
             
-            <div class="instruction im-instructions" style="margin-top: -25px;">
+            <div class="instruction im-instructions" style="margin-top: -10px;">
                 <h3>Exam Guidelines:</h3>
                 <ul style="margin-top: 20px;">
                     <li>Each section has 15 questions to complete within 20 minutes.</li>
@@ -43,7 +43,6 @@
                     <li>Use a stable internet connection and the recommended browser.</li>
                     <li>Do not refresh, close the exam window, or use the back button.</li>
                     <li>Only authorized devices are allowed; multiple logins are prohibited.</li>
-                    <li>No screenshots, recordings, or tab switching.</li>
                     <li>Cheating is strictly prohibited; the exam will be monitored and supervised.</li>
                     <li>Submit your answers before the timer runs out.</li>
                     <li>Do not take screenshots, record the screen, or switch tabs during the test.</li>
@@ -59,9 +58,81 @@
             </form>
         </div>
     </div>
+    
+  <div id="popupEnable" class="popupEnable">
+    <div class="popupEnable-content">
+        <h6>You must allow camera access to take this test. Without it, you won't be able to proceed.</h6>
+      <button id="enableCameraPopup">Enable Your Camera</button>
+    </div>
+  </div>
+  <!-- <button id="openPopup">Open Popup</button> -->
+
+
+  <video id="video" autoplay playsinline></video>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if(localStorage.getItem("cameraStarted") === 'true'){
+            startCamera();
+        }
+        
+        let popup = document.getElementById("popupEnable");
+        if (popup && !sessionStorage.getItem("popupShown")) {
+            popup.style.display = "block";
+            sessionStorage.setItem("popupShown", "true"); 
+        }
+
+    });
+
+
+   window.addEventListener("pageshow", function (event) {
+    let popup = document.getElementById("popupEnable");
+    
+    // Fix for page cache: Ensure page is NOT loaded from cache
+    if (event.persisted) {
+        sessionStorage.removeItem("popupShown");
+    }
+
+    if (popup && !sessionStorage.getItem("popupShown")) {
+        popup.style.display = "block";
+        sessionStorage.setItem("popupShown", "true"); 
+    }
+});
+
+
+
+    // Get DOM elements
+   
+    const enableCameraPopupButton = document.getElementById('enableCameraPopup');
+    const video = document.getElementById('video');
+    const errorElement = document.getElementById('error');
+
+
+    // Function to start the camera
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+        video.style.display = 'block'; // Show the video element
+        popupEnable.style.display = 'none'; // Close the popup
+        localStorage.setItem('cameraStarted','true');
+      } catch (error) {
+        let popup = document.getElementById("popupEnable");
+        popup.style.display = "block";
+        errorElement.textContent = `Error accessing camera: ${error.message}`;
+      }
+    }
+
+    // Event listener for the popup button
+    enableCameraPopupButton.addEventListener('click', startCamera);
+    
+  </script>
     <script>
 
-
+        function handleBlurEffect() {
+            document.body.classList.add('blurred');
+            setTimeout(() => document.body.classList.remove('blurred'), 2000); // Unblur after 2 seconds
+        }
 
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
      
@@ -73,12 +144,17 @@
             if ((event.ctrlKey || event.metaKey) && (event.key === 'c' || event.key === 'u')) {
                 event.preventDefault();
             }
+            if (event.key === 'F11') {
+                event.preventDefault(); // Prevent default fullscreen behavior
+                handleBlurEffect(); // Apply blur effect
+            }
         });
      
         // Handle Meta key and blur
         document.addEventListener('keydown', event => {
             if (event.key === 'Meta' || event.code === 'OS') {
                 document.body.classList.add('blurred');
+                handleBlurEffect();
             }
             if (event.key === 'Escape') {
                 event.preventDefault();
@@ -91,6 +167,7 @@
         document.addEventListener('keyup', event => {
             if (event.key === 'Meta' || event.code === 'OS') {
                 document.body.classList.remove('blurred');
+                handleBlurEffect();
             }
             if (event.key === 'PrintScreen') {
                 document.body.classList.add('blurred'); // Blur content

@@ -146,11 +146,7 @@ body{
   font-size: 24px;
   color: #e13a3a;
   font-family: Arial, sans-serif;
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 10px; */
+  
 }
 .mobile-message h3{
   line-height: 25px; 
@@ -216,8 +212,6 @@ body{
 .modal-logo{
   height: 18vh;
   width: 96vw;
-  background-color: blue;
-  background: url("/static/images/image_1.png");
   background-size: cover;
   background-repeat: no-repeat;
   scale: 0.6;
@@ -256,14 +250,7 @@ body{
     font-size: 20px;
     font-weight: 650;
   }
-  .modal-logo{
-    height: 18vh;
-    width: 96vw;
-    background-color: blue;
-    background: url("/static/images/image_1.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    scale: 0.6;
-    position: relative;
-    left: -15%;
+  .modal-logo img{
+    height: 90%;
+    width: 90%;
   }
