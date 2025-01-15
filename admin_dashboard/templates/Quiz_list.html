@@ -62,11 +62,11 @@
             <form class="edit-form-modal" action="{% url 'admin_dashboard:edit_quiz' %}" method="POST">
               <div class="form-group">
                 <label>Name of the Quiz</label>
-                <input type="text" class="passkeyInput" placeholder="Name of the Quiz" name="name" id="edit_name" value="" required />
+                <input type="text" class="passkeyInput" placeholder="Name of the Quiz" name="name" id="edit_name" required />
               </div>
               <div class="form-group">
                 <label>Time</label>
-                <input type="number" class="passkeyInput" placeholder="Time" name="time" id="edit_time" value="" required />
+                <input type="number" class="passkeyInput" placeholder="Time" name="time" id="edit_time" required />
               </div>
               <div class="requires-payment">
                 <input type="checkbox" class="passkeyInput" name="requires_payment" id="requires_payment" value="true" />
@@ -113,11 +113,11 @@
               <form class="save-form-modal" action="{% url 'admin_dashboard:add_quiz' %}" method="POST">
                 <div class="form-group">
                   <label class="name">Name of the Quiz</label>
-                  <input type="text" class="passkeyInput input-name" placeholder="Name of the Quiz" name="name" value="" required />
+                  <input type="text" class="passkeyInput input-name" placeholder="Name of the Quiz" name="name" required />
                 </div>
                 <div class="form-group">
                   <label class="time">Time</label>
-                  <input type="number" class="passkeyInput" placeholder="Time" name="time" value="" required />
+                  <input type="number" class="passkeyInput" placeholder="Time" name="time" required />
                 </div>
                 <div class="require-payment">
                   <div style="display: flex; justify-content: center;">
@@ -161,10 +161,10 @@ deleteCloseBtn.addEventListener("click", () => {
         addNewModal.style.display = 'none';
       });
 
-      addSaveBtn.addEventListener('click', (event) => {
+      /* addSaveBtn.addEventListener('click', (event) => {
     event.preventDefault(); // Prevent the form submission
     document.querySelector('.save-form-modal').submit(); // Manually submit the form
-});
+}); */
 
       function closeModal() {
   document.getElementById('add-modal').style.display = 'none';

@@ -47,12 +47,14 @@
               <div class="filter-toggle">
                 <label>Filter by</label>
                 <select name="status_filter" id="status_filter">
-                  <option selected disabled>Status</option>
+                  <option id="filter_option" selected disabled>Status</option>
                   <option value="not_started">Not Started</option>
                   <option value="in_progress">In Progress</option>
                   <option value="disqualified">Disqualified</option>
                   <option value="quit">Quit</option>
                   <option value="submitted">Submitted</option>
+                  <option value="paid">Paid</option>
+                  <option value="unpaid">Not Paid</option>
                 </select>
               </div>
 
@@ -91,7 +93,7 @@
                                 <td>{{user.tcn_number}}</td>
                                 {% if user.is_verified %}
                                 <td><span class="status submitted">Submitted</span></td>
-                                {% elif user.has_quit%}
+                                {% elif user.has_quit %}
                                 <td><span class="status disqualified">Quit</span></td>
                                 {% elif not user.is_qualified %}
                                 <td><span class="status disqualified">Disqualified</span></td>
@@ -131,7 +133,7 @@
        <button id="nextBtn" onclick="nextPage()">❯</button>
       </div>
        <div class="part-2">
-        <form method="get" style="display: flex; align-items: center; gap: 10px;">
+        <form id="pagination_form" style="display: flex; align-items: center; gap: 10px;">
         <input name="page" type="number" value="1" min="1" style="width: 50px;">
         <button type="submit" style="padding: 2px 10px; background-color: #005AD5; color: #ffff;">Go</button>
         </form>
@@ -184,6 +186,22 @@
 
 <!-- JS for Pagination starts -->
 <script>
+  const form = document.getElementById('pagination_form');
+
+  form.addEventListener('submit', function (e) {
+      e.preventDefault(); // Prevent default form submission
+
+      const url = new URL(window.location.href); // Get the current URL
+      const formData = new FormData(form); // Get form data
+
+      // Append or update the `page` parameter
+      url.searchParams.set('page', formData.get('page'));
+
+      // Redirect to the updated URL
+      window.location.href = url.toString();
+  });
+</script>
+<script>
     document.addEventListener('DOMContentLoaded', () => {
       const paginationContainer = document.getElementById('pagination-container');
       const currentPage = parseInt(paginationContainer.getAttribute('data-current-page'));
@@ -208,28 +226,28 @@
     });
 
     function goToPage(page) {
-        const queryParams = new URLSearchParams(window.location.search);
-        queryParams.set('page', page);
-        window.location.search = queryParams.toString(); // Reload with updated query
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', page);
+        window.location.href = url.toString(); // Reload with updated query
     }
 
     function prevPage() {
-        const queryParams = new URLSearchParams(window.location.search);
-        const currentPage = parseInt(queryParams.get('page') || 1);
+        const url = new URL(window.location.href);
+        const currentPage = parseInt(url.searchParams.get('page') || 1);
         if (currentPage > 1) {
-            queryParams.set('page', currentPage - 1);
-            window.location.search = queryParams.toString();
+            url.searchParams.set('page', currentPage - 1);
+            window.location.href = url.toString();
         }
     }
 
     function nextPage() {
-        const queryParams = new URLSearchParams(window.location.search);
-        const currentPage = parseInt(queryParams.get('page') || 1);
+        const url = new URL(window.location.href);
+        const currentPage = parseInt(url.searchParams.get('page') || 1);
         const paginationContainer = document.getElementById('pagination-container');
         const totalPages = parseInt(paginationContainer.getAttribute('data-total-pages'));
         if (currentPage < totalPages) {
-            queryParams.set('page', currentPage + 1);
-            window.location.search = queryParams.toString();
+            url.searchParams.set('page', currentPage + 1);
+            window.location.href = url.toString();
         }
     }
 </script>
@@ -396,6 +414,15 @@ document.addEventListener('DOMContentLoaded', () =>{
 
   const searchbar = document.getElementById('search_bar');
   searchbar.value = url.searchParams.get('query')
+
+  const filter_option = document.getElementById('filter_option');
+  const get_params = [...url.searchParams.keys()].filter(key => key !== 'page')
+  if(get_params.length > 0){
+    filter_option.innerHTML = ""
+  }
+  get_params.forEach((param)=>{
+    filter_option.innerHTML += param + ' '
+  })
   
   const date_filter = document.getElementById('date_filter');
   const date_input = document.getElementById('date-input');
@@ -408,21 +435,29 @@ document.addEventListener('DOMContentLoaded', () =>{
 
   const filter = document.getElementById('status_filter')
   filter.onchange = () => {
-    url.searchParams.delete('in_progress')
-    url.searchParams.delete('disqualified')
-    url.searchParams.delete('submitted')
-    url.searchParams.delete('quit')
-    url.searchParams.delete('not_started')
-    if(filter.value == 'not_started'){
-      url.searchParams.set('not_started','True')
-    }else if(filter.value == 'in_progress'){
-      url.searchParams.set('in_progress','True')
-    }else if(filter.value == 'disqualified'){
-      url.searchParams.set('disqualified','True')
-    }else if(filter.value == 'quit'){
-      url.searchParams.set('quit','True')
-    }else if(filter.value == 'submitted'){
-      url.searchParams.set('submitted','True')
+    if(filter.value == 'paid'){
+      url.searchParams.delete('unpaid')
+      url.searchParams.set('paid','True')
+    }else if(filter.value == 'unpaid'){
+      url.searchParams.delete('paid')
+      url.searchParams.set('unpaid','True')
+    }else{
+      url.searchParams.delete('in_progress')
+      url.searchParams.delete('disqualified')
+      url.searchParams.delete('submitted')
+      url.searchParams.delete('quit')
+      url.searchParams.delete('not_started')
+      if(filter.value == 'not_started'){
+        url.searchParams.set('not_started','True')
+      }else if(filter.value == 'in_progress'){
+        url.searchParams.set('in_progress','True')
+      }else if(filter.value == 'disqualified'){
+        url.searchParams.set('disqualified','True')
+      }else if(filter.value == 'quit'){
+        url.searchParams.set('quit','True')
+      }else if(filter.value == 'submitted'){
+        url.searchParams.set('submitted','True')
+      }
     }
     history.replaceState(null,'',url)
     window.location.reload()

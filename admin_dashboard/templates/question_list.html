@@ -135,11 +135,7 @@
         </h5>
       </div>
       <div class="modal-body">
-        <form
-          id="add_form"
-          method="post"
-          action="{% url 'admin_dashboard:add_question' %}"
-        >
+        <form id="add_form">
 
           <input name="question_text" class="mb-4 fw-bold form-control" placeholder="Add Your Question Here"
           style="background-color: white ; border: none;" required>
@@ -173,11 +169,14 @@
                 style="background-color: white;width: 300px;" />
             </label>
           </div>
+          <div id="add_question_error" class="text-danger text-center">
+
+          </div>
         </div>
         
         
     <input type="hidden" name="quiz_id" value="{{quiz.id}}" />
-          </div>
+
           <div class="modal-footer border-0 justify-content-center">
             <button
               type="button"
@@ -330,6 +329,28 @@
     function closePopup() {
       document.getElementById("edit-content").style.display = "none";
     }
+
+    document.getElementById("add_form").onsubmit = function(e){
+      e.preventDefault();
+      url = "{% url 'admin_dashboard:add_question' %}"
+      const data = {};
+      new FormData(e.target).forEach((value, key) => {
+          data[key] = value;
+      });
+      fetch(url , {
+        method: "POST",
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      })
+      .then((response) => response.json()
+      .then(error => {
+        document.getElementById("add_question_error").innerHTML = ""
+        document.getElementById("add_question_error").innerHTML = error.error
+      }))
+    }
+
   </script>
   {% endblock %}
 </div>

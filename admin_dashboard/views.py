@@ -22,11 +22,14 @@ from django.utils.timezone import now
 def user_list(request):
     query = request.GET.get('query', '')  # Get the search query
     filter_date = request.GET.get('filter_date')  # Single date for filtering
-    not_started = request.GET.get('not_started')  # Submission filter (True/False)
-    submitted = request.GET.get('submitted')  # Submission filter (True/False)
-    in_progress = request.GET.get('in_progress')  # Submission filter (True/False)
-    quit = request.GET.get('quit')  # Submission filter (True/False)
-    disqualified = request.GET.get('disqualified')  # Submission filter (True/False)
+    not_started = request.GET.get('not_started')
+    submitted = request.GET.get('submitted')  
+    in_progress = request.GET.get('in_progress')
+    quit = request.GET.get('quit')  
+    disqualified = request.GET.get('disqualified') 
+    
+    paid = request.GET.get('paid')  
+    unpaid = request.GET.get('unpaid')
     
     page = int(request.GET.get('page', 1))  # Pagination
     items_per_page = 25  # Number of items per page
@@ -56,6 +59,11 @@ def user_list(request):
                         | Q(user=OuterRef('id'),user__is_verified=False,end_time__gte = now() - datetime.timedelta(hours=2,minutes=15)))
         )
     )
+
+    if paid == 'True':
+        users = users.filter(has_paid=True)
+    elif unpaid == 'True':
+        users = users.filter(has_paid=False)
 
     if not_started == 'True':
         users = users.filter(is_verified=False,is_qualified=True,user_results__isnull=True).distinct()
@@ -259,28 +267,31 @@ def question_list(request,quiz_id):
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def add_question(request):
-    if not request.POST:
+    if request.method != 'POST':
         return redirect("admin_dashboard:question_section")
 
-    data = request.POST
+    data = json.loads(request.body)
     
     quiz_id = data.get('quiz_id')
     question_text = data.get('question_text',None)
     if not question_text: return JsonResponse({"error":"No question"})
 
     correct_answer_id  = data.get('correct_answer_id',None)
-    if not correct_answer_id: return JsonResponse({"error":"Must select correct answer"})
+    if not correct_answer_id: return JsonResponse({"error":"Select correct answer"},status=400)
     correct_answer_id = int(correct_answer_id)
 
     answers_data = []
     # answer id refers to the id from the front end NOT the object id.
+    correct_answer_found = False
     for answer_id in range(1,5):
         answer_text = data.get(f'answer_text-{answer_id}')
         if answer_text == '':
-            break
+            continue
+        if(answer_id == correct_answer_id): correct_answer_found = True
         answers_data.append([answer_text,answer_id==correct_answer_id])
 
-    if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"})
+    if len(answers_data) < 2: return JsonResponse({"error": "Atleast 2 answers required"},status=400)
+    if not correct_answer_found: return JsonResponse({"error": "Select correct answer"},status=400)
 
     question = Question(question_text=question_text, quiz_id=quiz_id)
     question.save()
