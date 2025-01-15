@@ -91,7 +91,7 @@ def start_question(request, quiz_id, question_id):
     """
     user = request.user
     question = get_object_or_404(Question, id=question_id)
-    quiz = question.quiz
+    quiz = get_object_or_404(Quiz, id=quiz_id)
     answers = question.get_answers()
 
     # if the user visited this view through the buttons in the payment_second template, 
@@ -280,7 +280,7 @@ def disqualify(request):
 
     user.is_verified = False
     user.is_qualified = False
-    
+    user.save()
     logout(request)
     
     if request.method == "POST":

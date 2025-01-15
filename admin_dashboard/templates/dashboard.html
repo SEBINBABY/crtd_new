@@ -51,6 +51,7 @@
                   <option value="not_started">Not Started</option>
                   <option value="in_progress">In Progress</option>
                   <option value="disqualified">Disqualified</option>
+                  <option value="quit">Quit</option>
                   <option value="submitted">Submitted</option>
                 </select>
               </div>
@@ -86,16 +87,20 @@
                                 </td>
                                 <td>{{user.email}}</td>
                                 <td>{{user.contact_number}}</td>
-                                <td>{{user.created_at|date:"d-m-Y | h:m a"}}</td>
+                                <td>{{user.created_at|date:"d-m-Y | h:i a"}}</td>
                                 <td>{{user.tcn_number}}</td>
                                 {% if user.is_verified %}
                                 <td><span class="status submitted">Submitted</span></td>
+                                {% elif user.has_quit%}
+                                <td><span class="status disqualified">Quit</span></td>
                                 {% elif not user.is_qualified %}
                                 <td><span class="status disqualified">Disqualified</span></td>
-                                {% elif not user.has_started %}
+                                {% elif not user.user_results.all %}
                                 <td><span class="status not_started">Not Started</span></td>
-                                {% elif user.has_started and user.is_qualified and not user.is_verified %}
+                                {% elif user.has_test_running and user.is_qualified and not user.is_verified %}
                                 <td><span class="status in_progress">In Progress</span></td>
+                                {% else %}
+                                <td><span class="status disqualified">Disqualified</span></td>
                                 {% endif %}
 
                                 {% if user.has_paid %}
@@ -406,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () =>{
     url.searchParams.delete('in_progress')
     url.searchParams.delete('disqualified')
     url.searchParams.delete('submitted')
+    url.searchParams.delete('quit')
     url.searchParams.delete('not_started')
     if(filter.value == 'not_started'){
       url.searchParams.set('not_started','True')
@@ -413,6 +419,8 @@ document.addEventListener('DOMContentLoaded', () =>{
       url.searchParams.set('in_progress','True')
     }else if(filter.value == 'disqualified'){
       url.searchParams.set('disqualified','True')
+    }else if(filter.value == 'quit'){
+      url.searchParams.set('quit','True')
     }else if(filter.value == 'submitted'){
       url.searchParams.set('submitted','True')
     }
