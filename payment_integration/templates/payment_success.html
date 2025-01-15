@@ -66,7 +66,7 @@
                 <div class="modal-img"></div>
                 <h3>Congratulation! You have successfully completed</h3>
                 <h3>the first step.</h3>
-                    <form method="post" action="{% url 'quiz:start_test' %}">
+                    <form method="post" action="{% url 'quiz:start_question' quiz.id question.id %}">
                         <button class="try-btn continue-btn">Continue</button>
                     </form>
             </div>

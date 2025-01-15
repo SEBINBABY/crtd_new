@@ -16,6 +16,7 @@ import datetime
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponseForbidden
+from django.utils.timezone import now
 
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def user_list(request):
@@ -24,6 +25,7 @@ def user_list(request):
     not_started = request.GET.get('not_started')  # Submission filter (True/False)
     submitted = request.GET.get('submitted')  # Submission filter (True/False)
     in_progress = request.GET.get('in_progress')  # Submission filter (True/False)
+    quit = request.GET.get('quit')  # Submission filter (True/False)
     disqualified = request.GET.get('disqualified')  # Submission filter (True/False)
     
     page = int(request.GET.get('page', 1))  # Pagination
@@ -47,18 +49,22 @@ def user_list(request):
     if filter_date:
         users = users.filter(created_at__date=filter_date)
 
+    time_limit = datetime.timedelta(minutes=25)
     users = users.annotate(
-        has_started=Exists(
-            Result.objects.filter(user=OuterRef('pk'))  # Check if a result exists for the user
+        has_test_running=Exists(
+            Result.objects.filter(Q(user=OuterRef('id'),end_time__isnull=True,start_time__gte = now() - time_limit) 
+                        | Q(user=OuterRef('id'),user__is_verified=False,end_time__gte = now() - datetime.timedelta(hours=2,minutes=15)))
         )
     )
 
     if not_started == 'True':
-        users = users.filter(has_started=False,is_verified=False,is_qualified=True).distinct()
+        users = users.filter(is_verified=False,is_qualified=True,user_results__isnull=True).distinct()
     elif submitted == 'True':
         users = users.filter(is_verified=True)
     elif in_progress == 'True':
-        users = users.filter(has_started=True,is_qualified=True,is_verified=False).distinct()
+        users = users.filter(has_test_running=True,is_qualified=True,is_verified=False).distinct()
+    elif quit == 'True':
+        users = users.filter(has_quit=True)
     elif disqualified == 'True':
         users = users.filter(is_qualified=False)
 
