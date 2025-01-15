@@ -29,7 +29,6 @@ def exam_guidelines(request):
     if request.user.is_verified: return redirect('quiz:finish_test')
     if(is_test_started(request)): 
         # Message helps trigger the "back button pop up" in the front end
-        messages.error(request,"Pressing the back button will lead to disqualification!")
         result = Result.objects.filter(user = request.user, end_time__isnull=True).first()
         return redirect('quiz:start_question',quiz_id=result.quiz.id, question_id=result.quiz.quiz_questions.first().id)
     return render(request, "exam_guidelines.html")
@@ -44,7 +43,6 @@ def automatic_selection(request):
     if request.user.is_verified: return redirect('quiz:finish_test')
     if(is_test_started(request)): 
         # Message helps trigger the "back button pop up" in the front end
-        messages.error(request,"Pressing the back button will lead to disqualification!")
         result = Result.objects.filter(user = request.user, end_time__isnull=True).first()
         return redirect('quiz:start_question',quiz_id=result.quiz.id, question_id=result.quiz.quiz_questions.first().id)
     
@@ -207,15 +205,14 @@ def quiz_summary(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
     
-    # If next quiz is started, and user tries to go to the summary of previous quiz (back button) -> disqualify
-    if (result.end_time is not None) and is_test_started(request):
+    # If next quiz is started, and user tries to go to the summary of previous quiz
+    if (result.end_time is not None) and Result.objects.filter(user=request.user,end_time__isnull=True).exists():
         # Message helps trigger the "back button pop up" in the front end
-        messages.error(request,"Pressing the back button will lead to disqualification!")
         result = Result.objects.filter(user = request.user, end_time__isnull=True).first()
         return redirect('quiz:start_question',quiz_id=result.quiz.id, question_id=result.quiz.quiz_questions.first().id)
     
     # end quiz
-    if not result.end_time:
+    if result.end_time is None:
         result.end_time = now()
         result.save()
 
@@ -283,13 +280,14 @@ def disqualify(request):
 
     user.is_verified = False
     user.is_qualified = False
-    user.save()
     
     logout(request)
     
     if request.method == "POST":
         data = json.loads(request.body) if request.body else {}
         if data.get("reason",None) == "quit":
+            user.has_quit = True
+            user.save()
             messages.error(request, "You have quit the test, you will not be able to log in again.")
             return JsonResponse({"message":"You have quit the test, you will not be able to log in again."})
         

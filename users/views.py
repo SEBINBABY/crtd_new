@@ -140,10 +140,19 @@ def user_login(request):
                 messages.error(request, "You are not allowed to log in")
                 return render(request, "login.html")
             
-            if user.is_verified or not user.is_qualified:
+            if user.is_verified:
                 messages.error(request, "You can only attempt the quiz once")
                 return render(request, "login.html")
-            
+                
+            # order matters for the below 2 if statements
+            if user.has_quit:
+                messages.error(request, "You have quit the test from your end, so you cannot log in again.")
+                return render(request, "login.html")
+
+            if not user.is_qualified:
+                messages.error(request, "You have been disqualified due to non-compliance with the test guidelines.")
+                return render(request, "login.html")
+
             # Check if the user is IN USER Role itself, Not admin or hr_staff
             if user.role == User.USER:
             # Successfully authenticated, log the user in

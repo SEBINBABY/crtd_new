@@ -27,7 +27,7 @@ def get_next_quiz(user_id):
     return available_quizzes.first()
 
 def is_test_started(request):
-    if Result.objects.filter(user=request.user,end_time__isnull=True).exists():
+    if Result.objects.filter(user=request.user).exists():
         return True
     
 
