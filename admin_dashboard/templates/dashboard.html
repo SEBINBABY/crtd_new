@@ -163,7 +163,7 @@
         <!-- Buttons -->
         <div class="modal-footer">
           <button class="btn delete-cancel-btn">Cancel</button>
-          <form action="{% url 'admin_dashboard:delete_user' %}" method="post">
+          <form id="delete_form">
             <input type="hidden" name="user_id" id="hidden_user_id" value="">
             <button class="btn delete-delete-btn">Delete</button>
           </form>
@@ -401,6 +401,48 @@ document.addEventListener('click', () => {
 dropdownMenu.style.display = 'none';
 });
 });
+
+const deleteForm = document.getElementById('delete_form');
+deleteForm.onsubmit = function(e){
+  e.preventDefault();
+  url = "{% url 'admin_dashboard:delete_user' %}"
+  const data = {};
+  new FormData(e.target).forEach((value, key) => {
+      data[key] = value;
+  });
+  fetch(url, {
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data)
+})
+.then(response => {
+  if (!response.ok) {
+    // Handle errors with a specific response
+    return response.json().then(error => {
+      const filter_option = document.getElementById('filter_option');
+      const original_content = filter_option.innerHTML;
+
+      filter_option.innerHTML = error.error; // Display the error message
+
+      setTimeout(() => {
+        filter_option.innerHTML = original_content; // Restore the original content after 1.5 seconds
+      }, 1500);
+    });
+  } else {
+    return response.json(); // Proceed with a successful response
+  }
+})
+.then((data) => {
+  // If successful, reload the page
+  console.log(data["message"])
+  window.location.reload();
+})
+.catch(error => {
+  console.error('Unexpected error:', error); // Handle network errors or other issues
+});
+}
 
 </script>
 

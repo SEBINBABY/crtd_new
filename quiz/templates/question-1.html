@@ -58,6 +58,13 @@
             z-index: 999;
         }
     </style>
+    <script>
+        if(!localStorage.getItem('tabSwitchCount')){
+            localStorage.setItem('tabSwitchCount',0);
+        }
+        localStorage.setItem('lastVisibilityChangeTime',Date.now()); // Tracks the last visibility change time
+        localStorage.setItem('lastState',document.visibilityState); // Tracks the last visibility state
+    </script>
 </head>
 <body>
     <div class="main-box">
@@ -242,15 +249,6 @@
 
 <script>
     // Violation recorder script (tab/window/url change)
-
-    if(!localStorage.getItem('tabSwitchCount')){
-        localStorage.setItem('tabSwitchCount',0);
-    }
-
-    window.onload = function(){
-        localStorage.setItem('lastVisibilityChangeTime',Date.now()); // Tracks the last visibility change time
-        localStorage.setItem('lastState',document.visibilityState); // Tracks the last visibility state
-    }
 
     document.addEventListener("visibilitychange", function () {
         const now = Date.now();

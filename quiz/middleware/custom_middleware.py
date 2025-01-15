@@ -7,6 +7,8 @@ class DisqualificationMiddleware(MiddlewareMixin):
         if "/quiz/" in request.path or "/quiz_summary" in request.path:
             referer = request.META.get("HTTP_REFERER", "")
             allowed_domain = request.get_host()  # Your site's domain
-
             if not referer or allowed_domain not in referer:
+                print("=============Custom Middleware Disqualification Occured=============")
+                print("host: ",request.get_host())
+                print("referer: ",referer)
                 return redirect("quiz:disqualify")

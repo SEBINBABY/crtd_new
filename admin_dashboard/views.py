@@ -71,10 +71,10 @@ def user_list(request):
         users = users.filter(is_verified=True)
     elif in_progress == 'True':
         users = users.filter(has_test_running=True,is_qualified=True,is_verified=False).distinct()
+    elif disqualified == 'True':
+        users = users.filter(is_qualified=False,has_quit=False)
     elif quit == 'True':
         users = users.filter(has_quit=True)
-    elif disqualified == 'True':
-        users = users.filter(is_qualified=False)
 
     # Paginate the results
     paginator = Paginator(users, items_per_page)
@@ -435,19 +435,19 @@ def delete_user(request):
     """
     View to delete a user with the 'USER' role.
     """
-    if request.POST:
+    if request.method == "POST":
         # Get the user by ID
-        user_id = request.POST.get('user_id',None)
-        if not user_id : return JsonResponse({"error":"No user id specified"})
+        user_id = json.loads(request.body).get('user_id')
+        if not user_id : return JsonResponse({"error":"No user id"},status=400)
         user = User.objects.get(id=user_id)      
         # Check if the user has the 'USER' role
         if user.role != User.USER:
-            return HttpResponseForbidden("You can only delete users with 'USER' role.")     
+            return JsonResponse({"error":"User is admin"}, status=400)     
         # Delete the user
         user.delete() 
         # Provide feedback to the admin
         # messages.success(request, f"User {user.username} deleted successfully.")
-        return redirect('admin_dashboard:user_list')  
+        return JsonResponse({"message": "User deleted successfully"},status=200)
 
 
 

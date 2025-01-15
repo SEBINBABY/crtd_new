@@ -50,6 +50,11 @@
             z-index: 999;
         }
     </style>
+    <script>
+        localStorage.setItem("lastVisibilityChangeTime",Date.now());
+        localStorage.setItem('lastState',document.visibilityState); // Tracks the last visibility state
+
+    </script>
 </head>
 <body>    
 <div class="automaticaly-box">
@@ -280,12 +285,7 @@
  
     <script>
         //Script for user tab switch violations
-
-        window.onload = function(){
-            localStorage.setItem("lastVisibilityChangeTime",Date.now());
-            localStorage.setItem('lastState',document.visibilityState); // Tracks the last visibility state
             
-        }
 
         document.addEventListener("visibilitychange", function () {
             const now = Date.now();
