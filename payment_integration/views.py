@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import razorpay
 from django.http import JsonResponse
 from django.conf import settings
@@ -8,7 +8,8 @@ from .models import Payment
 from django.contrib.auth.decorators import login_required
 from admin_dashboard.models import User
 from admin_dashboard.models import Amount
-from quiz.models import Quiz
+from quiz.models import Quiz,Result
+
 
 # Initialize Razorpay client globally
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
@@ -17,6 +18,11 @@ client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_S
 @never_cache
 @login_required
 def payment_start(request):
+    if request.user.has_paid and Result.objects.filter(user=request.user,end_time__isnull=True).exists():
+        # Message helps trigger the "back button pop up" in the front end
+        result = Result.objects.filter(user = request.user, end_time__isnull=True).first()
+        return redirect('quiz:start_question',quiz_id=result.quiz.id, question_id=result.quiz.quiz_questions.first().id)
+
     user = request.user
     if user.is_user:
         full_name = user.username
@@ -28,7 +34,12 @@ def payment_start(request):
     return render(request, "payment-start.html", context)
 
 @csrf_exempt
+@never_cache
 def initiate_payment(request):
+    if request.user.has_paid and Result.objects.filter(user=request.user,end_time__isnull=True).exists():
+        # Message helps trigger the "back button pop up" in the front end
+        result = Result.objects.filter(user = request.user, end_time__isnull=True).first()
+        return redirect('quiz:start_question',quiz_id=result.quiz.id, question_id=result.quiz.quiz_questions.first().id)
     try:
         # Fetch user information from the session
         user = request.user
@@ -92,7 +103,13 @@ def initiate_payment(request):
 
 # Payment Confirmation Endpoint: This endpoint will verify the payment signature from Razorpay after payment
 @csrf_exempt
+@never_cache
 def handle_request(request):
+    if request.user.has_paid and Result.objects.filter(user=request.user,end_time__isnull=True).exists():
+        # Message helps trigger the "back button pop up" in the front end
+        result = Result.objects.filter(user = request.user, end_time__isnull=True).first()
+        return redirect('quiz:start_question',quiz_id=result.quiz.id, question_id=result.quiz.quiz_questions.first().id)
+    
     print(f"Request Method: {request.method}")  # Log the request method
     if request.method == "POST":
         user = request.user
@@ -168,7 +185,10 @@ def handle_request(request):
             print("User paid status:", user.has_paid)
 
             # If payment is successful, render the success page
-            return render(request, "payment_success.html", {"full_name":full_name, "email":email})
+            quiz = Quiz.objects.filter(requires_payment=True).first()
+            question = quiz.quiz_questions.first()
+
+            return render(request, "payment_success.html", {"full_name":full_name, "email":email, "question":question, "quiz":quiz})
 
         except Exception as e:
             print(f"Error: {e}")  # Log the error
