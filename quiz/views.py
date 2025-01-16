@@ -58,8 +58,6 @@ def start_test(request):
     """
     Starts the quiz for the user.
     """
-    if request.method != "POST":
-        return redirect("quiz:exam_instruction")
 
     user = request.user
     

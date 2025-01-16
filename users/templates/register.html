@@ -295,8 +295,16 @@ contactInput.addEventListener('input', function() {
 
     document.getElementById("continueButton").addEventListener("click", function() {
         const form = document.getElementById("verifyEmailForm");
-        form.action = "{% url 'users:send_email_verification_otp' %}";
-        form.submit();
+        if (form.checkValidity()) {
+            form.action = "{% url 'users:send_email_verification_otp' %}";
+            form.submit();
+        } else {
+            // Prevent the form from being submitted if invalid
+            event.preventDefault();
+
+            // Optionally, trigger the browser's built-in validation UI
+            form.reportValidity();
+        }
     });
 </script>
 
@@ -320,8 +328,16 @@ contactInput.addEventListener('input', function() {
 
     // Trigger the form submission to call send_email_verification_otp
     const form = document.getElementById("verifyEmailForm");
-    form.action = "{% url 'users:send_email_verification_otp' %}";  
-    form.submit();  
+    if (form.checkValidity()) {
+        form.action = "{% url 'users:send_email_verification_otp' %}";
+        form.submit();
+    } else {
+        // Prevent the form from being submitted if invalid
+        event.preventDefault();
+
+        // Optionally, trigger the browser's built-in validation UI
+        form.reportValidity();
+    }
     if (email) {
         loader.style.display = "inline-block"; 
         verifyButton.disabled = true; 
@@ -331,8 +347,16 @@ contactInput.addEventListener('input', function() {
             loader.style.display = "none";  
             verifyButton.disabled = false;  
             const form = document.getElementById("verifyEmailForm");
-            form.action = "{% url 'users:send_email_verification_otp' %}";
-            form.submit();
+            if (form.checkValidity()) {
+                form.action = "{% url 'users:send_email_verification_otp' %}";
+                form.submit();
+            } else {
+                // Prevent the form from being submitted if invalid
+                event.preventDefault();
+
+                // Optionally, trigger the browser's built-in validation UI
+                form.reportValidity();
+            }
         }, 10000);
     }  
 });
@@ -347,8 +371,16 @@ document.getElementById("continueButton").addEventListener("click", function () 
     continueButton.disabled = true;
 
     // Submit the form to send_email_verification_otp
-    form.action = "{% url 'users:send_email_verification_otp' %}";
-    form.submit();
+    if (form.checkValidity()) {
+        form.action = "{% url 'users:send_email_verification_otp' %}";
+        form.submit();
+    } else {
+        // Prevent the form from being submitted if invalid
+        event.preventDefault();
+
+        // Optionally, trigger the browser's built-in validation UI
+        form.reportValidity();
+    }
 
     // Simulate loader visibility
     setTimeout(() => {
