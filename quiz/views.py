@@ -83,6 +83,7 @@ def start_test(request):
     return redirect('quiz:start_question', quiz_id=quiz.id, question_id=quiz.quiz_questions.first().id)
 
 @user_only
+@never_cache
 def start_question(request, quiz_id, question_id):
     """
     Renders a question based on the given IDs.
@@ -200,6 +201,10 @@ def quiz_summary(request, quiz_id):
     """
 
     user = request.user
+    # If user is trying to open summary after completing test, send them to congrats page
+    if user.is_verified:
+        return redirect('quiz:finish_test')
+    
     quiz = get_object_or_404(Quiz, id=quiz_id)
     result = get_object_or_404(Result, user_id=user.id, quiz=quiz)
     
@@ -222,9 +227,6 @@ def quiz_summary(request, quiz_id):
     request.session["marked_questions"] = []
     request.session.save()
     
-    # If user is trying to open summary after completing test, send them to congrats page
-    if user.is_verified:
-        return redirect('quiz:finish_test')
     
     # set is_verified to true if all quizzes are completed
     if incomplete_quizzes.count() == 0:
