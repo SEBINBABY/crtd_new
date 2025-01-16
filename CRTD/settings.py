@@ -177,3 +177,22 @@ LOGIN_URL = '/user_login/'
 CSRF_COOKIE_SECURE = False  # Set to True for HTTPS
 CSRF_COOKIE_HTTPONLY = False
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Default: Store sessions in the database
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': 'middleware.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    },
+}
