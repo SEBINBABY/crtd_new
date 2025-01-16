@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'quiz.middleware.custom_middleware.DisqualificationMiddleware',
+    # 'quiz.middleware.custom_middleware.DisqualificationMiddleware',
     
 ]
 
