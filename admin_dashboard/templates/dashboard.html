@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load tz %}
     {% block title %}
     <title>Test submission dashboard</title>
     {% endblock %}
@@ -89,7 +90,7 @@
                                 </td>
                                 <td>{{user.email}}</td>
                                 <td>{{user.contact_number}}</td>
-                                <td>{{user.created_at|date:"d-m-Y | h:i a"}}</td>
+                                <td>{{user.created_at|timezone:"Asia/Kolkata"|date:"d-m-Y h:i A"}}</td>
                                 <td>{{user.tcn_number}}</td>
                                 {% if user.is_verified %}
                                 <td><span class="status submitted">Submitted</span></td>
