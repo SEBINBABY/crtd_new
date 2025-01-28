@@ -344,11 +344,18 @@
         },
         body: JSON.stringify(data)
       })
-      .then((response) => response.json()
-      .then(error => {
-        document.getElementById("add_question_error").innerHTML = ""
-        document.getElementById("add_question_error").innerHTML = error.error
-      }))
+      .then((response) => {
+        if(response.status != 200){
+          response.json()
+          .then(error => {
+            document.getElementById("add_question_error").innerHTML = ""
+            document.getElementById("add_question_error").innerHTML = error.error
+          })
+        }else{
+          location.reload();
+        }
+      }  
+    )
     }
 
   </script>
