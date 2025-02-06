@@ -3,6 +3,12 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import UserManager
 from django.core.validators import RegexValidator
+from django.db.models import Q
+from quiz.models import Result
+from django.utils.timezone import now
+import datetime
+
+from django.utils.timezone import localtime
 
 class User(AbstractBaseUser, PermissionsMixin):
     USER = 'user'
@@ -51,6 +57,42 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def _str_(self):
         return self.email 
+    
+    def serialize(self):
+        test_status = ""
+        time_limit = datetime.timedelta(minutes=25)
+        test_started = Result.objects.filter(Q(user=self,end_time__isnull=True,start_time__gte = now() - time_limit) 
+                        | Q(user=self,user__is_verified=False,end_time__gte = now() - datetime.timedelta(hours=2,minutes=15))).exists()
+    
+
+        if self.is_verified:
+            test_status = "Submitted"
+        elif self.has_quit:
+            test_status = "Quit"
+        elif not self.is_qualified:
+            test_status = "Disqualified"
+        elif self.user_results.count() == 0:
+            test_status = "Not Started"
+        elif test_started and self.is_qualified and not self.is_verified:
+            test_status = "In Progress"
+        else:
+            test_status = "Closed Test"
+        
+
+
+        payment_status = "Paid" if (self.paid) else "Not Paid"
+
+        data = {
+            "id": self.id,
+            "Full Name": self.username,
+            "E-mail": self.email,
+            "Contact": self.contact_number,
+            "Account Creation Date": f"{localtime(self.created_at):%d/%m/%Y %H:%M}",
+            "TCN Number": self.tcn_number,
+            "Test Status": test_status,
+            "Payment Status": payment_status,
+        }
+        return data
     
 
 

@@ -18,6 +18,8 @@ from django.http import Http404
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponseForbidden
 from django.utils.timezone import now
 
+from django.conf import settings
+
 @role_required(allowed_roles=['admin', 'hr_staff'])
 def user_list(request):
     query = request.GET.get('query', '')  # Get the search query
@@ -69,12 +71,20 @@ def user_list(request):
         users = users.filter(is_verified=False,is_qualified=True,user_results__isnull=True).distinct()
     elif submitted == 'True':
         users = users.filter(is_verified=True)
+    elif submitted == 'False':
+        users = users.filter(is_verified=False)
     elif in_progress == 'True':
-        users = users.filter(has_test_running=True,is_qualified=True,is_verified=False).distinct()
+        users = users.filter(has_test_running=True,
+                             is_qualified=True, is_verified=False).distinct()
     elif disqualified == 'True':
-        users = users.filter(is_qualified=False,has_quit=False)
+        users = users.filter(
+            Q(is_qualified=False, has_quit=False) |
+            Q(has_test_running=False, is_verified=False, user_results__isnull=False)
+        ).distinct()
     elif quit == 'True':
         users = users.filter(has_quit=True)
+
+    count = len(users)
 
     # Paginate the results
     paginator = Paginator(users, items_per_page)
@@ -85,6 +95,8 @@ def user_list(request):
         'query': query,
         'filter_date': filter_date,
         'paginator': paginator,
+        'user_count': count,
+        'total_user_count':User.objects.filter(role=User.USER).count(),
         'current_page': page,
         'total_pages': paginator.num_pages,
         'start_sl_no': (page - 1) * items_per_page + 1,
@@ -450,5 +462,12 @@ def delete_user(request):
         return JsonResponse({"message": "User deleted successfully"},status=200)
 
 
-
+def sync_user_data(request):
+    if request.GET.get('api_key') != settings.API_KEY:
+        return JsonResponse({'error': 'Invalid API key'}, status=401)
+    
+    last_sync = int(request.GET.get('last_sync',0))
+    users = User.objects.filter(id__gt = last_sync)
+    serialized_users = [user.serialize() for user in users]
+    return JsonResponse({'users': serialized_users}, status=200)
     

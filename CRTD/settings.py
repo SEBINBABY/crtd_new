@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'quiz.middleware.custom_middleware.DisqualificationMiddleware',
-    
+
 ]
 
 ROOT_URLCONF = 'CRTD.urls'
@@ -92,14 +92,15 @@ if selected_db:
             'USER': config('DATABASE_USER'),
             'PASSWORD': config('DATABASE_PASSWORD'),
             'HOST': config('DATABASE_HOST'),
-            'PORT':config('DATABASE_PORT'),
+            'PORT': config('DATABASE_PORT'),
         }
-}
+    }
 else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',  # or use a path from config like: config('SQLITE_DB_PATH')
+            # or use a path from config like: config('SQLITE_DB_PATH')
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
@@ -179,4 +180,7 @@ LOGIN_URL = '/user_login/'
 
 CSRF_COOKIE_SECURE = False  # Set to True for HTTPS
 CSRF_COOKIE_HTTPONLY = False
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Default: Store sessions in the database
+# Default: Store sessions in the database
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+API_KEY = '123'
