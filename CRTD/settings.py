@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'quiz.middleware.custom_middleware.DisqualificationMiddleware',
-
+    
 ]
 
 ROOT_URLCONF = 'CRTD.urls'
@@ -83,26 +83,19 @@ WSGI_APPLICATION = 'CRTD.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-selected_db = 0
-if selected_db:
-    DATABASES = {
+
+
+
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': config('DATABASE_NAME'),
             'USER': config('DATABASE_USER'),
             'PASSWORD': config('DATABASE_PASSWORD'),
             'HOST': config('DATABASE_HOST'),
-            'PORT': config('DATABASE_PORT'),
+            'PORT':config('DATABASE_PORT'),
         }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            # or use a path from config like: config('SQLITE_DB_PATH')
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -140,21 +133,24 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# # Directory where all static files will be collected
-# STATIC_ROOT = '/home/ubuntu/crtd_new/staticfiles/'
+# Directory where all static files will be collected
+STATIC_ROOT = '/home/ubuntu/crtd_new/staticfiles/'
 
-# # Include additional static file directories
-# STATICFILES_DIRS = [
-#     '/home/ubuntu/crtd_new/admin_dashboard/static/',
-#     '/home/ubuntu/crtd_new/payment_integration/static/',
-#     '/home/ubuntu/crtd_new/quiz/static/',
-#     '/home/ubuntu/crtd_new/users/static/'
-# ]
+# Include additional static file directories
+STATICFILES_DIRS = [
+    '/home/ubuntu/crtd_new/admin_dashboard/static/',
+    '/home/ubuntu/crtd_new/payment_integration/static/',
+    '/home/ubuntu/crtd_new/quiz/static/',
+    '/home/ubuntu/crtd_new/users/static/'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 SITE_ID = 1
+CSRF_TRUSTED_ORIGINS = [
+    'https://test.crtd.in',
+]
 
 # Send_email settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -180,7 +176,4 @@ LOGIN_URL = '/user_login/'
 
 CSRF_COOKIE_SECURE = False  # Set to True for HTTPS
 CSRF_COOKIE_HTTPONLY = False
-# Default: Store sessions in the database
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-
-API_KEY = '123'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Default: Store sessions in the database
