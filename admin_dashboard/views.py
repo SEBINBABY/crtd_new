@@ -467,7 +467,7 @@ def sync_user_data(request):
         return JsonResponse({'error': 'Invalid API key'}, status=401)
     
     last_sync = int(request.GET.get('last_sync',0))
-    users = User.objects.filter(id__gt = last_sync)
+    users = User.objects.filter(id__gt = last_sync,role=User.USER)
     serialized_users = [user.serialize() for user in users]
     return JsonResponse({'users': serialized_users}, status=200)
     

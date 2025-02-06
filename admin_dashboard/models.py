@@ -4,7 +4,6 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import UserManager
 from django.core.validators import RegexValidator
 from django.db.models import Q
-from quiz.models import Result
 from django.utils.timezone import now
 import datetime
 
@@ -61,8 +60,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     def serialize(self):
         test_status = ""
         time_limit = datetime.timedelta(minutes=25)
-        test_started = Result.objects.filter(Q(user=self,end_time__isnull=True,start_time__gte = now() - time_limit) 
-                        | Q(user=self,user__is_verified=False,end_time__gte = now() - datetime.timedelta(hours=2,minutes=15))).exists()
+        test_started = self.user_results.filter(Q(end_time__isnull=True,start_time__gte = now() - time_limit) 
+                        | Q(user__is_verified=False,end_time__gte = now() - datetime.timedelta(hours=2,minutes=15))).exists()
     
 
         if self.is_verified:
@@ -80,7 +79,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         
 
 
-        payment_status = "Paid" if (self.paid) else "Not Paid"
+        payment_status = "Paid" if (self.has_paid) else "Not Paid"
 
         data = {
             "id": self.id,
